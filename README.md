@@ -1,4 +1,11 @@
-# flutter_app
+# bierverkostung_flutter
+This project aims to improve an abandoned [project](https://bitbucket.org/jufickel/bierverkostung).
+once ready it will also replace the Trinksprüche [project](https://gitlab.rimikis.de/Leptopoda/trinksprueche) and its [webisite](https://saufen.rimikis.de)
+
+This project will consist of three parts
+ - Trinksprüche
+ - Bierverkostung
+ - Konsum Tracking
 
 Bierverkostung redone in Flutter
 
