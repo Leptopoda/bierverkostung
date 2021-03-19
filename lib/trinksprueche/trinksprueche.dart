@@ -117,62 +117,65 @@ class _TrinkspruecheState extends State<Trinksprueche> {
   }
 
   Widget buttons() => Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(_sprueche[_index]),
-        const SizedBox(height: 30),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.yellow, // background
-                onPrimary: Colors.black, // foreground
+    child: Padding(
+      padding: EdgeInsets.all(32.0),
+        child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(_sprueche[_index]),
+          const SizedBox(height: 30),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.yellow, // background
+                  onPrimary: Colors.black, // foreground
+                ),
+                child: Text('Zurück'),
+                onPressed: () => lastIndex(),
+                onLongPress: () => print(_index),
               ),
-              child: Text('Zurück'),
-              onPressed: () => lastIndex(),
-              onLongPress: () => print(_index),
-            ),
-            const SizedBox(width: 16),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.yellow, // background
-                onPrimary: Colors.black, // foreground
+              const SizedBox(width: 16),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.yellow, // background
+                  onPrimary: Colors.black, // foreground
+                ),
+                child: Text('Weiter'),
+                onPressed: () => nextIndex(),
+                onLongPress: () => print('Long Press!'),
               ),
-              child: Text('Weiter'),
-              onPressed: () => nextIndex(),
-              onLongPress: () => print('Long Press!'),
-            ),
-          ]
-        ),
-        const SizedBox(height: 16),
-        Text('Bestimmte Zahl?'),
-        const SizedBox(height: 16),
-        Slider(
-          value: _index.toDouble(),
-          min: 1,
-          max: _sprueche.length.toDouble(),
-          activeColor: Colors.yellow,
-          onChanged: (double value) {
-            setState(() {
-              _index = value.round() -1;
-            });
-          },
-        ),
-        const SizedBox(height: 16),
-        Text('Zufällige Zahl?'),
-        const SizedBox(height: 16),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.yellow, // background
-            onPrimary: Colors.black, // foreground
+            ]
           ),
-          child: Text('Random'),
-          onPressed: () => randomIndex(),
-          onLongPress: () => print('Long Press!'),
-        ),
-      ],
+          const SizedBox(height: 16),
+          Text('Bestimmte Zahl?'),
+          const SizedBox(height: 16),
+          Slider(
+            value: _index.toDouble(),
+            min: 0,
+            max: _sprueche.length.toDouble() -1,
+            activeColor: Colors.yellow,
+            onChanged: (double value) {
+              setState(() {
+                _index = value.round();
+              });
+            },
+          ),
+          const SizedBox(height: 16),
+          Text('Zufällige Zahl?'),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.yellow, // background
+              onPrimary: Colors.black, // foreground
+            ),
+            child: Text('Random'),
+            onPressed: () => randomIndex(),
+            onLongPress: () => print('Long Press!'),
+          ),
+        ],
+      ),
     ),
   );
 }
