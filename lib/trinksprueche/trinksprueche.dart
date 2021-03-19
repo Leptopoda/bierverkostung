@@ -126,20 +126,18 @@ class _TrinkspruecheState extends State<Trinksprueche> {
             const SizedBox(height: 30),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.yellow, // background
+                /* style: ElevatedButton.styleFrom(
                   onPrimary: Colors.black, // foreground
-                ),
+                ),*/
                 child: Text('Zurück'),
                 onPressed: () => lastIndex(),
                 // onLongPress: () => print(_index),
               ),
               const SizedBox(width: 16),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.yellow, // background
+                /* style: ElevatedButton.styleFrom(
                   onPrimary: Colors.black, // foreground
-                ),
+                ),*/
                 child: Text('Weiter'),
                 onPressed: () => nextIndex(),
                 // onLongPress: () => print('Long Press!'),
@@ -152,7 +150,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
               value: _index.toDouble(),
               min: 1,
               max: _sprueche.length.toDouble(),
-              activeColor: Colors.yellow,
+              // activeColor: Colors.yellow,
               onChanged: (double value) {
                 setState(() => _index = value.round());
               },
@@ -163,10 +161,9 @@ class _TrinkspruecheState extends State<Trinksprueche> {
             Text('Zufällige Zahl?'),
             const SizedBox(height: 16),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.yellow, // background
-                onPrimary: Colors.black, // foreground
-              ),
+              /* style: ElevatedButton.styleFrom(
+                  onPrimary: Colors.black, // foreground
+                ),*/
               child: Text('Random'),
               onPressed: () => randomIndex(),
               // onLongPress: () => print('Long Press!'),
