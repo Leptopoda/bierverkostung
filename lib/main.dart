@@ -10,26 +10,50 @@ import 'package:bierverkostung/statistiken/statistiken.dart';
 
 void main() => runApp(MyApp());
 
-// #docregion MyApp
-class MyApp extends StatelessWidget {
-  // #docregion build
+
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return MyAppState();
+  }
+}
+
+class MyAppState extends State<MyApp> {
+  int selectedPage = 1;
+  final _pageOptions = [Trinksprueche(), Statistiken(), Bierverkostung()];
+  final _pageTitles = ['Trinksprüche', 'Bierverkostung', 'Statistik'];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bierverkostung Rimikis',
-      initialRoute: '/',
-      routes: {
-        '/': (context) => Bierverkostung(),
-        '/statistiken': (context) => Statistiken(),
-        '/trinksprueche': (context) => Trinksprueche(),
-      },
+      title: 'Bierverksotung',
       theme: ThemeData(
-        primaryColor: Colors.yellow,
+        primarySwatch: Colors.yellow,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(_pageTitles[selectedPage]),
+        ),
+        body: _pageOptions[selectedPage],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selectedPage,
+          selectedItemColor: Colors.amber[800],
+          onTap: (int index) {
+            setState(() {
+              selectedPage = index;
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.message), label: 'Trinksprüche'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home), label: 'Bierverkostung'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.bar_chart), label: 'Statistik')
+          ],
+        ),
       ),
     );
   }
-// #enddocregion build
 }
-// #enddocregion MyApp
 
 
