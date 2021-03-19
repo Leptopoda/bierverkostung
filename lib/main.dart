@@ -3,7 +3,10 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:bierverkostung/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/trinksprueche/trinksprueche.dart';
+import 'package:bierverkostung/statistiken/statistiken.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -14,12 +17,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Bierverkostung Rimikis',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Bierverkostung(),
+        '/statistiken': (context) => Statistiken(),
+        '/trinksprueche': (context) => Trinksprueche(),
+      },
       theme: ThemeData(
         primaryColor: Colors.yellow,
       ),
-      home: Trinksprueche(),
     );
   }
 // #enddocregion build
 }
 // #enddocregion MyApp
+
+
