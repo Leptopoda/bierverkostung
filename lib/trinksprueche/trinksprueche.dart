@@ -82,22 +82,22 @@ class _TrinkspruecheState extends State<Trinksprueche> {
     'Votzensaft am Nasenbein, zeugt von einen geilen Schwein.',
   ];
 
-  int _index = 69;
+  int _index;
 
   randomIndex() {
     setState(() {
-      _index = Random().nextInt(_sprueche.length -1);
+      _index = Random().nextInt(_sprueche.length) + 1;
     });
   }
   lastIndex() {
-    if(_index > 0) {
+    if(_index > 1) {
       setState(() {
         _index --;
       });
     }
   }
   nextIndex() {
-    if(_index < _sprueche.length -1) {
+    if(_index < _sprueche.length) {
       setState(() {
         _index ++;
       });
@@ -105,6 +105,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
   }
 
   @override
+  void initState() => randomIndex();
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -122,7 +123,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
         child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(_sprueche[_index]),
+          Text(_sprueche[_index-1]),
           const SizedBox(height: 30),
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -134,7 +135,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
                 ),
                 child: Text('Zurück'),
                 onPressed: () => lastIndex(),
-                onLongPress: () => print(_index),
+                // onLongPress: () => print(_index),
               ),
               const SizedBox(width: 16),
               ElevatedButton(
@@ -144,7 +145,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
                 ),
                 child: Text('Weiter'),
                 onPressed: () => nextIndex(),
-                onLongPress: () => print('Long Press!'),
+                // onLongPress: () => print('Long Press!'),
               ),
             ]
           ),
@@ -153,14 +154,14 @@ class _TrinkspruecheState extends State<Trinksprueche> {
           const SizedBox(height: 16),
           Slider(
             value: _index.toDouble(),
-            min: 0,
-            max: _sprueche.length.toDouble() -1,
+            min: 1,
+            max: _sprueche.length.toDouble(),
             activeColor: Colors.yellow,
             onChanged: (double value) {
-              setState(() {
-                _index = value.round();
-              });
+              setState(() => _index = value.round());
             },
+            divisions: _sprueche.length,
+            label: "$_index",
           ),
           const SizedBox(height: 16),
           Text('Zufällige Zahl?'),
@@ -172,7 +173,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
             ),
             child: Text('Random'),
             onPressed: () => randomIndex(),
-            onLongPress: () => print('Long Press!'),
+            // onLongPress: () => print('Long Press!'),
           ),
         ],
       ),
