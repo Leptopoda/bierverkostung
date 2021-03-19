@@ -7,9 +7,7 @@ import 'package:bierverkostung/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/trinksprueche/trinksprueche.dart';
 import 'package:bierverkostung/statistiken/statistiken.dart';
 
-
 void main() => runApp(MyApp());
-
 
 class MyApp extends StatefulWidget {
   @override
@@ -55,5 +53,3 @@ class MyAppState extends State<MyApp> {
     );
   }
 }
-
-

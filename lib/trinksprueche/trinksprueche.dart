@@ -89,17 +89,19 @@ class _TrinkspruecheState extends State<Trinksprueche> {
       _index = Random().nextInt(_sprueche.length) + 1;
     });
   }
+
   lastIndex() {
-    if(_index > 1) {
+    if (_index > 1) {
       setState(() {
-        _index --;
+        _index--;
       });
     }
   }
+
   nextIndex() {
-    if(_index < _sprueche.length) {
+    if (_index < _sprueche.length) {
       setState(() {
-        _index ++;
+        _index++;
       });
     }
   }
@@ -108,23 +110,21 @@ class _TrinkspruecheState extends State<Trinksprueche> {
   void initState() => randomIndex();
   Widget build(BuildContext context) {
     return Container(
-      child: Center(
-        child: buttons(),
-      ),
+      child: buttons(),
     );
   }
 
   Widget buttons() => Center(
-    child: Padding(
-      padding: EdgeInsets.all(32.0),
         child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(_sprueche[_index-1]),
-          const SizedBox(height: 30),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.all(30.0),
+              constraints: BoxConstraints(minHeight: 100),
+              child: Text(_sprueche[_index - 1]),
+            ),
+            const SizedBox(height: 30),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Colors.yellow, // background
@@ -144,36 +144,34 @@ class _TrinkspruecheState extends State<Trinksprueche> {
                 onPressed: () => nextIndex(),
                 // onLongPress: () => print('Long Press!'),
               ),
-            ]
-          ),
-          const SizedBox(height: 16),
-          Text('Bestimmte Zahl?'),
-          const SizedBox(height: 16),
-          Slider(
-            value: _index.toDouble(),
-            min: 1,
-            max: _sprueche.length.toDouble(),
-            activeColor: Colors.yellow,
-            onChanged: (double value) {
-              setState(() => _index = value.round());
-            },
-            divisions: _sprueche.length,
-            label: "$_index",
-          ),
-          const SizedBox(height: 16),
-          Text('Zufällige Zahl?'),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Colors.yellow, // background
-              onPrimary: Colors.black, // foreground
+            ]),
+            const SizedBox(height: 16),
+            Text('Bestimmte Zahl?'),
+            const SizedBox(height: 16),
+            Slider(
+              value: _index.toDouble(),
+              min: 1,
+              max: _sprueche.length.toDouble(),
+              activeColor: Colors.yellow,
+              onChanged: (double value) {
+                setState(() => _index = value.round());
+              },
+              divisions: _sprueche.length,
+              label: "$_index",
             ),
-            child: Text('Random'),
-            onPressed: () => randomIndex(),
-            // onLongPress: () => print('Long Press!'),
-          ),
-        ],
-      ),
-    ),
-  );
+            const SizedBox(height: 16),
+            Text('Zufällige Zahl?'),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.yellow, // background
+                onPrimary: Colors.black, // foreground
+              ),
+              child: Text('Random'),
+              onPressed: () => randomIndex(),
+              // onLongPress: () => print('Long Press!'),
+            ),
+          ],
+        ),
+      );
 }
