@@ -82,7 +82,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
     'Votzensaft am Nasenbein, zeugt von einen geilen Schwein.',
   ];
 
-  int _index;
+  int _index = 1;
 
   randomIndex() {
     setState(() {
