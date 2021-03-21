@@ -7,7 +7,7 @@ class Trinksprueche extends StatefulWidget {
 }
 
 class _TrinkspruecheState extends State<Trinksprueche> {
-  final _sprueche = [
+  static final _sprueche = [
     'Ein jeder weckt den Nebenmann, der Letzte stößt sich selber an.',
     'Lüft an das Gatchen, lupft an das Bein, ein jeder will der erste sein.',
     'Arschloch hoch Amerika, der Bäcker von Laboe ist da.',
