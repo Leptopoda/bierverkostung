@@ -19,7 +19,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   int selectedPage = 1;
-  static const _pageOptions = [
+  static final _pageOptions = [
     Trinksprueche(),
     Bierverkostung(),
     Statistiken()
