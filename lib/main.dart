@@ -24,7 +24,7 @@ class MyAppState extends State<MyApp> {
     Bierverkostung(),
     Statistiken()
   ];
-  static const _pageTitles = ['Trinksprüche', 'Bierverkostung', 'Statistik'];
+  static const List<String> _pageTitles = ['Trinksprüche', 'Bierverkostung', 'Statistik'];
 
   @override
   Widget build(BuildContext context) {
