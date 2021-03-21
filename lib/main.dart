@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:bierverkostung/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/trinksprueche/trinksprueche.dart';
 import 'package:bierverkostung/statistiken/statistiken.dart';
+import 'package:bierverkostung/theme/theme.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,29 +19,16 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   int selectedPage = 1;
-  final _pageOptions = [Trinksprueche(), Bierverkostung(), Statistiken()];
-  final _pageTitles = ['Trinksprüche', 'Bierverkostung', 'Statistik'];
+  static final _pageOptions = [Trinksprueche(), Bierverkostung(), Statistiken()];
+  static final _pageTitles = ['Trinksprüche', 'Bierverkostung', 'Statistik'];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Bierverksotung',
-        theme: ThemeData(
-          // Define the default brightness and colors.
-          brightness: Brightness.dark,
-          primarySwatch: Colors.yellow,
-          accentColor: Colors.amber[800],
-
-          // Define the default font family.
-          // fontFamily: 'Georgia',
-
-          // Define the default TextTheme. Use this to specify the default
-          // text styling for headlines, titles, bodies of text, and more.
-          /* textTheme: TextTheme(
-            headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-            headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-            bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-          ), */
-        ),
+      themeMode: ThemeMode.system,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       home: Scaffold(
         appBar: AppBar(
           title: Text(_pageTitles[selectedPage]),
@@ -60,7 +48,7 @@ class MyAppState extends State<MyApp> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.home), label: 'Bierverkostung'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.bar_chart), label: 'Statistik')
+                icon: Icon(Icons.bar_chart), label: 'Statistik'),
           ],
         ),
       ),
