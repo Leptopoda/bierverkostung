@@ -19,12 +19,12 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   int selectedPage = 1;
-  static final _pageOptions = [
+  static const _pageOptions = [
     Trinksprueche(),
     Bierverkostung(),
     Statistiken()
   ];
-  static final _pageTitles = ['Trinksprüche', 'Bierverkostung', 'Statistik'];
+  static const _pageTitles = ['Trinksprüche', 'Bierverkostung', 'Statistik'];
 
   @override
   Widget build(BuildContext context) {
