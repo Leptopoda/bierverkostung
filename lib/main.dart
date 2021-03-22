@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bierverkostung/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/trinksprueche/trinksprueche.dart';
 import 'package:bierverkostung/statistiken/statistiken.dart';
@@ -33,6 +34,16 @@ class MyAppState extends State<MyApp> {
       themeMode: ThemeMode.system,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+      localizationsDelegates: [
+        // AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('de', ''),
+        // const Locale('ar', ''),
+      ],
       home: Scaffold(
         appBar: AppBar(
           title: Text(_pageTitles[selectedPage]),
