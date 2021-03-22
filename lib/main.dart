@@ -36,7 +36,7 @@ class MyHome extends StatefulWidget {
 
 class MyHomeState extends State<MyHome> {
   int selectedPage = 1;
-  static final _pageOptions = [ // TODO: convert to enum?¿
+  static final _pageOptions = [
     Trinksprueche(),
     Bierverkostung(),
     Statistiken()
