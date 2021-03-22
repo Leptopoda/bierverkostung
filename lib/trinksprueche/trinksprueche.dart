@@ -1,3 +1,7 @@
+// Copyright 2021 Leptopoda. All rights reserved.
+// Use of this source code is governed by a APACHE-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -7,7 +11,7 @@ class Trinksprueche extends StatefulWidget {
 }
 
 class _TrinkspruecheState extends State<Trinksprueche> {
-  static final _sprueche = [
+  static const List<String> _sprueche = [
     'Ein jeder weckt den Nebenmann, der Letzte stößt sich selber an.',
     'Lüft an das Gatchen, lupft an das Bein, ein jeder will der erste sein.',
     'Arschloch hoch Amerika, der Bäcker von Laboe ist da.',
@@ -82,15 +86,15 @@ class _TrinkspruecheState extends State<Trinksprueche> {
     'Votzensaft am Nasenbein, zeugt von einen geilen Schwein.',
   ];
 
-  int _index = 1;
+  static int _index = 1;
 
-  randomIndex() {
+  void randomIndex() {
     setState(() {
       _index = Random().nextInt(_sprueche.length) + 1;
     });
   }
 
-  lastIndex() {
+  void lastIndex() {
     if (_index > 1) {
       setState(() {
         _index--;
@@ -98,7 +102,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
     }
   }
 
-  nextIndex() {
+  void nextIndex() {
     if (_index < _sprueche.length) {
       setState(() {
         _index++;
@@ -116,31 +120,23 @@ class _TrinkspruecheState extends State<Trinksprueche> {
 
   Widget buttons() => Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
               margin: EdgeInsets.all(30.0),
-              constraints: BoxConstraints(minHeight: 100),
+              // constraints: BoxConstraints(minHeight: 100),
               child: Text(_sprueche[_index - 1]),
             ),
             const SizedBox(height: 30),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
-                /* style: ElevatedButton.styleFrom(
-                  onPrimary: Colors.black, // foreground
-                ),*/
                 child: Text('Zurück'),
                 onPressed: () => lastIndex(),
-                // onLongPress: () => print(_index),
               ),
               const SizedBox(width: 16),
               ElevatedButton(
-                /* style: ElevatedButton.styleFrom(
-                  onPrimary: Colors.black, // foreground
-                ),*/
                 child: Text('Weiter'),
                 onPressed: () => nextIndex(),
-                // onLongPress: () => print('Long Press!'),
               ),
             ]),
             const SizedBox(height: 16),
@@ -150,7 +146,6 @@ class _TrinkspruecheState extends State<Trinksprueche> {
               value: _index.toDouble(),
               min: 1,
               max: _sprueche.length.toDouble(),
-              // activeColor: Colors.yellow,
               onChanged: (double value) {
                 setState(() => _index = value.round());
               },
@@ -161,13 +156,10 @@ class _TrinkspruecheState extends State<Trinksprueche> {
             Text('Zufällige Zahl?'),
             const SizedBox(height: 16),
             ElevatedButton(
-              /* style: ElevatedButton.styleFrom(
-                  onPrimary: Colors.black, // foreground
-                ),*/
               child: Text('Random'),
               onPressed: () => randomIndex(),
-              // onLongPress: () => print('Long Press!'),
             ),
+            const SizedBox(height: 50),
           ],
         ),
       );
