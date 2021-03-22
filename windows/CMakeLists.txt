@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(bierverkostung_flutter LANGUAGES CXX)
+project(bierverkostung LANGUAGES CXX)
 
-set(BINARY_NAME "bierverkostung_flutter")
+set(BINARY_NAME "bierverkostung")
 
 cmake_policy(SET CMP0063 NEW)
 

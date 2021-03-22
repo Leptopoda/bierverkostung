@@ -1,4 +1,4 @@
-package de.leptopoda.bierverkostung_flutter
+package de.leptopoda.bierverkostung
 
 import io.flutter.embedding.android.FlutterActivity
 

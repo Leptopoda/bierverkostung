@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "bierverkostung_flutter")
-set(APPLICATION_ID "de.leptopoda.bierverkostung_flutter")
+set(BINARY_NAME "bierverkostung")
+set(APPLICATION_ID "com.example.bierverkostung")
 
 cmake_policy(SET CMP0063 NEW)
 
