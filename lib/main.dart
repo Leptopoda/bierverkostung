@@ -3,7 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:bierverkostung/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/trinksprueche/trinksprueche.dart';
 import 'package:bierverkostung/statistiken/statistiken.dart';
@@ -11,16 +12,31 @@ import 'package:bierverkostung/theme/theme.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  State<StatefulWidget> createState() {
-    return MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      themeMode: ThemeMode.system,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appName,
+      home: MyHome(),
+    );
   }
 }
 
-class MyAppState extends State<MyApp> {
+class MyHome extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return MyHomeState();
+  }
+}
+
+class MyHomeState extends State<MyHome> {
   int selectedPage = 1;
-  static final _pageOptions = [
+  static final _pageOptions = [ // TODO: convert to enum?¿
     Trinksprueche(),
     Bierverkostung(),
     Statistiken()
@@ -28,25 +44,11 @@ class MyAppState extends State<MyApp> {
   static const List<String> _pageTitles = ['Trinksprüche', 'Bierverkostung', 'Statistik'];
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Bierverksotung',
-      themeMode: ThemeMode.system,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      localizationsDelegates: [
-        // AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('de', ''),
-        // const Locale('ar', ''),
-      ],
-      home: Scaffold(
+Widget build(BuildContext context) {
+    return Scaffold(
         appBar: AppBar(
           title: Text(_pageTitles[selectedPage]),
+          // title: Text(AppLocalizations.of(context)!.pageTitles[selectedPage]),
         ),
         body: _pageOptions[selectedPage],
         bottomNavigationBar: BottomNavigationBar(
@@ -66,7 +68,6 @@ class MyAppState extends State<MyApp> {
                 icon: Icon(Icons.bar_chart), label: 'Statistik'),
           ],
         ),
-      ),
-    );
+      );
   }
 }
