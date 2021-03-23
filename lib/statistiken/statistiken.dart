@@ -12,8 +12,31 @@ class Statistiken extends StatefulWidget {
 class _StatistikenState extends State<Statistiken> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(child: Text('Statistiken')),
+    return getStats();
+  }
+}
+
+
+
+class getStats extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        padding: EdgeInsets.all(16.0),
+        itemBuilder: (context, i) {
+          if (i.isOdd) return Divider();
+
+          final index = i ~/ 2;
+          return _buildRow(_consumed[index]);
+        });
+  }
+
+  Widget _buildRow(String consum) {
+    return ListTile(
+      title: Text(
+        consum,
+        style: _biggerFont,
+      ),
     );
   }
 }
@@ -23,15 +46,17 @@ class StatistikenFab extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => showDialog(
-          context: context,
-          builder: (_) => new StatistikenAlert(),
+        context: context,
+        builder: (_) => new StatistikenAlert(),
       ),
       child: Icon(Icons.add),
     );
   }
 }
 
-enum SingingCharacter { klein, gross }
+enum _bier { klein, gross }
+final _consumed = <String>[];
+final _biggerFont = TextStyle(fontSize: 18.0);
 
 class StatistikenAlert extends StatefulWidget {
   @override
@@ -39,7 +64,7 @@ class StatistikenAlert extends StatefulWidget {
 }
 
 class _StatistikenAlertState extends State<StatistikenAlert> {
-  SingingCharacter? _character = SingingCharacter.gross;
+  _bier? _character = _bier.gross;
   static int _menge = 1;
 
   @override
@@ -49,21 +74,21 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
       content: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            RadioListTile<SingingCharacter>(
+            RadioListTile<_bier>(
               title: const Text('Klein (0.3)'),
-              value: SingingCharacter.klein,
+              value: _bier.klein,
               groupValue: _character,
               //TODO: use tehme
               activeColor: Colors.yellow,
-              onChanged: (SingingCharacter? value) =>
+              onChanged: (_bier? value) =>
                   setState(() => _character = value),
             ),
-            RadioListTile<SingingCharacter>(
+            RadioListTile<_bier>(
               title: const Text('Groß (0.5)'),
-              value: SingingCharacter.gross,
+              value: _bier.gross,
               groupValue: _character,
               activeColor: Colors.yellow,
-              onChanged: (SingingCharacter? value) =>
+              onChanged: (_bier? value) =>
                   setState(() => _character = value),
             ),
             Slider(
@@ -87,7 +112,7 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
         TextButton(
             child: Text('Submit'),
             onPressed: () {
-              print('$_menge $_character');
+              setState(() =>_consumed.add('$_menge $_character'));
               Navigator.of(context).pop();
             }),
       ],
