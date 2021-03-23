@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appName,
+      onGenerateTitle: (BuildContext context) =>
+          AppLocalizations.of(context)!.appName,
       home: MyHome(),
     );
   }
@@ -41,33 +42,33 @@ class MyHomeState extends State<MyHome> {
     Bierverkostung(),
     Statistiken()
   ];
-  static const List<String> _pageTitles = ['Trinksprüche', 'Bierverkostung', 'Statistik'];
+  static const List<String> _pageTitles = [
+    "Trinksprüche",
+    "Bierverkostung",
+    "Statistik",
+  ];
 
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(_pageTitles[selectedPage]),
-          // title: Text(AppLocalizations.of(context)!.pageTitles[selectedPage]),
-        ),
-        body: _pageOptions[selectedPage],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedPage,
-          // selectedItemColor: Colors.amber[800],
-          onTap: (int index) {
-            setState(() {
-              selectedPage = index;
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.message), label: 'Trinksprüche'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home), label: 'Bierverkostung'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.bar_chart), label: 'Statistik'),
-          ],
-        ),
-      );
+      appBar: AppBar(
+        title: Text(_pageTitles[selectedPage]),
+      ),
+      body: _pageOptions[selectedPage],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedPage,
+        // selectedItemColor: Colors.amber[800],
+        onTap: (int index) => setState(() => selectedPage = index),
+
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.message), label: _pageTitles[1]),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home), label: _pageTitles[1]),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart), label: _pageTitles[2]),
+        ],
+      ),
+    );
   }
 }
