@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       onGenerateTitle: (BuildContext context) =>
           AppLocalizations.of(context)!.appName,
-      home: MyHome(),
+      home: SafeArea (child: MyHome()),
     );
   }
 }
@@ -36,7 +36,7 @@ class MyHome extends StatefulWidget {
 }
 
 class MyHomeState extends State<MyHome> {
-  int selectedPage = 1;
+  int _selectedPage = 1;
   static final _pageOptions = [
     Trinksprueche(),
     Bierverkostung(),
@@ -52,13 +52,13 @@ class MyHomeState extends State<MyHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pageTitles[selectedPage]),
+        title: Text(_pageTitles[_selectedPage]),
       ),
-      body: _pageOptions[selectedPage],
+      body: _pageOptions[_selectedPage],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedPage,
+        currentIndex: _selectedPage,
         // selectedItemColor: Colors.amber[800],
-        onTap: (int index) => setState(() => selectedPage = index),
+        onTap: (int index) => setState(() => _selectedPage = index),
 
         items: [
           BottomNavigationBarItem(
@@ -69,6 +69,7 @@ class MyHomeState extends State<MyHome> {
               icon: Icon(Icons.bar_chart), label: _pageTitles[2]),
         ],
       ),
+      floatingActionButton: _selectedPage == 2 ? StatistikenFab() : null,
     );
   }
 }
