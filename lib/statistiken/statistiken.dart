@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:bierverkostung/database.dart';
 
 class Statistiken extends StatefulWidget {
   @override
@@ -10,25 +11,27 @@ class Statistiken extends StatefulWidget {
 }
 
 class _StatistikenState extends State<Statistiken> {
+  List<Map> _consumed = [];
+
   @override
-  Widget build(BuildContext context) {
-    return getStats();
-  }
-}
+  void initState() => update();
 
-
-
-class getStats extends StatelessWidget {
-  @override
   Widget build(BuildContext context) {
     return ListView.builder(
+        itemCount: _consumed.length * 2,
         padding: EdgeInsets.all(16.0),
         itemBuilder: (context, i) {
           if (i.isOdd) return Divider();
 
           final index = i ~/ 2;
-          return _buildRow(_consumed[index]);
+          return _buildRow(_consumed[index].toString());
         });
+  }
+
+  void update() {
+    SQLiteDbProvider.db
+        .getAllKonsum()
+        .then((value) => setState(() => _consumed = value));
   }
 
   Widget _buildRow(String consum) {
@@ -55,7 +58,6 @@ class StatistikenFab extends StatelessWidget {
 }
 
 enum _bier { klein, gross }
-final _consumed = <String>[];
 final _biggerFont = TextStyle(fontSize: 18.0);
 
 class StatistikenAlert extends StatefulWidget {
@@ -80,24 +82,21 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
               groupValue: _character,
               //TODO: use tehme
               activeColor: Colors.yellow,
-              onChanged: (_bier? value) =>
-                  setState(() => _character = value),
+              onChanged: (_bier? value) => setState(() => _character = value),
             ),
             RadioListTile<_bier>(
               title: const Text('Groß (0.5)'),
               value: _bier.gross,
               groupValue: _character,
               activeColor: Colors.yellow,
-              onChanged: (_bier? value) =>
-                  setState(() => _character = value),
+              onChanged: (_bier? value) => setState(() => _character = value),
             ),
             Slider(
               value: _menge.toDouble(),
               min: 1,
               max: 5,
-              onChanged: (double value) {
-                setState(() => _menge = value.round());
-              },
+              onChanged: (double value) =>
+                  setState(() => _menge = value.round()),
               divisions: 4,
               label: "$_menge",
             ),
@@ -112,7 +111,15 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
         TextButton(
             child: Text('Submit'),
             onPressed: () {
-              setState(() =>_consumed.add('$_menge $_character'));
+              switch (_character) {
+                case _bier.klein:
+                  SQLiteDbProvider.db.insertKonsum(0.33);
+                  break;
+                case _bier.gross:
+                  SQLiteDbProvider.db.insertKonsum(0.5);
+                  break;
+              }
+
               Navigator.of(context).pop();
             }),
       ],
