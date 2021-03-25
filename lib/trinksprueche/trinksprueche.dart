@@ -162,7 +162,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
           Container(
             margin: EdgeInsets.all(30.0),
             child: ElevatedButton(
-              child: Text('Random'),
+              child: const Text('Random'),
               onPressed: () => randomIndex(),
             ),
           ),
