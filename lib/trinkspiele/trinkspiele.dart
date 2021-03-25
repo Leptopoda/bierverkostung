@@ -8,8 +8,8 @@ import 'package:bierverkostung/trinkspiele/trinksprueche/trinkspruecheNeu.dart';
 
 class Trinkspiele extends StatelessWidget {
   static const _spiele = ['Alte Trinksprüche', 'Neue Trinksprüche'];
-
   static final _spielePages = [Trinksprueche(), TrinkspruecheNeu()];
+  // TODO: deduplicate code
 
   @override
   Widget build(BuildContext context) {
