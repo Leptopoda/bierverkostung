@@ -3,12 +3,13 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bierverkostung/theme/theme.dart';
 
 import 'package:bierverkostung/bierverkostung/bierverkostung.dart';
-import 'package:bierverkostung/trinksprueche/trinksprueche.dart';
+import 'package:bierverkostung/trinkspiele/trinkspiele.dart';
 import 'package:bierverkostung/statistiken/statistiken.dart';
-import 'package:bierverkostung/theme/theme.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       onGenerateTitle: (BuildContext context) =>
           AppLocalizations.of(context)!.appName,
-      home: SafeArea (child: MyHome()),
+      home: SafeArea(child: MyHome()),
     );
   }
 }
@@ -37,13 +38,11 @@ class MyHome extends StatefulWidget {
 
 class MyHomeState extends State<MyHome> {
   int _selectedPage = 1;
-  static final _pageOptions = [
-    Trinksprueche(),
-    Bierverkostung(),
-    Statistiken()
-  ];
+
+  // TODO: use enum
+  static final _pageOptions = [Trinkspiele(), Bierverkostung(), Statistiken()];
   static const List<String> _pageTitles = [
-    "Trinksprüche",
+    "Trinkspiele",
     "Bierverkostung",
     "Statistik",
   ];
@@ -62,7 +61,7 @@ class MyHomeState extends State<MyHome> {
 
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.message), label: _pageTitles[1]),
+              icon: Icon(Icons.casino), label: _pageTitles[0]),
           BottomNavigationBarItem(
               icon: Icon(Icons.home), label: _pageTitles[1]),
           BottomNavigationBarItem(

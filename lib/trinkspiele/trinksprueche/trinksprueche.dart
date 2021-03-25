@@ -113,12 +113,11 @@ class _TrinkspruecheState extends State<Trinksprueche> {
   @override
   void initState() => randomIndex();
   Widget build(BuildContext context) {
-    return Container(
-      child: buttons(),
-    );
-  }
-
-  Widget buttons() => ListView(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Trinksprüche'),
+      ),
+      body: ListView(
         // padding: const EdgeInsets.all(20.0),
         children: [
           Container(
@@ -167,5 +166,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
             ),
           ),
         ],
-      );
+      ),
+    );
+  }
 }
