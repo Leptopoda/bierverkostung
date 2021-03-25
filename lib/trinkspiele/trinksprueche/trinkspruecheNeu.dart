@@ -11,6 +11,7 @@ class TrinkspruecheNeu extends StatefulWidget {
 }
 
 class _TrinkspruecheNeuState extends State<TrinkspruecheNeu> {
+  // TODO: actually add some strings
   static const List<String> _sprueche = [
     'Nicht so schnell, da kommt noch was',
     'bleib geduldig',

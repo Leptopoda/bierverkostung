@@ -8,6 +8,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLiteDbProvider {
+  // TODO: probably move to kv-store
   SQLiteDbProvider._();
   static final SQLiteDbProvider db = SQLiteDbProvider._();
 
