@@ -21,8 +21,9 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appName,
-      home: MyHome(),
+      onGenerateTitle: (BuildContext context) =>
+          AppLocalizations.of(context)!.appName,
+      home: SafeArea (child: MyHome()),
     );
   }
 }
@@ -35,39 +36,40 @@ class MyHome extends StatefulWidget {
 }
 
 class MyHomeState extends State<MyHome> {
-  int selectedPage = 1;
+  int _selectedPage = 1;
   static final _pageOptions = [
     Trinksprueche(),
     Bierverkostung(),
     Statistiken()
   ];
-  static const List<String> _pageTitles = ['Trinksprüche', 'Bierverkostung', 'Statistik'];
+  static const List<String> _pageTitles = [
+    "Trinksprüche",
+    "Bierverkostung",
+    "Statistik",
+  ];
 
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(_pageTitles[selectedPage]),
-          // title: Text(AppLocalizations.of(context)!.pageTitles[selectedPage]),
-        ),
-        body: _pageOptions[selectedPage],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedPage,
-          // selectedItemColor: Colors.amber[800],
-          onTap: (int index) {
-            setState(() {
-              selectedPage = index;
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.message), label: 'Trinksprüche'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home), label: 'Bierverkostung'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.bar_chart), label: 'Statistik'),
-          ],
-        ),
-      );
+      appBar: AppBar(
+        title: Text(_pageTitles[_selectedPage]),
+      ),
+      body: _pageOptions[_selectedPage],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedPage,
+        // selectedItemColor: Colors.amber[800],
+        onTap: (int index) => setState(() => _selectedPage = index),
+
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.message), label: _pageTitles[1]),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home), label: _pageTitles[1]),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart), label: _pageTitles[2]),
+        ],
+      ),
+      floatingActionButton: _selectedPage == 2 ? StatistikenFab() : null,
+    );
   }
 }

@@ -118,49 +118,54 @@ class _TrinkspruecheState extends State<Trinksprueche> {
     );
   }
 
-  Widget buttons() => Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              margin: EdgeInsets.all(30.0),
-              // constraints: BoxConstraints(minHeight: 100),
-              child: Text(_sprueche[_index - 1]),
+  Widget buttons() => ListView(
+        // padding: const EdgeInsets.all(20.0),
+        children: [
+          Container(
+            margin: EdgeInsets.all(30.0),
+            // constraints: BoxConstraints(minHeight: 100),
+            child: Center(
+              child:
+                  Text(_sprueche[_index - 1], style: TextStyle(fontSize: 18)),
             ),
-            const SizedBox(height: 30),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              ElevatedButton(
-                child: Text('Zurück'),
-                onPressed: () => lastIndex(),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                child: Text('Weiter'),
-                onPressed: () => nextIndex(),
-              ),
-            ]),
-            const SizedBox(height: 16),
-            Text('Bestimmte Zahl?'),
-            const SizedBox(height: 16),
-            Slider(
-              value: _index.toDouble(),
-              min: 1,
-              max: _sprueche.length.toDouble(),
-              onChanged: (double value) {
-                setState(() => _index = value.round());
-              },
-              divisions: _sprueche.length,
-              label: "$_index",
-            ),
-            const SizedBox(height: 16),
-            Text('Zufällige Zahl?'),
-            const SizedBox(height: 16),
+          ),
+          const SizedBox(height: 30),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             ElevatedButton(
-              child: Text('Random'),
+              child: const Text('Zurück'),
+              onPressed: () => lastIndex(),
+            ),
+            const SizedBox(width: 16),
+            ElevatedButton(
+              child: const Text('Weiter'),
+              onPressed: () => nextIndex(),
+            ),
+          ]),
+          const SizedBox(height: 16),
+          Center(
+            child: const Text('Bestimmte Zahl?'),
+          ),
+          const SizedBox(height: 16),
+          Slider(
+            value: _index.toDouble(),
+            min: 1,
+            max: _sprueche.length.toDouble(),
+            onChanged: (double value) => setState(() => _index = value.round()),
+            divisions: _sprueche.length - 1,
+            label: "$_index",
+          ),
+          const SizedBox(height: 16),
+          Center(
+            child: const Text('Zufällige Zahl?'),
+          ),
+          const SizedBox(height: 16),
+          Container(
+            margin: EdgeInsets.all(30.0),
+            child: ElevatedButton(
+              child: const Text('Random'),
               onPressed: () => randomIndex(),
             ),
-            const SizedBox(height: 50),
-          ],
-        ),
+          ),
+        ],
       );
 }
