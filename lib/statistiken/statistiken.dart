@@ -113,10 +113,14 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
             onPressed: () {
               switch (_character) {
                 case _bier.klein:
-                  SQLiteDbProvider.db.insertKonsum(0.33);
+                  for (var i = 0; i < _menge; i++) {
+                    SQLiteDbProvider.db.insertKonsum(0.33);
+                  }
                   break;
                 case _bier.gross:
-                  SQLiteDbProvider.db.insertKonsum(0.5);
+                  for (var i = 0; i < _menge; i++) {
+                    SQLiteDbProvider.db.insertKonsum(0.5);
+                  }
                   break;
               }
 
