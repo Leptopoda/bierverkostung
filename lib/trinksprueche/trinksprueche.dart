@@ -125,9 +125,8 @@ class _TrinkspruecheState extends State<Trinksprueche> {
             Container(
               margin: EdgeInsets.all(30.0),
               // constraints: BoxConstraints(minHeight: 100),
-              child: Text(_sprueche[_index - 1],
-                  style: TextStyle(fontSize: 18)
-              ),
+              child:
+                  Text(_sprueche[_index - 1], style: TextStyle(fontSize: 18)),
             ),
             const SizedBox(height: 30),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -148,10 +147,9 @@ class _TrinkspruecheState extends State<Trinksprueche> {
               value: _index.toDouble(),
               min: 1,
               max: _sprueche.length.toDouble(),
-              onChanged: (double value) {
-                setState(() => _index = value.round());
-              },
-              divisions: _sprueche.length -1,
+              onChanged: (double value) =>
+                  setState(() => _index = value.round()),
+              divisions: _sprueche.length - 1,
               label: "$_index",
             ),
             const SizedBox(height: 16),
