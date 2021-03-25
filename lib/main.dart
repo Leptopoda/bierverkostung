@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/bierverkostung/bierverkostung.dart';
-import 'package:bierverkostung/trinksprueche/trinksprueche.dart';
+import 'package:bierverkostung/trinkspiele/trinksprueche/trinksprueche.dart';
 import 'package:bierverkostung/statistiken/statistiken.dart';
 import 'package:bierverkostung/theme/theme.dart';
 
@@ -62,7 +62,7 @@ class MyHomeState extends State<MyHome> {
 
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.message), label: _pageTitles[1]),
+              icon: Icon(Icons.casino), label: _pageTitles[1]),
           BottomNavigationBarItem(
               icon: Icon(Icons.home), label: _pageTitles[1]),
           BottomNavigationBarItem(
