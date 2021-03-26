@@ -1,4 +1,4 @@
-# bierverkostung_flutter
+# Bierverkostung
 This project aims to improve an abandoned [project](https://bitbucket.org/jufickel/bierverkostung).
 
 It will consist of three parts

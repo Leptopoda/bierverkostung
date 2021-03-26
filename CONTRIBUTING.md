@@ -26,5 +26,5 @@ guidelines while doing so, just so we can keep things organized around here.
    merge requests should be made into `master`). Mention which bug is being
    resolved in the description.
 
-[1]: https://github.com/Leptopoda/UnicornWars/issues/new
-[2]: https://help.github.com/articles/closing-issues-via-commit-messages/
+[1]: https://gitlab.rimikis.de/Leptopoda/Bierrverkostung_flutter/-/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=
+[2]: https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically
