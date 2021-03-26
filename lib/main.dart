@@ -41,6 +41,7 @@ class MyHomeState extends State<MyHome> {
 
   // TODO: use enum
   static final _pageOptions = [Trinkspiele(), Bierverkostung(), Statistiken()];
+  //TODO: rework stats to incorperate alcometer
   static const List<String> _pageTitles = [
     "Trinkspiele",
     "Bierverkostung",

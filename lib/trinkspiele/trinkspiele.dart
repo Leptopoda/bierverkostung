@@ -3,13 +3,12 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/trinkspiele/trinksprueche/trinksprueche.dart';
-import 'package:bierverkostung/trinkspiele/trinksprueche/trinkspruecheNeu.dart';
+import 'package:bierverkostung/trinkspiele/trinksprücheAlt.dart';
+import 'package:bierverkostung/trinkspiele/trinkspruecheNeu.dart';
 
 class Trinkspiele extends StatelessWidget {
   static const _spiele = ['Alte Trinksprüche', 'Neue Trinksprüche'];
-  static final _spielePages = [Trinksprueche(), TrinkspruecheNeu()];
-  // TODO: deduplicate code
+  static final _spielePages = [TrinkspruecheAlt(), TrinkspruecheNeu()];
 
   @override
   Widget build(BuildContext context) {
