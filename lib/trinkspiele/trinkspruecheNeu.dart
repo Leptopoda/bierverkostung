@@ -7,7 +7,7 @@ import 'package:bierverkostung/trinkspiele/trinksprueche/trinksprueche.dart';
 
 class TrinkspruecheNeu extends StatelessWidget {
   // Source: https://wein-verstehen.de/111-lustige-trinksprueche-die-dich-zum-lachen-bringen/
-  final List<String> _sprueche = [
+  static final List<String> _sprueche = [
     "Lieber saufen bis zum abwinken, als winken bis zum Absaufen!",
     "Bist du nach dem Kotzen blind. War zu stark der Gegenwind!",
     "Wo früher meine Leber war, ist heute eine Minibar!",
@@ -49,7 +49,7 @@ class TrinkspruecheNeu extends StatelessWidget {
     "Sport ist Mord, nur Sprit hält fit.",
     "Wer tanzt hat bloß kein Geld zum Saufen.",
     "Betrunkene und Kinder sagen die Wahrheit.",
-    "Das Leben ist an manchen Tagen, halt nur im Vollrausch zu ertragen. ",
+    "Das Leben ist an manchen Tagen, halt nur im Vollrausch zu ertragen.",
     "Zwischen Leber und Nierchen passt immer ein Bierchen.",
     "Morgens ein Bier und der Tag gehört Dir!",
     "Zwischen Leber und Milz passt immer noch ein Pils!",
@@ -100,7 +100,7 @@ class TrinkspruecheNeu extends StatelessWidget {
     "Dies für den und das für jenen. Viele Tische sind gedeckt. Keine Zunge soll verhöhnen, was der andern Zunge schmeckt. Lass jedem seine Freuden, gönn ihm, dass er sich erquickt, wenn er sittsam und bescheiden auf den eignen Teller blickt. Wenn jedoch bei deinem Tisch er unverschämt dich neckt und stört, dann so gib ihm einen Wischer, dass er merkt, was sich gehört. – Wilhelm Busch",
     "Es ist halt schön, wenn wir die Freunde kommen sehn. Schön ist es ferner, wenn sie bleiben und sich mit uns die Zeit vertreiben. – Doch wenn sie schließlich wieder gehen, ist`s auch recht schön. – Wilhelm Busch",
     "Sauf bis dir der Nabel glänzt, hell wie ein Karfunkel, damit du eine Leuchte hast in deines Daseins Dunkel.",
-    "Ich trinke, um meine Probleme zu ertränken, aber diese verdammten Bastarde können schwimmen! ",
+    "Ich trinke, um meine Probleme zu ertränken, aber diese verdammten Bastarde können schwimmen!",
     "Der Wein hält nichts geheim.",
     "Das Leben ist zu kurz, um schlechten Wein zu trinken!",
     "Es gibt mehr alte Weintrinker, als alte Ärzte. (➤Rotwein ist gesund)",
@@ -115,7 +115,7 @@ class TrinkspruecheNeu extends StatelessWidget {
     "Hätt’ da Adam a boarisches Bier bsess’n, Hätt er den Apfel niemals gess’n!",
     "S Glas in’d Hand, zum Wohl mitnand!",
     "Mach’s Maul ned unnütz auf, Red’ was g’scheites oder sauf!",
-    "An Meter vor an Meter z’ruck an Meter obe an Meter aufa jetzt sauf ma! ",
+    "An Meter vor an Meter z’ruck an Meter obe an Meter aufa jetzt sauf ma!",
     "Gott erfand den Wein, Gott erfand das Bier, doch den Schnaps den brannten wir.",
     "Erinnerungslücken sind der Hauptgewinn am Boden einer jeden Wodkaflasche.",
     "Kommt die Schwiegermutter mal ins Haus Und rutscht sie auf dem Hausgang aus Macht sie dann sogleich wieder kehrt Des is a Schnapserl wert!",
@@ -123,11 +123,11 @@ class TrinkspruecheNeu extends StatelessWidget {
     "Caipi, Beck’s und Jägermeister das sind unsere Lebensgeister – Christoph Bräkling",
     "Es gibt zwei Dinge, die ein Highlander nackt mag, und eine davon ist Malt Whisky.",
     "Whisky löst keine Probleme! Das tut Milch aber auch nicht.",
-    "Ein Glas ist fabelhaft, zwei sind zu viel, und drei zu wenig. Schnaps, du edler Goetterfunke, Schlingel aus Elysium, nieder mit dir, du Halunke! Runter in dein Tuskulum. ",
+    "Ein Glas ist fabelhaft, zwei sind zu viel, und drei zu wenig. Schnaps, du edler Goetterfunke, Schlingel aus Elysium, nieder mit dir, du Halunke! Runter in dein Tuskulum.",
     "Auf die Männer, die wir lieben und die Penner, die wir kriegen!",
     "Es lebe die Liebe, das Bier und der Suff, der uneheliche Beischlaf, der Papst und das Puff! PROST!",
     "Benediktum, benedaktum, in Afrika rennnen die Frauen nackt rum. Bei uns da tragen sie Kleider. Leider! Doch laßt den Mut nicht sinken! Wir wollen noch ordentlich trinken!",
-    "Prost, Prost, Prösterchen Wir gehen heut ins Klösterchen und machen aus den Päterchen alles kleine Väterchen. ",
+    "Prost, Prost, Prösterchen Wir gehen heut ins Klösterchen und machen aus den Päterchen alles kleine Väterchen.",
     "In diesem Sinne, ab in die Rinne!",
     "Hau wech die Scheiße!",
     "Prost ihr Säcke! Prost du Sack!",
