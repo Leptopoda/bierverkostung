@@ -41,6 +41,11 @@ class MyHomeState extends State<MyHome> {
 
   // TODO: use enum
   static final _pageOptions = [Trinkspiele(), Bierverkostung(), Statistiken()];
+  static final _pageFAB = [
+    null,
+    BierverkostungFab(),
+    StatistikenFab(),
+  ];
   //TODO: rework stats to incorperate alcometer
   static const List<String> _pageTitles = [
     "Trinkspiele",
@@ -69,7 +74,7 @@ class MyHomeState extends State<MyHome> {
               icon: Icon(Icons.bar_chart), label: _pageTitles[2]),
         ],
       ),
-      floatingActionButton: _selectedPage == 2 ? StatistikenFab() : null,
+      floatingActionButton: _pageFAB[_selectedPage],
     );
   }
 }
