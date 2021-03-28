@@ -42,9 +42,6 @@ dependencies:
   firebase_core: any
   cloud_firestore: any
 
-  # Loading animation
-  loading_animations: any
-
 dev_dependencies:
   # Change launcher icon
   flutter_launcher_icons: any
