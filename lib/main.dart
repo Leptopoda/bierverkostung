@@ -11,6 +11,7 @@ import 'package:bierverkostung/theme/theme.dart';
 import 'package:bierverkostung/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/trinkspiele/trinkspiele.dart';
 import 'package:bierverkostung/statistiken/statistiken.dart';
+import 'package:bierverkostung/settings.dart';
 
 main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,7 +78,9 @@ class Loading extends StatelessWidget {
       appBar: AppBar(
         title: Text('Loading'),
       ),
-      body: Center(child: CircularProgressIndicator(),),
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }
@@ -111,6 +114,37 @@ class MyHomeState extends State<MyHome> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_pageTitles[_selectedPage]),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: 'Show Snackbar',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Settings()),
+            ),
+          ),
+          /* IconButton(
+            icon: const Icon(Icons.navigate_next),
+            tooltip: 'Go to the next page',
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute<void>(
+                builder: (BuildContext context) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: const Text('Next page'),
+                    ),
+                    body: const Center(
+                      child: Text(
+                        'This is the next page',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  );
+                },
+              ));
+            },
+          ), */
+        ],
       ),
       body: _pageOptions[_selectedPage],
       bottomNavigationBar: BottomNavigationBar(
