@@ -5,6 +5,8 @@
 import 'package:flutter/material.dart';
 import 'package:bierverkostung/services/database.dart';
 
+import 'package:bierverkostung/shared/errorPage.dart';
+
 class Statistiken extends StatefulWidget {
   @override
   State<Statistiken> createState() => _StatistikenState();
@@ -122,6 +124,11 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
                     SQLiteDbProvider.db.insertKonsum(0.5);
                   }
                   break;
+                default:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SomethingWentWrong()),
+                  );
               }
 
               Navigator.of(context).pop();
