@@ -27,7 +27,7 @@ dependencies:
   # Internationalization support.
   flutter_localizations:
     sdk: flutter
-  intl: any # TODO: DevDep?¿
+  intl: any
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -46,8 +46,11 @@ dependencies:
 dev_dependencies:
   # Change launcher icon
   flutter_launcher_icons: any
-  #rename app
+  # rename app
   flutter_rename_app: any
+  # linting
+  lint: any
+
   yaml: any
   flutter_test:
     sdk: flutter
