@@ -4,11 +4,14 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Bierverkostung extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(child: Text('Bierverkostung')),
+      child: AddBierverkostung('Nikolas Rimikis', 'Leptopoda inc', 18),
+      // child: Center(child: Text('Bierverkostung')),
     );
   }
 }
@@ -32,7 +35,6 @@ class BierverkostungAlert extends StatefulWidget {
 }
 
 class _BierverkostungAlertState extends State<BierverkostungAlert> {
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -49,6 +51,41 @@ class _BierverkostungAlertState extends State<BierverkostungAlert> {
               Navigator.of(context).pop();
             }),
       ],
+    );
+  }
+}
+
+class AddBierverkostung extends StatelessWidget {
+  final String fullName;
+  final String company;
+  final int age;
+
+  AddBierverkostung(this.fullName, this.company, this.age);
+
+  @override
+  Widget build(BuildContext context) {
+    // Create a CollectionReference called users that references the firestore collection
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    Future<void> addVerkostung() {
+      // Call the user's CollectionReference to add a new user
+      return users
+          .add({
+            'full_name': fullName, // John Doe
+            'company': company, // Stokes and Sons
+            'age': age // 42
+          })
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+
+    return Center(
+      child: ElevatedButton(
+        onPressed: addVerkostung,
+        child: Text(
+          "Add User",
+        ),
+      ),
     );
   }
 }

@@ -41,6 +41,7 @@ dependencies:
   # Firebase
   firebase_core: any
   cloud_firestore: any
+  firebase_auth: any
 
 dev_dependencies:
   # Change launcher icon
