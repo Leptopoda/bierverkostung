@@ -41,7 +41,10 @@ class _TrinkspruecheState extends State<Trinksprueche> {
 
   @protected
   @mustCallSuper
-  void initState() => randomIndex();
+  void initState() {
+    super.initState();
+    randomIndex();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -15,9 +15,14 @@ class Statistiken extends StatefulWidget {
 class _StatistikenState extends State<Statistiken> {
   List<Map> _consumed = [];
 
-  @override
-  void initState() => update();
+  @protected
+  @mustCallSuper
+  void initState() {
+    super.initState();
+    update();
+  }
 
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: _consumed.length * 2,
@@ -127,7 +132,8 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
                 default:
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SomethingWentWrong()),
+                    MaterialPageRoute(
+                        builder: (context) => SomethingWentWrong()),
                   );
               }
 
