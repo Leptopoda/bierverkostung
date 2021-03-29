@@ -3,13 +3,11 @@
 // found in the LICENSE file.
 
 class Country {
-
   // final String id;
   // final int revision;
   final String countryName;
 
-  Country({ required this.countryName});
-
+  Country({required this.countryName});
 }
 
 // CREATE TABLE countries (_id TEXT PRIMARY KEY, _revision INTEGER, country_name TEXT UNIQUE NOT NULL)

@@ -3,18 +3,14 @@
 // found in the LICENSE file.
 
 class User {
-
   final String uid;
 
-  User({ required this.uid });
-
+  User({required this.uid});
 }
 
 class UserData {
-
   final String uid;
   final String group;
 
-  UserData({ required this.uid, required this.group});
-
+  UserData({required this.uid, required this.group});
 }

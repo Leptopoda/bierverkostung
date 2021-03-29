@@ -28,7 +28,7 @@ class _SettingsState extends State<Settings> {
           children: [
             ElevatedButton(
               onPressed: () async {
-                final dynamic result = await _auth.signInAnon();
+                final dynamic result = await _auth.registerAnon();
                 if (result == null) {
                   Navigator.push(
                     context,
@@ -42,7 +42,7 @@ class _SettingsState extends State<Settings> {
                       SnackBar(content: Text('signed in $result')));
                 }
               },
-              child: const Text('Sign In'),
+              child: const Text('Register Anonymously'),
             ),
             ElevatedButton(
               onPressed: () => showDialog(

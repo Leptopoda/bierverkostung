@@ -2,56 +2,52 @@
 // Use of this source code is governed by a APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:bierverkostung/models/stats.dart';
+// import 'package:brew_crew/models/user.dart';
 
-class SQLiteDbProvider {
-  // TODO: probably move to kv-store
-  SQLiteDbProvider._();
-  static final SQLiteDbProvider db = SQLiteDbProvider._();
+class DatabaseService {
+  final String uid;
+  DatabaseService({required this.uid});
 
-  Future<Database> _getDB() async {
-    final Future<Database> _database = openDatabase(
-      // Set the path to the database. Note: Using the `join` function from the
-      // `path` package is best practice to ensure the path is correctly
-      // constructed for each platform.
-      join(await getDatabasesPath(), 'bierverkostung.db'),
-      // When the database is first created, create a table to store dogs.
-      onCreate: (db, version) {
-        return db.execute(
-          " CREATE TABLE _konsum ( "
-          " _id	INTEGER, "
-          " menge	DOUBLE, "
-          " timestamp	DATE DEFAULT (date('now')), "
-          " PRIMARY KEY(_id AUTOINCREMENT) "
-          " ) ",
-        );
-      },
-      // Set the version. This executes the onCreate function and provides a
-      // path to perform database upgrades and downgrades.
-      version: 1,
-    );
-    return _database;
+  // collection reference
+  // final CollectionReference userCollection = FirebaseFirestore.instance.collection('uuid');
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  Future<void> updateUserData(DateTime date, double amount) async {
+    firestore.collection(uid).add({
+      'date': date,
+      'amount': amount,
+    });
   }
 
-  Future insertKonsum(double groesse) async {
-    final db = await _getDB();
-    final result = await db
-        .rawInsert("INSERT INTO _konsum ('menge') VALUES (?)", [groesse]);
-    return result;
+  // brew list from snapshot
+  List<Stat> _statListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      //print(doc.data);
+      // return Stat(menge: doc.data['amount'] ?? 0.0, timestamp: doc.data['date'] ?? '');
+      print(doc.data());
+      return Stat(menge: 0.0, timestamp: DateTime.now());
+    }).toList();
   }
 
-  Future<List<Map>> getAllKonsum() async {
-    final db = await _getDB();
-    final List<Map> results = await db.query("_konsum",
-        columns: ["menge", "timestamp"], orderBy: "date(timestamp)");
-    /* List<Product> products = new List();
-    results.forEach((result) {
-      Product product = Product.fromMap(result);
-      products.add(product);
-    }); */
-    return results;
+  // user data from snapshots
+  /* UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return UserData(
+        uid: uid,
+        name: snapshot.data['name'],
+        sugars: snapshot.data['sugars'],
+        strength: snapshot.data['strength']);
+  } */
+
+  // get brews stream
+  Stream<List<Stat>> get stats {
+    return firestore.collection(uid).snapshots().map(_statListFromSnapshot);
   }
+
+  // get user doc stream
+  /* Stream<UserData> get userData {
+    return userCollection.document(uid).snapshots().map(_userDataFromSnapshot);
+  } */
 }

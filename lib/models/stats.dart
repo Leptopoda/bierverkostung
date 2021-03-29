@@ -3,12 +3,10 @@
 // found in the LICENSE file.
 
 class Stat {
-
   // final String id;
   // final int revision;
   final double menge;
   final DateTime timestamp;
 
-  Stat({ required this.menge , required this.timestamp});
-
+  Stat({required this.menge, required this.timestamp});
 }

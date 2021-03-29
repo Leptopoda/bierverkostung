@@ -3,8 +3,9 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 
 class Statistiken extends StatefulWidget {
@@ -22,26 +23,36 @@ class _StatistikenState extends State<Statistiken> {
   @override
   void initState() {
     super.initState();
-    update();
+    /* SQLiteDbProvider.db
+        .getAllKonsum()
+        .then((value) => setState(() => _consumed = value));
+        */
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: _consumed.length * 2,
-        padding: const EdgeInsets.all(16.0),
-        itemBuilder: (context, i) {
-          if (i.isOdd) return const Divider();
-
-          final index = i ~/ 2;
-          return _buildRow(_consumed[index].toString());
-        });
-  }
-
-  void update() {
-    SQLiteDbProvider.db
-        .getAllKonsum()
-        .then((value) => setState(() => _consumed = value));
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('Leptopoda').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return ListView(
+            children: snapshot.data!.docs.map((doc) {
+              print('hallo ${doc.data()}');
+              return Card(
+                child: ListTile(
+                  title: Text(doc.data().toString()),
+                ),
+              );
+            }).toList(),
+          );
+        }
+      },
+    );
   }
 
   Widget _buildRow(String consum) {
@@ -123,16 +134,21 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
           child: const Text('Cancel'),
         ),
         TextButton(
-          onPressed: () {
+          onPressed: () async {
+            final DateTime date = DateTime.now();
             switch (_character) {
               case _bier.klein:
                 for (var i = 0; i < _menge; i++) {
-                  SQLiteDbProvider.db.insertKonsum(0.33);
+                  // SQLiteDbProvider.db.insertKonsum(0.33);
+                  await DatabaseService(uid: 'Leptopoda')
+                      .updateUserData(date, 0.33);
                 }
                 break;
               case _bier.gross:
                 for (var i = 0; i < _menge; i++) {
-                  SQLiteDbProvider.db.insertKonsum(0.5);
+                  // SQLiteDbProvider.db.insertKonsum(0.5);
+                  await DatabaseService(uid: 'Leptopoda')
+                      .updateUserData(date, 0.50);
                 }
                 break;
               default:
