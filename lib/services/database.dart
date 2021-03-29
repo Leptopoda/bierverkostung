@@ -12,7 +12,7 @@ class SQLiteDbProvider {
   SQLiteDbProvider._();
   static final SQLiteDbProvider db = SQLiteDbProvider._();
 
-  _getDB() async {
+  Future<Database> _getDB() async {
     final Future<Database> _database = openDatabase(
       // Set the path to the database. Note: Using the `join` function from the
       // `path` package is best practice to ensure the path is correctly
@@ -21,12 +21,12 @@ class SQLiteDbProvider {
       // When the database is first created, create a table to store dogs.
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE _konsum ("
-          "_id	INTEGER,"
-          "menge	DOUBLE,"
-          "timestamp	DATE DEFAULT (date('now')),"
-          "PRIMARY KEY(_id AUTOINCREMENT)"
-          ")",
+          " CREATE TABLE _konsum ( "
+          " _id	INTEGER, "
+          " menge	DOUBLE, "
+          " timestamp	DATE DEFAULT (date('now')), "
+          " PRIMARY KEY(_id AUTOINCREMENT) "
+          " ) ",
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -37,16 +37,15 @@ class SQLiteDbProvider {
   }
 
   insertKonsum(double groesse) async {
-    print(groesse);
     final db = await _getDB();
-    var result = await db
+    final result = await db
         .rawInsert("INSERT INTO _konsum ('menge') VALUES (?)", [groesse]);
     return result;
   }
 
   Future<List<Map>> getAllKonsum() async {
     final db = await _getDB();
-    List<Map> results = await db.query("_konsum",
+    final List<Map> results = await db.query("_konsum",
         columns: ["menge", "timestamp"], orderBy: "date(timestamp)");
     /* List<Product> products = new List();
     results.forEach((result) {

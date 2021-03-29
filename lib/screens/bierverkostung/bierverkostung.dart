@@ -6,30 +6,36 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:bierverkostung/shared/error_page.dart';
+
 class Bierverkostung extends StatelessWidget {
+  const Bierverkostung({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: AddBierverkostung('Nikolas Rimikis', 'Leptopoda inc', 18),
-      // child: Center(child: Text('Bierverkostung')),
-    );
+    return const AddBierverkostung(fullName: 'Nikolas Rimikis', company: 'Leptopoda Inc.', age: 18);
+    // child: Center(child: Text('Bierverkostung')),
   }
 }
 
 class BierverkostungFab extends StatelessWidget {
+  const BierverkostungFab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => showDialog(
         context: context,
-        builder: (_) => new BierverkostungAlert(),
+        builder: (_) => const BierverkostungAlert(),
       ),
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
   }
 }
 
 class BierverkostungAlert extends StatefulWidget {
+  const BierverkostungAlert({Key? key}) : super(key: key);
+
   @override
   State<BierverkostungAlert> createState() => _BierverkostungAlertState();
 }
@@ -38,18 +44,19 @@ class _BierverkostungAlertState extends State<BierverkostungAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: new Text("Noch ein Bier"),
-      content: new Text('TBA'),
+      title: const Text("Noch ein Bier"),
+      content: const Text('TBA'),
       actions: <Widget>[
         TextButton(
-          child: Text('Cancel'),
           onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
         ),
         TextButton(
-            child: Text('Submit'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Submit'),
+        ),
       ],
     );
   }
@@ -60,12 +67,13 @@ class AddBierverkostung extends StatelessWidget {
   final String company;
   final int age;
 
-  AddBierverkostung(this.fullName, this.company, this.age);
+  const AddBierverkostung({Key? key, required this.fullName, required this.company, required this.age}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // Create a CollectionReference called users that references the firestore collection
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
 
     Future<void> addVerkostung() {
       // Call the user's CollectionReference to add a new user
@@ -76,13 +84,19 @@ class AddBierverkostung extends StatelessWidget {
             'age': age // 42
           })
           .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
+          .catchError((error) => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SomethingWentWrong(
+                          error: 'Failed to add user: $error',
+                        )),
+              ));
     }
 
     return Center(
       child: ElevatedButton(
         onPressed: addVerkostung,
-        child: Text(
+        child: const Text(
           "Add User",
         ),
       ),

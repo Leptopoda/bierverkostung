@@ -5,7 +5,11 @@
 import 'package:flutter/material.dart';
 import 'package:bierverkostung/services/auth.dart';
 
+import 'package:bierverkostung/shared/error_page.dart';
+
 class Settings extends StatefulWidget {
+  const Settings({Key? key}) : super(key: key);
+
   @override
   State<Settings> createState() => _SettingsState();
 }
@@ -24,22 +28,24 @@ class _SettingsState extends State<Settings> {
           children: [
             ElevatedButton(
               onPressed: () async {
-                dynamic result = await _auth.signInAnon();
-                if(result == null){
-                  print('error signing in');
+                final dynamic result = await _auth.signInAnon();
+                if (result == null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SomethingWentWrong(error: 'error signing in',)),
+                  );
                 } else {
-                  print('signed in');
-                  print(result);
+                  print('signed in $result');
                 }
               },
               child: const Text('Sign In'),
             ),
             ElevatedButton(
-              child: const Text('Neue ID'),
               onPressed: () => showDialog(
                 context: context,
-                builder: (_) => new NewIDAlert(),
+                builder: (_) => const NewIDAlert(),
               ),
+              child: const Text('Neue ID'),
             ),
           ],
         ),
@@ -49,23 +55,26 @@ class _SettingsState extends State<Settings> {
 }
 
 class NewIDAlert extends StatelessWidget {
+  const NewIDAlert({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: new Text('Achtung!!'),
-      content: new Text(
+      title: const Text('Achtung!!'),
+      content: const Text(
           'Folgendes wird eine Neue Nutzer ID anfragen. Jegliche Zugehörigkeit einer Grupper, oder gespeicherten Statistiken gehen dardurch verloren'),
       actions: <Widget>[
         TextButton(
-          child: Text('Abbruch'),
           onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Abbruch'),
         ),
         TextButton(
-            child: Text('Weiter'),
-            onPressed: () {
-              print('R:I:P');
-              Navigator.of(context).pop();
-            }),
+          onPressed: () {
+            print('R:I:P');
+            Navigator.of(context).pop();
+          },
+          child: const Text('Weiter'),
+        ),
       ],
     );
   }

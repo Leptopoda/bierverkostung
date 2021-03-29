@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:bierverkostung/shared/trinksprueche.dart';
 
 class TrinkspruecheAlt extends StatelessWidget {
+  const TrinkspruecheAlt({Key? key}) : super(key: key);
+
   static final List<String> _sprueche = [
     'Ein jeder weckt den Nebenmann, der Letzte stößt sich selber an.',
     'Lüft an das Gatchen, lupft an das Bein, ein jeder will der erste sein.',

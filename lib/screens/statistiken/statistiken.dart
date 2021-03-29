@@ -5,9 +5,11 @@
 import 'package:flutter/material.dart';
 import 'package:bierverkostung/services/database.dart';
 
-import 'package:bierverkostung/shared/errorPage.dart';
+import 'package:bierverkostung/shared/error_page.dart';
 
 class Statistiken extends StatefulWidget {
+  const Statistiken({Key? key}) : super(key: key);
+
   @override
   State<Statistiken> createState() => _StatistikenState();
 }
@@ -17,6 +19,7 @@ class _StatistikenState extends State<Statistiken> {
 
   @protected
   @mustCallSuper
+  @override
   void initState() {
     super.initState();
     update();
@@ -26,9 +29,9 @@ class _StatistikenState extends State<Statistiken> {
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: _consumed.length * 2,
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         itemBuilder: (context, i) {
-          if (i.isOdd) return Divider();
+          if (i.isOdd) return const Divider();
 
           final index = i ~/ 2;
           return _buildRow(_consumed[index].toString());
@@ -52,22 +55,26 @@ class _StatistikenState extends State<Statistiken> {
 }
 
 class StatistikenFab extends StatelessWidget {
+  const StatistikenFab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => showDialog(
         context: context,
-        builder: (_) => new StatistikenAlert(),
+        builder: (_) => const StatistikenAlert(),
       ),
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
   }
 }
 
 enum _bier { klein, gross }
-final _biggerFont = TextStyle(fontSize: 18.0);
+const _biggerFont = TextStyle(fontSize: 18.0);
 
 class StatistikenAlert extends StatefulWidget {
+  const StatistikenAlert({Key? key}) : super(key: key);
+
   @override
   State<StatistikenAlert> createState() => _StatistikenAlertState();
 }
@@ -79,7 +86,7 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: new Text("Noch ein Bier"),
+      title: const Text("Noch ein Bier"),
       content: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -112,32 +119,32 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
       ),
       actions: <Widget>[
         TextButton(
-          child: Text('Cancel'),
           onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
         ),
         TextButton(
-            child: Text('Submit'),
-            onPressed: () {
-              switch (_character) {
-                case _bier.klein:
-                  for (var i = 0; i < _menge; i++) {
-                    SQLiteDbProvider.db.insertKonsum(0.33);
-                  }
-                  break;
-                case _bier.gross:
-                  for (var i = 0; i < _menge; i++) {
-                    SQLiteDbProvider.db.insertKonsum(0.5);
-                  }
-                  break;
-                default:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SomethingWentWrong()),
-                  );
-              }
-              Navigator.of(context).pop();
-            }),
+          onPressed: () {
+            switch (_character) {
+              case _bier.klein:
+                for (var i = 0; i < _menge; i++) {
+                  SQLiteDbProvider.db.insertKonsum(0.33);
+                }
+                break;
+              case _bier.gross:
+                for (var i = 0; i < _menge; i++) {
+                  SQLiteDbProvider.db.insertKonsum(0.5);
+                }
+                break;
+              default:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SomethingWentWrong(error: 'invalid response',)),
+                );
+            }
+            Navigator.of(context).pop();
+          },
+          child: const Text('Submit'),
+        ),
       ],
     );
   }

@@ -7,17 +7,19 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bierverkostung/shared/theme.dart';
-import 'package:bierverkostung/shared/errorPage.dart';
+import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
 
 import 'package:bierverkostung/screens/home.dart';
 
-main() {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  MyApp({Key? key}) : super(key: key);
+
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      themeMode: ThemeMode.system,
+      // themeMode: ThemeMode.system,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       onGenerateTitle: (BuildContext context) =>
@@ -36,12 +38,11 @@ class MyApp extends StatelessWidget {
           future: _initialization,
           builder: (context, snapshot) {
             // Check for errors
-            if (snapshot.hasError) return SomethingWentWrong();
+            if (snapshot.hasError) return SomethingWentWrong(error: snapshot.error.toString());
             // Once complete, show your application
-            if (snapshot.connectionState == ConnectionState.done)
-              return MyHome();
+            if (snapshot.connectionState == ConnectionState.done) return const MyHome();
             // Otherwise, show something whilst waiting for initialization to complete
-            return Loading();
+            return const Loading();
           },
         ),
       ),

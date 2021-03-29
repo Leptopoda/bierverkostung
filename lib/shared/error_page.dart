@@ -5,16 +5,19 @@
 import 'package:flutter/material.dart';
 
 class SomethingWentWrong extends StatelessWidget {
+  final String error;
+  const SomethingWentWrong({Key? key, required this.error}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('SomethingWentWrong'),
+        title: const Text('SomethingWentWrong'),
       ),
       body: Center(
-        child: const Text(
-            'Die Einhörner versuchen dieses Problem schnellstens zu beheben',
-            style: TextStyle(fontSize: 18.0)),
+        child: Text(
+            'Die Einhörner versuchen dieses Problem schnellstens zu beheben. Um ihnen zu helfen gebe folgenden error weiter: $error',
+            style: const TextStyle(fontSize: 18.0)),
       ),
     );
   }

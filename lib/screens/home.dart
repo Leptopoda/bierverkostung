@@ -10,6 +10,7 @@ import 'package:bierverkostung/screens/statistiken/statistiken.dart';
 import 'package:bierverkostung/screens/settings.dart';
 
 class MyHome extends StatefulWidget {
+  const MyHome({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return MyHomeState();
@@ -20,11 +21,11 @@ class MyHomeState extends State<MyHome> {
   int _selectedPage = 1;
 
   // TODO: use enum
-  static final _pageOptions = [Trinkspiele(), Bierverkostung(), Statistiken()];
+  static final _pageOptions = [const Trinkspiele(), const Bierverkostung(), const Statistiken()];
   static final _pageFAB = [
     null,
-    BierverkostungFab(),
-    StatistikenFab(),
+    const BierverkostungFab(),
+    const StatistikenFab(),
   ];
   //TODO: rework stats to incorperate alcometer
   static const List<String> _pageTitles = [
@@ -44,7 +45,7 @@ class MyHomeState extends State<MyHome> {
             tooltip: 'Show Snackbar',
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Settings()),
+              MaterialPageRoute(builder: (context) => const Settings()),
             ),
           ),
           /* IconButton(
@@ -78,11 +79,11 @@ class MyHomeState extends State<MyHome> {
 
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.casino), label: _pageTitles[0]),
+              icon: const Icon(Icons.casino), label: _pageTitles[0]),
           BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: _pageTitles[1]),
+              icon: const Icon(Icons.home), label: _pageTitles[1]),
           BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart), label: _pageTitles[2]),
+              icon: const Icon(Icons.bar_chart), label: _pageTitles[2]),
         ],
       ),
       floatingActionButton: _pageFAB[_selectedPage],
