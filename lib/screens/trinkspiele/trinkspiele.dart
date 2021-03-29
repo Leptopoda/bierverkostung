@@ -8,7 +8,10 @@ import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
 
 class Trinkspiele extends StatelessWidget {
   static const _spiele = ['Alte Trinksprüche', 'Neue Trinksprüche'];
-  static final _spielePages = [const TrinkspruecheAlt(), const TrinkspruecheNeu()];
+  static final _spielePages = [
+    const TrinkspruecheAlt(),
+    const TrinkspruecheNeu()
+  ];
 
   const Trinkspiele({Key? key}) : super(key: key);
 

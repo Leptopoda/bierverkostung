@@ -32,7 +32,10 @@ class _SettingsState extends State<Settings> {
                 if (result == null) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SomethingWentWrong(error: 'error signing in',)),
+                    MaterialPageRoute(
+                        builder: (context) => const SomethingWentWrong(
+                              error: 'error signing in',
+                            )),
                   );
                 } else {
                   print('signed in $result');

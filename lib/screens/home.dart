@@ -21,7 +21,11 @@ class MyHomeState extends State<MyHome> {
   int _selectedPage = 1;
 
   // TODO: use enum
-  static final _pageOptions = [const Trinkspiele(), const Bierverkostung(), const Statistiken()];
+  static final _pageOptions = [
+    const Trinkspiele(),
+    const Bierverkostung(),
+    const Statistiken()
+  ];
   static final _pageFAB = [
     null,
     const BierverkostungFab(),

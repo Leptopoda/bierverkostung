@@ -13,7 +13,8 @@ class Bierverkostung extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AddBierverkostung(fullName: 'Nikolas Rimikis', company: 'Leptopoda Inc.', age: 18);
+    return const AddBierverkostung(
+        fullName: 'Nikolas Rimikis', company: 'Leptopoda Inc.', age: 18);
     // child: Center(child: Text('Bierverkostung')),
   }
 }
@@ -67,7 +68,12 @@ class AddBierverkostung extends StatelessWidget {
   final String company;
   final int age;
 
-  const AddBierverkostung({Key? key, required this.fullName, required this.company, required this.age}) : super(key: key);
+  const AddBierverkostung(
+      {Key? key,
+      required this.fullName,
+      required this.company,
+      required this.age})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -138,7 +138,10 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
               default:
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SomethingWentWrong(error: 'invalid response',)),
+                  MaterialPageRoute(
+                      builder: (context) => const SomethingWentWrong(
+                            error: 'invalid response',
+                          )),
                 );
             }
             Navigator.of(context).pop();
