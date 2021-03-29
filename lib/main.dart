@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bierverkostung/theme/theme.dart';
@@ -10,10 +11,16 @@ import 'package:bierverkostung/theme/theme.dart';
 import 'package:bierverkostung/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/trinkspiele/trinkspiele.dart';
 import 'package:bierverkostung/statistiken/statistiken.dart';
+import 'package:bierverkostung/settings.dart';
 
-void main() => runApp(MyApp());
+main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,7 +31,56 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       onGenerateTitle: (BuildContext context) =>
           AppLocalizations.of(context)!.appName,
-      home: SafeArea(child: MyHome()),
+      home: SafeArea(
+        child: FutureBuilder(
+          // Initialize FlutterFire:
+          future: _initialization,
+          builder: (context, snapshot) {
+            // Check for errors
+            if (snapshot.hasError) {
+              return SomethingWentWrong();
+            }
+
+            // Once complete, show your application
+            if (snapshot.connectionState == ConnectionState.done) {
+              return MyHome();
+            }
+
+            // Otherwise, show something whilst waiting for initialization to complete
+            return Loading();
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class SomethingWentWrong extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('SomethingWentWrong'),
+      ),
+      body: Center(
+        child: const Text(
+            'Die Einhörner versuchen dieses Problem schnellstens zu beheben',
+            style: TextStyle(fontSize: 18.0)),
+      ),
+    );
+  }
+}
+
+class Loading extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Loading'),
+      ),
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }
@@ -41,6 +97,11 @@ class MyHomeState extends State<MyHome> {
 
   // TODO: use enum
   static final _pageOptions = [Trinkspiele(), Bierverkostung(), Statistiken()];
+  static final _pageFAB = [
+    null,
+    BierverkostungFab(),
+    StatistikenFab(),
+  ];
   //TODO: rework stats to incorperate alcometer
   static const List<String> _pageTitles = [
     "Trinkspiele",
@@ -53,6 +114,37 @@ class MyHomeState extends State<MyHome> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_pageTitles[_selectedPage]),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: 'Show Snackbar',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Settings()),
+            ),
+          ),
+          /* IconButton(
+            icon: const Icon(Icons.navigate_next),
+            tooltip: 'Go to the next page',
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute<void>(
+                builder: (BuildContext context) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: const Text('Next page'),
+                    ),
+                    body: const Center(
+                      child: Text(
+                        'This is the next page',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  );
+                },
+              ));
+            },
+          ), */
+        ],
       ),
       body: _pageOptions[_selectedPage],
       bottomNavigationBar: BottomNavigationBar(
@@ -69,7 +161,7 @@ class MyHomeState extends State<MyHome> {
               icon: Icon(Icons.bar_chart), label: _pageTitles[2]),
         ],
       ),
-      floatingActionButton: _selectedPage == 2 ? StatistikenFab() : null,
+      floatingActionButton: _pageFAB[_selectedPage],
     );
   }
 }
