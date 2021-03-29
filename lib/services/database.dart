@@ -36,7 +36,7 @@ class SQLiteDbProvider {
     return _database;
   }
 
-  insertKonsum(double groesse) async {
+  Future insertKonsum(double groesse) async {
     final db = await _getDB();
     final result = await db
         .rawInsert("INSERT INTO _konsum ('menge') VALUES (?)", [groesse]);

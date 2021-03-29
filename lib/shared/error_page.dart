@@ -20,6 +20,7 @@ class SomethingWentWrong extends StatelessWidget {
           child: Column(
             children: [
               Image.asset('assets/error.png'),
+              const SizedBox(height: 35),
               Text(
                   'Die Einhörner versuchen dieses Problem schnellstens zu beheben. Um ihnen zu helfen gebe folgenden error weiter: $error',
                   style: const TextStyle(fontSize: 18.0)),

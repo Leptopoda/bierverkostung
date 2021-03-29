@@ -38,7 +38,8 @@ class _SettingsState extends State<Settings> {
                             )),
                   );
                 } else {
-                  print('signed in $result');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('signed in $result')));
                 }
               },
               child: const Text('Sign In'),
@@ -73,7 +74,8 @@ class NewIDAlert extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            print('R:I:P');
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text('R:I:P')));
             Navigator.of(context).pop();
           },
           child: const Text('Weiter'),
