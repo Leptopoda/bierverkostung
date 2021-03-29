@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/database.dart';
+import 'package:bierverkostung/services/database.dart';
 
 class Statistiken extends StatefulWidget {
   @override

@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:bierverkostung/theme/theme.dart';
+import 'package:bierverkostung/shared/theme.dart';
 
-import 'package:bierverkostung/bierverkostung/bierverkostung.dart';
-import 'package:bierverkostung/trinkspiele/trinkspiele.dart';
-import 'package:bierverkostung/statistiken/statistiken.dart';
-import 'package:bierverkostung/settings.dart';
+import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
+import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
+import 'package:bierverkostung/screens/statistiken/statistiken.dart';
+import 'package:bierverkostung/screens/settings.dart';
 
 main() {
   WidgetsFlutterBinding.ensureInitialized();

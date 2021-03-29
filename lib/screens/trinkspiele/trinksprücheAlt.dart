@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/trinkspiele/trinksprueche/trinksprueche.dart';
+import 'package:bierverkostung/models/trinksprueche.dart';
 
 class TrinkspruecheAlt extends StatelessWidget {
   static final List<String> _sprueche = [

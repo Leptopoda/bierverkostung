@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/trinkspiele/trinksprücheAlt.dart';
-import 'package:bierverkostung/trinkspiele/trinkspruecheNeu.dart';
+import 'package:bierverkostung/screens/trinkspiele/trinksprücheAlt.dart';
+import 'package:bierverkostung/screens/trinkspiele/trinkspruecheNeu.dart';
 
 class Trinkspiele extends StatelessWidget {
   static const _spiele = ['Alte Trinksprüche', 'Neue Trinksprüche'];

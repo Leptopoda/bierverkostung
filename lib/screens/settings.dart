@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/auth.dart';
+import 'package:bierverkostung/services/auth.dart';
 
 class Settings extends StatefulWidget {
   @override
