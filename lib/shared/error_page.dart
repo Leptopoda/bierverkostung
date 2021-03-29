@@ -12,12 +12,20 @@ class SomethingWentWrong extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SomethingWentWrong'),
+        title: const Text('Something went wrong'),
       ),
-      body: Center(
-        child: Text(
-            'Die Einhörner versuchen dieses Problem schnellstens zu beheben. Um ihnen zu helfen gebe folgenden error weiter: $error',
-            style: const TextStyle(fontSize: 18.0)),
+      body: Container(
+        margin: const EdgeInsets.all(30.0),
+        child: Center(
+          child: Column(
+            children: [
+              Image.asset('assets/error.png'),
+              Text(
+                  'Die Einhörner versuchen dieses Problem schnellstens zu beheben. Um ihnen zu helfen gebe folgenden error weiter: $error',
+                  style: const TextStyle(fontSize: 18.0)),
+            ],
+          ),
+        ),
       ),
     );
   }
