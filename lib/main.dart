@@ -36,15 +36,10 @@ class MyApp extends StatelessWidget {
           future: _initialization,
           builder: (context, snapshot) {
             // Check for errors
-            if (snapshot.hasError) {
-              return SomethingWentWrong();
-            }
-
+            if (snapshot.hasError) return SomethingWentWrong();
             // Once complete, show your application
-            if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.connectionState == ConnectionState.done)
               return MyHome();
-            }
-
             // Otherwise, show something whilst waiting for initialization to complete
             return Loading();
           },

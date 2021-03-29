@@ -136,7 +136,6 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
                         builder: (context) => SomethingWentWrong()),
                   );
               }
-
               Navigator.of(context).pop();
             }),
       ],
