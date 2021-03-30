@@ -21,7 +21,7 @@ class AuthService {
   } */
 
   String? getCurrentUid() {
-    if (_auth.currentUser == null){
+    if (_auth.currentUser == null) {
       return null;
     } else {
       return _auth.currentUser!.uid;

@@ -125,10 +125,10 @@ class AddBierverkostung extends StatelessWidget {
     }
 
     return ElevatedButton(
-        onPressed: addVerkostung,
-        child: const Text(
-          "Add User",
-        ),
+      onPressed: addVerkostung,
+      child: const Text(
+        "Add User",
+      ),
     );
   }
 }
