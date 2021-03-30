@@ -37,7 +37,6 @@ class _StatistikenState extends State<Statistiken> {
           } else {
             return ListView(
               children: snapshot.data!.docs.map((doc) {
-                print('hallo ${doc.data()}');
                 return Card(
                   child: ListTile(
                     title: Text(doc.data().toString()),
