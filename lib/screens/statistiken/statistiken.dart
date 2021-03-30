@@ -3,11 +3,12 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/shared/error_page.dart';
+import 'package:bierverkostung/models/stats.dart';
 
 class Statistiken extends StatefulWidget {
   const Statistiken({Key? key}) : super(key: key);
@@ -19,8 +20,8 @@ class Statistiken extends StatefulWidget {
 class _StatistikenState extends State<Statistiken> {
   @override
   Widget build(BuildContext context) {
-    if (AuthService().getCurrentUid() == null) {
-      return const Text('Melde dich erst mal an du Affe');
+    /* if (AuthService().getCurrentUid() == null) {
+      return const Center(child: Text('Melde dich erst mal an du Affe'));
     } else {
       return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -44,7 +45,7 @@ class _StatistikenState extends State<Statistiken> {
                 return ListTile(
                   // leading: const Icon(Icons.message),
                   title: Text(
-                    // TODO: do not unconditionally acess data
+                      // TODO: do not unconditionally acess data
                       snapshot.data!.docs.asMap()[index]!.data().toString(),
                       style: const TextStyle(fontSize: 18)),
                   // trailing: const Icon(Icons.keyboard_arrow_right),
@@ -59,6 +60,39 @@ class _StatistikenState extends State<Statistiken> {
               }),
             );
           }
+        },
+      );
+    } */
+
+    if (AuthService().getCurrentUid() == null) {
+      return const Center(child: Text('Melde dich erst mal an du Affe'));
+    } else {
+      return StreamBuilder<List<Stat>>(
+        stream: DatabaseService(uid: AuthService().getCurrentUid()!).stats,
+        builder: (context, stat) {
+          return ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: List.generate(stat.data!.length * 2, (i) {
+              if (i.isOdd) return const Divider();
+
+              final index = i ~/ 2;
+              return ListTile(
+                // leading: const Icon(Icons.message),
+                title: Text(
+                    // TODO: do not unconditionally acess data
+                    'Menge: ${stat.data!.asMap()[index]!.menge.toString()} Datum: ${stat.data!.asMap()[index]!.timestamp.toString()}',
+                    style: const TextStyle(fontSize: 18)),
+                // trailing: const Icon(Icons.keyboard_arrow_right),
+                /* onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => _spielePages[index]),
+                    );
+                  }, */
+              );
+            }),
+          );
         },
       );
     }

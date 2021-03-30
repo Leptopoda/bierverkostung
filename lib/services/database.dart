@@ -22,13 +22,14 @@ class DatabaseService {
   }
 
   // brew list from snapshot
-  /* List<Stat> _statListFromSnapshot(QuerySnapshot snapshot) {
+  List<Stat> _statListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      //print(doc.data);
-      // return Stat(menge: doc.data['amount'] ?? 0.0, timestamp: doc.data['date'] ?? '');
-      return Stat(menge: 0.0, timestamp: DateTime.now());
+      // TODO: propperly null check values
+      return Stat(
+          menge: double.parse(doc.get('amount').toString()),
+          timestamp: DateTime.parse(doc.get('date').toDate().toString()));
     }).toList();
-  } */
+  }
 
   // user data from snapshots
   /* UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
@@ -40,9 +41,12 @@ class DatabaseService {
   } */
 
   // get brews stream
-  /* Stream<List<Stat>> get stats {
+  Stream<List<Stat>> get stats {
+    // final String uid = AuthService().getCurrentUid()!;
     return firestore.collection(uid).snapshots().map(_statListFromSnapshot);
-  } */
+
+    // snapshot.data!.docs.asMap()[index]!.data().toString()
+  }
 
   // get user doc stream
   /* Stream<UserData> get userData {
