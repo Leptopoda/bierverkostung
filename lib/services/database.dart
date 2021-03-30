@@ -5,7 +5,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:bierverkostung/models/stats.dart';
-// import 'package:brew_crew/models/user.dart';
 
 class DatabaseService {
   final String uid;

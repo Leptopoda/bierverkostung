@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:bierverkostung/services/database.dart';
+import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 
 class Statistiken extends StatefulWidget {
@@ -16,53 +17,48 @@ class Statistiken extends StatefulWidget {
 }
 
 class _StatistikenState extends State<Statistiken> {
-  List<Map> _consumed = [];
-
-  @protected
-  @mustCallSuper
-  @override
-  void initState() {
-    super.initState();
-    /* SQLiteDbProvider.db
-        .getAllKonsum()
-        .then((value) => setState(() => _consumed = value));
-        */
-  }
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('Leptopoda').snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
-        if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          return ListView(
-            children: snapshot.data!.docs.map((doc) {
-              print('hallo ${doc.data()}');
-              return Card(
-                child: ListTile(
-                  title: Text(doc.data().toString()),
-                ),
-              );
-            }).toList(),
-          );
-        }
-      },
-    );
+    if (AuthService().getCurrentUid() == null) {
+      return const Text('Melde dich erst mal an du Affe');
+    } else {
+      return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection(AuthService().getCurrentUid()!)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const SomethingWentWrong(
+              error: 'iSomething went wrong',
+            );
+          }
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return ListView(
+              children: snapshot.data!.docs.map((doc) {
+                print('hallo ${doc.data()}');
+                return Card(
+                  child: ListTile(
+                    title: Text(doc.data().toString()),
+                  ),
+                );
+              }).toList(),
+            );
+          }
+        },
+      );
+    }
   }
 
-  Widget _buildRow(String consum) {
+  /* Widget _buildRow(String consum) {
     return ListTile(
       title: Text(
         consum,
         style: _biggerFont,
       ),
     );
-  }
+  } */
 }
 
 class StatistikenFab extends StatelessWidget {
@@ -81,7 +77,7 @@ class StatistikenFab extends StatelessWidget {
 }
 
 enum _bier { klein, gross }
-const _biggerFont = TextStyle(fontSize: 18.0);
+// const _biggerFont = TextStyle(fontSize: 18.0);
 
 class StatistikenAlert extends StatefulWidget {
   const StatistikenAlert({Key? key}) : super(key: key);
@@ -139,16 +135,32 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
             switch (_character) {
               case _bier.klein:
                 for (var i = 0; i < _menge; i++) {
-                  // SQLiteDbProvider.db.insertKonsum(0.33);
-                  await DatabaseService(uid: 'Leptopoda')
-                      .updateUserData(date, 0.33);
+                  if (AuthService().getCurrentUid() == null) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SomethingWentWrong(
+                                  error: 'Melde dich erstmal an du Affe',
+                                )));
+                  } else {
+                    await DatabaseService(uid: AuthService().getCurrentUid()!)
+                        .updateUserData(date, 0.33);
+                  }
                 }
                 break;
               case _bier.gross:
                 for (var i = 0; i < _menge; i++) {
-                  // SQLiteDbProvider.db.insertKonsum(0.5);
-                  await DatabaseService(uid: 'Leptopoda')
-                      .updateUserData(date, 0.50);
+                  if (AuthService().getCurrentUid() == null) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SomethingWentWrong(
+                                  error: 'Melde dich erstmal an du Affe',
+                                )));
+                  } else {
+                    await DatabaseService(uid: AuthService().getCurrentUid()!)
+                        .updateUserData(date, 0.5);
+                  }
                 }
                 break;
               default:

@@ -2,22 +2,31 @@
 // Use of this source code is governed by a APACHE-style license that can be
 // found in the LICENSE file.
 
+// import 'package:bierverkostung/models/users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // create user obj based on firebase user
-  /* User _userFromFirebaseUser(User user) {
-    return user != null ? User(uid: user.uid) : null;
+  /* User? _userFromFirebaseUser(User user) {
+    // return user != null ? User(uid: user.uid) : null;
+    return User(uid: user.uid);
   } */
 
   // auth change user stream
   /* Stream<User> get user {
-    return _auth.onAuthStateChanged
-        .map(_userFromFirebaseUser);
+    return _auth.currentUser.uid
     //.map((FirebaseUser user) => _userFromFirebaseUser(user));
   } */
+
+  String? getCurrentUid() {
+    if (_auth.currentUser == null){
+      return null;
+    } else {
+      return _auth.currentUser!.uid;
+    }
+  }
 
   // sign in anon
   Future registerAnon() async {
