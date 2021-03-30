@@ -36,28 +36,32 @@ class _StatistikenState extends State<Statistiken> {
             return const Center(child: CircularProgressIndicator());
           } else {
             return ListView(
-              children: snapshot.data!.docs.map((doc) {
-                return Card(
-                  child: ListTile(
-                    title: Text(doc.data().toString()),
-                  ),
+              padding: const EdgeInsets.all(16.0),
+              children: List.generate(snapshot.data!.docs.length * 2, (i) {
+                if (i.isOdd) return const Divider();
+
+                final index = i ~/ 2;
+                return ListTile(
+                  // leading: const Icon(Icons.message),
+                  title: Text(
+                      snapshot.data!.docs.asMap()[index]!.data().toString(),
+                      style: const TextStyle(fontSize: 18)),
+                  // trailing: const Icon(Icons.keyboard_arrow_right),
+                  /* onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => _spielePages[index]),
+                    );
+                  }, */
                 );
-              }).toList(),
+              }),
             );
           }
         },
       );
     }
   }
-
-  /* Widget _buildRow(String consum) {
-    return ListTile(
-      title: Text(
-        consum,
-        style: _biggerFont,
-      ),
-    );
-  } */
 }
 
 class StatistikenFab extends StatelessWidget {
@@ -130,46 +134,37 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
         ),
         TextButton(
           onPressed: () async {
-            final DateTime date = DateTime.now();
-            switch (_character) {
-              case _bier.klein:
-                for (var i = 0; i < _menge; i++) {
-                  if (AuthService().getCurrentUid() == null) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SomethingWentWrong(
-                                  error: 'Melde dich erstmal an du Affe',
-                                )));
-                  } else {
-                    await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .updateUserData(date, 0.33);
-                  }
-                }
-                break;
-              case _bier.gross:
-                for (var i = 0; i < _menge; i++) {
-                  if (AuthService().getCurrentUid() == null) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SomethingWentWrong(
-                                  error: 'Melde dich erstmal an du Affe',
-                                )));
-                  } else {
-                    await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .updateUserData(date, 0.5);
-                  }
-                }
-                break;
-              default:
-                Navigator.push(
+            if (AuthService().getCurrentUid() == null) {
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const SomethingWentWrong(
-                            error: 'invalid response',
-                          )),
-                );
+                            error: 'Melde dich erstmal an du Affe',
+                          )));
+            } else {
+              final DateTime date = DateTime.now();
+              switch (_character) {
+                case _bier.klein:
+                  for (var i = 0; i < _menge; i++) {
+                    await DatabaseService(uid: AuthService().getCurrentUid()!)
+                        .updateUserData(date, 0.33);
+                  }
+                  break;
+                case _bier.gross:
+                  for (var i = 0; i < _menge; i++) {
+                    await DatabaseService(uid: AuthService().getCurrentUid()!)
+                        .updateUserData(date, 0.5);
+                  }
+                  break;
+                default:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SomethingWentWrong(
+                              error: 'invalid response',
+                            )),
+                  );
+              }
             }
             Navigator.of(context).pop();
           },

@@ -28,7 +28,7 @@ class AuthService {
     }
   }
 
-  // sign in anon
+  // register in anon
   Future registerAnon() async {
     try {
       final result = await _auth.signInAnonymously();
