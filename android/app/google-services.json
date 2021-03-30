@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "66227538668",
+    "project_id": "bierverkostung-a585f",
+    "storage_bucket": "bierverkostung-a585f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66227538668:android:cf787dfc8f6544043c73c9",
+        "android_client_info": {
+          "package_name": "de.leptopoda.bierverkostung"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66227538668-aikid3rk4r8jdoa0qh9uddhslk9u9n1i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTI7cUaRzp5qI15zNO84wDlVTGHgt2PNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66227538668-aikid3rk4r8jdoa0qh9uddhslk9u9n1i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
