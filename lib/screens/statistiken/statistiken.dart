@@ -44,6 +44,7 @@ class _StatistikenState extends State<Statistiken> {
                 return ListTile(
                   // leading: const Icon(Icons.message),
                   title: Text(
+                    // TODO: do not unconditionally acess data
                       snapshot.data!.docs.asMap()[index]!.data().toString(),
                       style: const TextStyle(fontSize: 18)),
                   // trailing: const Icon(Icons.keyboard_arrow_right),
@@ -147,13 +148,13 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
                 case _bier.klein:
                   for (var i = 0; i < _menge; i++) {
                     await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .updateUserData(date, 0.33);
+                        .saveStat(date, 0.33);
                   }
                   break;
                 case _bier.gross:
                   for (var i = 0; i < _menge; i++) {
                     await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .updateUserData(date, 0.5);
+                        .saveStat(date, 0.5);
                   }
                   break;
                 default:
