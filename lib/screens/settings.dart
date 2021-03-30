@@ -27,6 +27,7 @@ class _SettingsState extends State<Settings> {
       body: Center(
         child: Column(
           children: [
+            const SizedBox(height: 35),
             ElevatedButton(
               onPressed: () async {
                 final dynamic result = await _auth.registerAnon();
@@ -45,6 +46,7 @@ class _SettingsState extends State<Settings> {
               },
               child: const Text('Register Anonymously'),
             ),
+            const SizedBox(height: 35),
             ElevatedButton(
               onPressed: () => showDialog(
                 context: context,
@@ -52,6 +54,11 @@ class _SettingsState extends State<Settings> {
               ),
               child: const Text('Neue ID'),
             ),
+            const SizedBox(height: 35),
+            const AddBierverkostung(
+                fullName: 'Nikolas Rimikis',
+                company: 'Leptopoda Inc.',
+                age: 18),
           ],
         ),
       ),
@@ -81,8 +88,6 @@ class NewIDAlert extends StatelessWidget {
           },
           child: const Text('Weiter'),
         ),
-        const AddBierverkostung(
-            fullName: 'Nikolas Rimikis', company: 'Leptopoda Inc.', age: 18),
       ],
     );
   }
