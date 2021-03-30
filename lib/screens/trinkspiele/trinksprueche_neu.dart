@@ -3,9 +3,11 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/trinkspiele/trinksprueche/trinksprueche.dart';
+import 'package:bierverkostung/shared/trinksprueche.dart';
 
 class TrinkspruecheNeu extends StatelessWidget {
+  const TrinkspruecheNeu({Key? key}) : super(key: key);
+
   // Source: https://wein-verstehen.de/111-lustige-trinksprueche-die-dich-zum-lachen-bringen/
   static final List<String> _sprueche = [
     "Lieber saufen bis zum abwinken, als winken bis zum Absaufen!",

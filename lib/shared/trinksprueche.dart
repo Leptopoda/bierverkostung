@@ -2,13 +2,13 @@
 // Use of this source code is governed by a APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:flutter/material.dart';
 
 class Trinksprueche extends StatefulWidget {
   final List<String> sprueche;
 
-  Trinksprueche({required this.sprueche});
+  const Trinksprueche({Key? key, required this.sprueche}) : super(key: key);
 
   @override
   State<Trinksprueche> createState() => _TrinkspruecheState();
@@ -41,7 +41,11 @@ class _TrinkspruecheState extends State<Trinksprueche> {
 
   @protected
   @mustCallSuper
-  void initState() => randomIndex();
+  @override
+  void initState() {
+    super.initState();
+    randomIndex();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,28 +57,28 @@ class _TrinkspruecheState extends State<Trinksprueche> {
         // padding: const EdgeInsets.all(20.0),
         children: [
           Container(
-            margin: EdgeInsets.all(30.0),
+            margin: const EdgeInsets.all(30.0),
             // constraints: BoxConstraints(minHeight: 100),
             child: Center(
               child: Text(widget.sprueche[_index - 1],
-                  style: TextStyle(fontSize: 18)),
+                  style: const TextStyle(fontSize: 18)),
             ),
           ),
           const SizedBox(height: 30),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             ElevatedButton(
-              child: const Text('Zurück'),
               onPressed: () => lastIndex(),
+              child: const Text('Zurück'),
             ),
             const SizedBox(width: 16),
             ElevatedButton(
-              child: const Text('Weiter'),
               onPressed: () => nextIndex(),
+              child: const Text('Weiter'),
             ),
           ]),
           const SizedBox(height: 16),
-          Center(
-            child: const Text('Bestimmte Zahl?'),
+          const Center(
+            child: Text('Bestimmte Zahl?'),
           ),
           const SizedBox(height: 16),
           Slider(
@@ -86,15 +90,15 @@ class _TrinkspruecheState extends State<Trinksprueche> {
             label: "$_index",
           ),
           const SizedBox(height: 16),
-          Center(
-            child: const Text('Zufällige Zahl?'),
+          const Center(
+            child: Text('Zufällige Zahl?'),
           ),
           const SizedBox(height: 16),
           Container(
-            margin: EdgeInsets.all(30.0),
+            margin: const EdgeInsets.all(30.0),
             child: ElevatedButton(
-              child: const Text('Random'),
               onPressed: () => randomIndex(),
+              child: const Text('Random'),
             ),
           ),
         ],
