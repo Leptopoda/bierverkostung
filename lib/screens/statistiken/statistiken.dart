@@ -20,82 +20,45 @@ class Statistiken extends StatefulWidget {
 class _StatistikenState extends State<Statistiken> {
   @override
   Widget build(BuildContext context) {
-    /* if (AuthService().getCurrentUid() == null) {
-      return const Center(child: Text('Melde dich erst mal an du Affe'));
-    } else {
-      return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection(AuthService().getCurrentUid()!)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const SomethingWentWrong(
-              error: 'iSomething went wrong',
-            );
-          }
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return ListView(
-              padding: const EdgeInsets.all(16.0),
-              children: List.generate(snapshot.data!.docs.length * 2, (i) {
-                if (i.isOdd) return const Divider();
-
-                final index = i ~/ 2;
-                return ListTile(
-                  // leading: const Icon(Icons.message),
-                  title: Text(
-                      // TODO: do not unconditionally acess data
-                      snapshot.data!.docs.asMap()[index]!.data().toString(),
-                      style: const TextStyle(fontSize: 18)),
-                  // trailing: const Icon(Icons.keyboard_arrow_right),
-                  /* onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => _spielePages[index]),
-                    );
-                  }, */
-                );
-              }),
-            );
-          }
-        },
-      );
-    } */
-
     if (AuthService().getCurrentUid() == null) {
       return const Center(child: Text('Melde dich erst mal an du Affe'));
-    } else {
-      return StreamBuilder<List<Stat>>(
-        stream: DatabaseService(uid: AuthService().getCurrentUid()!).stats,
-        builder: (context, stat) {
-          return ListView(
-            padding: const EdgeInsets.all(16.0),
-            children: List.generate(stat.data!.length * 2, (i) {
-              if (i.isOdd) return const Divider();
+    }
+    return StreamBuilder<List<Stat>>(
+      stream: DatabaseService(uid: AuthService().getCurrentUid()!).stats,
+      builder: (context, stat) {
+        if (stat.hasError) {
+          return const SomethingWentWrong(
+            error: 'iSomething went wrong',
+          );
+        }
+        if (!stat.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: List.generate(stat.data!.length * 2, (i) {
+            if (i.isOdd) return const Divider();
 
-              final index = i ~/ 2;
-              return ListTile(
-                // leading: const Icon(Icons.message),
-                title: Text(
-                    // TODO: do not unconditionally acess data
-                    'Menge: ${stat.data!.asMap()[index]!.menge.toString()} Datum: ${stat.data!.asMap()[index]!.timestamp.toString()}',
-                    style: const TextStyle(fontSize: 18)),
-                // trailing: const Icon(Icons.keyboard_arrow_right),
-                /* onTap: () {
+            final index = i ~/ 2;
+            return ListTile(
+              // leading: const Icon(Icons.message),
+              title: Text(
+                  // TODO: do not unconditionally acess data
+                  'Menge: ${stat.data!.asMap()[index]!.menge.toString()} Datum: ${stat.data!.asMap()[index]!.timestamp.toString()}',
+                  style: const TextStyle(fontSize: 18)),
+              // trailing: const Icon(Icons.keyboard_arrow_right),
+              /* onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => _spielePages[index]),
                     );
                   }, */
-              );
-            }),
-          );
-        },
-      );
-    }
+            );
+          }),
+        );
+      },
+    );
   }
 }
 
