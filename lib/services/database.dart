@@ -24,7 +24,6 @@ class DatabaseService {
   // brew list from snapshot
   List<Stat> _statListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      // TODO: propperly null check values
       return Stat(
           menge: double.parse(doc.get('amount').toString()),
           timestamp: DateTime.parse(doc.get('date').toDate().toString()));

@@ -43,8 +43,7 @@ class _StatistikenState extends State<Statistiken> {
             return ListTile(
               // leading: const Icon(Icons.message),
               title: Text(
-                  // TODO: do not unconditionally acess data
-                  'Menge: ${stat.data!.asMap()[index]!.menge.toString()} Datum: ${stat.data!.asMap()[index]!.timestamp.toString()}',
+                  'Menge: ${stat.data![index].menge.toString()} Datum: ${stat.data![index].timestamp.toString()}',
                   style: const TextStyle(fontSize: 18)),
               // trailing: const Icon(Icons.keyboard_arrow_right),
               /* onTap: () {
