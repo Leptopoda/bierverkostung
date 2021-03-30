@@ -46,6 +46,29 @@
       });
     }
   </script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+
+  <script>
+   // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAAN82DwdO5v3x7TBgemToctFTd_s13Irc",
+    authDomain: "bierverkostung-a585f.firebaseapp.com",
+    projectId: "bierverkostung-a585f",
+    storageBucket: "bierverkostung-a585f.appspot.com",
+    messagingSenderId: "66227538668",
+    appId: "1:66227538668:web:e00b056f002db5c33c73c9"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  </script>
+
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
