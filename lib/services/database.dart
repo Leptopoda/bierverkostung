@@ -14,7 +14,7 @@ class DatabaseService {
   // final CollectionReference userCollection = FirebaseFirestore.instance.collection('uuid');
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<void> updateUserData(DateTime date, double amount) async {
+  Future<void> saveStat(DateTime date, double amount) async {
     firestore.collection(uid).add({
       'date': date,
       'amount': amount,
@@ -24,10 +24,9 @@ class DatabaseService {
   // brew list from snapshot
   List<Stat> _statListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      //print(doc.data);
-      // return Stat(menge: doc.data['amount'] ?? 0.0, timestamp: doc.data['date'] ?? '');
-      print(doc.data());
-      return Stat(menge: 0.0, timestamp: DateTime.now());
+      return Stat(
+          menge: double.parse(doc.get('amount').toString()),
+          timestamp: DateTime.parse(doc.get('date').toDate().toString()));
     }).toList();
   }
 
@@ -42,7 +41,10 @@ class DatabaseService {
 
   // get brews stream
   Stream<List<Stat>> get stats {
+    // final String uid = AuthService().getCurrentUid()!;
     return firestore.collection(uid).snapshots().map(_statListFromSnapshot);
+
+    // snapshot.data!.docs.asMap()[index]!.data().toString()
   }
 
   // get user doc stream

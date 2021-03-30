@@ -3,11 +3,12 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/shared/error_page.dart';
+import 'package:bierverkostung/models/stats.dart';
 
 class Statistiken extends StatefulWidget {
   const Statistiken({Key? key}) : super(key: key);
@@ -20,44 +21,44 @@ class _StatistikenState extends State<Statistiken> {
   @override
   Widget build(BuildContext context) {
     if (AuthService().getCurrentUid() == null) {
-      return const Text('Melde dich erst mal an du Affe');
-    } else {
-      return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection(AuthService().getCurrentUid()!)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const SomethingWentWrong(
-              error: 'iSomething went wrong',
-            );
-          }
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return ListView(
-              children: snapshot.data!.docs.map((doc) {
-                return Card(
-                  child: ListTile(
-                    title: Text(doc.data().toString()),
-                  ),
-                );
-              }).toList(),
-            );
-          }
-        },
-      );
+      return const Center(child: Text('Melde dich erst mal an du Affe'));
     }
-  }
+    return StreamBuilder<List<Stat>>(
+      stream: DatabaseService(uid: AuthService().getCurrentUid()!).stats,
+      builder: (context, stat) {
+        if (stat.hasError) {
+          return const SomethingWentWrong(
+            error: 'iSomething went wrong',
+          );
+        }
+        if (!stat.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: List.generate(stat.data!.length * 2, (i) {
+            if (i.isOdd) return const Divider();
 
-  /* Widget _buildRow(String consum) {
-    return ListTile(
-      title: Text(
-        consum,
-        style: _biggerFont,
-      ),
+            final index = i ~/ 2;
+            return ListTile(
+              // leading: const Icon(Icons.message),
+              title: Text(
+                  'Menge: ${stat.data![index].menge.toString()} Datum: ${stat.data![index].timestamp.toString()}',
+                  style: const TextStyle(fontSize: 18)),
+              // trailing: const Icon(Icons.keyboard_arrow_right),
+              /* onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => _spielePages[index]),
+                    );
+                  }, */
+            );
+          }),
+        );
+      },
     );
-  } */
+  }
 }
 
 class StatistikenFab extends StatelessWidget {
@@ -130,46 +131,37 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
         ),
         TextButton(
           onPressed: () async {
-            final DateTime date = DateTime.now();
-            switch (_character) {
-              case _bier.klein:
-                for (var i = 0; i < _menge; i++) {
-                  if (AuthService().getCurrentUid() == null) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SomethingWentWrong(
-                                  error: 'Melde dich erstmal an du Affe',
-                                )));
-                  } else {
-                    await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .updateUserData(date, 0.33);
-                  }
-                }
-                break;
-              case _bier.gross:
-                for (var i = 0; i < _menge; i++) {
-                  if (AuthService().getCurrentUid() == null) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SomethingWentWrong(
-                                  error: 'Melde dich erstmal an du Affe',
-                                )));
-                  } else {
-                    await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .updateUserData(date, 0.5);
-                  }
-                }
-                break;
-              default:
-                Navigator.push(
+            if (AuthService().getCurrentUid() == null) {
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const SomethingWentWrong(
-                            error: 'invalid response',
-                          )),
-                );
+                            error: 'Melde dich erstmal an du Affe',
+                          )));
+            } else {
+              final DateTime date = DateTime.now();
+              switch (_character) {
+                case _bier.klein:
+                  for (var i = 0; i < _menge; i++) {
+                    await DatabaseService(uid: AuthService().getCurrentUid()!)
+                        .saveStat(date, 0.33);
+                  }
+                  break;
+                case _bier.gross:
+                  for (var i = 0; i < _menge; i++) {
+                    await DatabaseService(uid: AuthService().getCurrentUid()!)
+                        .saveStat(date, 0.5);
+                  }
+                  break;
+                default:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SomethingWentWrong(
+                              error: 'invalid response',
+                            )),
+                  );
+              }
             }
             Navigator.of(context).pop();
           },
