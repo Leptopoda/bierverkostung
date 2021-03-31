@@ -24,7 +24,7 @@ class BierverkostungFab extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () => showDialog(
         context: context,
-        builder: (_) => const BierverkostungAlert(),
+        builder: (BuildContext context) => const BierverkostungAlert(),
       ),
       child: const Icon(Icons.add),
     );

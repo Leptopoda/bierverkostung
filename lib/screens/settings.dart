@@ -50,7 +50,7 @@ class _SettingsState extends State<Settings> {
             ElevatedButton(
               onPressed: () => showDialog(
                 context: context,
-                builder: (_) => const NewIDAlert(),
+                builder: (BuildContext context) => const NewIDAlert(),
               ),
               child: const Text('Neue ID'),
             ),
