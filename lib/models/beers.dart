@@ -18,16 +18,17 @@ class Beer {
   final String? specifics;
   final String? beerNotes;
 
-  Beer(
-      {required this.beerName,
-      this.brewery,
-      this.style,
-      this.originalWort,
-      this.alcohol,
-      this.ibu,
-      this.ingredients,
-      this.specifics,
-      this.beerNotes});
+  Beer({
+    required this.beerName,
+    this.brewery,
+    this.style,
+    this.originalWort,
+    this.alcohol,
+    this.ibu,
+    this.ingredients,
+    this.specifics,
+    this.beerNotes,
+  });
 }
 
 // CREATE TABLE beers (_id TEXT PRIMARY KEY, _revision INTEGER, beer_name TEXT NOT NULL, brewery_id TEXT, style_id TEXT, original_wort TEXT, alcohol TEXT, ibu INTEGER, ingredients TEXT, specifics TEXT, beer_notes TEXT, FOREIGN KEY (style_id) REFERENCES beer_styles(_id), FOREIGN KEY (brewery_id) REFERENCES breweries(_id))

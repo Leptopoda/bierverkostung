@@ -7,10 +7,13 @@ import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
 
 class Trinkspiele extends StatelessWidget {
-  static const _spiele = ['Alte Trinksprüche', 'Neue Trinksprüche'];
+  static const _spiele = [
+    'Alte Trinksprüche',
+    'Neue Trinksprüche',
+  ];
   static final _spielePages = [
     const TrinkspruecheAlt(),
-    const TrinkspruecheNeu()
+    const TrinkspruecheNeu(),
   ];
 
   const Trinkspiele({Key? key}) : super(key: key);
@@ -24,12 +27,16 @@ class Trinkspiele extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
           leading: const Icon(Icons.message),
-          title: Text(_spiele[index], style: const TextStyle(fontSize: 18)),
+          title: Text(
+            _spiele[index],
+            style: const TextStyle(fontSize: 18),
+          ),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => _spielePages[index]),
+              builder: (BuildContext context) => _spielePages[index],
+            ),
           ),
         );
       },

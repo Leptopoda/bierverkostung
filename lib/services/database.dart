@@ -20,38 +20,46 @@ class DatabaseService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> saveStat(Stat stat) async {
-    firestore.collection('u-$uid').add({
-      'date': stat.timestamp,
-      'amount': stat.menge,
-    });
+    firestore.collection('u-$uid').add(
+      {
+        'date': stat.timestamp,
+        'amount': stat.menge,
+      },
+    );
   }
 
   Future<void> saveTasting(Tasting tasting) async {
-    firestore.collection('groups').doc(uid).collection('tastings').add({
-      'beer': tasting.beer.beerName,
-      'date': tasting.date,
-    });
+    firestore.collection('groups').doc(uid).collection('tastings').add(
+      {
+        'beer': tasting.beer.beerName,
+        'date': tasting.date,
+      },
+    );
   }
 
   // stat list from snapshot
   List<Stat> _statListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      return Stat(
-        menge: double.parse(doc.get('amount').toString()),
-        timestamp: DateTime.parse(doc.get('date').toDate().toString()),
-      );
-    }).toList();
+    return snapshot.docs
+        .map(
+          (doc) => Stat(
+            menge: double.parse(doc.get('amount').toString()),
+            timestamp: DateTime.parse(doc.get('date').toDate().toString()),
+          ),
+        )
+        .toList();
   }
 
   // tasting list from snapshots
   List<Tasting> _tastingListFromSnapshot(QuerySnapshot snapshot) {
     final Beer bier1 = Beer(beerName: 'Paulaner');
-    return snapshot.docs.map((doc) {
-      return Tasting(
-        date: DateTime.parse(doc.get('date').toDate().toString()),
-        beer: bier1,
-      );
-    }).toList();
+    return snapshot.docs
+        .map(
+          (doc) => Tasting(
+            date: DateTime.parse(doc.get('date').toDate().toString()),
+            beer: bier1,
+          ),
+        )
+        .toList();
   }
 
   // get stat stream

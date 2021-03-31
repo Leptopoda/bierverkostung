@@ -34,14 +34,18 @@ class _SettingsState extends State<Settings> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const SomethingWentWrong(
-                              error: 'error signing in',
-                            )),
+                      builder: (BuildContext context) =>
+                          const SomethingWentWrong(
+                        error: 'error signing in',
+                      ),
+                    ),
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('signed in $result')));
+                    SnackBar(
+                      content: Text('signed in $result'),
+                    ),
+                  );
                 }
               },
               child: const Text('Register Anonymously'),
@@ -77,8 +81,11 @@ class NewIDAlert extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('R:I:P')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('R:I:P'),
+              ),
+            );
             Navigator.of(context).pop();
           },
           child: const Text('Weiter'),

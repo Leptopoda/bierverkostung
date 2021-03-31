@@ -12,5 +12,8 @@ class UserData {
   final String uid;
   final String group;
 
-  UserData({required this.uid, required this.group});
+  UserData({
+    required this.uid,
+    required this.group,
+  });
 }

@@ -15,10 +15,14 @@ class Statistiken extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (AuthService().getCurrentUid() == null) {
-      return const Center(child: Text('Melde dich erst mal an du Affe'));
+      return const Center(
+        child: Text('Melde dich erst mal an du Affe'),
+      );
     }
     return StreamBuilder<List<Stat>>(
-      stream: DatabaseService(uid: AuthService().getCurrentUid()!).stats,
+      stream: DatabaseService(
+        uid: AuthService().getCurrentUid()!,
+      ).stats,
       builder: (BuildContext context, AsyncSnapshot<List<Stat>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
@@ -28,25 +32,30 @@ class Statistiken extends StatelessWidget {
 
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           default:
             if (!snapshot.hasData) {
               return const Center(
-                  child: Text('noch keine Verkostungen vorhanden'));
+                child: Text('noch keine Verkostungen vorhanden'),
+              );
             }
 
             return ListView.separated(
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(),
-                padding: const EdgeInsets.all(16.0),
-                itemCount: snapshot.data!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(
-                        'Menge: ${snapshot.data![index].menge.toString()} Datum: ${snapshot.data![index].timestamp.toString()}',
-                        style: const TextStyle(fontSize: 18)),
-                  );
-                });
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+              padding: const EdgeInsets.all(16.0),
+              itemCount: snapshot.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(
+                    'Menge: ${snapshot.data![index].menge.toString()} Datum: ${snapshot.data![index].timestamp.toString()}',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                );
+              },
+            );
         }
       },
     );
@@ -122,35 +131,43 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
           onPressed: () async {
             if (AuthService().getCurrentUid() == null) {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const SomethingWentWrong(
-                            error: 'Melde dich erstmal an du Affe',
-                          )));
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const SomethingWentWrong(
+                    error: 'Melde dich erstmal an du Affe',
+                  ),
+                ),
+              );
             } else {
               final DateTime date = DateTime.now();
               switch (_character) {
                 case _bier.klein:
                   for (var i = 0; i < _menge; i++) {
-                    await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .saveStat(Stat(menge: 0.33, timestamp: date));
+                    await DatabaseService(
+                      uid: AuthService().getCurrentUid()!,
+                    ).saveStat(
+                      Stat(menge: 0.33, timestamp: date),
+                    );
                   }
                   break;
                 case _bier.gross:
                   for (var i = 0; i < _menge; i++) {
-                    await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .saveStat(Stat(menge: 0.5, timestamp: date));
+                    await DatabaseService(
+                      uid: AuthService().getCurrentUid()!,
+                    ).saveStat(
+                      Stat(menge: 0.5, timestamp: date),
+                    );
                   }
                   break;
                 default:
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const SomethingWentWrong(
-                              error: 'invalid response',
-                            )),
+                      builder: (BuildContext context) =>
+                          const SomethingWentWrong(
+                        error: 'invalid response',
+                      ),
+                    ),
                   );
               }
             }

@@ -39,7 +39,9 @@ class MyApp extends StatelessWidget {
           builder: (context, snapshot) {
             // Check for errors
             if (snapshot.hasError) {
-              return SomethingWentWrong(error: snapshot.error.toString());
+              return SomethingWentWrong(
+                error: snapshot.error.toString(),
+              );
             }
             // Once complete, show your application
             if (snapshot.connectionState == ConnectionState.done) {
