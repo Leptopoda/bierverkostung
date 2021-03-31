@@ -24,43 +24,43 @@ class _StatistikenState extends State<Statistiken> {
     }
     return StreamBuilder<List<Stat>>(
       stream: DatabaseService(uid: AuthService().getCurrentUid()!).stats,
-      builder: (context, stat) {
-        if (stat.hasError) {
+      builder: (BuildContext context, AsyncSnapshot<List<Stat>> snapshot) {
+        if (snapshot.hasError) {
           return SomethingWentWrong(
-            error: '${stat.error}',
+            error: '${snapshot.error}',
           );
         }
 
-        switch (stat.connectionState) {
+        switch (snapshot.connectionState) {
           case ConnectionState.waiting:
             return const Center(child: CircularProgressIndicator());
           default:
-            if (!stat.hasData) {
+            if (!snapshot.hasData) {
               return const Center(
-                  child: Text('noch keine verkostungen vorhanden'));
+                  child: Text('noch keine Verkostungen vorhanden'));
             }
-            return ListView(
-              padding: const EdgeInsets.all(16.0),
-              children: List.generate(stat.data!.length * 2, (i) {
-                if (i.isOdd) return const Divider();
 
-                final index = i ~/ 2;
-                return ListTile(
-                  // leading: const Icon(Icons.message),
-                  title: Text(
-                      'Menge: ${stat.data![index].menge.toString()} Datum: ${stat.data![index].timestamp.toString()}',
-                      style: const TextStyle(fontSize: 18)),
-                  // trailing: const Icon(Icons.keyboard_arrow_right),
-                  /* onTap: () {
+            return ListView.separated(
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
+                padding: const EdgeInsets.all(16.0),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    // leading: const Icon(Icons.message),
+                    title: Text(
+                        'Menge: ${snapshot.data![index].menge.toString()} Datum: ${snapshot.data![index].timestamp.toString()}',
+                        style: const TextStyle(fontSize: 18)),
+                    // trailing: const Icon(Icons.keyboard_arrow_right),
+                    /* onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => _spielePages[index]),
                     );
                   }, */
-                );
-              }),
-            );
+                  );
+                });
         }
       },
     );
@@ -141,7 +141,8 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const SomethingWentWrong(
+                      builder: (BuildContext context) =>
+                          const SomethingWentWrong(
                             error: 'Melde dich erstmal an du Affe',
                           )));
             } else {
@@ -163,7 +164,8 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SomethingWentWrong(
+                        builder: (BuildContext context) =>
+                            const SomethingWentWrong(
                               error: 'invalid response',
                             )),
                   );

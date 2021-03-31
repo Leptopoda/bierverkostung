@@ -17,24 +17,22 @@ class Trinkspiele extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ListView.separated(
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
       padding: const EdgeInsets.all(16.0),
-      children: List.generate(_spiele.length * 2, (i) {
-        if (i.isOdd) return const Divider();
-
-        final index = i ~/ 2;
+      itemCount: _spiele.length,
+      itemBuilder: (BuildContext context, int index) {
         return ListTile(
           leading: const Icon(Icons.message),
           title: Text(_spiele[index], style: const TextStyle(fontSize: 18)),
           trailing: const Icon(Icons.keyboard_arrow_right),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => _spielePages[index]),
-            );
-          },
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => _spielePages[index]),
+          ),
         );
-      }),
+      },
     );
   }
 }
