@@ -53,13 +53,11 @@ class MyHomeState extends State<MyHome> {
           title: Text(_pageTitles[_selectedPage]),
           actions: <Widget>[
             IconButton(
-              icon: const Icon(Icons.settings),
-              tooltip: 'Show Snackbar',
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const Settings(),
-                ),
+              icon: const Icon(Icons.person),
+              tooltip: 'Log Out',
+              onPressed: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => const LogOutAlert(),
               ),
             ),
             /* IconButton(

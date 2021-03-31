@@ -20,9 +20,6 @@ class Settings extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            const SizedBox(height: 35),
-            Text('You are currently logged in as ${_auth.getCurrentUid()}'),
-            const SizedBox(height: 35),
             ElevatedButton(
               onPressed: () async {
                 await _auth.signOut();
@@ -39,7 +36,7 @@ class Settings extends StatelessWidget {
             ElevatedButton(
               onPressed: () => showDialog(
                 context: context,
-                builder: (BuildContext context) => const NewIDAlert(),
+                builder: (BuildContext context) => const LogOutAlert(),
               ),
               child: const Text('Neue ID'),
             ),
@@ -50,25 +47,28 @@ class Settings extends StatelessWidget {
   }
 }
 
-class NewIDAlert extends StatelessWidget {
-  const NewIDAlert({Key? key}) : super(key: key);
+class LogOutAlert extends StatelessWidget {
+  const LogOutAlert({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final AuthService _auth = AuthService();
+
     return AlertDialog(
       title: const Text('Achtung!!'),
       content: const Text(
-          'Folgendes wird eine Neue Nutzer ID anfragen. Jegliche Zugehörigkeit einer Grupper, oder gespeicherten Statistiken gehen dardurch verloren'),
+          'Durch fortfahren wird der aktuelle benutzer abgemeldet. Wenn der aktuelle nutzer Annonym ist geht dardurch auch der zugriff auf die Datenj verloren'),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Abbruch'),
         ),
         TextButton(
-          onPressed: () {
+          onPressed: () async {
+            await _auth.signOut();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('R:I:P'),
+                content: Text('loged out '),
               ),
             );
             Navigator.of(context).pop();
