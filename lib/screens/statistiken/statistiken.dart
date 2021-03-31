@@ -75,7 +75,7 @@ class StatistikenFab extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () => showDialog(
         context: context,
-        builder: (_) => const StatistikenAlert(),
+        builder: (BuildContext context) => const StatistikenAlert(),
       ),
       child: const Icon(Icons.add),
     );
@@ -107,15 +107,12 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
               title: const Text('Klein (0.3)'),
               value: _bier.klein,
               groupValue: _character,
-              //TODO: use tehme
-              activeColor: Colors.yellow,
               onChanged: (_bier? value) => setState(() => _character = value),
             ),
             RadioListTile<_bier>(
               title: const Text('Groß (0.5)'),
               value: _bier.gross,
               groupValue: _character,
-              activeColor: Colors.yellow,
               onChanged: (_bier? value) => setState(() => _character = value),
             ),
             Slider(
