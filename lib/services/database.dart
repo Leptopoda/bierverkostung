@@ -17,10 +17,10 @@ class DatabaseService {
 
   // collection reference
   // final CollectionReference userCollection = FirebaseFirestore.instance.collection('uuid');
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> saveStat(Stat stat) async {
-    firestore.collection('u-$uid').add(
+    _firestore.collection('u-$uid').add(
       {
         'date': stat.timestamp,
         'amount': stat.menge,
@@ -29,7 +29,7 @@ class DatabaseService {
   }
 
   Future<void> saveTasting(Tasting tasting) async {
-    firestore.collection('groups').doc(uid).collection('tastings').add(
+    _firestore.collection('groups').doc(uid).collection('tastings').add(
       {
         'beer': tasting.beer.beerName,
         'date': tasting.date,
@@ -37,46 +37,23 @@ class DatabaseService {
     );
   }
 
-  // stat list from snapshot
-  List<Stat> _statListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs
-        .map(
-          (doc) => Stat(
-            menge: double.parse(doc.get('amount').toString()),
-            timestamp: DateTime.parse(doc.get('date').toDate().toString()),
-          ),
-        )
-        .toList();
-  }
-
   // tasting list from snapshots
-  List<Tasting> _tastingListFromSnapshot(QuerySnapshot snapshot) {
-    final Beer bier1 = Beer(beerName: 'Paulaner');
-    return snapshot.docs
-        .map(
-          (doc) => Tasting(
-            date: DateTime.parse(doc.get('date').toDate().toString()),
-            beer: bier1,
-          ),
-        )
-        .toList();
-  }
 
   // get stat stream
   Stream<List<Stat>> get stats {
-    return firestore
+    return _firestore
         .collection('u-$uid')
         .snapshots()
-        .map(_statListFromSnapshot);
+        .map((list) => list.docs.map((doc) => Stat.fromMap(doc)).toList());
   }
 
   // get user doc stream
   Stream<List<Tasting>> get tastings {
-    return firestore
+    return _firestore
         .collection('groups')
         .doc(uid)
         .collection('tastings')
         .snapshots()
-        .map(_tastingListFromSnapshot);
+        .map((list) => list.docs.map((doc) => Tasting.fromMap(doc)).toList());
   }
 }

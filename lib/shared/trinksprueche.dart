@@ -2,7 +2,7 @@
 // Use of this source code is governed by a APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:math';
+import 'dart:math' show Random;
 import 'package:flutter/material.dart';
 
 class Trinksprueche extends StatefulWidget {
