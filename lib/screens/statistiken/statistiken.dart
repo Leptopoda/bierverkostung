@@ -9,14 +9,9 @@ import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/stats.dart';
 
-class Statistiken extends StatefulWidget {
+class Statistiken extends StatelessWidget {
   const Statistiken({Key? key}) : super(key: key);
 
-  @override
-  State<Statistiken> createState() => _StatistikenState();
-}
-
-class _StatistikenState extends State<Statistiken> {
   @override
   Widget build(BuildContext context) {
     if (AuthService().getCurrentUid() == null) {
