@@ -14,10 +14,10 @@ class DatabaseService {
   // final CollectionReference userCollection = FirebaseFirestore.instance.collection('uuid');
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<void> saveStat(DateTime date, double amount) async {
+  Future<void> saveStat(Stat stat) async {
     firestore.collection(uid).add({
-      'date': date,
-      'amount': amount,
+      'date': stat.timestamp,
+      'amount': stat.menge,
     });
   }
 

@@ -139,13 +139,13 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
                 case _bier.klein:
                   for (var i = 0; i < _menge; i++) {
                     await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .saveStat(date, 0.33);
+                        .saveStat(Stat(menge: 0.33, timestamp: date));
                   }
                   break;
                 case _bier.gross:
                   for (var i = 0; i < _menge; i++) {
                     await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .saveStat(date, 0.5);
+                        .saveStat(Stat(menge: 0.5, timestamp: date));
                   }
                   break;
                 default:
