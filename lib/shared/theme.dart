@@ -13,11 +13,13 @@ class AppTheme {
     brightness: Brightness.light,
     primarySwatch: _primarySwatch,
     accentColor: _accentColor,
+    toggleableActiveColor: _primarySwatch,
   );
 
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     primarySwatch: _primarySwatch,
     accentColor: _accentColor,
+    toggleableActiveColor: _primarySwatch,
   );
 }

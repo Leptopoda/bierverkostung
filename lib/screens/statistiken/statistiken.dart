@@ -3,59 +3,60 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/services/auth.dart';
+import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/stats.dart';
 
-class Statistiken extends StatefulWidget {
+class Statistiken extends StatelessWidget {
   const Statistiken({Key? key}) : super(key: key);
 
   @override
-  State<Statistiken> createState() => _StatistikenState();
-}
-
-class _StatistikenState extends State<Statistiken> {
-  @override
   Widget build(BuildContext context) {
     if (AuthService().getCurrentUid() == null) {
-      return const Center(child: Text('Melde dich erst mal an du Affe'));
+      return const Center(
+        child: Text('Melde dich erst mal an du Affe'),
+      );
     }
     return StreamBuilder<List<Stat>>(
-      stream: DatabaseService(uid: AuthService().getCurrentUid()!).stats,
-      builder: (context, stat) {
-        if (stat.hasError) {
-          return const SomethingWentWrong(
-            error: 'iSomething went wrong',
+      stream: DatabaseService(
+        uid: AuthService().getCurrentUid()!,
+      ).stats,
+      builder: (BuildContext context, AsyncSnapshot<List<Stat>> snapshot) {
+        if (snapshot.hasError) {
+          return SomethingWentWrong(
+            error: '${snapshot.error}',
           );
         }
-        if (!stat.hasData) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: List.generate(stat.data!.length * 2, (i) {
-            if (i.isOdd) return const Divider();
 
-            final index = i ~/ 2;
-            return ListTile(
-              // leading: const Icon(Icons.message),
-              title: Text(
-                  'Menge: ${stat.data![index].menge.toString()} Datum: ${stat.data![index].timestamp.toString()}',
-                  style: const TextStyle(fontSize: 18)),
-              // trailing: const Icon(Icons.keyboard_arrow_right),
-              /* onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => _spielePages[index]),
-                    );
-                  }, */
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }),
-        );
+          default:
+            if (!snapshot.hasData) {
+              return const Center(
+                child: Text('noch keine Verkostungen vorhanden'),
+              );
+            }
+
+            return ListView.separated(
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+              padding: const EdgeInsets.all(16.0),
+              itemCount: snapshot.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(
+                    'Menge: ${snapshot.data![index].menge.toString()} Datum: ${snapshot.data![index].timestamp.toString()}',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                );
+              },
+            );
+        }
       },
     );
   }
@@ -69,7 +70,7 @@ class StatistikenFab extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () => showDialog(
         context: context,
-        builder: (_) => const StatistikenAlert(),
+        builder: (BuildContext context) => const StatistikenAlert(),
       ),
       child: const Icon(Icons.add),
     );
@@ -101,15 +102,12 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
               title: const Text('Klein (0.3)'),
               value: _bier.klein,
               groupValue: _character,
-              //TODO: use tehme
-              activeColor: Colors.yellow,
               onChanged: (_bier? value) => setState(() => _character = value),
             ),
             RadioListTile<_bier>(
               title: const Text('Groß (0.5)'),
               value: _bier.gross,
               groupValue: _character,
-              activeColor: Colors.yellow,
               onChanged: (_bier? value) => setState(() => _character = value),
             ),
             Slider(
@@ -133,33 +131,43 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
           onPressed: () async {
             if (AuthService().getCurrentUid() == null) {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SomethingWentWrong(
-                            error: 'Melde dich erstmal an du Affe',
-                          )));
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const SomethingWentWrong(
+                    error: 'Melde dich erstmal an du Affe',
+                  ),
+                ),
+              );
             } else {
               final DateTime date = DateTime.now();
               switch (_character) {
                 case _bier.klein:
                   for (var i = 0; i < _menge; i++) {
-                    await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .saveStat(date, 0.33);
+                    await DatabaseService(
+                      uid: AuthService().getCurrentUid()!,
+                    ).saveStat(
+                      Stat(menge: 0.33, timestamp: date),
+                    );
                   }
                   break;
                 case _bier.gross:
                   for (var i = 0; i < _menge; i++) {
-                    await DatabaseService(uid: AuthService().getCurrentUid()!)
-                        .saveStat(date, 0.5);
+                    await DatabaseService(
+                      uid: AuthService().getCurrentUid()!,
+                    ).saveStat(
+                      Stat(menge: 0.5, timestamp: date),
+                    );
                   }
                   break;
                 default:
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SomethingWentWrong(
-                              error: 'invalid response',
-                            )),
+                      builder: (BuildContext context) =>
+                          const SomethingWentWrong(
+                        error: 'invalid response',
+                      ),
+                    ),
                   );
               }
             }

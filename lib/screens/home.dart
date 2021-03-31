@@ -11,6 +11,7 @@ import 'package:bierverkostung/screens/settings.dart';
 
 class MyHome extends StatefulWidget {
   const MyHome({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return MyHomeState();
@@ -24,7 +25,7 @@ class MyHomeState extends State<MyHome> {
   static final _pageOptions = [
     const Trinkspiele(),
     const Bierverkostung(),
-    const Statistiken()
+    const Statistiken(),
   ];
   static final _pageFAB = [
     null,
@@ -49,7 +50,9 @@ class MyHomeState extends State<MyHome> {
             tooltip: 'Show Snackbar',
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Settings()),
+              MaterialPageRoute(
+                builder: (BuildContext context) => const Settings(),
+              ),
             ),
           ),
           /* IconButton(
@@ -83,11 +86,17 @@ class MyHomeState extends State<MyHome> {
 
         items: [
           BottomNavigationBarItem(
-              icon: const Icon(Icons.casino), label: _pageTitles[0]),
+            icon: const Icon(Icons.casino),
+            label: _pageTitles[0],
+          ),
           BottomNavigationBarItem(
-              icon: const Icon(Icons.home), label: _pageTitles[1]),
+            icon: const Icon(Icons.home),
+            label: _pageTitles[1],
+          ),
           BottomNavigationBarItem(
-              icon: const Icon(Icons.bar_chart), label: _pageTitles[2]),
+            icon: const Icon(Icons.bar_chart),
+            label: _pageTitles[2],
+          ),
         ],
       ),
       floatingActionButton: _pageFAB[_selectedPage],

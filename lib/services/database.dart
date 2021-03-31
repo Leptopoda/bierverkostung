@@ -5,6 +5,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:bierverkostung/models/stats.dart';
+import 'package:bierverkostung/models/tastings.dart';
+import 'package:bierverkostung/models/beers.dart';
+import 'package:bierverkostung/models/beer_styles.dart';
+import 'package:bierverkostung/models/breweries.dart';
+import 'package:bierverkostung/models/countries.dart';
 
 class DatabaseService {
   final String uid;
@@ -14,41 +19,64 @@ class DatabaseService {
   // final CollectionReference userCollection = FirebaseFirestore.instance.collection('uuid');
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<void> saveStat(DateTime date, double amount) async {
-    firestore.collection(uid).add({
-      'date': date,
-      'amount': amount,
-    });
+  Future<void> saveStat(Stat stat) async {
+    firestore.collection('u-$uid').add(
+      {
+        'date': stat.timestamp,
+        'amount': stat.menge,
+      },
+    );
   }
 
-  // brew list from snapshot
+  Future<void> saveTasting(Tasting tasting) async {
+    firestore.collection('groups').doc(uid).collection('tastings').add(
+      {
+        'beer': tasting.beer.beerName,
+        'date': tasting.date,
+      },
+    );
+  }
+
+  // stat list from snapshot
   List<Stat> _statListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      return Stat(
-          menge: double.parse(doc.get('amount').toString()),
-          timestamp: DateTime.parse(doc.get('date').toDate().toString()));
-    }).toList();
+    return snapshot.docs
+        .map(
+          (doc) => Stat(
+            menge: double.parse(doc.get('amount').toString()),
+            timestamp: DateTime.parse(doc.get('date').toDate().toString()),
+          ),
+        )
+        .toList();
   }
 
-  // user data from snapshots
-  /* UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    return UserData(
-        uid: uid,
-        name: snapshot.data['name'],
-        sugars: snapshot.data['sugars'],
-        strength: snapshot.data['strength']);
-  } */
+  // tasting list from snapshots
+  List<Tasting> _tastingListFromSnapshot(QuerySnapshot snapshot) {
+    final Beer bier1 = Beer(beerName: 'Paulaner');
+    return snapshot.docs
+        .map(
+          (doc) => Tasting(
+            date: DateTime.parse(doc.get('date').toDate().toString()),
+            beer: bier1,
+          ),
+        )
+        .toList();
+  }
 
-  // get brews stream
+  // get stat stream
   Stream<List<Stat>> get stats {
-    // final String uid = AuthService().getCurrentUid()!;
-    return firestore.collection(uid).snapshots().map(_statListFromSnapshot);
-
-    // snapshot.data!.docs.asMap()[index]!.data().toString()
+    return firestore
+        .collection('u-$uid')
+        .snapshots()
+        .map(_statListFromSnapshot);
   }
 
   // get user doc stream
-  /* Stream<UserData> get userData {
-    return userCollection.document(uid).snapshots().map(_userDataFromSnapshot);
-  } */
+  Stream<List<Tasting>> get tastings {
+    return firestore
+        .collection('groups')
+        .doc(uid)
+        .collection('tastings')
+        .snapshots()
+        .map(_tastingListFromSnapshot);
+  }
 }

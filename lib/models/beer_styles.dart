@@ -7,7 +7,9 @@ class BeerStyle {
   // final int revision;
   final String beerStyleName;
 
-  BeerStyle({required this.beerStyleName});
+  BeerStyle({
+    required this.beerStyleName,
+  });
 }
 
 // CREATE TABLE beer_styles (_id TEXT PRIMARY KEY, _revision INTEGER, beer_style_name TEXT UNIQUE NOT NULL)

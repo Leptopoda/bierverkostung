@@ -11,7 +11,11 @@ class Brewery {
   final String? breweryLocation;
   final Country? country;
 
-  Brewery({required this.breweryName, this.breweryLocation, this.country});
+  Brewery({
+    required this.breweryName,
+    this.breweryLocation,
+    this.country,
+  });
 }
 
 // CREATE TABLE breweries (_id TEXT PRIMARY KEY, _revision INTEGER, brewery_name TEXT NOT NULL, brewery_location TEXT, country_id TEXT, FOREIGN KEY (country_id) REFERENCES countries(_id))

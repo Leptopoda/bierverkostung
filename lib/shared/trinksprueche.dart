@@ -60,8 +60,10 @@ class _TrinkspruecheState extends State<Trinksprueche> {
             margin: const EdgeInsets.all(30.0),
             // constraints: BoxConstraints(minHeight: 100),
             child: Center(
-              child: Text(widget.sprueche[_index - 1],
-                  style: const TextStyle(fontSize: 18)),
+              child: Text(
+                widget.sprueche[_index - 1],
+                style: const TextStyle(fontSize: 18),
+              ),
             ),
           ),
           const SizedBox(height: 30),

@@ -8,5 +8,8 @@ class Stat {
   final double menge;
   final DateTime timestamp;
 
-  Stat({required this.menge, required this.timestamp});
+  Stat({
+    required this.menge,
+    required this.timestamp,
+  });
 }
