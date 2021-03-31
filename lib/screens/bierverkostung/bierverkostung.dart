@@ -5,13 +5,59 @@
 import 'package:flutter/material.dart';
 // import 'package:floating_action_bubble/floating_action_bubble.dart'; //TODO: Use null safety
 
+import 'package:bierverkostung/services/auth.dart';
+import 'package:bierverkostung/services/database.dart';
+import 'package:bierverkostung/shared/error_page.dart';
+import 'package:bierverkostung/models/tastings.dart';
+import 'package:bierverkostung/models/beers.dart';
+
 class Bierverkostung extends StatelessWidget {
   const Bierverkostung({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Bierverkostung'),
+    if (AuthService().getCurrentUid() == null) {
+      return const Center(
+        child: Text('Melde dich erst mal an du Affe'),
+      );
+    }
+    return StreamBuilder<List<Tasting>>(
+      stream: DatabaseService(uid: AuthService().getCurrentUid()!).tastings,
+      builder: (BuildContext context, AsyncSnapshot<List<Tasting>> snapshot) {
+        if (snapshot.hasError) {
+          return SomethingWentWrong(
+            error: '${snapshot.error}',
+          );
+        }
+
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          default:
+            if (!snapshot.hasData) {
+              return const Center(
+                child: Text('noch keine Verkostungen vorhanden'),
+              );
+            }
+
+            return ListView.separated(
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+              padding: const EdgeInsets.all(16.0),
+              itemCount: snapshot.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(
+                    'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date.toString()}',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                );
+              },
+            );
+        }
+      },
     );
   }
 }
@@ -137,7 +183,31 @@ class _BierverkostungAlertState extends State<BierverkostungAlert> {
           child: const Text('Cancel'),
         ),
         TextButton(
-          onPressed: () {
+          onPressed: () async {
+            if (AuthService().getCurrentUid() == null) {
+              // TODO: probably not needed
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const SomethingWentWrong(
+                    error: 'Melde dich erstmal an du Affe',
+                  ),
+                ),
+              );
+            } else {
+              final DateTime now = DateTime.now();
+              final Beer bier1 = Beer(
+                beerName: 'Paulaner',
+              );
+              final Tasting tasting1 = Tasting(
+                date: now,
+                beer: bier1,
+              );
+
+              await DatabaseService(
+                uid: AuthService().getCurrentUid()!,
+              ).saveTasting(tasting1);
+            }
             Navigator.of(context).pop();
           },
           child: const Text('Submit'),
