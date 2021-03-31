@@ -49,7 +49,7 @@ class MyHomeState extends State<MyHome> {
             tooltip: 'Show Snackbar',
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Settings()),
+              MaterialPageRoute(builder: (BuildContext context) => const Settings()),
             ),
           ),
           /* IconButton(
