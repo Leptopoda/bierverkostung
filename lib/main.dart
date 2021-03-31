@@ -4,6 +4,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bierverkostung/shared/theme.dart';
@@ -45,7 +47,15 @@ class MyApp extends StatelessWidget {
             }
             // Once complete, show your application
             if (snapshot.connectionState == ConnectionState.done) {
-              return const MyHome();
+              return MultiProvider(
+                providers: [
+                  StreamProvider<User?>.value(
+                      value: FirebaseAuth.instance.userChanges(),
+                      initialData: null),
+                  // StreamProvider<SuperHero>.value(stream: firestoreStream),
+                ],
+                child: const MyHome(),
+              );
             }
             // Otherwise, show something whilst waiting for initialization to complete
             return const Loading();

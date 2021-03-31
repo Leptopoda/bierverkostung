@@ -3,8 +3,9 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
-import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/stats.dart';
@@ -14,15 +15,9 @@ class Statistiken extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (AuthService().getCurrentUid() == null) {
-      return const Center(
-        child: Text('Melde dich erst mal an du Affe'),
-      );
-    }
+    final User? _user = Provider.of<User?>(context);
     return StreamBuilder<List<Stat>>(
-      stream: DatabaseService(
-        uid: AuthService().getCurrentUid()!,
-      ).stats,
+      stream: DatabaseService(uid: _user!.uid).stats,
       builder: (BuildContext context, AsyncSnapshot<List<Stat>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
@@ -67,10 +62,14 @@ class StatistikenFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User? _user = Provider.of<User?>(context);
+
     return FloatingActionButton(
       onPressed: () => showDialog(
         context: context,
-        builder: (BuildContext context) => const StatistikenAlert(),
+        builder: (BuildContext context) => StatistikenAlert(
+          user: _user!,
+        ),
       ),
       child: const Icon(Icons.add),
     );
@@ -81,7 +80,12 @@ enum _bier { klein, gross }
 // const _biggerFont = TextStyle(fontSize: 18.0);
 
 class StatistikenAlert extends StatefulWidget {
-  const StatistikenAlert({Key? key}) : super(key: key);
+  final User user;
+
+  const StatistikenAlert({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   @override
   State<StatistikenAlert> createState() => _StatistikenAlertState();
@@ -129,48 +133,33 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
         ),
         TextButton(
           onPressed: () async {
-            if (AuthService().getCurrentUid() == null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const SomethingWentWrong(
-                    error: 'Melde dich erstmal an du Affe',
-                  ),
-                ),
-              );
-            } else {
-              final DateTime date = DateTime.now();
-              switch (_character) {
-                case _bier.klein:
-                  for (var i = 0; i < _menge; i++) {
-                    await DatabaseService(
-                      uid: AuthService().getCurrentUid()!,
-                    ).saveStat(
-                      Stat(menge: 0.33, timestamp: date),
-                    );
-                  }
-                  break;
-                case _bier.gross:
-                  for (var i = 0; i < _menge; i++) {
-                    await DatabaseService(
-                      uid: AuthService().getCurrentUid()!,
-                    ).saveStat(
-                      Stat(menge: 0.5, timestamp: date),
-                    );
-                  }
-                  break;
-                default:
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const SomethingWentWrong(
-                        error: 'invalid response',
-                      ),
-                    ),
+            final DateTime date = DateTime.now();
+            switch (_character) {
+              case _bier.klein:
+                for (var i = 0; i < _menge; i++) {
+                  await DatabaseService(uid: widget.user.uid).saveStat(
+                    Stat(menge: 0.33, timestamp: date),
                   );
-              }
+                }
+                break;
+              case _bier.gross:
+                for (var i = 0; i < _menge; i++) {
+                  await DatabaseService(uid: widget.user.uid).saveStat(
+                    Stat(menge: 0.5, timestamp: date),
+                  );
+                }
+                break;
+              default:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const SomethingWentWrong(
+                      error: 'invalid response',
+                    ),
+                  ),
+                );
             }
+
             Navigator.of(context).pop();
           },
           child: const Text('Submit'),

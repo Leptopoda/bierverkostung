@@ -3,11 +3,14 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
 import 'package:bierverkostung/screens/statistiken/statistiken.dart';
 import 'package:bierverkostung/screens/settings.dart';
+import 'package:bierverkostung/screens/login.dart';
 
 class MyHome extends StatefulWidget {
   const MyHome({Key? key}) : super(key: key);
@@ -41,21 +44,25 @@ class MyHomeState extends State<MyHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_pageTitles[_selectedPage]),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.settings),
-            tooltip: 'Show Snackbar',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const Settings(),
+    final User? _user = Provider.of<User?>(context);
+    final bool _loggedIn = _user != null;
+
+    if (_loggedIn) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(_pageTitles[_selectedPage]),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.settings),
+              tooltip: 'Show Snackbar',
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const Settings(),
+                ),
               ),
             ),
-          ),
-          /* IconButton(
+            /* IconButton(
             icon: const Icon(Icons.navigate_next),
             tooltip: 'Go to the next page',
             onPressed: () {
@@ -76,30 +83,33 @@ class MyHomeState extends State<MyHome> {
               ));
             },
           ), */
-        ],
-      ),
-      body: _pageOptions[_selectedPage],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedPage,
-        // selectedItemColor: Colors.amber[800],
-        onTap: (int index) => setState(() => _selectedPage = index),
+          ],
+        ),
+        body: _pageOptions[_selectedPage],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedPage,
+          // selectedItemColor: Colors.amber[800],
+          onTap: (int index) => setState(() => _selectedPage = index),
 
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.casino),
-            label: _pageTitles[0],
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
-            label: _pageTitles[1],
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.bar_chart),
-            label: _pageTitles[2],
-          ),
-        ],
-      ),
-      floatingActionButton: _pageFAB[_selectedPage],
-    );
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.casino),
+              label: _pageTitles[0],
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              label: _pageTitles[1],
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.bar_chart),
+              label: _pageTitles[2],
+            ),
+          ],
+        ),
+        floatingActionButton: _pageFAB[_selectedPage],
+      );
+    } else {
+      return const Login();
+    }
   }
 }

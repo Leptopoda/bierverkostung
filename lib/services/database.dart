@@ -6,17 +6,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:bierverkostung/models/stats.dart';
 import 'package:bierverkostung/models/tastings.dart';
-import 'package:bierverkostung/models/beers.dart';
-import 'package:bierverkostung/models/beer_styles.dart';
-import 'package:bierverkostung/models/breweries.dart';
-import 'package:bierverkostung/models/countries.dart';
+// import 'package:bierverkostung/models/beers.dart';
+// import 'package:bierverkostung/models/beer_styles.dart';
+// import 'package:bierverkostung/models/breweries.dart';
+// import 'package:bierverkostung/models/countries.dart';
 
 class DatabaseService {
   final String uid;
   DatabaseService({required this.uid});
 
   // collection reference
-  // final CollectionReference userCollection = FirebaseFirestore.instance.collection('uuid');
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> saveStat(Stat stat) async {

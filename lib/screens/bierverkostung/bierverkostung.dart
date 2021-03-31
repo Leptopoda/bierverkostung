@@ -4,8 +4,9 @@
 
 import 'package:flutter/material.dart';
 // import 'package:floating_action_bubble/floating_action_bubble.dart'; //TODO: Use null safety
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
-import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/tastings.dart';
@@ -16,13 +17,10 @@ class Bierverkostung extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (AuthService().getCurrentUid() == null) {
-      return const Center(
-        child: Text('Melde dich erst mal an du Affe'),
-      );
-    }
+    final User? _user = Provider.of<User?>(context);
+
     return StreamBuilder<List<Tasting>>(
-      stream: DatabaseService(uid: AuthService().getCurrentUid()!).tastings,
+      stream: DatabaseService(uid: _user!.uid).tastings,
       builder: (BuildContext context, AsyncSnapshot<List<Tasting>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
@@ -67,10 +65,14 @@ class BierverkostungFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User? _user = Provider.of<User?>(context);
+
     return FloatingActionButton(
       onPressed: () => showDialog(
         context: context,
-        builder: (BuildContext context) => const BierverkostungAlert(),
+        builder: (BuildContext context) => BierverkostungAlert(
+          user: _user!,
+        ),
       ),
       child: const Icon(Icons.add),
     );
@@ -164,14 +166,14 @@ class _BierverkostungFabState extends State<BierverkostungFab>
 }
  */
 
-class BierverkostungAlert extends StatefulWidget {
-  const BierverkostungAlert({Key? key}) : super(key: key);
+class BierverkostungAlert extends StatelessWidget {
+  final User user;
 
-  @override
-  State<BierverkostungAlert> createState() => _BierverkostungAlertState();
-}
+  const BierverkostungAlert({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
-class _BierverkostungAlertState extends State<BierverkostungAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -184,30 +186,17 @@ class _BierverkostungAlertState extends State<BierverkostungAlert> {
         ),
         TextButton(
           onPressed: () async {
-            if (AuthService().getCurrentUid() == null) {
-              // TODO: probably not needed
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const SomethingWentWrong(
-                    error: 'Melde dich erstmal an du Affe',
-                  ),
-                ),
-              );
-            } else {
-              final DateTime now = DateTime.now();
-              final Beer bier1 = Beer(
-                beerName: 'Paulaner',
-              );
-              final Tasting tasting1 = Tasting(
-                date: now,
-                beer: bier1,
-              );
+            final DateTime now = DateTime.now();
+            final Beer bier1 = Beer(
+              beerName: 'Paulaner',
+            );
+            final Tasting tasting1 = Tasting(
+              date: now,
+              beer: bier1,
+            );
 
-              await DatabaseService(
-                uid: AuthService().getCurrentUid()!,
-              ).saveTasting(tasting1);
-            }
+            await DatabaseService(uid: user.uid).saveTasting(tasting1);
+
             Navigator.of(context).pop();
           },
           child: const Text('Submit'),
