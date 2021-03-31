@@ -35,7 +35,8 @@ class _SettingsState extends State<Settings> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SomethingWentWrong(
+                        builder: (BuildContext context) =>
+                            const SomethingWentWrong(
                               error: 'error signing in',
                             )),
                   );
@@ -123,7 +124,7 @@ class AddBierverkostung extends StatelessWidget {
           .catchError((error) => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => SomethingWentWrong(
+                    builder: (BuildContext context) => SomethingWentWrong(
                           error: 'Failed to add user: $error',
                         )),
               ));

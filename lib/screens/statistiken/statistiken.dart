@@ -47,18 +47,9 @@ class _StatistikenState extends State<Statistiken> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    // leading: const Icon(Icons.message),
                     title: Text(
                         'Menge: ${snapshot.data![index].menge.toString()} Datum: ${snapshot.data![index].timestamp.toString()}',
                         style: const TextStyle(fontSize: 18)),
-                    // trailing: const Icon(Icons.keyboard_arrow_right),
-                    /* onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => _spielePages[index]),
-                    );
-                  }, */
                   );
                 });
         }
