@@ -41,10 +41,7 @@ class DatabaseService {
 
   // get brews stream
   Stream<List<Stat>> get stats {
-    // final String uid = AuthService().getCurrentUid()!;
     return firestore.collection(uid).snapshots().map(_statListFromSnapshot);
-
-    // snapshot.data!.docs.asMap()[index]!.data().toString()
   }
 
   // get user doc stream

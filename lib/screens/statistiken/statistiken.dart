@@ -3,10 +3,9 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/services/auth.dart';
+import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/stats.dart';
 
@@ -27,35 +26,42 @@ class _StatistikenState extends State<Statistiken> {
       stream: DatabaseService(uid: AuthService().getCurrentUid()!).stats,
       builder: (context, stat) {
         if (stat.hasError) {
-          return const SomethingWentWrong(
-            error: 'iSomething went wrong',
+          return SomethingWentWrong(
+            error: '${stat.error}',
           );
         }
-        if (!stat.hasData) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: List.generate(stat.data!.length * 2, (i) {
-            if (i.isOdd) return const Divider();
 
-            final index = i ~/ 2;
-            return ListTile(
-              // leading: const Icon(Icons.message),
-              title: Text(
-                  'Menge: ${stat.data![index].menge.toString()} Datum: ${stat.data![index].timestamp.toString()}',
-                  style: const TextStyle(fontSize: 18)),
-              // trailing: const Icon(Icons.keyboard_arrow_right),
-              /* onTap: () {
+        switch (stat.connectionState) {
+          case ConnectionState.waiting:
+            return const Center(child: CircularProgressIndicator());
+          default:
+            if (!stat.hasData) {
+              return const Center(
+                  child: Text('noch keine verkostungen vorhanden'));
+            }
+            return ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: List.generate(stat.data!.length * 2, (i) {
+                if (i.isOdd) return const Divider();
+
+                final index = i ~/ 2;
+                return ListTile(
+                  // leading: const Icon(Icons.message),
+                  title: Text(
+                      'Menge: ${stat.data![index].menge.toString()} Datum: ${stat.data![index].timestamp.toString()}',
+                      style: const TextStyle(fontSize: 18)),
+                  // trailing: const Icon(Icons.keyboard_arrow_right),
+                  /* onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => _spielePages[index]),
                     );
                   }, */
+                );
+              }),
             );
-          }),
-        );
+        }
       },
     );
   }
