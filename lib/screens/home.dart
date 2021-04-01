@@ -22,14 +22,37 @@ class MyHome extends StatefulWidget {
 }
 
 class MyHomeState extends State<MyHome> {
-  int _selectedPage = 1;
+  late int _selectedIndex;
+  late PageController _pageController;
 
-  // TODO: use enum
-  static final _pageOptions = [
-    const Trinkspiele(),
-    const Bierverkostung(),
-    const Statistiken(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = 1;
+    _pageController = PageController(initialPage: _selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void _onItemSelected(int index) {
+    _onPageChanged(index);
+    _pageController.animateToPage(
+      index,
+      duration: kThemeAnimationDuration,
+      curve: Curves.easeInOut,
+    );
+  }
+
   static final _pageFAB = [
     null,
     const BierverkostungFab(),
@@ -50,17 +73,25 @@ class MyHomeState extends State<MyHome> {
     if (_loggedIn) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(_pageTitles[_selectedPage]),
+          title: Text(_pageTitles[_selectedIndex]),
           actions: const <Widget>[
             GroupManagement(),
             LogOutAlert(),
           ],
         ),
-        body: _pageOptions[_selectedPage],
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: _onPageChanged,
+          children: const <Widget>[
+            Trinkspiele(),
+            Bierverkostung(),
+            Statistiken(),
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedPage,
+          currentIndex: _selectedIndex,
           // selectedItemColor: Colors.amber[800],
-          onTap: (int index) => setState(() => _selectedPage = index),
+          onTap: (int index) => _onItemSelected(index),
 
           items: [
             BottomNavigationBarItem(
@@ -77,7 +108,7 @@ class MyHomeState extends State<MyHome> {
             ),
           ],
         ),
-        floatingActionButton: _pageFAB[_selectedPage],
+        floatingActionButton: _pageFAB[_selectedIndex],
       );
     } else {
       return const Login();

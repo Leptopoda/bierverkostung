@@ -86,7 +86,6 @@ class LogOutAlert extends StatelessWidget {
   }
 }
 
-
 class GroupManagement extends StatelessWidget {
   const GroupManagement({Key? key}) : super(key: key);
 
@@ -115,4 +114,3 @@ class GroupManagement extends StatelessWidget {
     );
   }
 }
-
