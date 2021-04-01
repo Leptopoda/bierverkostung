@@ -64,15 +64,15 @@ class MyHomeState extends State<MyHome> {
 
           items: [
             BottomNavigationBarItem(
-              icon: const Icon(Icons.casino),
+              icon: const Icon(Icons.casino_outlined),
               label: _pageTitles[0],
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
+              icon: const Icon(Icons.home_outlined),
               label: _pageTitles[1],
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.bar_chart),
+              icon: const Icon(Icons.show_chart),
               label: _pageTitles[2],
             ),
           ],

@@ -26,7 +26,7 @@ class Trinkspiele extends StatelessWidget {
       itemCount: _spiele.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
-          leading: const Icon(Icons.message),
+          leading: const Icon(Icons.message_outlined),
           title: Text(
             _spiele[index],
             style: const TextStyle(fontSize: 18),

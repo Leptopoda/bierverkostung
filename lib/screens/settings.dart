@@ -54,7 +54,7 @@ class LogOutAlert extends StatelessWidget {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     return IconButton(
-      icon: const Icon(Icons.person),
+      icon: const Icon(Icons.person_outline),
       tooltip: 'Log Out',
       onPressed: () => showDialog(
         context: context,
@@ -93,7 +93,7 @@ class GroupManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.group_add),
+      icon: const Icon(Icons.group_add_outlined),
       tooltip: 'Go to the next page',
       onPressed: () {
         Navigator.push(context, MaterialPageRoute<void>(
