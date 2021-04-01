@@ -18,7 +18,7 @@ class SomethingWentWrong extends StatelessWidget {
         margin: const EdgeInsets.all(30.0),
         child: Center(
           child: Column(
-            children: [
+            children: <Widget>[
               Image.asset('assets/error.png'),
               const SizedBox(height: 35),
               Text(

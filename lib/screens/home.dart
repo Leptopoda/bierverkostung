@@ -16,12 +16,10 @@ class MyHome extends StatefulWidget {
   const MyHome({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return MyHomeState();
-  }
+  State<StatefulWidget> createState() => _MyHomeState();
 }
 
-class MyHomeState extends State<MyHome> {
+class _MyHomeState extends State<MyHome> {
   late int _selectedIndex;
   late PageController _pageController;
 

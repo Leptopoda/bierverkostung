@@ -18,7 +18,7 @@ class Settings extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          children: [
+          children: <Widget>[
             ElevatedButton(
               onPressed: () async {
                 await _auth.signOut();

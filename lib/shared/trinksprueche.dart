@@ -55,7 +55,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
       ),
       body: ListView(
         // padding: const EdgeInsets.all(20.0),
-        children: [
+        children: <Widget>[
           Container(
             margin: const EdgeInsets.all(30.0),
             // constraints: BoxConstraints(minHeight: 100),
@@ -67,17 +67,20 @@ class _TrinkspruecheState extends State<Trinksprueche> {
             ),
           ),
           const SizedBox(height: 30),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ElevatedButton(
-              onPressed: () => lastIndex(),
-              child: const Text('Zurück'),
-            ),
-            const SizedBox(width: 16),
-            ElevatedButton(
-              onPressed: () => nextIndex(),
-              child: const Text('Weiter'),
-            ),
-          ]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () => lastIndex(),
+                child: const Text('Zurück'),
+              ),
+              const SizedBox(width: 16),
+              ElevatedButton(
+                onPressed: () => nextIndex(),
+                child: const Text('Weiter'),
+              ),
+            ],
+          ),
           const SizedBox(height: 16),
           const Center(
             child: Text('Bestimmte Zahl?'),
