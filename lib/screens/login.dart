@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 
 class Login extends StatelessWidget {
@@ -12,7 +12,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthService _auth = AuthService();
+    final FirebaseAuth _auth = FirebaseAuth.instance;
 
     return Scaffold(
       appBar: AppBar(
@@ -21,8 +21,9 @@ class Login extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () async {
-            final dynamic result = await _auth.registerAnon();
-            if (result == null) {
+            final _result = await _auth.signInAnonymously();
+            final User? _user = _result.user;
+            if (_user == null) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -34,7 +35,7 @@ class Login extends StatelessWidget {
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Loged in $result'),
+                  content: Text('Loged in $_user'),
                 ),
               );
             }

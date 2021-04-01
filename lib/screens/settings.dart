@@ -3,15 +3,14 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-
-import 'package:bierverkostung/services/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final AuthService _auth = AuthService();
+    final FirebaseAuth _auth = FirebaseAuth.instance;
 
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +51,7 @@ class LogOutAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthService _auth = AuthService();
+    final FirebaseAuth _auth = FirebaseAuth.instance;
 
     return AlertDialog(
       title: const Text('Achtung!!'),
