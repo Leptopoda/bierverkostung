@@ -91,7 +91,7 @@ class _MyHomeState extends State<MyHome> {
           // selectedItemColor: Colors.amber[800],
           onTap: (int index) => _onItemSelected(index),
 
-          items: [
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: const Icon(Icons.casino_outlined),
               label: _pageTitles[0],

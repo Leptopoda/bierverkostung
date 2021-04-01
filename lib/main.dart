@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
             // Once complete, show your application
             if (snapshot.connectionState == ConnectionState.done) {
               return MultiProvider(
-                providers: [
+                providers: <StreamProvider>[
                   StreamProvider<User?>.value(
                       value: FirebaseAuth.instance.userChanges(),
                       initialData: null),
