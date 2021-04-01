@@ -53,28 +53,66 @@ class LogOutAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
-    return AlertDialog(
-      title: const Text('Achtung!!'),
-      content: const Text(
-          'Durch fortfahren wird der aktuelle benutzer abgemeldet. Wenn der aktuelle nutzer Annonym ist geht dardurch auch der zugriff auf die Datenj verloren'),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Abbruch'),
+    return IconButton(
+      icon: const Icon(Icons.person),
+      tooltip: 'Log Out',
+      onPressed: () => showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Achtung!!'),
+          content: const Text(
+              'Durch fortfahren wird der aktuelle benutzer abgemeldet. Wenn der aktuelle nutzer Annonym ist geht dardurch auch der zugriff auf die Datenj verloren'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Abbruch'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await _auth.signOut();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('loged out '),
+                  ),
+                );
+                Navigator.of(context).pop();
+              },
+              child: const Text('Weiter'),
+            ),
+          ],
         ),
-        TextButton(
-          onPressed: () async {
-            await _auth.signOut();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('loged out '),
-              ),
-            );
-            Navigator.of(context).pop();
-          },
-          child: const Text('Weiter'),
-        ),
-      ],
+      ),
     );
   }
 }
+
+
+class GroupManagement extends StatelessWidget {
+  const GroupManagement({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.group_add),
+      tooltip: 'Go to the next page',
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute<void>(
+          builder: (BuildContext context) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Add groups'),
+              ),
+              body: const Center(
+                child: Text(
+                  'Coming ...',
+                  style: TextStyle(fontSize: 24),
+                ),
+              ),
+            );
+          },
+        ));
+      },
+    );
+  }
+}
+

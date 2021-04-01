@@ -21,6 +21,7 @@ class Login extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () async {
+            //TODO: better error handling
             final _result = await _auth.signInAnonymously();
             final User? _user = _result.user;
             if (_user == null) {

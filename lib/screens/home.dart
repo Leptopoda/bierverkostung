@@ -51,36 +51,9 @@ class MyHomeState extends State<MyHome> {
       return Scaffold(
         appBar: AppBar(
           title: Text(_pageTitles[_selectedPage]),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.person),
-              tooltip: 'Log Out',
-              onPressed: () => showDialog(
-                context: context,
-                builder: (BuildContext context) => const LogOutAlert(),
-              ),
-            ),
-            /* IconButton(
-            icon: const Icon(Icons.navigate_next),
-            tooltip: 'Go to the next page',
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute<void>(
-                builder: (BuildContext context) {
-                  return Scaffold(
-                    appBar: AppBar(
-                      title: const Text('Next page'),
-                    ),
-                    body: const Center(
-                      child: Text(
-                        'This is the next page',
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    ),
-                  );
-                },
-              ));
-            },
-          ), */
+          actions: const <Widget>[
+            GroupManagement(),
+            LogOutAlert(),
           ],
         ),
         body: _pageOptions[_selectedPage],
