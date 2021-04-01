@@ -43,9 +43,9 @@ dependencies:
 
 dev_dependencies:
   # Change launcher icon
-  flutter_launcher_icons: any
+  #flutter_launcher_icons: any
   # rename app
-  flutter_rename_app: any
+  #flutter_rename_app: any
   # linting
   lint: any
 
