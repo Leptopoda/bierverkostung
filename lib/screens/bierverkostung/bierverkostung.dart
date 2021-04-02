@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/tastings.dart';
-import 'package:bierverkostung/models/beers.dart';
+import 'package:bierverkostung/screens/bierverkostung/new_tasting.dart';
 
 class Bierverkostung extends StatelessWidget {
   const Bierverkostung({Key? key}) : super(key: key);
@@ -68,10 +68,12 @@ class BierverkostungFab extends StatelessWidget {
     final User? _user = Provider.of<User?>(context);
 
     return FloatingActionButton(
-      onPressed: () => showDialog(
-        context: context,
-        builder: (BuildContext context) => BierverkostungAlert(
-          user: _user!,
+      onPressed: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => NewTasting(
+            user: _user!,
+          ),
         ),
       ),
       child: const Icon(Icons.add),
@@ -165,43 +167,3 @@ class _BierverkostungFabState extends State<BierverkostungFab>
   }
 }
  */
-
-class BierverkostungAlert extends StatelessWidget {
-  final User user;
-
-  const BierverkostungAlert({
-    Key? key,
-    required this.user,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text("Noch ein Bier"),
-      content: const Text('TBA'),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () async {
-            final DateTime now = DateTime.now();
-            final Beer bier1 = Beer(
-              beerName: 'Paulaner',
-            );
-            final Tasting tasting1 = Tasting(
-              date: now,
-              beer: bier1,
-            );
-
-            await DatabaseService(uid: user.uid).saveTasting(tasting1);
-
-            Navigator.of(context).pop();
-          },
-          child: const Text('Submit'),
-        ),
-      ],
-    );
-  }
-}
