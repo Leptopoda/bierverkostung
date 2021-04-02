@@ -11,14 +11,16 @@ class SomethingWentWrong extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Something went wrong'),
-      ),
       body: Container(
         margin: const EdgeInsets.all(30.0),
         child: Center(
           child: Column(
             children: <Widget>[
+              const Text(
+                'Something went wrong',
+                style: TextStyle(fontSize: 22.0),
+              ),
+              const SizedBox(height: 18),
               Expanded(
                 child: Image.asset('assets/error.png'),
               ),
