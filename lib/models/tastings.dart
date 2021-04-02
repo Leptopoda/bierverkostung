@@ -49,12 +49,14 @@ class Tasting {
   });
 
   factory Tasting.fromMap(DocumentSnapshot doc) {
-    final Beer bier1 = Beer(beerName: doc.get('beer').toString());
+    final Map<String, dynamic> data = doc.data()!;
+    final Beer bier1 = Beer(beerName: data['beer'] as String);
+
     return Tasting(
       // id: doc.data(),
-      date: DateTime.parse(doc.get('date').toDate().toString()),
+      date: data['date'].toDate() as DateTime?,
       beer: bier1,
-      location: doc.get('location').toString(),
+      location: data['location'] as String?, //doc.get('location').toString(),
     );
   }
 

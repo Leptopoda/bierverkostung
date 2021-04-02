@@ -17,10 +17,12 @@ class Stat {
   });
 
   factory Stat.fromMap(DocumentSnapshot doc) {
+    final Map<String, dynamic> data = doc.data()!;
+
     return Stat(
       // id: doc.data(),
-      menge: double.parse(doc['amount'].toString()),
-      timestamp: DateTime.parse(doc['date'].toDate().toString()),
+      menge: data['amount'] as double,
+      timestamp: data['date'].toDate() as DateTime,
     );
   }
 

@@ -48,7 +48,8 @@ class MyApp extends StatelessWidget {
             }
             // Once complete, show your application
             if (snapshot.connectionState == ConnectionState.done) {
-              FirebaseFirestore.instance.settings = const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+              FirebaseFirestore.instance.settings =
+                  const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
               return MultiProvider(
                 providers: <StreamProvider>[
                   StreamProvider<User?>.value(
