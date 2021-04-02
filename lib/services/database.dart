@@ -19,21 +19,15 @@ class DatabaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> saveStat(Stat stat) async {
-    _firestore.collection('u-$uid').add(
-      {
-        'date': stat.timestamp,
-        'amount': stat.menge,
-      },
-    );
+    _firestore.collection('u-$uid').add(stat.toMap());
   }
 
   Future<void> saveTasting(Tasting tasting) async {
-    _firestore.collection('groups').doc(uid).collection('tastings').add(
-      {
-        'beer': tasting.beer!.beerName,
-        'date': tasting.date,
-      },
-    );
+    _firestore
+        .collection('groups')
+        .doc(uid)
+        .collection('tastings')
+        .add(tasting.toMap());
   }
 
   // tasting list from snapshots

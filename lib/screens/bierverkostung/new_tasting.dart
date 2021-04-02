@@ -94,9 +94,11 @@ class _NewTastingState extends State<NewTasting> {
                 labelText: 'Bier',
               ),
               onSaved: (String? value) {
-                final Beer _bier1 = Beer( beerName: value!,);
+                final Beer _bier1 = Beer(
+                  beerName: value!,
+                );
                 _tasting.beer = _bier1;
-                },
+              },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Pflichtfeld';

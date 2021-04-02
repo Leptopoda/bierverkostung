@@ -54,7 +54,16 @@ class Tasting {
       // id: doc.data(),
       date: DateTime.parse(doc.get('date').toDate().toString()),
       beer: bier1,
+      location: doc.get('location').toString(),
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'beer': beer!.beerName,
+      'date': date,
+      'location': location,
+    };
   }
 }
 

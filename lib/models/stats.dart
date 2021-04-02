@@ -23,4 +23,11 @@ class Stat {
       timestamp: DateTime.parse(doc['date'].toDate().toString()),
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'date': timestamp,
+      'amount': menge,
+    };
+  }
 }
