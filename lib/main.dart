@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bierverkostung/shared/theme.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
             }
             // Once complete, show your application
             if (snapshot.connectionState == ConnectionState.done) {
+              FirebaseFirestore.instance.settings = const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
               return MultiProvider(
                 providers: <StreamProvider>[
                   StreamProvider<User?>.value(
