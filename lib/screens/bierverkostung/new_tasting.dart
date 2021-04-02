@@ -30,12 +30,15 @@ class _NewTastingState extends State<NewTasting> {
       TextStyle(fontSize: 22, color: Colors.yellow);
   static const TextStyle _text = TextStyle(fontSize: 18);
 
+  final Tasting _tasting = Tasting();
+
   int _foamStability = 1;
   int _bitterness = 1;
   int __sweetness = 1;
   int _acidity = 1;
   int _bodyFullness = 1;
   int _totalRating = 1;
+  int _ebc = 4;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -83,14 +86,17 @@ class _NewTastingState extends State<NewTasting> {
                 labelText: 'Location',
                 suffixIcon: Icon(Icons.location_on_outlined),
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) => _tasting.location = value,
             ),
             TextFormField(
               style: _text,
               decoration: const InputDecoration(
                 labelText: 'Bier',
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) {
+                final Beer _bier1 = Beer( beerName: value!,);
+                _tasting.beer = _bier1;
+                },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Pflichtfeld';
@@ -127,7 +133,36 @@ class _NewTastingState extends State<NewTasting> {
               onChanged: (double value) =>
                   setState(() => _foamStability = value.round()),
             ),
-            // TODO: EBC
+            DropdownButtonFormField(
+              value: _ebc,
+              items: [
+                4,
+                6,
+                8,
+                12,
+                16,
+                20,
+                26,
+                33,
+                39,
+                47,
+                57,
+                69,
+                79,
+              ].map<DropdownMenuItem<int>>(
+                (int val) {
+                  return DropdownMenuItem(
+                    value: val,
+                    child: Text('$val'),
+                  );
+                },
+              ).toList(),
+              onChanged: (int? val) => setState(() => _ebc = val!),
+              decoration: const InputDecoration(
+                labelText: 'EBC',
+                // icon: Icon(Icons.calendar_today),
+              ),
+            ),
             TextFormField(
               style: _text,
               decoration: const InputDecoration(
@@ -208,6 +243,7 @@ class _NewTastingState extends State<NewTasting> {
               // onSaved: (String? value) => print(value),
             ),
             TextFormField(
+              // TODO: add intensity
               style: _text,
               decoration: const InputDecoration(
                 labelText: 'Nachgeschmack',
@@ -259,16 +295,9 @@ class _NewTastingState extends State<NewTasting> {
       // you'd often call a server or save the information in a database.
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Processing Data')));
-      final DateTime now = DateTime.now();
-      final Beer bier1 = Beer(
-        beerName: 'Paulaner',
-      );
-      final Tasting tasting1 = Tasting(
-        date: now,
-        beer: bier1,
-      );
-
-      await DatabaseService(uid: widget.user.uid).saveTasting(tasting1);
+      _formKey.currentState!.save();
+      _tasting.date = _selectedDate;
+      await DatabaseService(uid: widget.user.uid).saveTasting(_tasting);
 
       Navigator.of(context).pop();
     }
@@ -289,45 +318,5 @@ class _NewTastingState extends State<NewTasting> {
         },
       );
     }
-  }
-}
-
-class BierverkostungAlert extends StatelessWidget {
-  final User user;
-
-  const BierverkostungAlert({
-    Key? key,
-    required this.user,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text("Noch ein Bier"),
-      content: const Text('TBA'),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () async {
-            final DateTime now = DateTime.now();
-            final Beer bier1 = Beer(
-              beerName: 'Paulaner',
-            );
-            final Tasting tasting1 = Tasting(
-              date: now,
-              beer: bier1,
-            );
-
-            await DatabaseService(uid: user.uid).saveTasting(tasting1);
-
-            Navigator.of(context).pop();
-          },
-          child: const Text('Submit'),
-        ),
-      ],
-    );
   }
 }

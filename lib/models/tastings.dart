@@ -8,9 +8,9 @@ import 'package:bierverkostung/models/beers.dart';
 class Tasting {
   // final String id;
   // final int revision;
-  final DateTime date;
-  final String? location;
-  final Beer beer;
+  DateTime? date;
+  String? location;
+  Beer? beer;
   // beer_colour TEXT,
   // beer_colour_desc TEXT,
   // colour_ebc INTEGER,
@@ -43,13 +43,13 @@ class Tasting {
   // total_impression_rating INTEGER,
 
   Tasting({
-    required this.date,
-    required this.beer,
+    this.date,
+    this.beer,
     this.location,
   });
 
   factory Tasting.fromMap(DocumentSnapshot doc) {
-    final Beer bier1 = Beer(beerName: 'Paulaner');
+    final Beer bier1 = Beer(beerName: doc.get('beer').toString());
     return Tasting(
       // id: doc.data(),
       date: DateTime.parse(doc.get('date').toDate().toString()),

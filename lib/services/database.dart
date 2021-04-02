@@ -30,7 +30,7 @@ class DatabaseService {
   Future<void> saveTasting(Tasting tasting) async {
     _firestore.collection('groups').doc(uid).collection('tastings').add(
       {
-        'beer': tasting.beer.beerName,
+        'beer': tasting.beer!.beerName,
         'date': tasting.date,
       },
     );
