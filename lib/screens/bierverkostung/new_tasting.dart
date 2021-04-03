@@ -32,14 +32,6 @@ class _NewTastingState extends State<NewTasting> {
 
   final Tasting _tasting = Tasting();
 
-  int _foamStability = 1;
-  int _bitterness = 1;
-  int __sweetness = 1;
-  int _acidity = 1;
-  int _bodyFullness = 1;
-  int _totalRating = 1;
-  int _ebc = 4;
-
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -116,28 +108,28 @@ class _NewTastingState extends State<NewTasting> {
                 labelText: 'Foam Colour',
                 suffixIcon: Icon(Icons.color_lens_outlined),
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) => _tasting.foamColour = value,
             ),
             TextFormField(
               style: _text,
               decoration: const InputDecoration(
                 labelText: 'Foam Structure',
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) => _tasting.foamStructure = value,
             ),
             const Text('Foam Stability'),
             Slider(
-              value: _foamStability.toDouble(),
+              value: _tasting.foamStability.toDouble(),
               min: 1,
               max: 4,
               divisions: 3,
-              label: '$_foamStability',
+              label: '${_tasting.foamStability}',
               onChanged: (double value) =>
-                  setState(() => _foamStability = value.round()),
+                  setState(() => _tasting.foamStability = value.round()),
             ),
             DropdownButtonFormField(
-              value: _ebc,
-              items: [
+              value: _tasting.colourEbc,
+              items: <int>[
                 4,
                 6,
                 8,
@@ -159,7 +151,7 @@ class _NewTastingState extends State<NewTasting> {
                   );
                 },
               ).toList(),
-              onChanged: (int? val) => setState(() => _ebc = val!),
+              onChanged: (int? val) => setState(() => _tasting.colourEbc = val!),
               decoration: const InputDecoration(
                 labelText: 'EBC',
                 // icon: Icon(Icons.calendar_today),
@@ -170,21 +162,21 @@ class _NewTastingState extends State<NewTasting> {
               decoration: const InputDecoration(
                 labelText: 'Beer Colour',
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) => _tasting.beerColour = value,
             ),
             TextFormField(
               style: _text,
               decoration: const InputDecoration(
                 labelText: 'Color Description',
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) => _tasting.beerColourDesc = value,
             ),
             TextFormField(
               style: _text,
               decoration: const InputDecoration(
                 labelText: 'Clarity',
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) => _tasting.clarity = value,
             ),
             const Text(
               'Taste',
@@ -195,54 +187,54 @@ class _NewTastingState extends State<NewTasting> {
               decoration: const InputDecoration(
                 labelText: 'Mundgefühl',
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) => _tasting.mouthFeelDesc = value,
             ),
             const Text('Bitterness'),
             Slider(
-              value: _bitterness.toDouble(),
+              value: _tasting.bitternessRating.toDouble(),
               min: 1,
               max: 4,
               divisions: 3,
-              label: '$_bitterness',
+              label: '${_tasting.bitternessRating}',
               onChanged: (double value) =>
-                  setState(() => _bitterness = value.round()),
+                  setState(() => _tasting.bitternessRating = value.round()),
             ),
             const Text('Sweetness'),
             Slider(
-              value: __sweetness.toDouble(),
+              value: _tasting.sweetnessRating.toDouble(),
               min: 1,
               max: 4,
               divisions: 3,
-              label: '$__sweetness',
+              label: '${_tasting.sweetnessRating}',
               onChanged: (double value) =>
-                  setState(() => __sweetness = value.round()),
+                  setState(() => _tasting.sweetnessRating = value.round()),
             ),
             const Text('Acidity'),
             Slider(
-              value: _acidity.toDouble(),
+              value: _tasting.acidityRating.toDouble(),
               min: 1,
               max: 4,
               divisions: 3,
-              label: '$_acidity',
+              label: '${_tasting.acidityRating}',
               onChanged: (double value) =>
-                  setState(() => _acidity = value.round()),
+                  setState(() => _tasting.acidityRating = value.round()),
             ),
             const Text('Body Fullness'),
             Slider(
-              value: _bodyFullness.toDouble(),
+              value: _tasting.fullBodiedRating.toDouble(),
               min: 1,
               max: 4,
               divisions: 3,
-              label: '$_bodyFullness',
+              label: '${_tasting.fullBodiedRating}',
               onChanged: (double value) =>
-                  setState(() => _bodyFullness = value.round()),
+                  setState(() => _tasting.fullBodiedRating = value.round()),
             ),
             TextFormField(
               style: _text,
               decoration: const InputDecoration(
                 labelText: 'Body Description',
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) => _tasting.bodyDesc = value,
             ),
             TextFormField(
               // TODO: add intensity
@@ -250,14 +242,14 @@ class _NewTastingState extends State<NewTasting> {
               decoration: const InputDecoration(
                 labelText: 'Nachgeschmack',
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) => _tasting.aftertasteDesc = value,
             ),
             TextFormField(
               style: _text,
               decoration: const InputDecoration(
                 labelText: 'Food Recomendation',
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) => _tasting.foodRecommendation = value,
             ),
             const Text(
               'Conclusion',
@@ -268,17 +260,17 @@ class _NewTastingState extends State<NewTasting> {
               decoration: const InputDecoration(
                 labelText: 'Total Impression',
               ),
-              // onSaved: (String? value) => print(value),
+              onSaved: (String? value) => _tasting.totalImpressionDesc = value,
             ),
             const Text('Total Rating'),
             Slider(
-              value: _totalRating.toDouble(),
+              value: _tasting.totalImpressionRating.toDouble(),
               min: 1,
               max: 4,
               divisions: 3,
-              label: '$_totalRating',
+              label: '${_tasting.totalImpressionRating}',
               onChanged: (double value) =>
-                  setState(() => _totalRating = value.round()),
+                  setState(() => _tasting.totalImpressionRating = value.round()),
             ),
             ElevatedButton(
               onPressed: () => _submit(context),
