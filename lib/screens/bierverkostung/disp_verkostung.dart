@@ -9,20 +9,13 @@ import 'package:bierverkostung/models/tastings.dart';
 
 // TODO: Deduplicate this file with NewTasting
 
-class DispTasting extends StatefulWidget {
+class DispTasting extends StatelessWidget {
   final Tasting tasting;
 
   const DispTasting({
     Key? key,
     required this.tasting,
   }) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _DispTastingState();
-}
-
-class _DispTastingState extends State<DispTasting> {
-  final _formKey = GlobalKey<FormState>();
 
   static const TextStyle _heading = TextStyle(
     fontSize: 22,
@@ -32,223 +25,218 @@ class _DispTastingState extends State<DispTasting> {
     fontSize: 18,
   );
 
-  late int _foamStability;
-  late int _bitternessRating;
-  late int _sweetnessRating;
-  late int _acidityRating;
-  late int _fullBodiedRating;
-  late int _aftertasteRating;
-  late int _totalImpressionRating;
-
-  @override
-  void initState() {
-    _foamStability = widget.tasting.foamStability;
-    _bitternessRating = widget.tasting.bitternessRating;
-    _sweetnessRating = widget.tasting.sweetnessRating;
-    _acidityRating = widget.tasting.acidityRating;
-    _fullBodiedRating = widget.tasting.fullBodiedRating;
-    _aftertasteRating = widget.tasting.aftertasteRating;
-    _totalImpressionRating = widget.tasting.totalImpressionRating;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Verkostung'),
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(30.0),
-          children: <Widget>[
-            const Text(
-              'General',
-              style: _heading,
+      body: ListView(
+        padding: const EdgeInsets.all(30.0),
+        children: <Widget>[
+          const Text(
+            'General',
+            style: _heading,
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: DateFormat.yMMMMd().format(tasting.date),
+            decoration: const InputDecoration(
+              labelText: 'Date',
+              suffixIcon: Icon(Icons.calendar_today_outlined),
             ),
-            TextFormField(
-              style: _text,
-              readOnly: true,
-              initialValue: DateFormat.yMMMMd().format(widget.tasting.date),
-              decoration: const InputDecoration(
-                labelText: 'Date',
-                suffixIcon: Icon(Icons.calendar_today_outlined),
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: tasting.location,
+            decoration: const InputDecoration(
+              labelText: 'Location',
+              suffixIcon: Icon(Icons.location_on_outlined),
+            ),
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: tasting.beer.beerName,
+            decoration: const InputDecoration(
+              labelText: 'Bier',
+            ),
+          ),
+          const Text(
+            'Optical Appearance',
+            style: _heading,
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: tasting.foamColour,
+            decoration: const InputDecoration(
+              labelText: 'Foam Colour',
+              suffixIcon: Icon(Icons.color_lens_outlined),
+            ),
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: tasting.foamStructure,
+            decoration: const InputDecoration(
+              labelText: 'Foam Structure',
+            ),
+          ),
+          const Text('Foam Stability'),
+          SliderIndicator(
+            value: tasting.foamStability,
+            min: 1,
+            max: 4,
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: '${tasting.colourEbc}',
+            decoration: InputDecoration(
+              labelText: 'EBC',
+              suffixIcon: Icon(
+                Icons.circle,
+                color: Colors.yellow[800],
               ),
             ),
-            TextFormField(
-              style: _text,
-              initialValue: widget.tasting.location,
-              decoration: const InputDecoration(
-                labelText: 'Location',
-                suffixIcon: Icon(Icons.location_on_outlined),
-              ),
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: tasting.beerColour,
+            decoration: const InputDecoration(
+              labelText: 'Beer Colour',
             ),
-            TextFormField(
-              style: _text,
-              initialValue: widget.tasting.beer.beerName,
-              decoration: const InputDecoration(
-                labelText: 'Bier',
-              ),
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: tasting.beerColourDesc,
+            decoration: const InputDecoration(
+              labelText: 'Color Description',
             ),
-            const Text(
-              'Optical Appearance',
-              style: _heading,
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: tasting.clarity,
+            decoration: const InputDecoration(
+              labelText: 'Clarity',
             ),
-            TextFormField(
-              style: _text,
-              initialValue: widget.tasting.foamColour,
-              decoration: const InputDecoration(
-                labelText: 'Foam Colour',
-                suffixIcon: Icon(Icons.color_lens_outlined),
-              ),
+          ),
+          const Text(
+            'Taste',
+            style: _heading,
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: tasting.mouthFeelDesc,
+            decoration: const InputDecoration(
+              labelText: 'Mundgefühl',
             ),
-            TextFormField(
-              style: _text,
-              initialValue: widget.tasting.foamStructure,
-              decoration: const InputDecoration(
-                labelText: 'Foam Structure',
-              ),
+          ),
+          const Text('Bitterness'),
+          SliderIndicator(
+            value: tasting.bitternessRating,
+            min: 1,
+            max: 4,
+          ),
+          const Text('Sweetness'),
+          SliderIndicator(
+            value: tasting.sweetnessRating,
+            min: 1,
+            max: 4,
+          ),
+          const Text('Acidity'),
+          SliderIndicator(
+            value: tasting.acidityRating,
+            min: 1,
+            max: 4,
+          ),
+          const Text('Body Fullness'),
+          SliderIndicator(
+            value: tasting.fullBodiedRating,
+            min: 1,
+            max: 4,
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: tasting.bodyDesc,
+            decoration: const InputDecoration(
+              labelText: 'Body Description',
             ),
-            const Text('Foam Stability'),
-            Slider(
-              value: _foamStability.toDouble(),
-              min: 1,
-              max: 4,
-              divisions: 3,
-              label: '$_foamStability',
-              onChanged: (double value) =>
-                  setState(() => _foamStability = value.round()),
+          ),
+          TextFormField(
+            // TODO: add intensity
+            style: _text, readOnly: true,
+            initialValue: tasting.aftertasteDesc,
+            decoration: const InputDecoration(
+              labelText: 'Nachgeschmack',
             ),
-            TextFormField(
-              style: _text,
-              initialValue: '${widget.tasting.colourEbc}',
-              decoration: InputDecoration(
-                labelText: 'EBC',
-                suffixIcon: Icon(
-                  Icons.circle,
-                  color: Colors.yellow[800],
-                ),
-              ),
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: tasting.foodRecommendation,
+            decoration: const InputDecoration(
+              labelText: 'Food Recomendation',
             ),
-            TextFormField(
-              style: _text,
-              initialValue: widget.tasting.beerColour,
-              decoration: const InputDecoration(
-                labelText: 'Beer Colour',
-              ),
+          ),
+          const Text(
+            'Conclusion',
+            style: _heading,
+          ),
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            initialValue: tasting.totalImpressionDesc,
+            decoration: const InputDecoration(
+              labelText: 'Total Impression',
             ),
-            TextFormField(
-              style: _text,
-              initialValue: widget.tasting.beerColourDesc,
-              decoration: const InputDecoration(
-                labelText: 'Color Description',
-              ),
-            ),
-            TextFormField(
-              style: _text,
-              initialValue: widget.tasting.clarity,
-              decoration: const InputDecoration(
-                labelText: 'Clarity',
-              ),
-            ),
-            const Text(
-              'Taste',
-              style: _heading,
-            ),
-            TextFormField(
-              style: _text,
-              initialValue: widget.tasting.mouthFeelDesc,
-              decoration: const InputDecoration(
-                labelText: 'Mundgefühl',
-              ),
-            ),
-            const Text('Bitterness'),
-            Slider(
-              value: _bitternessRating.toDouble(),
-              min: 1,
-              max: 4,
-              divisions: 3,
-              label: '$_bitternessRating',
-              onChanged: (double value) =>
-                  setState(() => _bitternessRating = value.round()),
-            ),
-            const Text('Sweetness'),
-            Slider(
-              value: _sweetnessRating.toDouble(),
-              min: 1,
-              max: 4,
-              divisions: 3,
-              label: '$_sweetnessRating',
-              onChanged: (double value) =>
-                  setState(() => _sweetnessRating = value.round()),
-            ),
-            const Text('Acidity'),
-            Slider(
-              value: _acidityRating.toDouble(),
-              min: 1,
-              max: 4,
-              divisions: 3,
-              label: '$_acidityRating',
-              onChanged: (double value) =>
-                  setState(() => _acidityRating = value.round()),
-            ),
-            const Text('Body Fullness'),
-            Slider(
-              value: _fullBodiedRating.toDouble(),
-              min: 1,
-              max: 4,
-              divisions: 3,
-              label: '$_fullBodiedRating',
-              onChanged: (double value) =>
-                  setState(() => _fullBodiedRating = value.round()),
-            ),
-            TextFormField(
-              style: _text,
-              initialValue: widget.tasting.bodyDesc,
-              decoration: const InputDecoration(
-                labelText: 'Body Description',
-              ),
-            ),
-            TextFormField(
-              // TODO: add intensity
-              style: _text,
-              initialValue: widget.tasting.aftertasteDesc,
-              decoration: const InputDecoration(
-                labelText: 'Nachgeschmack',
-              ),
-            ),
-            TextFormField(
-              style: _text,
-              initialValue: widget.tasting.foodRecommendation,
-              decoration: const InputDecoration(
-                labelText: 'Food Recomendation',
-              ),
-            ),
-            const Text(
-              'Conclusion',
-              style: _heading,
-            ),
-            TextFormField(
-              style: _text,
-              initialValue: widget.tasting.totalImpressionDesc,
-              decoration: const InputDecoration(
-                labelText: 'Total Impression',
-              ),
-            ),
-            const Text('Total Rating'),
-            Slider(
-              value: _totalImpressionRating.toDouble(),
-              min: 1,
-              max: 3,
-              divisions: 2,
-              label: '$_totalImpressionRating',
-              onChanged: (double value) =>
-                  setState(() => _totalImpressionRating = value.round()),
-            ),
-          ],
-        ),
+          ),
+          const Text('Total Rating'),
+          SliderIndicator(
+            value: tasting.totalImpressionRating,
+            min: 1,
+            max: 3,
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class SliderIndicator extends StatefulWidget {
+  final int min;
+  final int max;
+  final int value;
+
+  const SliderIndicator({
+    Key? key,
+    required this.min,
+    required this.max,
+    required this.value,
+  }) : super(key: key);
+
+  @override
+  _SliderIndicatorState createState() => _SliderIndicatorState();
+}
+
+class _SliderIndicatorState extends State<SliderIndicator> {
+  @override
+  Widget build(BuildContext context) {
+    return Slider(
+      value: widget.value.toDouble(),
+      min: widget.min.toDouble(),
+      max: widget.max.toDouble(),
+      divisions: widget.max - widget.min,
+      label: '${widget.value}',
+      onChanged: (double value) {},
     );
   }
 }
