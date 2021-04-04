@@ -58,6 +58,22 @@ class _NewTastingState extends State<NewTasting> {
   int _aftertasteRating = 1;
   int _totalImpressionRating = 1;
 
+  final List<int> _ebc = [
+    4,
+    6,
+    8,
+    12,
+    16,
+    20,
+    26,
+    33,
+    39,
+    47,
+    57,
+    69,
+    79,
+  ];
+
   @override
   void initState() {
     _selectedDate = DateTime.now();
@@ -160,21 +176,7 @@ class _NewTastingState extends State<NewTasting> {
             ),
             DropdownButtonFormField(
               value: _colourEbc,
-              items: <int>[
-                4,
-                6,
-                8,
-                12,
-                16,
-                20,
-                26,
-                33,
-                39,
-                47,
-                57,
-                69,
-                79,
-              ].map<DropdownMenuItem<int>>(
+              items: _ebc.map<DropdownMenuItem<int>>(
                 (int val) {
                   return DropdownMenuItem(
                     value: val,
@@ -183,9 +185,12 @@ class _NewTastingState extends State<NewTasting> {
                 },
               ).toList(),
               onChanged: (int? val) => setState(() => _colourEbc = val!),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'EBC',
-                // icon: Icon(Icons.calendar_today),
+                suffixIcon: Icon(
+                  Icons.circle,
+                  color: Colors.yellow[800],
+                ),
               ),
             ),
             TextFormField(

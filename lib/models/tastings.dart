@@ -8,9 +8,9 @@ import 'package:bierverkostung/models/beers.dart';
 class Tasting {
   // final String id;
   // final int revision;
-  DateTime? date;
+  DateTime date;
   String? location;
-  Beer? beer;
+  Beer beer;
   String? beerColour;
   String? beerColourDesc;
   int colourEbc;
@@ -31,8 +31,8 @@ class Tasting {
   int totalImpressionRating;
 
   Tasting({
-    this.date,
-    this.beer,
+    required this.date,
+    required this.beer,
     this.location,
     this.beerColour,
     this.beerColourDesc,
@@ -60,7 +60,7 @@ class Tasting {
 
     return Tasting(
       // id: doc.data(),
-      date: data['date'].toDate() as DateTime?,
+      date: data['date'].toDate() as DateTime,
       beer: bier1,
       location: data['location'] as String?,
       beerColour : data['beerColour'] as String?,
@@ -87,7 +87,7 @@ class Tasting {
   Map<String, dynamic> toMap() {
     return {
     'date' : date,
-    'beer': beer!.beerName,
+    'beer': beer.beerName,
     'location' : location,
     'beerColour' : beerColour,
     'beerColourDesc' : beerColourDesc,

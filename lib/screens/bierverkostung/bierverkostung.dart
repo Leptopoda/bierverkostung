@@ -48,7 +48,7 @@ class Bierverkostung extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   title: Text(
-                    'Bier: ${snapshot.data![index].beer!.beerName} Datum: ${snapshot.data![index].date.toString()}',
+                    'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date.toString()}',
                     style: const TextStyle(fontSize: 18),
                   ),
                 );
