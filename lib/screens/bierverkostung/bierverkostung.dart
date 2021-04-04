@@ -11,6 +11,7 @@ import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/screens/bierverkostung/new_tasting.dart';
+import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
 
 class Bierverkostung extends StatelessWidget {
   const Bierverkostung({Key? key}) : super(key: key);
@@ -50,6 +51,14 @@ class Bierverkostung extends StatelessWidget {
                   title: Text(
                     'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date.toString()}',
                     style: const TextStyle(fontSize: 18),
+                  ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => DispTasting(
+                        tasting: snapshot.data![index],
+                      ),
+                    ),
                   ),
                 );
               },

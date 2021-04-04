@@ -3,43 +3,26 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
-import 'package:bierverkostung/services/database.dart';
-import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
 
-class NewTasting extends StatefulWidget {
-  final User user;
+// TODO: Deduplicate this file with NewTasting
 
-  const NewTasting({
+class DispTasting extends StatefulWidget {
+  final Tasting tasting;
+
+  const DispTasting({
     Key? key,
-    required this.user,
+    required this.tasting,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _NewTastingState();
+  State<StatefulWidget> createState() => _DispTastingState();
 }
 
-class _NewTastingState extends State<NewTasting> {
-  late DateTime _selectedDate;
-
+class _DispTastingState extends State<DispTasting> {
   final _formKey = GlobalKey<FormState>();
-
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _location = TextEditingController();
-  final TextEditingController _beer = TextEditingController();
-  final TextEditingController _beerColour = TextEditingController();
-  final TextEditingController _beerColourDesc = TextEditingController();
-  final TextEditingController _clarity = TextEditingController();
-  final TextEditingController _foamColour = TextEditingController();
-  final TextEditingController _foamStructure = TextEditingController();
-  final TextEditingController _mouthFeelDesc = TextEditingController();
-  final TextEditingController _bodyDesc = TextEditingController();
-  final TextEditingController _aftertasteDesc = TextEditingController();
-  final TextEditingController _foodRecommendation = TextEditingController();
-  final TextEditingController _totalImpressionDesc = TextEditingController();
 
   static const TextStyle _heading = TextStyle(
     fontSize: 22,
@@ -49,61 +32,31 @@ class _NewTastingState extends State<NewTasting> {
     fontSize: 18,
   );
 
-  int _colourEbc = 4;
-  int _foamStability = 1;
-  int _bitternessRating = 1;
-  int _sweetnessRating = 1;
-  int _acidityRating = 1;
-  int _fullBodiedRating = 1;
-  int _aftertasteRating = 1;
-  int _totalImpressionRating = 1;
-
-  final List<int> _ebc = [
-    4,
-    6,
-    8,
-    12,
-    16,
-    20,
-    26,
-    33,
-    39,
-    47,
-    57,
-    69,
-    79,
-  ];
+  late int _foamStability;
+  late int _bitternessRating;
+  late int _sweetnessRating;
+  late int _acidityRating;
+  late int _fullBodiedRating;
+  late int _aftertasteRating;
+  late int _totalImpressionRating;
 
   @override
   void initState() {
-    _selectedDate = DateTime.now();
-    _dateController.text = DateFormat.yMMMMd().format(_selectedDate);
+    _foamStability = widget.tasting.foamStability;
+    _bitternessRating = widget.tasting.bitternessRating;
+    _sweetnessRating = widget.tasting.sweetnessRating;
+    _acidityRating = widget.tasting.acidityRating;
+    _fullBodiedRating = widget.tasting.fullBodiedRating;
+    _aftertasteRating = widget.tasting.aftertasteRating;
+    _totalImpressionRating = widget.tasting.totalImpressionRating;
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _dateController.dispose();
-    _location.dispose();
-    _beer.dispose();
-    _beerColour.dispose();
-    _beerColourDesc.dispose();
-    _clarity.dispose();
-    _foamColour.dispose();
-    _foamStructure.dispose();
-    _mouthFeelDesc.dispose();
-    _bodyDesc.dispose();
-    _aftertasteDesc.dispose();
-    _foodRecommendation.dispose();
-    _totalImpressionDesc.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Neue Verkostung'),
+        title: const Text('Verkostung'),
       ),
       body: Form(
         key: _formKey,
@@ -114,12 +67,10 @@ class _NewTastingState extends State<NewTasting> {
               'General',
               style: _heading,
             ),
-            // InputDatePickerFormField(firstDate: DateTime(2015), lastDate: DateTime(2100)),
             TextFormField(
               style: _text,
               readOnly: true,
-              controller: _dateController,
-              onTap: () => _selectDate(context),
+              initialValue: DateFormat.yMMMMd().format(widget.tasting.date),
               decoration: const InputDecoration(
                 labelText: 'Date',
                 suffixIcon: Icon(Icons.calendar_today_outlined),
@@ -127,7 +78,7 @@ class _NewTastingState extends State<NewTasting> {
             ),
             TextFormField(
               style: _text,
-              controller: _location,
+              initialValue: widget.tasting.location,
               decoration: const InputDecoration(
                 labelText: 'Location',
                 suffixIcon: Icon(Icons.location_on_outlined),
@@ -135,16 +86,10 @@ class _NewTastingState extends State<NewTasting> {
             ),
             TextFormField(
               style: _text,
-              controller: _beer,
+              initialValue: widget.tasting.beer.beerName,
               decoration: const InputDecoration(
                 labelText: 'Bier',
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Pflichtfeld';
-                }
-                return null;
-              },
             ),
             const Text(
               'Optical Appearance',
@@ -152,7 +97,7 @@ class _NewTastingState extends State<NewTasting> {
             ),
             TextFormField(
               style: _text,
-              controller: _foamColour,
+              initialValue: widget.tasting.foamColour,
               decoration: const InputDecoration(
                 labelText: 'Foam Colour',
                 suffixIcon: Icon(Icons.color_lens_outlined),
@@ -160,7 +105,7 @@ class _NewTastingState extends State<NewTasting> {
             ),
             TextFormField(
               style: _text,
-              controller: _foamStructure,
+              initialValue: widget.tasting.foamStructure,
               decoration: const InputDecoration(
                 labelText: 'Foam Structure',
               ),
@@ -175,17 +120,9 @@ class _NewTastingState extends State<NewTasting> {
               onChanged: (double value) =>
                   setState(() => _foamStability = value.round()),
             ),
-            DropdownButtonFormField(
-              value: _colourEbc,
-              items: _ebc.map<DropdownMenuItem<int>>(
-                (int val) {
-                  return DropdownMenuItem(
-                    value: val,
-                    child: Text('$val'),
-                  );
-                },
-              ).toList(),
-              onChanged: (int? val) => setState(() => _colourEbc = val!),
+            TextFormField(
+              style: _text,
+              initialValue: '${widget.tasting.colourEbc}',
               decoration: InputDecoration(
                 labelText: 'EBC',
                 suffixIcon: Icon(
@@ -196,21 +133,21 @@ class _NewTastingState extends State<NewTasting> {
             ),
             TextFormField(
               style: _text,
-              controller: _beerColour,
+              initialValue: widget.tasting.beerColour,
               decoration: const InputDecoration(
                 labelText: 'Beer Colour',
               ),
             ),
             TextFormField(
               style: _text,
-              controller: _beerColourDesc,
+              initialValue: widget.tasting.beerColourDesc,
               decoration: const InputDecoration(
                 labelText: 'Color Description',
               ),
             ),
             TextFormField(
               style: _text,
-              controller: _clarity,
+              initialValue: widget.tasting.clarity,
               decoration: const InputDecoration(
                 labelText: 'Clarity',
               ),
@@ -221,7 +158,7 @@ class _NewTastingState extends State<NewTasting> {
             ),
             TextFormField(
               style: _text,
-              controller: _mouthFeelDesc,
+              initialValue: widget.tasting.mouthFeelDesc,
               decoration: const InputDecoration(
                 labelText: 'Mundgefühl',
               ),
@@ -268,7 +205,7 @@ class _NewTastingState extends State<NewTasting> {
             ),
             TextFormField(
               style: _text,
-              controller: _bodyDesc,
+              initialValue: widget.tasting.bodyDesc,
               decoration: const InputDecoration(
                 labelText: 'Body Description',
               ),
@@ -276,14 +213,14 @@ class _NewTastingState extends State<NewTasting> {
             TextFormField(
               // TODO: add intensity
               style: _text,
-              controller: _aftertasteDesc,
+              initialValue: widget.tasting.aftertasteDesc,
               decoration: const InputDecoration(
                 labelText: 'Nachgeschmack',
               ),
             ),
             TextFormField(
               style: _text,
-              controller: _foodRecommendation,
+              initialValue: widget.tasting.foodRecommendation,
               decoration: const InputDecoration(
                 labelText: 'Food Recomendation',
               ),
@@ -294,7 +231,7 @@ class _NewTastingState extends State<NewTasting> {
             ),
             TextFormField(
               style: _text,
-              controller: _totalImpressionDesc,
+              initialValue: widget.tasting.totalImpressionDesc,
               decoration: const InputDecoration(
                 labelText: 'Total Impression',
               ),
@@ -309,73 +246,9 @@ class _NewTastingState extends State<NewTasting> {
               onChanged: (double value) =>
                   setState(() => _totalImpressionRating = value.round()),
             ),
-            ElevatedButton(
-              onPressed: () => _submit(context),
-              child: const Text('Submit'),
-            ),
           ],
         ),
       ),
     );
-  }
-
-  Future<void> _submit(BuildContext context) async {
-    // Validate returns true if the form is valid, or false otherwise.
-    if (_formKey.currentState!.validate()) {
-      // If the form is valid, display a snackbar. In the real world,
-      // you'd often call a server or save the information in a database.
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Processing Data')));
-      _formKey.currentState!.save();
-
-      final Beer _bier1 = Beer(
-        beerName: _beer.value.text,
-      );
-
-      final Tasting _tasting1 = Tasting(
-        beer: _bier1,
-        date: _selectedDate,
-        location: _location.value.text,
-        beerColour: _beerColour.value.text,
-        beerColourDesc: _beerColourDesc.value.text,
-        colourEbc: _colourEbc,
-        clarity: _clarity.value.text,
-        foamColour: _foamColour.value.text,
-        foamStructure: _foamStructure.value.text,
-        foamStability: _foamStability,
-        bitternessRating: _bitternessRating,
-        sweetnessRating: _sweetnessRating,
-        acidityRating: _acidityRating,
-        mouthFeelDesc: _mouthFeelDesc.value.text,
-        fullBodiedRating: _fullBodiedRating,
-        bodyDesc: _bodyDesc.value.text,
-        aftertasteDesc: _aftertasteDesc.value.text,
-        aftertasteRating: _aftertasteRating,
-        foodRecommendation: _foodRecommendation.value.text,
-        totalImpressionDesc: _totalImpressionDesc.value.text,
-        totalImpressionRating: _totalImpressionRating,
-      );
-
-      await DatabaseService(uid: widget.user.uid).saveTasting(_tasting1);
-
-      Navigator.of(context).pop();
-    }
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime(2015),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null) {
-      setState(
-        () {
-          _selectedDate = picked;
-          _dateController.text = DateFormat.yMMMMd().format(_selectedDate);
-        },
-      );
-    }
   }
 }
