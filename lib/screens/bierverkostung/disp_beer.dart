@@ -46,6 +46,7 @@ class DispBeer {
         ),
       ),
       TextFormField(
+        // TODO: validator to check parsing
         style: _text,
         readOnly: true,
         initialValue: beer.originalWort as String?,

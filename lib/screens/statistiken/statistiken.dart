@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/stats.dart';
+import 'package:bierverkostung/models/beers.dart';
+import 'package:bierverkostung/screens/bierverkostung/beers.dart';
 
 class Statistiken extends StatelessWidget {
   const Statistiken({Key? key}) : super(key: key);
@@ -45,7 +47,9 @@ class Statistiken extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   title: Text(
-                    'Menge: ${snapshot.data![index].menge.toString()} Datum: ${snapshot.data![index].timestamp.toString()}',
+                    'Menge: ${snapshot.data![index].menge} '
+                    'Datum: ${snapshot.data![index].timestamp} '
+                    'Beer: ${snapshot.data![index].beer?.beerName}',
                     style: const TextStyle(fontSize: 18),
                   ),
                 );
@@ -94,6 +98,7 @@ class StatistikenAlert extends StatefulWidget {
 class _StatistikenAlertState extends State<StatistikenAlert> {
   _bier? _character = _bier.gross;
   static int _menge = 1;
+  final TextEditingController _beer = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +128,23 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
               divisions: 4,
               label: "$_menge",
             ),
+            TextFormField(
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+              readOnly: true,
+              controller: _beer,
+              onTap: () => _selectBeer(context),
+              decoration: const InputDecoration(
+                labelText: 'Bier',
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Pflichtfeld';
+                }
+                return null;
+              },
+            ),
           ],
         ),
       ),
@@ -134,18 +156,24 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
         TextButton(
           onPressed: () async {
             final DateTime date = DateTime.now();
+            final Beer? _bier1 = (_beer.value.text != '')
+                ? Beer(
+                    beerName: _beer.value.text,
+                  )
+                : null;
+
             switch (_character) {
               case _bier.klein:
                 for (var i = 0; i < _menge; i++) {
                   await DatabaseService(uid: widget.user.uid).saveStat(
-                    Stat(menge: 0.33, timestamp: date),
+                    Stat(menge: 0.33, timestamp: date, beer: _bier1),
                   );
                 }
                 break;
               case _bier.gross:
                 for (var i = 0; i < _menge; i++) {
                   await DatabaseService(uid: widget.user.uid).saveStat(
-                    Stat(menge: 0.5, timestamp: date),
+                    Stat(menge: 0.5, timestamp: date, beer: _bier1),
                   );
                 }
                 break;
@@ -166,5 +194,22 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
         ),
       ],
     );
+  }
+
+  Future<void> _selectBeer(BuildContext context) async {
+    final Beer? _beer1 = await Navigator.push<Beer?>(
+      context,
+      MaterialPageRoute<Beer?>(
+        builder: (BuildContext context) => BeerList(
+          user: widget.user,
+        ),
+      ),
+    );
+
+    if (_beer1 != null) {
+      setState(() {
+        _beer.text = _beer1.beerName;
+      });
+    }
   }
 }
