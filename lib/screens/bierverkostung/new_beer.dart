@@ -2,6 +2,7 @@
 // Use of this source code is governed by a APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/models/breweries.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -158,10 +159,12 @@ class _NewBeerState extends State<NewBeer> {
           .showSnackBar(const SnackBar(content: Text('Processing Data')));
       _formKey.currentState!.save();
 
+      final Brewery _brewery1 = Brewery(breweryName: _brewery.value.text);
+
       final Beer _bier1 = Beer(
         beerName: _beerName.value.text,
-        // brewery: _brewery.value.text,
-        // style: _style.value.text,
+        brewery: _brewery1,
+        style: _style.value.text,
         originalWort: _originalWort.value as double?,
         alcohol: _alcohol.value as double?,
         ibu: _ibu.value as int?,

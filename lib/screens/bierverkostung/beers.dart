@@ -4,13 +4,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
 
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
-import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
 
 class BeerList extends StatelessWidget {
   final User user;

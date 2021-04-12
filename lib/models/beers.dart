@@ -2,7 +2,6 @@
 // Use of this source code is governed by a APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:bierverkostung/models/beer_styles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bierverkostung/models/breweries.dart';
 
@@ -11,7 +10,7 @@ class Beer {
   // final int revision;
   final String beerName;
   final Brewery? brewery;
-  final BeerStyle? style;
+  final String? style;
   final double? originalWort;
   final double? alcohol;
   final int? ibu;
@@ -37,7 +36,7 @@ class Beer {
     return Beer(
       beerName: data['beerName'] as String,
       brewery: data['brewery'] as Brewery?,
-      style: data['style'] as BeerStyle?,
+      style: data['style'] as String?,
       originalWort: data['originalWort'] as double?,
       alcohol: data['alcohol'] as double?,
       ibu: data['ibu'] as int?,
