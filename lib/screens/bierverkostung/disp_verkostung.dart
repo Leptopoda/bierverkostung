@@ -172,12 +172,17 @@ class DispTasting extends StatelessWidget {
             ),
           ),
           TextFormField(
-            // TODO: add intensity
             style: _text, readOnly: true,
             initialValue: tasting.aftertasteDesc,
             decoration: const InputDecoration(
               labelText: 'Nachgeschmack',
             ),
+          ),
+          const Text('Nachgeschmack rating'),
+          SliderIndicator(
+            value: tasting.aftertasteRating,
+            min: 1,
+            max: 4,
           ),
           TextFormField(
             style: _text,

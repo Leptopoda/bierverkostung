@@ -277,12 +277,21 @@ class _NewTastingState extends State<NewTasting> {
               ),
             ),
             TextFormField(
-              // TODO: add intensity
               style: _text,
               controller: _aftertasteDesc,
               decoration: const InputDecoration(
                 labelText: 'Nachgeschmack',
               ),
+            ),
+            const Text('Nachgeschmack rating'),
+            Slider(
+              value: _aftertasteRating.toDouble(),
+              min: 1,
+              max: 4,
+              divisions: 3,
+              label: '$_aftertasteRating',
+              onChanged: (double value) =>
+                  setState(() => _aftertasteRating = value.round()),
             ),
             TextFormField(
               style: _text,
