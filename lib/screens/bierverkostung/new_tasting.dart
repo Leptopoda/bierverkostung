@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/models/beers.dart';
+import 'package:bierverkostung/screens/bierverkostung/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
 
 class NewTasting extends StatefulWidget {
@@ -135,7 +136,9 @@ class _NewTastingState extends State<NewTasting> {
             ),
             TextFormField(
               style: _text,
+              readOnly: true,
               controller: _beer,
+              onTap: () => _selectBeer(context),
               decoration: const InputDecoration(
                 labelText: 'Bier',
               ),
@@ -362,17 +365,34 @@ class _NewTastingState extends State<NewTasting> {
     }
   }
 
+  Future<void> _selectBeer(BuildContext context) async {
+    final Beer? _beer1 = await Navigator.push<Beer?>(
+      context,
+      MaterialPageRoute<Beer?>(
+        builder: (BuildContext context) => BeerList(
+          user: widget.user,
+        ),
+      ),
+    );
+
+    if (_beer1 != null) {
+      setState(() {
+        _beer.text = _beer1.beerName;
+      });
+    }
+  }
+
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime? _picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
       firstDate: DateTime(2015),
       lastDate: DateTime(2100),
     );
-    if (picked != null) {
+    if (_picked != null) {
       setState(
         () {
-          _selectedDate = picked;
+          _selectedDate = _picked;
           _dateController.text = DateFormat.yMMMMd().format(_selectedDate);
         },
       );
