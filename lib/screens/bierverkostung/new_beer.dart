@@ -4,6 +4,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:pattern_formatter/pattern_formatter.dart';
 
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/models/beers.dart';
@@ -86,6 +88,10 @@ class _NewBeerState extends State<NewBeer> {
             TextFormField(
               style: _text,
               controller: _originalWort,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                ThousandsFormatter(allowFraction: true),
+              ],
               decoration: const InputDecoration(
                 labelText: 'Original Wort',
               ),
@@ -93,6 +99,10 @@ class _NewBeerState extends State<NewBeer> {
             TextFormField(
               style: _text,
               controller: _alcohol,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                ThousandsFormatter(allowFraction: true),
+              ],
               decoration: const InputDecoration(
                 labelText: 'Alcohol %',
               ),
@@ -100,6 +110,10 @@ class _NewBeerState extends State<NewBeer> {
             TextFormField(
               style: _text,
               controller: _ibu,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+              ],
               decoration: const InputDecoration(
                 labelText: 'IBU',
               ),
@@ -148,9 +162,9 @@ class _NewBeerState extends State<NewBeer> {
         beerName: _beerName.value.text,
         // brewery: _brewery.value.text,
         // style: _style.value.text,
-        originalWort: _originalWort.value.text,
-        // alcohol: _alcohol.value.text,
-        // ibu: _ibu.value.text,
+        originalWort: _originalWort.value as double?,
+        alcohol: _alcohol.value as double?,
+        ibu: _ibu.value as int?,
         ingredients: _ingredients.value.text,
         specifics: _specifics.value.text,
         beerNotes: _beerNotes.value.text,

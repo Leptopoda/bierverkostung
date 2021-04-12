@@ -34,7 +34,8 @@ dependencies:
   cupertino_icons: any
   provider: any
 
-  floating_action_bubble: any
+  # floating_action_bubble: any
+  pattern_formatter: any
 
   # Firebase
   firebase_core: any

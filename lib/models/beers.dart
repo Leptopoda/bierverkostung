@@ -12,7 +12,7 @@ class Beer {
   final String beerName;
   final Brewery? brewery;
   final BeerStyle? style;
-  final String? originalWort;
+  final double? originalWort;
   final double? alcohol;
   final int? ibu;
   final String? ingredients;
@@ -38,7 +38,7 @@ class Beer {
       beerName: data['beerName'] as String,
       brewery: data['brewery'] as Brewery?,
       style: data['style'] as BeerStyle?,
-      originalWort: data['originalWort'] as String?,
+      originalWort: data['originalWort'] as double?,
       alcohol: data['alcohol'] as double?,
       ibu: data['ibu'] as int?,
       ingredients: data['ingredients'] as String?,
