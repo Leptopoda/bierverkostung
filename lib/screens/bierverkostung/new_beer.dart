@@ -159,15 +159,15 @@ class _NewBeerState extends State<NewBeer> {
           .showSnackBar(const SnackBar(content: Text('Processing Data')));
       _formKey.currentState!.save();
 
-      final Brewery _brewery1 = Brewery(breweryName: _brewery.value.text);
-
       final Beer _bier1 = Beer(
         beerName: _beerName.value.text,
-        brewery: _brewery1,
+        brewery: (_brewery.value.text != '')
+            ? Brewery(breweryName: _brewery.value.text)
+            : null,
         style: _style.value.text,
-        originalWort: _originalWort.value as double?,
-        alcohol: _alcohol.value as double?,
-        ibu: _ibu.value as int?,
+        // originalWort: _originalWort.value as double?,
+        // alcohol: _alcohol.value as double?,
+        // ibu: _ibu.value as int?,
         ingredients: _ingredients.value.text,
         specifics: _specifics.value.text,
         beerNotes: _beerNotes.value.text,

@@ -35,7 +35,9 @@ class Beer {
 
     return Beer(
       beerName: data['beerName'] as String,
-      brewery: data['brewery'] as Brewery?,
+      brewery: (data['breweryName'] != null)
+          ? Brewery.fromMap(data['brewery'])
+          : null,
       style: data['style'] as String?,
       originalWort: data['originalWort'] as double?,
       alcohol: data['alcohol'] as double?,
@@ -49,7 +51,7 @@ class Beer {
   Map<String, dynamic> toMap() {
     return {
       'beerName': beerName,
-      'brewery': brewery,
+      'brewery': brewery?.toMap(),
       'style': style,
       'originalWort': originalWort,
       'alcohol': alcohol,
