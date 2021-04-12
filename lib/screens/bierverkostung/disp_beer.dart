@@ -20,7 +20,6 @@ class DispBeer {
   );
 
   List<Widget> dispBeer() {
-    print(beer.alcohol);
     return <Widget>[
       TextFormField(
         style: _text,

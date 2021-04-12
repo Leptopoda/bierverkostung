@@ -11,19 +11,14 @@ import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/models/beers.dart';
 
-class NewBeer extends StatefulWidget {
+class NewBeer extends StatelessWidget {
   final User user;
 
-  const NewBeer({
+  NewBeer({
     Key? key,
     required this.user,
   }) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() => _NewBeerState();
-}
-
-class _NewBeerState extends State<NewBeer> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _beerName = TextEditingController();
@@ -40,7 +35,6 @@ class _NewBeerState extends State<NewBeer> {
     fontSize: 18,
   );
 
-  @override
   void dispose() {
     _beerName.dispose();
     _brewery.dispose();
@@ -51,7 +45,6 @@ class _NewBeerState extends State<NewBeer> {
     _ingredients.dispose();
     _specifics.dispose();
     _beerNotes.dispose();
-    super.dispose();
   }
 
   @override
@@ -177,7 +170,7 @@ class _NewBeerState extends State<NewBeer> {
         beerNotes: _beerNotes.value.text,
       );
 
-      await DatabaseService(uid: widget.user.uid).saveBeer(_bier1);
+      await DatabaseService(uid: user.uid).saveBeer(_bier1);
 
       Navigator.of(context).pop();
     }
