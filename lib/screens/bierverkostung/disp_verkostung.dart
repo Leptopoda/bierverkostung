@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:bierverkostung/models/tastings.dart';
+import 'package:bierverkostung/screens/bierverkostung/disp_beer.dart';
 
 // TODO: Deduplicate this file with NewTasting
 
@@ -172,7 +173,8 @@ class DispTasting extends StatelessWidget {
             ),
           ),
           TextFormField(
-            style: _text, readOnly: true,
+            style: _text,
+            readOnly: true,
             initialValue: tasting.aftertasteDesc,
             decoration: const InputDecoration(
               labelText: 'Nachgeschmack',
@@ -210,6 +212,13 @@ class DispTasting extends StatelessWidget {
             min: 1,
             max: 3,
           ),
+          const Text(
+            'Beer',
+            style: _heading,
+          ),
+          ...DispBeer(
+            beer: tasting.beer,
+          ).dispBeer(),
         ],
       ),
     );
