@@ -165,9 +165,13 @@ class _NewBeerState extends State<NewBeer> {
             ? Brewery(breweryName: _brewery.value.text)
             : null,
         style: _style.value.text,
-        // originalWort: _originalWort.value as double?,
-        // alcohol: _alcohol.value as double?,
-        // ibu: _ibu.value as int?,
+        originalWort: (_originalWort.value.text != '')
+            ? double.parse(_originalWort.value.text)
+            : null,
+        alcohol: (_alcohol.value.text != '')
+            ? double?.parse(_alcohol.value.text)
+            : null,
+        ibu: (_ibu.value.text != '') ? int.parse(_ibu.value.text) : null,
         ingredients: _ingredients.value.text,
         specifics: _specifics.value.text,
         beerNotes: _beerNotes.value.text,
