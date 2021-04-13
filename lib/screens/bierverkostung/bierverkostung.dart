@@ -3,25 +3,22 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-// import 'package:floating_action_bubble/floating_action_bubble.dart'; //TODO: Use null safety
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+// import 'package:floating_action_bubble/floating_action_bubble.dart'; //TODO: Use null safety
 
 import 'package:bierverkostung/services/database.dart';
+import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/tastings.dart';
-import 'package:bierverkostung/screens/bierverkostung/new_tasting.dart';
-import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
 
 class Bierverkostung extends StatelessWidget {
   const Bierverkostung({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final User? _user = Provider.of<User?>(context);
-
+    final UserData _user = Provider.of<UserData?>(context)!;
     return StreamBuilder<List<Tasting>>(
-      stream: DatabaseService(uid: _user!.uid).tastings,
+      stream: DatabaseService(user: _user).tastings,
       builder: (BuildContext context, AsyncSnapshot<List<Tasting>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
@@ -49,17 +46,11 @@ class Bierverkostung extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   title: Text(
-                    'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date.toString()}',
+                    'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date}',
                     style: const TextStyle(fontSize: 18),
                   ),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => DispTasting(
-                        tasting: snapshot.data![index],
-                      ),
-                    ),
-                  ),
+                  onTap: () => Navigator.pushNamed(context, '/DispTasting',
+                      arguments: snapshot.data![index]),
                 );
               },
             );
@@ -74,17 +65,10 @@ class BierverkostungFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User? _user = Provider.of<User?>(context);
-
     return FloatingActionButton(
-      onPressed: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => NewTasting(
-            user: _user!,
-          ),
-        ),
-      ),
+      onPressed: () => {
+        Navigator.pushNamed(context, '/NewTasting'),
+      },
       child: const Icon(Icons.add),
     );
   }

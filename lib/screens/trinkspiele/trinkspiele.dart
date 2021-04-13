@@ -3,17 +3,15 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
-import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
 
 class Trinkspiele extends StatelessWidget {
-  static const _spiele = [
+  static const List<String> _spiele = [
     'Alte Trinksprüche',
     'Neue Trinksprüche',
   ];
-  static final _spielePages = [
-    const TrinkspruecheAlt(),
-    const TrinkspruecheNeu(),
+  static const List<String> _spielePages = [
+    '/Trinkspiele/TrinkspruecheAlt',
+    '/Trinkspiele/TrinkspruecheNeu'
   ];
 
   const Trinkspiele({Key? key}) : super(key: key);
@@ -32,12 +30,7 @@ class Trinkspiele extends StatelessWidget {
             style: const TextStyle(fontSize: 18),
           ),
           trailing: const Icon(Icons.keyboard_arrow_right),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => _spielePages[index],
-            ),
-          ),
+          onTap: () => Navigator.pushNamed(context, _spielePages[index]),
         );
       },
     );

@@ -3,23 +3,22 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
+import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/stats.dart';
 import 'package:bierverkostung/models/beers.dart';
-import 'package:bierverkostung/screens/bierverkostung/beers.dart';
 
 class Statistiken extends StatelessWidget {
   const Statistiken({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final User? _user = Provider.of<User?>(context);
+    final UserData _user = Provider.of<UserData?>(context)!;
     return StreamBuilder<List<Stat>>(
-      stream: DatabaseService(uid: _user!.uid).stats,
+      stream: DatabaseService(user: _user).stats,
       builder: (BuildContext context, AsyncSnapshot<List<Stat>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
@@ -66,15 +65,13 @@ class StatistikenFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User? _user = Provider.of<User?>(context);
-
     return FloatingActionButton(
-      onPressed: () => showDialog(
-        context: context,
-        builder: (BuildContext context) => StatistikenAlert(
-          user: _user!,
-        ),
-      ),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) => const StatistikenAlert(),
+        );
+      },
       child: const Icon(Icons.add),
     );
   }
@@ -84,12 +81,7 @@ enum _bier { klein, gross }
 // const _biggerFont = TextStyle(fontSize: 18.0);
 
 class StatistikenAlert extends StatefulWidget {
-  final User user;
-
-  const StatistikenAlert({
-    Key? key,
-    required this.user,
-  }) : super(key: key);
+  const StatistikenAlert({Key? key}) : super(key: key);
 
   @override
   State<StatistikenAlert> createState() => _StatistikenAlertState();
@@ -161,31 +153,26 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
                     beerName: _beer.value.text,
                   )
                 : null;
+            final UserData _user = Provider.of<UserData?>(context)!;
 
             switch (_character) {
               case _bier.klein:
-                for (var i = 0; i < _menge; i++) {
-                  await DatabaseService(uid: widget.user.uid).saveStat(
+                for (int i = 0; i < _menge; i++) {
+                  await DatabaseService(user: _user).saveStat(
                     Stat(menge: 0.33, timestamp: date, beer: _bier1),
                   );
                 }
                 break;
               case _bier.gross:
-                for (var i = 0; i < _menge; i++) {
-                  await DatabaseService(uid: widget.user.uid).saveStat(
+                for (int i = 0; i < _menge; i++) {
+                  await DatabaseService(user: _user).saveStat(
                     Stat(menge: 0.5, timestamp: date, beer: _bier1),
                   );
                 }
                 break;
               default:
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => const SomethingWentWrong(
-                      error: 'invalid response',
-                    ),
-                  ),
-                );
+                Navigator.pushNamed(context, '/error',
+                    arguments: 'invalid response');
             }
 
             Navigator.of(context).pop();
@@ -197,14 +184,7 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
   }
 
   Future<void> _selectBeer(BuildContext context) async {
-    final Beer? _beer1 = await Navigator.push<Beer?>(
-      context,
-      MaterialPageRoute<Beer?>(
-        builder: (BuildContext context) => BeerList(
-          user: widget.user,
-        ),
-      ),
-    );
+    final Beer? _beer1 = await Navigator.pushNamed<Beer?>(context, '/BeerList');
 
     if (_beer1 != null) {
       setState(() {

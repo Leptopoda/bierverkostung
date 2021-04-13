@@ -3,25 +3,27 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
+import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/beers.dart';
-import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
 
 class BeerList extends StatelessWidget {
-  final User user;
-  const BeerList({Key? key, required this.user}) : super(key: key);
+  const BeerList({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final UserData _user = Provider.of<UserData?>(context)!;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Biere'),
       ),
       body: StreamBuilder<List<Beer>>(
-        stream: DatabaseService(uid: user.uid).beers,
+        stream: DatabaseService(user: _user).beers,
         builder: (BuildContext context, AsyncSnapshot<List<Beer>> snapshot) {
           if (snapshot.hasError) {
             return SomethingWentWrong(
@@ -55,42 +57,26 @@ class BeerList extends StatelessWidget {
                     onTap: () {
                       Navigator.pop(context, snapshot.data![index]);
                     },
-                    /* Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => DispTasting(
-                        tasting: snapshot.data![index],
-                      ),
-                    ),
-                  ), */
                   );
                 },
               );
           }
         },
       ),
-      floatingActionButton: BierverkostungFab(
-        user: user,
-      ),
+      floatingActionButton: const BierverkostungFab(),
     );
   }
 }
 
 class BierverkostungFab extends StatelessWidget {
-  final User user;
-  const BierverkostungFab({Key? key, required this.user}) : super(key: key);
+  const BierverkostungFab({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => NewBeer(
-            user: user,
-          ),
-        ),
-      ),
+      onPressed: () => Navigator.pushNamed(context, '/NewBeer'),
       child: const Icon(Icons.add),
     );
   }

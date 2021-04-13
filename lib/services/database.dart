@@ -2,32 +2,32 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:bierverkostung/models/stats.dart';
+import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/models/beers.dart';
-// import 'package:bierverkostung/models/beer_styles.dart';
-// import 'package:bierverkostung/models/breweries.dart';
-// import 'package:bierverkostung/models/countries.dart';
 
 class DatabaseService {
-  final String uid;
-  DatabaseService({required this.uid});
+  final UserData user;
+  DatabaseService({required this.user});
 
-  // collection reference
+  // Firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Stats
   // save Stat
   Future<void> saveStat(Stat stat) async {
-    _firestore.collection('u-$uid').add(stat.toMap());
+    _firestore.collection('u-${user.uid}').add(stat.toMap());
   }
 
   // get stats stream
   Stream<List<Stat>> get stats {
     return _firestore
-        .collection('u-$uid')
+        .collection('u-${user.uid}')
         .snapshots()
         .map((list) => list.docs.map((doc) => Stat.fromMap(doc)).toList());
   }
@@ -37,7 +37,7 @@ class DatabaseService {
   Future<void> saveTasting(Tasting tasting) async {
     _firestore
         .collection('groups')
-        .doc(uid)
+        .doc(user.guid)
         .collection('tastings')
         .add(tasting.toMap());
   }
@@ -46,7 +46,7 @@ class DatabaseService {
   Stream<List<Tasting>> get tastings {
     return _firestore
         .collection('groups')
-        .doc(uid)
+        .doc(user.guid)
         .collection('tastings')
         .snapshots()
         .map((list) => list.docs.map((doc) => Tasting.fromMap(doc)).toList());
@@ -57,7 +57,7 @@ class DatabaseService {
   Future<void> saveBeer(Beer beer) async {
     _firestore
         .collection('groups')
-        .doc(uid)
+        .doc(user.guid)
         .collection('beers')
         .add(beer.toMap());
   }
@@ -66,7 +66,7 @@ class DatabaseService {
   Stream<List<Beer>> get beers {
     return _firestore
         .collection('groups')
-        .doc(uid)
+        .doc(user.guid)
         .collection('beers')
         .snapshots()
         .map((list) => list.docs.map((doc) => Beer.fromMap(doc)).toList());

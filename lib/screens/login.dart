@@ -3,17 +3,15 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:bierverkostung/shared/error_page.dart';
+import 'package:bierverkostung/services/auth.dart';
+import 'package:bierverkostung/models/users.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Log in'),
@@ -22,23 +20,16 @@ class Login extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () async {
             //TODO: better error handling
-            final _result = await _auth.signInAnonymously();
-            final User? _user = _result.user;
-            if (_user == null) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const SomethingWentWrong(
-                    error: 'error signing in',
-                  ),
+            final UserData? _result = await AuthService().registerAnon();
+            if (_result != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Loged in as ${_result.uid}'),
                 ),
               );
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Loged in $_user'),
-                ),
-              );
+              Navigator.pushNamed(context, '/error',
+                  arguments: 'error signing in');
             }
           },
           child: const Text('Register Anonymously'),

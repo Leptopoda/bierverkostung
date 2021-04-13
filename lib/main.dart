@@ -5,15 +5,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bierverkostung/shared/theme.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
+import 'package:bierverkostung/models/users.dart';
+import 'package:bierverkostung/services/auth.dart';
+import 'package:bierverkostung/services/route_generator.dart';
 
-import 'package:bierverkostung/screens/home.dart';
+import 'package:bierverkostung/screens/login_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,44 +29,52 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      // themeMode: ThemeMode.system,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      onGenerateTitle: (BuildContext context) =>
-          AppLocalizations.of(context)!.appName,
-      home: SafeArea(
-        child: FutureBuilder(
-          // Initialize FlutterFire:
-          future: _initialization,
-          builder: (context, snapshot) {
-            // Check for errors
-            if (snapshot.hasError) {
-              return SomethingWentWrong(
-                error: snapshot.error.toString(),
-              );
-            }
-            // Once complete, show your application
-            if (snapshot.connectionState == ConnectionState.done) {
-              FirebaseFirestore.instance.settings =
-                  const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
-              return MultiProvider(
-                providers: <StreamProvider>[
-                  StreamProvider<User?>.value(
-                      value: FirebaseAuth.instance.userChanges(),
-                      initialData: null),
-                  // StreamProvider<SuperHero>.value(stream: firestoreStream),
-                ],
-                child: const MyHome(),
-              );
-            }
-            // Otherwise, show something whilst waiting for initialization to complete
-            return const Loading();
-          },
-        ),
-      ),
+    return FutureBuilder(
+      // Initialize FlutterFire:
+      future: _initialization,
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          return SomethingWentWrong(
+            error: snapshot.error.toString(),
+          );
+        }
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          FirebaseFirestore.instance.settings =
+              const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+          return MultiProvider(
+            providers: <StreamProvider>[
+              StreamProvider<UserData?>.value(
+                value: AuthService().user,
+                initialData: null,
+              ),
+              // StreamProvider<SuperHero>.value(stream: firestoreStream),
+            ],
+            child: MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              // themeMode: ThemeMode.system,
+              theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              onGenerateTitle: (BuildContext context) =>
+                  AppLocalizations.of(context)!.appName,
+              home: const SafeArea(
+                child: LoginController(),
+              ),
+              // initialRoute: '/',
+              onGenerateRoute: RouteGenerator.generateRoute,
+            ),
+          );
+        }
+        // Otherwise, show something whilst waiting for initialization to complete
+        // TODO: maybe handle differently
+        return MaterialApp(
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          home: const Loading(),
+        );
+      },
     );
   }
 }

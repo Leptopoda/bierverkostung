@@ -2,24 +2,22 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:bierverkostung/models/breweries.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:pattern_formatter/pattern_formatter.dart';
+import 'package:provider/provider.dart';
 
+import 'package:bierverkostung/models/users.dart';
+import 'package:bierverkostung/models/breweries.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/models/beers.dart';
 
 class NewBeer extends StatelessWidget {
-  final User user;
-
   NewBeer({
     Key? key,
-    required this.user,
   }) : super(key: key);
 
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _beerName = TextEditingController();
   final TextEditingController _brewery = TextEditingController();
@@ -144,6 +142,7 @@ class NewBeer extends StatelessWidget {
   }
 
   Future<void> _submit(BuildContext context) async {
+    final UserData _user = Provider.of<UserData?>(context)!;
     // Validate returns true if the form is valid, or false otherwise.
     if (_formKey.currentState!.validate()) {
       // If the form is valid, display a snackbar. In the real world,
@@ -170,7 +169,7 @@ class NewBeer extends StatelessWidget {
         beerNotes: _beerNotes.value.text,
       );
 
-      await DatabaseService(uid: user.uid).saveBeer(_bier1);
+      await DatabaseService(user: _user).saveBeer(_bier1);
 
       Navigator.of(context).pop();
     }

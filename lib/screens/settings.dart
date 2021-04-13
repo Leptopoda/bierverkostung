@@ -3,84 +3,20 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-class Settings extends StatelessWidget {
-  const Settings({Key? key}) : super(key: key);
+import 'package:bierverkostung/screens/settings/user_settings.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Einstellungen'),
-      ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () async {
-                await _auth.signOut();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('loged out '),
-                  ),
-                );
-                Navigator.of(context).pop();
-              },
-              child: const Text('Log Out'),
-            ),
-            const SizedBox(height: 35),
-            ElevatedButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (BuildContext context) => const LogOutAlert(),
-              ),
-              child: const Text('Neue ID'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class LogOutAlert extends StatelessWidget {
-  const LogOutAlert({Key? key}) : super(key: key);
+class UserManagement extends StatelessWidget {
+  const UserManagement({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-
     return IconButton(
       icon: const Icon(Icons.person_outline),
       tooltip: 'Log Out',
       onPressed: () => showDialog(
         context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('Achtung!!'),
-          content: const Text(
-              'Durch fortfahren wird der aktuelle benutzer abgemeldet. Wenn der aktuelle nutzer Annonym ist geht dardurch auch der zugriff auf die Datenj verloren'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Abbruch'),
-            ),
-            TextButton(
-              onPressed: () async {
-                await _auth.signOut();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('loged out '),
-                  ),
-                );
-                Navigator.of(context).pop();
-              },
-              child: const Text('Weiter'),
-            ),
-          ],
-        ),
+        builder: (BuildContext _) => const LogOutAlert(),
       ),
     );
   }
@@ -93,23 +29,9 @@ class GroupManagement extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.group_add_outlined),
-      tooltip: 'Go to the next page',
+      tooltip: 'Group Management',
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute<void>(
-          builder: (BuildContext context) {
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text('Add groups'),
-              ),
-              body: const Center(
-                child: Text(
-                  'Coming ...',
-                  style: TextStyle(fontSize: 24),
-                ),
-              ),
-            );
-          },
-        ));
+        Navigator.pushNamed(context, '/Settings/Groups');
       },
     );
   }

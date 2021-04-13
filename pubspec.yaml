@@ -34,6 +34,10 @@ dependencies:
   cupertino_icons: any
   provider: any
 
+  # qr Codes
+  qr_flutter: any
+  qr_code_scanner: any
+
   # floating_action_bubble: any
   pattern_formatter: any
 

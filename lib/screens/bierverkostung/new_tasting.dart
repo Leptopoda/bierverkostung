@@ -3,20 +3,17 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'package:bierverkostung/services/database.dart';
+import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/models/beers.dart';
-import 'package:bierverkostung/screens/bierverkostung/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
 
 class NewTasting extends StatefulWidget {
-  final User user;
-
   const NewTasting({
     Key? key,
-    required this.user,
   }) : super(key: key);
 
   @override
@@ -332,6 +329,7 @@ class _NewTastingState extends State<NewTasting> {
   }
 
   Future<void> _submit(BuildContext context) async {
+    final UserData _user = Provider.of<UserData?>(context)!;
     // Validate returns true if the form is valid, or false otherwise.
     if (_formKey.currentState!.validate()) {
       // If the form is valid, display a snackbar. In the real world,
@@ -368,21 +366,14 @@ class _NewTastingState extends State<NewTasting> {
         totalImpressionRating: _totalImpressionRating,
       );
 
-      await DatabaseService(uid: widget.user.uid).saveTasting(_tasting1);
+      await DatabaseService(user: _user).saveTasting(_tasting1);
 
       Navigator.of(context).pop();
     }
   }
 
   Future<void> _selectBeer(BuildContext context) async {
-    final Beer? _beer1 = await Navigator.push<Beer?>(
-      context,
-      MaterialPageRoute<Beer?>(
-        builder: (BuildContext context) => BeerList(
-          user: widget.user,
-        ),
-      ),
-    );
+    final Beer? _beer1 = await Navigator.pushNamed<Beer?>(context, '/BeerList');
 
     if (_beer1 != null) {
       setState(() {
