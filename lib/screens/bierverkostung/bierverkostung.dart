@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
-// import 'package:floating_action_bubble/floating_action_bubble.dart'; //TODO: Use null safety
 
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/models/users.dart';
@@ -73,90 +72,3 @@ class BierverkostungFab extends StatelessWidget {
     );
   }
 }
-
-/*
-class BierverkostungFab extends StatefulWidget {
-  const BierverkostungFab({Key? key}) : super(key: key);
-
-  @override
-  State<BierverkostungFab> createState() => _BierverkostungFabState();
-}
-
-class _BierverkostungFabState extends State<BierverkostungFab>
-    with SingleTickerProviderStateMixin {
-  late Animation<double> _animation;
-  late AnimationController _animationController;
-
-  @override
-  void initState() {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 260),
-    );
-
-    final curvedAnimation =
-        CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
-    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
-
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // animated floatingActionBubble
-    return FloatingActionBubble(
-      // Menu items
-      items: <Bubble>[
-        // Floating action menu item
-        /* Bubble(
-          title:"BierverkostungFab",
-          iconColor :Colors.white,
-          bubbleColor : Colors.blue,
-          icon: Icons.settings,
-          titleStyle:const TextStyle(fontSize: 16 , color: Colors.white),
-          onPress: () {
-            _animationController.reverse();
-          },
-        ), */
-        // Floating action menu item
-        Bubble(
-          title: "Bier",
-          iconColor: Colors.black,
-          bubbleColor: Colors.amber[800],
-          icon: Icons.people,
-          titleStyle: const TextStyle(fontSize: 16, color: Colors.black),
-          onPress: () {
-            _animationController.reverse();
-          },
-        ),
-        //Floating action menu item
-        Bubble(
-          title: 'Verkostung',
-          iconColor: Colors.black,
-          bubbleColor: Colors.amber[800],
-          icon: Icons.home,
-          titleStyle: const TextStyle(fontSize: 16, color: Colors.black),
-          onPress: () {
-            _animationController.reverse();
-          },
-        ),
-      ],
-
-      // animation controller
-      animation: _animation,
-
-      // On pressed change animation state
-      onPress: () => _animationController.isCompleted
-          ? _animationController.reverse()
-          : _animationController.forward(),
-
-      // Floating Action button Icon color
-      // iconColor: Colors.blue,
-
-      // Flaoting Action button Icon
-      iconData: Icons.add,
-      // backGroundColor: Colors.white,
-    );
-  }
-}
- */

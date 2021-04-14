@@ -52,7 +52,7 @@ class _MyHomeState extends State<MyHome> {
     BierverkostungFab(),
     StatistikenFab(),
   ];
-  //TODO: rework stats to incorperate alcometer
+
   static const List<String> _pageTitles = [
     "Trinkspiele",
     "Bierverkostung",
