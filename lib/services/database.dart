@@ -4,7 +4,7 @@
 
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
 
 import 'package:bierverkostung/models/stats.dart';
 import 'package:bierverkostung/models/users.dart';

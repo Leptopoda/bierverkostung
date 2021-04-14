@@ -2,11 +2,11 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/services/auth.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qr_flutter/qr_flutter.dart' show QrImage;
 
+import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/models/users.dart';
 
 class GroupScreen extends StatefulWidget {

@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import 'package:intl/intl.dart' show DateFormat;
+import 'package:provider/provider.dart' show Provider;
 
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/models/users.dart';

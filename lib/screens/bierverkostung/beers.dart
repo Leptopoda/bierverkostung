@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' show Provider;
 
 import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/database.dart';

@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' show Provider;
 // import 'package:floating_action_bubble/floating_action_bubble.dart'; //TODO: Use null safety
 
 import 'package:bierverkostung/services/database.dart';
