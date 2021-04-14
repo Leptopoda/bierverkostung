@@ -15,6 +15,8 @@ We'll switch to a more common versioning system once ready for production.
 
 ## Getting Started
 
+### Flutter
+
 This project is build using flutter.
 
 A few resources to get you started if this is your first Flutter project:
@@ -25,3 +27,27 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view the
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+### Firebase
+
+We encurage you to setup a local Firebase development enviornment.
+
+Enter the Firebase directory
+```
+cd firebase.local
+```
+
+Download the necessary tools (npm needed)
+```
+npm install -g firebase
+```
+
+Start the local emulators
+```
+firebase emulators:start
+```
+
+Build the app with the local config pre applied
+```
+flutter run --dart-define=local_firebase=true
+```
