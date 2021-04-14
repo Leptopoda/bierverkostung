@@ -10,12 +10,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
 import 'package:bierverkostung/shared/theme.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
-import 'package:bierverkostung/shared/enviornment_config.dart' ;
+import 'package:bierverkostung/shared/enviornment_config.dart';
 import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/route_generator.dart';
@@ -46,9 +44,8 @@ class MyApp extends StatelessWidget {
         }
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          if ( EnvironmentConfig.localFirebase ) {
-            final String _host =
-                Platform.isAndroid ? '10.0.2.2' : 'localhost';
+          if (EnvironmentConfig.localFirebase) {
+            final String _host = Platform.isAndroid ? '10.0.2.2' : 'localhost';
 
             FirebaseAuth.instance.useEmulator('http://$_host:9099');
 
@@ -57,9 +54,6 @@ class MyApp extends StatelessWidget {
               sslEnabled: false,
               persistenceEnabled: false,
             );
-
-            print('$_host:8080');
-            print('debug');
           } else {
             FirebaseFirestore.instance.settings =
                 const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);

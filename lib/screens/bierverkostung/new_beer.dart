@@ -4,7 +4,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pattern_formatter/pattern_formatter.dart' show ThousandsFormatter;
+import 'package:pattern_formatter/pattern_formatter.dart'
+    show ThousandsFormatter;
 import 'package:provider/provider.dart' show Provider;
 
 import 'package:bierverkostung/models/users.dart';
