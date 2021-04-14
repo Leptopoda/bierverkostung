@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/shared/enviornment_config.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,11 @@ class MyApp extends StatelessWidget {
         }
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
+          if(EnvironmentConfig.localFirebase){
+            print('debug¿?');
+          } else {
+            print('Production !!¡¡');
+          }
           FirebaseFirestore.instance.settings =
               const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
           return MultiProvider(
