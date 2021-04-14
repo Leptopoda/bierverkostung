@@ -329,7 +329,7 @@ class _NewTastingState extends State<NewTasting> {
   }
 
   Future<void> _submit(BuildContext context) async {
-    final UserData _user = Provider.of<UserData?>(context)!;
+    final UserData _user = Provider.of<UserData?>(context, listen: false)!;
     // Validate returns true if the form is valid, or false otherwise.
     if (_formKey.currentState!.validate()) {
       // If the form is valid, display a snackbar. In the real world,

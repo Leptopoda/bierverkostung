@@ -153,7 +153,7 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
                     beerName: _beer.value.text,
                   )
                 : null;
-            final UserData _user = Provider.of<UserData?>(context)!;
+            final UserData _user = Provider.of<UserData?>(context, listen: false)!;
 
             switch (_character) {
               case _bier.klein:
