@@ -39,8 +39,6 @@ class _TrinkspruecheState extends State<Trinksprueche> {
     }
   }
 
-  @protected
-  @mustCallSuper
   @override
   void initState() {
     super.initState();
@@ -54,19 +52,31 @@ class _TrinkspruecheState extends State<Trinksprueche> {
         title: const Text('Trinksprüche'),
       ),
       body: ListView(
-        // padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(30.0),
+        reverse: true,
         children: <Widget>[
-          Container(
-            margin: const EdgeInsets.all(30.0),
-            // constraints: BoxConstraints(minHeight: 100),
-            child: Center(
-              child: Text(
-                widget.sprueche[_index - 1],
-                style: const TextStyle(fontSize: 18),
-              ),
-            ),
+          ElevatedButton(
+            onPressed: () => randomIndex(),
+            child: const Text('Random'),
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 16),
+          const Center(
+            child: Text('Zufällige Zahl?'),
+          ),
+          const SizedBox(height: 16),
+          Slider(
+            value: _index.toDouble(),
+            min: 1,
+            max: widget.sprueche.length.toDouble(),
+            onChanged: (double value) => setState(() => _index = value.round()),
+            divisions: widget.sprueche.length - 1,
+            label: "$_index",
+          ),
+          const SizedBox(height: 16),
+          const Center(
+            child: Text('Bestimmte Zahl?'),
+          ),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -81,30 +91,10 @@ class _TrinkspruecheState extends State<Trinksprueche> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          const Center(
-            child: Text('Bestimmte Zahl?'),
-          ),
-          const SizedBox(height: 16),
-          Slider(
-            value: _index.toDouble(),
-            min: 1,
-            max: widget.sprueche.length.toDouble(),
-            onChanged: (double value) => setState(() => _index = value.round()),
-            divisions: widget.sprueche.length - 1,
-            label: "$_index",
-          ),
-          const SizedBox(height: 16),
-          const Center(
-            child: Text('Zufällige Zahl?'),
-          ),
-          const SizedBox(height: 16),
-          Container(
-            margin: const EdgeInsets.all(30.0),
-            child: ElevatedButton(
-              onPressed: () => randomIndex(),
-              child: const Text('Random'),
-            ),
+          const SizedBox(height: 30),
+          Text(
+            widget.sprueche[_index - 1],
+            style: const TextStyle(fontSize: 18),
           ),
         ],
       ),
