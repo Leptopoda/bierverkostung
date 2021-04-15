@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
+import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
 import 'package:bierverkostung/screens/statistiken/statistiken.dart';
 import 'package:bierverkostung/screens/settings.dart';
 
@@ -65,6 +66,7 @@ class _MyHomeState extends State<MyHome> {
       appBar: AppBar(
         title: Text(_pageTitles[_selectedIndex]),
         actions: const <Widget>[
+          PromilleRechnerButton(),
           GroupManagement(),
           UserManagement(),
         ],

@@ -19,11 +19,7 @@ import 'package:bierverkostung/screens/settings/group_management.dart';
 import 'package:bierverkostung/screens/login.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
-
-// import 'package:bierverkostung/screens/settings.dart';
-// import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
-// import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
-// import 'package:bierverkostung/screens/statistiken/statistiken.dart';
+import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -70,6 +66,9 @@ class RouteGenerator {
 
       case '/Trinkspiele/TrinkspruecheNeu':
         return MaterialPageRoute(builder: (_) => const TrinkspruecheNeu());
+
+      case '/PromilleRechner':
+        return MaterialPageRoute(builder: (_) => const PromilleRechner());
 
       case '/error':
         if (_args is String) {
