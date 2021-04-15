@@ -2,11 +2,11 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:provider/provider.dart' show Provider;
 import 'package:qr_flutter/qr_flutter.dart' show QrImage;
 
-import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/models/users.dart';
 
 class GroupScreen extends StatefulWidget {
@@ -31,9 +31,8 @@ class _GroupScreenState extends State<GroupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AuthService().user.listen((UserData? user) => {
-          if (user != null) {_guid.text = user.guid}
-        });
+    final UserData _user = Provider.of<UserData?>(context)!;
+    _guid.text = _user.guid;
 
     return Scaffold(
       appBar: AppBar(
@@ -54,16 +53,20 @@ class _GroupScreenState extends State<GroupScreen> {
           const SizedBox(height: 16),
           Center(
             child: QrImage(
-              data: _guid.value.text,
+              data: _user.toMap().toString(),
               size: 200.0,
+              foregroundColor: Theme.of(context).textTheme.bodyText1!.color,
             ),
           ),
           const SizedBox(height: 16),
           TextFormField(
             style: _text,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'User ID',
-              suffixIcon: IconButton(
+              suffixIcon: Icon(Icons.person_outline),
+              // Using iconButton as a decoration will also open the keyboard.
+              // This will kill the device due to much load....
+              /* IconButton(
                 icon: const Icon(Icons.qr_code_scanner),
                 onPressed: () => {
                   if (!kIsWeb)
@@ -78,8 +81,27 @@ class _GroupScreenState extends State<GroupScreen> {
                       )
                     }
                 },
-              ),
+              ), */
             ),
+          ),
+          ElevatedButton.icon(
+            onPressed: () => {
+              if (!kIsWeb)
+                {
+                  Navigator.pushNamed(context, '/Settings/Groups/ScanCode'),
+                }
+              else
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                          'Only IOS and Android are currently supported for scanning QR codes'),
+                    ),
+                  ),
+                },
+            },
+            icon: const Icon(Icons.qr_code_scanner),
+            label: const Text('Scan code'),
           ),
         ],
       ),

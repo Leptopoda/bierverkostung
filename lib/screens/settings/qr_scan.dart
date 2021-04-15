@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'dart:io' show Platform;
-
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -41,83 +40,110 @@ class _QRViewExampleState extends State<QRViewExample> {
       appBar: AppBar(
         title: const Text('Scan a code'),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(flex: 5, child: _buildQrView(context)),
-          Expanded(
-            // flex: 1,
-            child: FittedBox(
-              // fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        icon: FutureBuilder(
-                          future: controller?.getFlashStatus(),
-                          builder: (context, snapshot) {
-                            if (snapshot.data != null) {
-                              return (snapshot.data! as bool)
-                                  ? const Icon(Icons.flash_on_outlined)
-                                  : const Icon(Icons.flash_off_outlined);
-                            }
-                            return const Icon(Icons.flash_off_outlined);
-                          },
-                        ),
-                        onPressed: () async {
-                          await controller?.toggleFlash();
-                          setState(() {});
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.flip_camera_android_outlined),
-                        onPressed: () => controller?.flipCamera(),
-                      ),
-                      // TODO: remove play pause
-                      IconButton(
-                        icon: const Icon(Icons.pause),
-                        onPressed: () async {
-                          await controller?.pauseCamera();
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.play_arrow),
-                        onPressed: () async {
-                          await controller?.resumeCamera();
-                        },
-                      ),
-                    ],
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          if (orientation == Orientation.portrait) {
+            return Column(
+              children: <Widget>[
+                Expanded(child: _buildQrView(context)),
+                SizedBox(
+                  height: 100,
+                  child: FittedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        _flashButton(),
+                        _cameraButton(),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
-          )
-        ],
+                ),
+              ],
+            );
+          } else {
+            return Row(
+              children: <Widget>[
+                Expanded(child: _buildQrView(context)),
+                SizedBox(
+                  width: 100,
+                  child: FittedBox(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        _flashButton(),
+                        _cameraButton(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+        },
       ),
+    );
+  }
+
+  Widget _flashButton() {
+    return IconButton(
+      icon: FutureBuilder(
+        future: controller?.getFlashStatus(),
+        builder: (context, snapshot) {
+          return (snapshot.data != null && snapshot.data! as bool)
+              ? const Icon(Icons.flash_on_outlined)
+              : const Icon(Icons.flash_off_outlined);
+        },
+      ),
+      onPressed: () async {
+        await controller?.toggleFlash();
+        setState(() {});
+      },
+    );
+  }
+
+  Widget _cameraButton() {
+    return IconButton(
+      icon: const Icon(Icons.flip_camera_android_outlined),
+      onPressed: () => controller?.flipCamera(),
+    );
+  }
+
+  Widget _playButton() {
+    return IconButton(
+      icon: const Icon(Icons.pause),
+      onPressed: () async {
+        await controller?.pauseCamera();
+      },
+    );
+  }
+
+  Widget _pasueButton() {
+    return IconButton(
+      icon: const Icon(Icons.play_arrow),
+      onPressed: () async {
+        await controller?.resumeCamera();
+      },
     );
   }
 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    final scanArea = (MediaQuery.of(context).size.width < 400 ||
+    final double scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
-        ? 150.0
-        : 300.0;
+        ? 200.0
+        : 250.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          // TODO: Theme
-          borderColor: Colors.yellow,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: scanArea),
+        borderColor: Theme.of(context).accentColor,
+        borderRadius: 10,
+        borderLength: 30,
+        borderWidth: 10,
+        cutOutSize: scanArea,
+      ),
     );
   }
 
@@ -126,8 +152,7 @@ class _QRViewExampleState extends State<QRViewExample> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) async {
-      // TODO: check validity of code
-      // TODO: exit scan view from alert
+      // TODO: check validity of scanned code
       await controller.pauseCamera();
       await _showAlert(scanData.code);
       await controller.resumeCamera();
@@ -135,7 +160,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   }
 
   Future<Widget?> _showAlert(String data) {
-    return showDialog<Widget?>(
+    return showDialog(
       context: context,
       builder: (BuildContext _) => AlertDialog(
         title: const Text('Zur Gruppe hinzufügen'),
