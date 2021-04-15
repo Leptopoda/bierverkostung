@@ -1,19 +1,17 @@
 // Copyright 2021 Leptopoda. All rights reserved.
-// Use of this source code is governed by a APACHE-style license that can be
+// Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
-import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
 
 class Trinkspiele extends StatelessWidget {
-  static const _spiele = [
+  static const List<String> _spiele = [
     'Alte Trinksprüche',
     'Neue Trinksprüche',
   ];
-  static final _spielePages = [
-    const TrinkspruecheAlt(),
-    const TrinkspruecheNeu(),
+  static const List<String> _spielePages = [
+    '/Trinkspiele/TrinkspruecheAlt',
+    '/Trinkspiele/TrinkspruecheNeu'
   ];
 
   const Trinkspiele({Key? key}) : super(key: key);
@@ -26,18 +24,13 @@ class Trinkspiele extends StatelessWidget {
       itemCount: _spiele.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
-          leading: const Icon(Icons.message),
+          leading: const Icon(Icons.message_outlined),
           title: Text(
             _spiele[index],
             style: const TextStyle(fontSize: 18),
           ),
           trailing: const Icon(Icons.keyboard_arrow_right),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => _spielePages[index],
-            ),
-          ),
+          onTap: () => Navigator.pushNamed(context, _spielePages[index]),
         );
       },
     );

@@ -1,38 +1,35 @@
 // Copyright 2021 Leptopoda. All rights reserved.
-// Use of this source code is governed by a APACHE-style license that can be
+// Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-// import 'package:bierverkostung/models/users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:bierverkostung/models/users.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // create user obj based on firebase user
-  /* User? _userFromFirebaseUser(User user) {
-    // return user != null ? User(uid: user.uid) : null;
-    return User(uid: user.uid);
-  } */
+  // create UserData obj based on firebase user
+  UserData? _userFromFirebaseUser(User? user) {
+    return (user != null)
+        ? UserData(
+            uid: user.uid,
+            guid: user.uid,
+          )
+        : null;
+  }
 
   // auth change user stream
-  /* Stream<User> get user {
-    return _auth.currentUser.uid
+  Stream<UserData?> get user {
+    return _auth.userChanges().map(_userFromFirebaseUser);
     //.map((FirebaseUser user) => _userFromFirebaseUser(user));
-  } */
-
-  String? getCurrentUid() {
-    if (_auth.currentUser == null) {
-      return null;
-    } else {
-      return _auth.currentUser!.uid;
-    }
   }
 
   // register in anon
-  Future registerAnon() async {
+  Future<UserData?> registerAnon() async {
     try {
-      final result = await _auth.signInAnonymously();
-      final User? user = result.user;
+      final UserCredential result = await _auth.signInAnonymously();
+      final UserData? user = _userFromFirebaseUser(result.user);
       return user;
     } catch (e) {
       print(e.toString());
@@ -66,7 +63,7 @@ class AuthService {
     }
   } */
 
-  // sign out
+  // sign out <void>??
   Future signOut() async {
     try {
       return await _auth.signOut();

@@ -1,8 +1,8 @@
 // Copyright 2021 Leptopoda. All rights reserved.
-// Use of this source code is governed by a APACHE-style license that can be
+// Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:math';
+import 'dart:math' show Random;
 import 'package:flutter/material.dart';
 
 class Trinksprueche extends StatefulWidget {
@@ -17,13 +17,13 @@ class Trinksprueche extends StatefulWidget {
 class _TrinkspruecheState extends State<Trinksprueche> {
   static int _index = 1;
 
-  void randomIndex() {
+  void _randomIndex() {
     setState(() {
       _index = Random().nextInt(widget.sprueche.length) + 1;
     });
   }
 
-  void lastIndex() {
+  void _lastIndex() {
     if (_index > 1) {
       setState(() {
         _index--;
@@ -31,7 +31,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
     }
   }
 
-  void nextIndex() {
+  void _nextIndex() {
     if (_index < widget.sprueche.length) {
       setState(() {
         _index++;
@@ -39,12 +39,10 @@ class _TrinkspruecheState extends State<Trinksprueche> {
     }
   }
 
-  @protected
-  @mustCallSuper
   @override
   void initState() {
     super.initState();
-    randomIndex();
+    _randomIndex();
   }
 
   @override
@@ -54,33 +52,16 @@ class _TrinkspruecheState extends State<Trinksprueche> {
         title: const Text('Trinksprüche'),
       ),
       body: ListView(
-        // padding: const EdgeInsets.all(20.0),
-        children: [
-          Container(
-            margin: const EdgeInsets.all(30.0),
-            // constraints: BoxConstraints(minHeight: 100),
-            child: Center(
-              child: Text(
-                widget.sprueche[_index - 1],
-                style: const TextStyle(fontSize: 18),
-              ),
-            ),
+        padding: const EdgeInsets.all(30.0),
+        reverse: true,
+        children: <Widget>[
+          ElevatedButton(
+            onPressed: () => _randomIndex(),
+            child: const Text('Random'),
           ),
-          const SizedBox(height: 30),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            ElevatedButton(
-              onPressed: () => lastIndex(),
-              child: const Text('Zurück'),
-            ),
-            const SizedBox(width: 16),
-            ElevatedButton(
-              onPressed: () => nextIndex(),
-              child: const Text('Weiter'),
-            ),
-          ]),
           const SizedBox(height: 16),
           const Center(
-            child: Text('Bestimmte Zahl?'),
+            child: Text('Zufällige Zahl?'),
           ),
           const SizedBox(height: 16),
           Slider(
@@ -93,15 +74,27 @@ class _TrinkspruecheState extends State<Trinksprueche> {
           ),
           const SizedBox(height: 16),
           const Center(
-            child: Text('Zufällige Zahl?'),
+            child: Text('Bestimmte Zahl?'),
           ),
           const SizedBox(height: 16),
-          Container(
-            margin: const EdgeInsets.all(30.0),
-            child: ElevatedButton(
-              onPressed: () => randomIndex(),
-              child: const Text('Random'),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () => _lastIndex(),
+                child: const Text('Zurück'),
+              ),
+              const SizedBox(width: 16),
+              ElevatedButton(
+                onPressed: () => _nextIndex(),
+                child: const Text('Weiter'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30),
+          Text(
+            widget.sprueche[_index - 1],
+            style: const TextStyle(fontSize: 18),
           ),
         ],
       ),

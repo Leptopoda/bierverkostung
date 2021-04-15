@@ -1,11 +1,12 @@
 // Copyright 2021 Leptopoda. All rights reserved.
-// Use of this source code is governed by a APACHE-style license that can be
+// Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
+import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
 import 'package:bierverkostung/screens/statistiken/statistiken.dart';
 import 'package:bierverkostung/screens/settings.dart';
 
@@ -13,26 +14,46 @@ class MyHome extends StatefulWidget {
   const MyHome({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return MyHomeState();
-  }
+  State<StatefulWidget> createState() => _MyHomeState();
 }
 
-class MyHomeState extends State<MyHome> {
-  int _selectedPage = 1;
+class _MyHomeState extends State<MyHome> {
+  int _selectedIndex = 1;
+  late PageController _pageController;
 
-  // TODO: use enum
-  static final _pageOptions = [
-    const Trinkspiele(),
-    const Bierverkostung(),
-    const Statistiken(),
-  ];
-  static final _pageFAB = [
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void _onItemSelected(int index) {
+    _onPageChanged(index);
+    _pageController.animateToPage(
+      index,
+      duration: kThemeAnimationDuration,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  static const List<Widget?> _pageFAB = [
     null,
-    const BierverkostungFab(),
-    const StatistikenFab(),
+    BierverkostungFab(),
+    StatistikenFab(),
   ];
-  //TODO: rework stats to incorperate alcometer
+
   static const List<String> _pageTitles = [
     "Trinkspiele",
     "Bierverkostung",
@@ -43,63 +64,43 @@ class MyHomeState extends State<MyHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pageTitles[_selectedPage]),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.settings),
-            tooltip: 'Show Snackbar',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const Settings(),
-              ),
-            ),
-          ),
-          /* IconButton(
-            icon: const Icon(Icons.navigate_next),
-            tooltip: 'Go to the next page',
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute<void>(
-                builder: (BuildContext context) {
-                  return Scaffold(
-                    appBar: AppBar(
-                      title: const Text('Next page'),
-                    ),
-                    body: const Center(
-                      child: Text(
-                        'This is the next page',
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    ),
-                  );
-                },
-              ));
-            },
-          ), */
+        title: Text(_pageTitles[_selectedIndex]),
+        actions: const <Widget>[
+          PromilleRechnerButton(),
+          GroupManagement(),
+          UserManagement(),
         ],
       ),
-      body: _pageOptions[_selectedPage],
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        children: const <Widget>[
+          Trinkspiele(),
+          Bierverkostung(),
+          Statistiken(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedPage,
+        currentIndex: _selectedIndex,
         // selectedItemColor: Colors.amber[800],
-        onTap: (int index) => setState(() => _selectedPage = index),
+        onTap: (int index) => _onItemSelected(index),
 
-        items: [
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: const Icon(Icons.casino),
+            icon: const Icon(Icons.casino_outlined),
             label: _pageTitles[0],
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
+            icon: const Icon(Icons.home_outlined),
             label: _pageTitles[1],
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.bar_chart),
+            icon: const Icon(Icons.show_chart),
             label: _pageTitles[2],
           ),
         ],
       ),
-      floatingActionButton: _pageFAB[_selectedPage],
+      floatingActionButton: _pageFAB[_selectedIndex],
     );
   }
 }
