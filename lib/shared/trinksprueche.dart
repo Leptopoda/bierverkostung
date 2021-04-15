@@ -17,13 +17,13 @@ class Trinksprueche extends StatefulWidget {
 class _TrinkspruecheState extends State<Trinksprueche> {
   static int _index = 1;
 
-  void randomIndex() {
+  void _randomIndex() {
     setState(() {
       _index = Random().nextInt(widget.sprueche.length) + 1;
     });
   }
 
-  void lastIndex() {
+  void _lastIndex() {
     if (_index > 1) {
       setState(() {
         _index--;
@@ -31,7 +31,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
     }
   }
 
-  void nextIndex() {
+  void _nextIndex() {
     if (_index < widget.sprueche.length) {
       setState(() {
         _index++;
@@ -42,7 +42,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
   @override
   void initState() {
     super.initState();
-    randomIndex();
+    _randomIndex();
   }
 
   @override
@@ -56,7 +56,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
         reverse: true,
         children: <Widget>[
           ElevatedButton(
-            onPressed: () => randomIndex(),
+            onPressed: () => _randomIndex(),
             child: const Text('Random'),
           ),
           const SizedBox(height: 16),
@@ -81,12 +81,12 @@ class _TrinkspruecheState extends State<Trinksprueche> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ElevatedButton(
-                onPressed: () => lastIndex(),
+                onPressed: () => _lastIndex(),
                 child: const Text('Zurück'),
               ),
               const SizedBox(width: 16),
               ElevatedButton(
-                onPressed: () => nextIndex(),
+                onPressed: () => _nextIndex(),
                 child: const Text('Weiter'),
               ),
             ],
