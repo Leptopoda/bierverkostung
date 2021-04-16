@@ -21,13 +21,19 @@ class DatabaseService {
   // Stats
   // save Stat
   Future<void> saveStat(Stat stat) async {
-    _firestore.collection('u-${user.uid}').add(stat.toMap());
+    _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('stats')
+        .add(stat.toMap());
   }
 
   // get stats stream
   Stream<List<Stat>> get stats {
     return _firestore
-        .collection('u-${user.uid}')
+        .collection('users')
+        .doc(user.uid)
+        .collection('stats')
         .snapshots()
         .map((list) => list.docs.map((doc) => Stat.fromMap(doc)).toList());
   }
