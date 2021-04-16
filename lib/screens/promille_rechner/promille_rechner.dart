@@ -41,8 +41,6 @@ class _PromilleRechnerState extends State<PromilleRechner> {
   double alcohol = 4.9;
   int time = 1;
 
-  final TextEditingController result = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,18 +157,18 @@ class _PromilleRechnerState extends State<PromilleRechner> {
   }
 
   double _calculate() {
-    final double alcAmount = (mengeDrink * alcohol) / 125;
-    final double redFaktor = (character == Gender.male)
+    final double _alcAmount = (mengeDrink * alcohol) / 125;
+    final double _redFaktor = (character == Gender.male)
         ? (1.055 *
                 (2.447 - 0.09516 * age + 0.1074 * groesse + 0.3362 * gewicht)) /
             (0.8 * gewicht)
         : (1.055 * (-2.097 + 0.1069 * groesse + 0.2466 * gewicht)) /
             (0.8 * gewicht);
 
-    double theoAlc = alcAmount / (gewicht * redFaktor);
-    theoAlc = theoAlc - (theoAlc * magenFuelle) / 100;
-    final double alc = theoAlc - time * 0.1;
+    double _theoAlc = _alcAmount / (gewicht * _redFaktor);
+    _theoAlc = _theoAlc - (_theoAlc * magenFuelle) / 100;
+    final double _alc = _theoAlc - time * 0.1;
 
-    return alc;
+    return _alc;
   }
 }
