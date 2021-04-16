@@ -85,11 +85,11 @@ class _PromilleRechnerState extends State<PromilleRechner> {
           const Text('Gewicht'),
           Slider(
             value: gewicht.toDouble(),
-            // min: 0,
+            min: 10,
             max: 150,
             onChanged: (double value) =>
                 setState(() => gewicht = value.round()),
-            divisions: 150,
+            divisions: 140,
             label: "$gewicht",
           ),
           const Text('Größe'),
@@ -160,15 +160,13 @@ class _PromilleRechnerState extends State<PromilleRechner> {
 
   double _calculate() {
     final double alcAmount = (mengeDrink * alcohol) / 125;
-    late double redFaktor;
-    if (character == Gender.male) {
-      redFaktor = (1.055 *
-              (2.447 - 0.09516 * age + 0.1074 * groesse + 0.3362 * gewicht)) /
-          (0.8 * gewicht);
-    } else {
-      redFaktor = (1.055 * (-2.097 + 0.1069 * groesse + 0.2466 * gewicht)) /
-          (0.8 * gewicht);
-    }
+    final double redFaktor = (character == Gender.male)
+        ? (1.055 *
+                (2.447 - 0.09516 * age + 0.1074 * groesse + 0.3362 * gewicht)) /
+            (0.8 * gewicht)
+        : (1.055 * (-2.097 + 0.1069 * groesse + 0.2466 * gewicht)) /
+            (0.8 * gewicht);
+
     double theoAlc = alcAmount / (gewicht * redFaktor);
     theoAlc = theoAlc - (theoAlc * magenFuelle) / 100;
     final double alc = theoAlc - time * 0.1;
