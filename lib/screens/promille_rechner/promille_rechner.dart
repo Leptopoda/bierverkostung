@@ -103,11 +103,11 @@ class _PromilleRechnerState extends State<PromilleRechner> {
           const Text('Magen Fülle'),
           Slider(
             value: magenFuelle.toDouble(),
-            min: 10,
-            max: 30,
+            // min: 0,
+            max: 100,
             onChanged: (double value) =>
                 setState(() => magenFuelle = value.round()),
-            divisions: 4,
+            divisions: 10,
             label: "$magenFuelle",
           ),
           const Text('Getränk in ML'),
@@ -166,7 +166,7 @@ class _PromilleRechnerState extends State<PromilleRechner> {
             (0.8 * gewicht);
 
     double _theoAlc = _alcAmount / (gewicht * _redFaktor);
-    _theoAlc = _theoAlc - (_theoAlc * magenFuelle) / 100;
+    _theoAlc = _theoAlc - (_theoAlc * (0.2 * magenFuelle + 10)) / 100;
     final double _alc = _theoAlc - time * 0.1;
 
     return _alc;
