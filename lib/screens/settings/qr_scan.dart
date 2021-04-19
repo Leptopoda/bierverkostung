@@ -114,24 +114,6 @@ class _QRViewExampleState extends State<QRViewExample> {
     );
   }
 
-  Widget _playButton() {
-    return IconButton(
-      icon: const Icon(Icons.pause),
-      onPressed: () async {
-        await controller?.pauseCamera();
-      },
-    );
-  }
-
-  Widget _pasueButton() {
-    return IconButton(
-      icon: const Icon(Icons.play_arrow),
-      onPressed: () async {
-        await controller?.resumeCamera();
-      },
-    );
-  }
-
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     final double scanArea = (MediaQuery.of(context).size.width < 400 ||
