@@ -14,10 +14,10 @@ class UserData {
   factory UserData.fromMap(Map<String, dynamic> doc) {
     return UserData(
       uid: doc['user_id'] as String,
-      // it will be eventually the same
+      // it will be the same eventually
       guid: (doc['group_id'] != null)
           ? doc['group_id'] as String
-          : doc['user_id'] as String, 
+          : doc['user_id'] as String,
     );
   }
 

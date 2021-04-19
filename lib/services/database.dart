@@ -12,7 +12,7 @@ import 'package:bierverkostung/models/beers.dart';
 
 class DatabaseService {
   final UserData? user;
-  DatabaseService({ this.user});
+  DatabaseService({this.user});
 
   // Firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

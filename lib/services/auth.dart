@@ -10,7 +10,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // create UserData obj based on firebase user
-  Future<UserData?> userFromFirebaseUser(User? user) async {
+  Future<UserData?> _userFromFirebaseUser(User? user) async {
     return await user
         ?.getIdTokenResult()
         .then((token) => token.claims)
@@ -20,7 +20,7 @@ class AuthService {
   // auth change user stream
   Stream<UserData?> get user {
     // TODO: maybe use idTokenChanges instead of user
-    return _auth.userChanges().asyncMap((User? user) => userFromFirebaseUser(user));
+    return _auth.userChanges().asyncMap(_userFromFirebaseUser);
     //.map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 

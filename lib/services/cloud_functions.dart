@@ -5,14 +5,12 @@
 import 'package:cloud_functions/cloud_functions.dart';
 
 class CloudFunctionsService {
+  final FirebaseFunctions _functions = FirebaseFunctions.instance;
 
-final FirebaseFunctions _functions = FirebaseFunctions.instance;
-
-Future<void> setGroup(String groupID) async {
-  final HttpsCallable callable = _functions.httpsCallable('addGroup');
-  final results = await callable({ 'guid': groupID});
-  //List fruit = results.data;  // ["Apple", "Banana", "Cherry", "Date", "Fig", "Grapes"]
-  print(results.data);
-}
-
+  Future<HttpsCallableResult<dynamic>> setGroup(String uid, String guid) async {
+    final HttpsCallable callable = _functions.httpsCallable('addGroup');
+    final result = await callable({'uid': uid, 'guid': guid});
+    //List fruit = results.data;  // ["Apple", "Banana", "Cherry", "Date", "Fig", "Grapes"]
+    return result;
+  }
 }

@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -24,10 +25,12 @@ class _GroupScreenState extends State<GroupScreen> {
   );
 
   final TextEditingController _guid = TextEditingController();
+  final TextEditingController _newUser = TextEditingController();
 
   @override
   void dispose() {
     _guid.dispose();
+    _newUser.dispose();
     super.dispose();
   }
 
@@ -63,6 +66,7 @@ class _GroupScreenState extends State<GroupScreen> {
           const SizedBox(height: 16),
           TextFormField(
             style: _text,
+            controller: _newUser,
             decoration: const InputDecoration(
               labelText: 'User ID',
               suffixIcon: Icon(Icons.person_outline),
@@ -105,15 +109,26 @@ class _GroupScreenState extends State<GroupScreen> {
             icon: const Icon(Icons.qr_code_scanner),
             label: const Text('Scan code'),
           ),
-
           ElevatedButton.icon(
             onPressed: () async {
-              await CloudFunctionsService().setGroup('SudcJRykhs6Fix6nFgO9ViR0NETF');
-              final IdTokenResult? currentUserToken = await FirebaseAuth.instance.currentUser?.getIdTokenResult(true);
-              print('now user: ${currentUserToken?.claims}');
+              final HttpsCallableResult<dynamic> result =
+                  await CloudFunctionsService()
+                      .setGroup(_newUser.value.text, _guid.value.text);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(result.data.toString()),
+                ),
+              );
             },
             icon: const Icon(Icons.group_add_outlined),
-            label: const Text('Test Add group'),
+            label: const Text('Add user to group'),
+          ),
+          ElevatedButton.icon(
+            onPressed: () async {
+              FirebaseAuth.instance.currentUser!.getIdToken(true);
+            },
+            icon: const Icon(Icons.refresh_outlined),
+            label: const Text('Reload Status'),
           ),
         ],
       ),

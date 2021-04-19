@@ -2,7 +2,10 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'dart:convert' show jsonDecode;
 import 'dart:io' show Platform;
+import 'package:provider/provider.dart' show Provider;
+import 'package:bierverkostung/models/users.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -177,8 +180,12 @@ class _QRViewExampleState extends State<QRViewExample> {
           ),
           TextButton(
             onPressed: () async {
-              // final UserData _user = UserData.fromMap(data);
-              await CloudFunctionsService().setGroup('0ME6AhYRWwZ9UhlUTJ4A9pxj5Jh2');
+              final UserData _user = Provider.of<UserData?>(context)!;
+              final Map<String, dynamic> _map =
+                  jsonDecode(data) as Map<String, dynamic>;
+              final UserData _userScanned = UserData.fromMap(_map);
+              await CloudFunctionsService()
+                  .setGroup(_user.uid, _userScanned.guid);
               Navigator.pop(context);
               Navigator.pop(context);
             },
