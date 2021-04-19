@@ -2,7 +2,8 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:convert' show jsonDecode;
+import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
@@ -148,8 +149,12 @@ class _QRViewExampleState extends State<QRViewExample> {
           await _showAlert(_userID);
           await controller.resumeCamera();
         }
-      } catch (e) {
-        print('error $e');
+      } catch (error) {
+        developer.log(
+          'error parsing json',
+          name: 'leptopoda.bierverkostung.QRViewExample',
+          error: jsonEncode(error),
+        );
       }
     });
   }
