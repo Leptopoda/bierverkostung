@@ -1,3 +1,7 @@
+// Copyright 2021 Leptopoda. All rights reserved.
+// Use of this source code is governed by an APACHE-style license that can be
+// found in the LICENSE file.
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -8,6 +12,11 @@ service cloud.firestore {
     match /groups/{userID}/{document=**} {
             allow read, write : if request.auth.uid == userID;
         }
+
+      match /{document=**} {
+          allow read, write : if true;
+      }
+
 
     // Functions //
 

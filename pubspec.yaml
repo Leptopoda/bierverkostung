@@ -1,3 +1,7 @@
+# Copyright 2021 Leptopoda. All rights reserved.
+# Use of this source code is governed by an APACHE-style license that can be
+# found in the LICENSE file.
+
 name: bierverkostung
 description: Bierverkostung redone in Flutter
 
@@ -45,6 +49,7 @@ dependencies:
   firebase_core: any
   cloud_firestore: any
   firebase_auth: any
+  cloud_functions: any
 
 dev_dependencies:
   # Change launcher icon

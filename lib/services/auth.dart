@@ -10,30 +10,28 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // create UserData obj based on firebase user
-  UserData? _userFromFirebaseUser(User? user) {
-    return (user != null)
-        ? UserData(
-            uid: user.uid,
-            guid: user.uid,
-          )
-        : null;
+  Future<UserData?> userFromFirebaseUser(User? user) async {
+    return await user
+        ?.getIdTokenResult()
+        .then((token) => token.claims)
+        .then((claims) => (claims != null) ? UserData.fromMap(claims) : null);
   }
 
   // auth change user stream
   Stream<UserData?> get user {
-    return _auth.userChanges().map(_userFromFirebaseUser);
+    // TODO: maybe use idTokenChanges instead of user
+    return _auth.userChanges().asyncMap((User? user) => userFromFirebaseUser(user));
     //.map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
   // register in anon
-  Future<UserData?> registerAnon() async {
+  Future<bool> registerAnon() async {
     try {
-      final UserCredential result = await _auth.signInAnonymously();
-      final UserData? user = _userFromFirebaseUser(result.user);
-      return user;
+      await _auth.signInAnonymously();
+      return true;
     } catch (e) {
       print(e.toString());
-      return null;
+      return false;
     }
   }
 

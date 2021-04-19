@@ -2,8 +2,6 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class UserData {
   final String uid;
   final String guid;
@@ -13,19 +11,22 @@ class UserData {
     required this.guid,
   });
 
-  factory UserData.fromMap(DocumentSnapshot doc) {
-    final Map<String, dynamic> data = doc.data()!;
-
+  factory UserData.fromMap(Map<String, dynamic> doc) {
     return UserData(
-      uid: data['uid'] as String,
-      guid: data['guid'] as String,
+      uid: doc['user_id'] as String,
+      // it will be eventually the same
+      guid: (doc['group_id'] != null)
+          ? doc['group_id'] as String
+          : doc['user_id'] as String, 
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'uid': uid,
-      'guid': guid,
+      'info': {
+        'user_id': uid,
+        'guid_id': guid,
+      }
     };
   }
 }

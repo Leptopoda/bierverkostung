@@ -6,6 +6,9 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+import 'package:bierverkostung/services/cloud_functions.dart';
+// import 'package:bierverkostung/models/users.dart';
+
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
 
@@ -174,6 +177,8 @@ class _QRViewExampleState extends State<QRViewExample> {
           ),
           TextButton(
             onPressed: () async {
+              // final UserData _user = UserData.fromMap(data);
+              await CloudFunctionsService().setGroup('0ME6AhYRWwZ9UhlUTJ4A9pxj5Jh2');
               Navigator.pop(context);
               Navigator.pop(context);
             },

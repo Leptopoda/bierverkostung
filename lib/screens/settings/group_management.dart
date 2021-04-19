@@ -2,12 +2,14 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart' show Provider;
 import 'package:qr_flutter/qr_flutter.dart' show QrImage;
 
 import 'package:bierverkostung/models/users.dart';
+import 'package:bierverkostung/services/cloud_functions.dart';
 
 class GroupScreen extends StatefulWidget {
   const GroupScreen({Key? key}) : super(key: key);
@@ -102,6 +104,16 @@ class _GroupScreenState extends State<GroupScreen> {
             },
             icon: const Icon(Icons.qr_code_scanner),
             label: const Text('Scan code'),
+          ),
+
+          ElevatedButton.icon(
+            onPressed: () async {
+              await CloudFunctionsService().setGroup('SudcJRykhs6Fix6nFgO9ViR0NETF');
+              final IdTokenResult? currentUserToken = await FirebaseAuth.instance.currentUser?.getIdTokenResult(true);
+              print('now user: ${currentUserToken?.claims}');
+            },
+            icon: const Icon(Icons.group_add_outlined),
+            label: const Text('Test Add group'),
           ),
         ],
       ),
