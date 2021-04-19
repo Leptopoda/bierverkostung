@@ -25,13 +25,13 @@ class _GroupScreenState extends State<GroupScreen> {
     fontSize: 18,
   );
 
-  final TextEditingController _guid = TextEditingController();
+  final TextEditingController _uid = TextEditingController();
   final TextEditingController _newUser = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _guid.dispose();
+    _uid.dispose();
     _newUser.dispose();
     super.dispose();
   }
@@ -39,7 +39,7 @@ class _GroupScreenState extends State<GroupScreen> {
   @override
   Widget build(BuildContext context) {
     final UserData _user = Provider.of<UserData?>(context)!;
-    _guid.text = _user.guid;
+    _uid.text = _user.uid;
 
     return Scaffold(
       appBar: AppBar(
@@ -53,9 +53,9 @@ class _GroupScreenState extends State<GroupScreen> {
             TextFormField(
               style: _text,
               readOnly: true,
-              controller: _guid,
+              controller: _uid,
               decoration: const InputDecoration(
-                labelText: 'Current Group',
+                labelText: 'Your ID',
                 suffixIcon: Icon(Icons.group_outlined),
               ),
             ),
@@ -113,7 +113,7 @@ class _GroupScreenState extends State<GroupScreen> {
   Future<void> _submit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       final HttpsCallableResult<dynamic> result = await CloudFunctionsService()
-          .setGroup(_newUser.value.text, _guid.value.text);
+          .setGroup(_newUser.value.text, _uid.value.text);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result.data.toString()),
