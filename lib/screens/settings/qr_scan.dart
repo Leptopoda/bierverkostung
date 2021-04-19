@@ -140,20 +140,27 @@ class _QRViewExampleState extends State<QRViewExample> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) async {
-      // TODO: check validity of scanned code
-      await controller.pauseCamera();
-      await _showAlert(scanData.code);
-      await controller.resumeCamera();
+      try {
+        final Map _userScanned = jsonDecode(scanData.code) as Map;
+        final String? _userID = _userScanned['info']['user_id'] as String?;
+        if (_userID != null && _userID.length == 28) {
+          await controller.pauseCamera();
+          await _showAlert(_userID);
+          await controller.resumeCamera();
+        }
+      } catch (e) {
+        print('error $e');
+      }
     });
   }
 
-  Future<Widget?> _showAlert(String data) {
+  Future<Widget?> _showAlert(String userID) {
     return showDialog(
       context: context,
       builder: (BuildContext _) => AlertDialog(
         title: const Text('Zur Gruppe hinzufügen'),
         content: Text(
-          'Soll der gescante Nutzer $data der Gruppe hinzugefügt werden?',
+          'Soll der gescante Nutzer $userID der Gruppe hinzugefügt werden?',
         ),
         actions: <Widget>[
           TextButton(
@@ -164,10 +171,8 @@ class _QRViewExampleState extends State<QRViewExample> {
             onPressed: () async {
               final UserData _user =
                   Provider.of<UserData?>(context, listen: false)!;
-              final Map _userScanned = jsonDecode(data) as Map;
               final HttpsCallableResult<dynamic> result =
-                  await CloudFunctionsService().setGroup(
-                      _userScanned['info']['user_id'] as String, _user.guid);
+                  await CloudFunctionsService().setGroup(userID, _user.guid);
               // TODO: popAndPushNamed to avoid reloading of the camera
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
