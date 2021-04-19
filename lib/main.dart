@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart' show FirebaseFunctions;
 
 import 'package:bierverkostung/shared/theme.dart';
 import 'package:bierverkostung/shared/error_page.dart';
@@ -48,6 +49,8 @@ class MyApp extends StatelessWidget {
             final String _host = Platform.isAndroid ? '10.0.2.2' : 'localhost';
 
             FirebaseAuth.instance.useEmulator('http://$_host:9099');
+            FirebaseFunctions.instance
+                .useFunctionsEmulator(origin: 'http://$_host:5001');
 
             FirebaseFirestore.instance.settings = Settings(
               host: '$_host:8080',
@@ -65,7 +68,6 @@ class MyApp extends StatelessWidget {
                 value: AuthService().user,
                 initialData: null,
               ),
-              // StreamProvider<SuperHero>.value(stream: firestoreStream),
             ],
             child: MaterialApp(
               localizationsDelegates: AppLocalizations.localizationsDelegates,

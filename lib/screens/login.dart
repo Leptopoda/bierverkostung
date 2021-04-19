@@ -5,7 +5,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/services/auth.dart';
-import 'package:bierverkostung/models/users.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -20,13 +19,14 @@ class Login extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () async {
             //TODO: better error handling
-            final UserData? _result = await AuthService().registerAnon();
-            if (_result != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Loged in as ${_result.uid}'),
+            final bool _result = await AuthService().registerAnon();
+            if (_result) {
+              // TODO: fix or remove
+              /* ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Loged in'),
                 ),
-              );
+              ); */
             } else {
               Navigator.pushNamed(context, '/error',
                   arguments: 'error signing in');

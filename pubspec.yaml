@@ -1,3 +1,7 @@
+# Copyright 2021 Leptopoda. All rights reserved.
+# Use of this source code is governed by an APACHE-style license that can be
+# found in the LICENSE file.
+
 name: bierverkostung
 description: Bierverkostung redone in Flutter
 
@@ -15,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.7.0+1
+version: 0.8.0+1
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -45,6 +49,7 @@ dependencies:
   firebase_core: any
   cloud_firestore: any
   firebase_auth: any
+  cloud_functions: any
 
 dev_dependencies:
   # Change launcher icon

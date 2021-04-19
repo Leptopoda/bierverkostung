@@ -1,9 +1,31 @@
+// Copyright 2021 Leptopoda. All rights reserved.
+// Use of this source code is governed by an APACHE-style license that can be
+// found in the LICENSE file.
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if
-          request.time < timestamp.date(2021, 4, 28);
+    match /users/{userID}/{document=**} {
+        allow read, write : if isOwner(userID);
+    }
+
+    match /groups/{groupID}/{document=**} {
+            allow read, write : if isMember(groupID) || isOwner(groupID);
+        }
+
+      /* match /{document=**} {
+          allow read, write : if true;
+      } */
+
+
+    // Functions //
+
+    function isOwner(userID) {
+        return  request.auth.uid == userID;
+    }
+
+    function isMember(groupID) {
+        return  request.auth.token.group_id == groupID;
     }
   }
 }
