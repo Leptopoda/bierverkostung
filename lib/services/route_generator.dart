@@ -13,6 +13,7 @@ import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/screens/home.dart';
 import 'package:bierverkostung/screens/bierverkostung/new_tasting.dart';
 import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
+import 'package:bierverkostung/screens/settings/settings.dart';
 import 'package:bierverkostung/screens/settings/qr_scan.dart';
 import 'package:bierverkostung/screens/settings/user_settings.dart';
 import 'package:bierverkostung/screens/settings/group_management.dart';
@@ -51,6 +52,9 @@ class RouteGenerator {
 
       case '/Login':
         return MaterialPageRoute(builder: (_) => const Login());
+
+      case '/Settings':
+        return MaterialPageRoute(builder: (_) => const Settings());
 
       case '/Settings/Groups':
         return MaterialPageRoute(builder: (_) => const GroupScreen());
