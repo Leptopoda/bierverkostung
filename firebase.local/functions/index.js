@@ -8,7 +8,8 @@ admin.initializeApp();
 
 exports.addGroup = functions.https.onCall((data, context) => {
   // check request is made by a group member or new user
-  if (context.auth.token.uid !== data.guid) {
+  if (context.auth.token.group_id !== data.guid &&
+  context.auth.token.user_id !== data.guid) {
     return {error: "Only members of the group can add other members"};
   }
 
