@@ -4,13 +4,13 @@
 
 import 'dart:convert' show jsonDecode;
 import 'dart:io' show Platform;
-import 'package:provider/provider.dart' show Provider;
-import 'package:bierverkostung/models/users.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart' show Provider;
+import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/cloud_functions.dart';
-// import 'package:bierverkostung/models/users.dart';
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
@@ -180,12 +180,18 @@ class _QRViewExampleState extends State<QRViewExample> {
           ),
           TextButton(
             onPressed: () async {
-              final UserData _user = Provider.of<UserData?>(context)!;
-              final Map<String, dynamic> _map =
-                  jsonDecode(data) as Map<String, dynamic>;
-              final UserData _userScanned = UserData.fromMap(_map);
-              await CloudFunctionsService()
-                  .setGroup(_user.uid, _userScanned.guid);
+              final UserData _user =
+                  Provider.of<UserData?>(context, listen: false)!;
+              final Map _userScanned = jsonDecode(data) as Map;
+              final HttpsCallableResult<dynamic> result =
+                  await CloudFunctionsService().setGroup(
+                      _userScanned['info']['user_id'] as String, _user.guid);
+              // TODO: popAndPushNamed to avoid reloading of the camera
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(result.data.toString()),
+                ),
+              );
               Navigator.pop(context);
               Navigator.pop(context);
             },

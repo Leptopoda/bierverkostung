@@ -61,6 +61,11 @@ class AuthService {
     }
   } */
 
+  // refresh Token
+  Future refreshToken() async {
+    await _auth.currentUser!.getIdToken(true);
+  }
+
   // sign out <void>??
   Future signOut() async {
     try {
