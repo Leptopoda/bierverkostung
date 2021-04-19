@@ -2,6 +2,8 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'dart:convert' show jsonEncode;
+import 'dart:developer' as developer show log;
 import 'package:flutter/material.dart';
 
 class SomethingWentWrong extends StatelessWidget {
@@ -10,6 +12,11 @@ class SomethingWentWrong extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    developer.log(
+      'generic error',
+      name: 'leptopoda.bierverkostung.SomethingWentWrong',
+      error: jsonEncode(error),
+    );
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.all(30.0),

@@ -2,6 +2,8 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'dart:convert' show jsonEncode;
+import 'dart:developer' as developer show log;
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bierverkostung/models/users.dart';
@@ -29,8 +31,12 @@ class AuthService {
     try {
       await _auth.signInAnonymously();
       return true;
-    } catch (e) {
-      print(e.toString());
+    } catch (error) {
+      developer.log(
+        'error on register',
+        name: 'leptopoda.bierverkostung.AuthService',
+        error: jsonEncode(error),
+      );
       return false;
     }
   }
@@ -61,12 +67,21 @@ class AuthService {
     }
   } */
 
+  // refresh Token
+  Future refreshToken() async {
+    await _auth.currentUser!.getIdToken(true);
+  }
+
   // sign out <void>??
   Future signOut() async {
     try {
       return await _auth.signOut();
     } catch (error) {
-      print(error.toString());
+      developer.log(
+        'error on sign out',
+        name: 'leptopoda.bierverkostung.AuthService',
+        error: jsonEncode(error),
+      );
       return null;
     }
   }

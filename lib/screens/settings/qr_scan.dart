@@ -2,15 +2,16 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:convert' show jsonDecode;
+import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:io' show Platform;
-import 'package:provider/provider.dart' show Provider;
-import 'package:bierverkostung/models/users.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart' show Provider;
+import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/cloud_functions.dart';
-// import 'package:bierverkostung/models/users.dart';
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
@@ -114,24 +115,6 @@ class _QRViewExampleState extends State<QRViewExample> {
     );
   }
 
-  Widget _playButton() {
-    return IconButton(
-      icon: const Icon(Icons.pause),
-      onPressed: () async {
-        await controller?.pauseCamera();
-      },
-    );
-  }
-
-  Widget _pasueButton() {
-    return IconButton(
-      icon: const Icon(Icons.play_arrow),
-      onPressed: () async {
-        await controller?.resumeCamera();
-      },
-    );
-  }
-
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     final double scanArea = (MediaQuery.of(context).size.width < 400 ||
@@ -158,20 +141,31 @@ class _QRViewExampleState extends State<QRViewExample> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) async {
-      // TODO: check validity of scanned code
-      await controller.pauseCamera();
-      await _showAlert(scanData.code);
-      await controller.resumeCamera();
+      try {
+        final Map _userScanned = jsonDecode(scanData.code) as Map;
+        final String? _userID = _userScanned['info']['user_id'] as String?;
+        if (_userID != null && _userID.length == 28) {
+          await controller.pauseCamera();
+          await _showAlert(_userID);
+          await controller.resumeCamera();
+        }
+      } catch (error) {
+        developer.log(
+          'error parsing json',
+          name: 'leptopoda.bierverkostung.QRViewExample',
+          error: jsonEncode(error),
+        );
+      }
     });
   }
 
-  Future<Widget?> _showAlert(String data) {
+  Future<Widget?> _showAlert(String userID) {
     return showDialog(
       context: context,
       builder: (BuildContext _) => AlertDialog(
         title: const Text('Zur Gruppe hinzufügen'),
         content: Text(
-          'Soll der gescante Nutzer $data der Gruppe hinzugefügt werden?',
+          'Soll der gescante Nutzer $userID der Gruppe hinzugefügt werden?',
         ),
         actions: <Widget>[
           TextButton(
@@ -180,12 +174,16 @@ class _QRViewExampleState extends State<QRViewExample> {
           ),
           TextButton(
             onPressed: () async {
-              final UserData _user = Provider.of<UserData?>(context)!;
-              final Map<String, dynamic> _map =
-                  jsonDecode(data) as Map<String, dynamic>;
-              final UserData _userScanned = UserData.fromMap(_map);
-              await CloudFunctionsService()
-                  .setGroup(_user.uid, _userScanned.guid);
+              final UserData _user =
+                  Provider.of<UserData?>(context, listen: false)!;
+              final HttpsCallableResult<dynamic> result =
+                  await CloudFunctionsService().setGroup(userID, _user.guid);
+              // TODO: popAndPushNamed to avoid reloading of the camera
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(result.data.toString()),
+                ),
+              );
               Navigator.pop(context);
               Navigator.pop(context);
             },
