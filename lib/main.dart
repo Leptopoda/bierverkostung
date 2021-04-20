@@ -2,10 +2,10 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:io' show Platform;
-import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -45,14 +45,17 @@ class MyApp extends StatelessWidget {
         }
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          if (EnvironmentConfig.localFirebase) {
-            final String _host = Platform.isAndroid ? '10.0.2.2' : 'localhost';
+          if (EnvironmentConfig.localFirebase ||
+              EnvironmentConfig.localFirebaseIP != 'localhost') {
+            const String _host = EnvironmentConfig.localFirebaseIP;
 
-            FirebaseAuth.instance.useEmulator('http://$_host:9099');
+            if (!kIsWeb) {
+              FirebaseAuth.instance.useEmulator('http://$_host:9099');
+            }
             FirebaseFunctions.instance
                 .useFunctionsEmulator(origin: 'http://$_host:5001');
 
-            FirebaseFirestore.instance.settings = Settings(
+            FirebaseFirestore.instance.settings = const Settings(
               host: '$_host:8080',
               sslEnabled: false,
               persistenceEnabled: false,
