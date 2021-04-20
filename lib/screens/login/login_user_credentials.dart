@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/services/auth.dart';
 
-
 class UserCredentialsAlert extends StatelessWidget {
   const UserCredentialsAlert({Key? key}) : super(key: key);
 
@@ -21,9 +20,7 @@ class UserCredentialsAlert extends StatelessWidget {
           padding: const EdgeInsets.all(30.0),
           children: <Widget>[
             ElevatedButton(
-              onPressed: () {
-
-              },
+              onPressed: () {},
               child: const Text('Register Anonymously'),
             ),
             ElevatedButton(

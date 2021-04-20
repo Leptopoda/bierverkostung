@@ -38,87 +38,91 @@ class _LoginState extends State<Login> {
       ),
       body: Form(
         key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              child: const Text(
-                'Bierverkosung',
-                style: TextStyle(
-                  color: Colors.yellow,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 30,
+        child: AutofillGroup(
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                child: const Text(
+                  'Bierverkosung',
+                  style: TextStyle(
+                    color: Colors.yellow,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 30,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            const Center(
-              child: Text(
-                'Sign in',
+              const SizedBox(height: 20),
+              const Center(
+                child: Text(
+                  'Sign in',
+                  style: _text,
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
                 style: _text,
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              style: _text,
-              controller: _mailController,
+                controller: _mailController,
+                autofillHints: const [AutofillHints.username],
                 keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'E-Mail',
-              ),
-              validator: (email) =>
-                  (email != null && !EmailValidator.validate(email))
-                      ? 'Keine gültige Email'
-                      : null,
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              style: _text,
-              obscureText: true,
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Password',
-              ),
-              validator: (String? pwd) => _validatePassword(pwd),
-            ),
-            TextButton(
-              onPressed: () => _forgotPassword(),
-              child: const Text('Forgot Password'),
-            ),
-            ElevatedButton(
-              onPressed: () => _signInWithEmailAndPassword(),
-              child: const Text('Login'),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text("Don't have an account?"),
-                TextButton(
-                  onPressed: () => _registerWithEmailAndPassword(),
-                  child: const Text(
-                    'Register',
-                    style: _text,
-                  ),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'E-Mail',
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Login Anonymously'),
-                TextButton(
-                  onPressed: () => _registerAnon(),
-                  child: const Text(
-                    'Anonymous',
-                    style: _text,
-                  ),
+                validator: (email) =>
+                    (email != null && !EmailValidator.validate(email))
+                        ? 'Keine gültige Email'
+                        : null,
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                style: _text,
+                obscureText: true,
+                controller: _passwordController,
+                autofillHints: const [AutofillHints.password],
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
                 ),
-              ],
-            ),
-          ],
+                validator: (String? pwd) => _validatePassword(pwd),
+              ),
+              TextButton(
+                onPressed: () => _forgotPassword(),
+                child: const Text('Forgot Password'),
+              ),
+              ElevatedButton(
+                onPressed: () => _signInWithEmailAndPassword(),
+                child: const Text('Login'),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text("Don't have an account?"),
+                  TextButton(
+                    onPressed: () => _registerWithEmailAndPassword(),
+                    child: const Text(
+                      'Register',
+                      style: _text,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Login Anonymously'),
+                  TextButton(
+                    onPressed: () => _registerAnon(),
+                    child: const Text(
+                      'Anonymous',
+                      style: _text,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -146,6 +150,9 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> _registerWithEmailAndPassword() async {
+    //if (isNewUser) TextField(controller: newPassword, autofillHints: [AutofillHints.newPassword]),
+    //if (isNewUser) TextField(ontroller: repeatNewPassword, autofillHints: [AutofillHints.newPassword]),
+
     if (_formKey.currentState!.validate()) {
       final bool _result = await AuthService().registerWithEmailAndPassword(
         _mailController.text,

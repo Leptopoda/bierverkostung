@@ -8,8 +8,6 @@ class EnvironmentConfig {
     // defaultValue: false
   );
 
-  static const localFirebaseIP = String.fromEnvironment(
-    'local_firebase_ip',
-    defaultValue: 'localhost'
-  );
+  static const localFirebaseIP =
+      String.fromEnvironment('local_firebase_ip', defaultValue: 'localhost');
 }
