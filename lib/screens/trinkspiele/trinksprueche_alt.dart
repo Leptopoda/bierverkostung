@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/shared/trinksprueche.dart';
+import 'package:bierverkostung/screens/trinkspiele/trinksprueche.dart';
 
 class TrinkspruecheAlt extends StatelessWidget {
   const TrinkspruecheAlt({Key? key}) : super(key: key);

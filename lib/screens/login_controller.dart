@@ -8,7 +8,7 @@ import 'package:provider/provider.dart' show Provider;
 import 'package:bierverkostung/models/users.dart';
 
 import 'package:bierverkostung/screens/home.dart';
-import 'package:bierverkostung/screens/login.dart';
+import 'package:bierverkostung/screens/login/login.dart';
 
 class LoginController extends StatelessWidget {
   const LoginController({Key? key}) : super(key: key);
