@@ -8,27 +8,27 @@ admin.initializeApp();
 
 exports.addGroup = functions.https.onCall(async (data, context) => {
   // check request is made by a group member or new user
-  if (context?.auth?.token.group_id !== data.guid &&
-  context?.auth?.token.user_id !== data.guid) {
-    console.log(`${context?.auth?.token.user_id} insufficient permission`);
+  if (context?.auth?.token["group_ID"] !== data.guid &&
+  context?.auth?.token["user_id"] !== data.guid) {
+    console.log(`${context?.auth?.token["user_id"]} insufficient permission`);
     return {error: "Only members of the group can add other members"};
   }
 
   // get user and add admin custom claim
   try {
-    var user = await admin.auth().getUser(data.uid);
+    const user = await admin.auth().getUser(data.uid);
 
-    if (user.customClaims!['group_id'] === data.guid){
+    if (user.customClaims?["group_id"] : undefined === data.guid) {
       return {message: "User is already in the group"};
     }
 
     await admin.auth().setCustomUserClaims(user.uid, {
-      group_id: data.guid,
+      group_ID: data.guid,
     });
 
     console.log(`${user.uid}
     has been added to the group ${data.guid} 
-    by ${context?.auth?.token.uid}`);
+    by ${context?.auth?.token["user_id"]}`);
 
     return {message:
       `Success! ${user.uid}
@@ -41,7 +41,6 @@ exports.addGroup = functions.https.onCall(async (data, context) => {
 });
 
 exports.authOnCreate = functions.auth.user().onCreate(async (context) => {
-
   try {
     await admin.auth().setCustomUserClaims(context.uid, {
       group_id: context.uid,
@@ -55,12 +54,4 @@ exports.authOnCreate = functions.auth.user().onCreate(async (context) => {
     console.log(err);
     return err;
   }
-
-  return admin.auth().setCustomUserClaims(context.uid, {
-    group_id: context.uid,
-  }).then(() => {
-    
-  }).catch((err) => {
-
-  });
 });
