@@ -19,7 +19,7 @@ class Settings extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           ListTile(
-            leading: const Icon(Icons.person_outline),
+            leading: const Icon(Icons.login_outlined),
             title: const Text(
               'Log Out',
               style: TextStyle(fontSize: 18),

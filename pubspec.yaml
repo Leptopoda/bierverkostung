@@ -44,6 +44,8 @@ dependencies:
 
   # floating_action_bubble: any
   pattern_formatter: any
+  # email validator
+  email_validator: any
 
   # Firebase
   firebase_core: any

@@ -31,6 +31,7 @@ class LogOutAlert extends StatelessWidget {
               ),
             );
             Navigator.of(context).pop();
+            Navigator.of(context).pop();
           },
           child: const Text('Weiter'),
         ),

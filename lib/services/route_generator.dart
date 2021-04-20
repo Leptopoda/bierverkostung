@@ -17,7 +17,8 @@ import 'package:bierverkostung/screens/settings/settings.dart';
 import 'package:bierverkostung/screens/settings/qr_scan.dart';
 import 'package:bierverkostung/screens/settings/user_settings.dart';
 import 'package:bierverkostung/screens/settings/group_management.dart';
-import 'package:bierverkostung/screens/login.dart';
+import 'package:bierverkostung/screens/login/login.dart';
+import 'package:bierverkostung/screens/login_controller.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
 import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
@@ -29,6 +30,9 @@ class RouteGenerator {
 
     switch (settings.name) {
       case '/':
+        return MaterialPageRoute(builder: (_) => const LoginController());
+
+      case '/Home':
         return MaterialPageRoute(builder: (_) => const MyHome());
 
       case '/NewTasting':
