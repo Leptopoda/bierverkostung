@@ -2,10 +2,11 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:io' show Platform;
-import 'package:provider/provider.dart';
+import 'package:bierverkostung/screens/login_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,8 +19,6 @@ import 'package:bierverkostung/shared/enviornment_config.dart';
 import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/route_generator.dart';
-
-import 'package:bierverkostung/screens/login_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,14 +44,17 @@ class MyApp extends StatelessWidget {
         }
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          if (EnvironmentConfig.localFirebase) {
-            final String _host = Platform.isAndroid ? '10.0.2.2' : 'localhost';
+          if (EnvironmentConfig.localFirebase ||
+              EnvironmentConfig.localFirebaseIP != 'localhost') {
+            const String _host = EnvironmentConfig.localFirebaseIP;
 
-            FirebaseAuth.instance.useEmulator('http://$_host:9099');
+            if (!kIsWeb) {
+              FirebaseAuth.instance.useEmulator('http://$_host:9099');
+            }
             FirebaseFunctions.instance
                 .useFunctionsEmulator(origin: 'http://$_host:5001');
 
-            FirebaseFirestore.instance.settings = Settings(
+            FirebaseFirestore.instance.settings = const Settings(
               host: '$_host:8080',
               sslEnabled: false,
               persistenceEnabled: false,
@@ -77,10 +79,9 @@ class MyApp extends StatelessWidget {
               darkTheme: AppTheme.darkTheme,
               onGenerateTitle: (BuildContext context) =>
                   AppLocalizations.of(context)!.appName,
-              home: const SafeArea(
-                child: LoginController(),
-              ),
-              // initialRoute: '/',
+
+              home: const LoginController(),
+              //initialRoute: '/Login',
               onGenerateRoute: RouteGenerator.generateRoute,
             ),
           );

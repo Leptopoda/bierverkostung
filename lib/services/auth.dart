@@ -33,37 +33,73 @@ class AuthService {
       return true;
     } catch (error) {
       developer.log(
-        'error on register',
+        'error on anonymous register',
         name: 'leptopoda.bierverkostung.AuthService',
-        error: jsonEncode(error),
+        error: jsonEncode(error.toString()),
       );
       return false;
     }
   }
 
   // sign in with email and password
-  /* Future signInWithEmailAndPassword(String email, String password) async {
+  Future<bool> signInWithEmailAndPassword(String email, String password) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
-      FirebaseUser user = result.user;
-      return user;
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return true;
     } catch (error) {
-      print(error.toString());
-      return null;
+      developer.log(
+        'error on email sign in',
+        name: 'leptopoda.bierverkostung.AuthService',
+        error: jsonEncode(error.toString()),
+      );
+      return false;
+    }
+  }
+
+  // register with email and password
+  Future<bool> registerWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return true;
+    } catch (error) {
+      developer.log(
+        'error on email register',
+        name: 'leptopoda.bierverkostung.AuthService',
+        error: jsonEncode(error.toString()),
+      );
+      return false;
+    }
+  }
+
+  // sign in with Google and password
+  /* Future<bool> signInWithGoogle(String email, String password) async {
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return true;
+    } catch (error) {
+      developer.log(
+        'error on email sign in',
+        name: 'leptopoda.bierverkostung.AuthService',
+        error: jsonEncode(error),
+      );
+      return false;
     }
   } */
 
-  // register with email and password
-  /* Future registerWithEmailAndPassword(String email, String password) async {
+  // register with Google and password
+  /* Future<bool> registerWithGoogle(String email, String password) async {
     try {
-      AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      FirebaseUser user = result.user;
-      // create a new document for the user with the uid
-      await DatabaseService(uid: user.uid).updateUserData('0','new crew member', 100);
-      return _userFromFirebaseUser(user);
+      await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      return true;
     } catch (error) {
-      print(error.toString());
-      return null;
+      developer.log(
+        'error on email register',
+        name: 'leptopoda.bierverkostung.AuthService',
+        error: jsonEncode(error),
+      );
+      return false;
     }
   } */
 
@@ -80,7 +116,7 @@ class AuthService {
       developer.log(
         'error on sign out',
         name: 'leptopoda.bierverkostung.AuthService',
-        error: jsonEncode(error),
+        error: jsonEncode(error.toString()),
       );
       return null;
     }

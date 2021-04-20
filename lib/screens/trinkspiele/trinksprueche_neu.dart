@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/shared/trinksprueche.dart';
+import 'package:bierverkostung/screens/trinkspiele/trinksprueche.dart';
 
 class TrinkspruecheNeu extends StatelessWidget {
   const TrinkspruecheNeu({Key? key}) : super(key: key);
