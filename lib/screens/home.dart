@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
 import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
-import 'package:bierverkostung/screens/statistiken/statistiken.dart';
+import 'package:bierverkostung/screens/statistiken/new_statistiken.dart';
 import 'package:bierverkostung/screens/settings/settings_button.dart';
+import 'package:bierverkostung/screens/statistiken/disp_statistiken.dart';
 
 class MyHome extends StatefulWidget {
   const MyHome({Key? key}) : super(key: key);
