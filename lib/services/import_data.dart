@@ -3,53 +3,126 @@
 // found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:developer' as developer show log;
+import 'dart:io';
+
+import 'package:flutter_archive/flutter_archive.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/breweries.dart';
 import 'package:bierverkostung/models/tastings.dart';
 
 class ImportDataService {
-  void parseJson(Map data) {
-    final _brewery = Brewery(
-      breweryName: data['beer']['name'] as String,
-      breweryLocation: data['beer']['location'] as String?,
-      country: data['beer']['country']['name'] as String?,
-    );
+  Future importData(File archive) async {
+    try {
+      final Directory _tempDir = await getTemporaryDirectory();
+      final Directory _dataDir = Directory('${_tempDir.path}/import/${DateTime.now()}');
 
-    final _beer = Beer(
-      beerName: data['name'] as String,
-      brewery: _brewery,
-      style: data['style']['name'] as String?,
-      originalWort: data['originalWort'] as double?,
-      alcohol: data['alcohol'] as double?,
-      ibu: data['ibu'] as int?,
-      ingredients: data['ingredients'] as String?,
-      specifics: data['specifics'] as String?,
-      beerNotes: data['notes'] as String?,
-    );
+      await ZipFile.extractToDirectory(
+        zipFile: archive,
+        destinationDir: _dataDir,
+        /* onExtracting: (zipEntry, progress) {
+              print('progress: ${progress.toStringAsFixed(1)}%');
+              print('name: ${zipEntry.name}');
+              print('isDirectory: ${zipEntry.isDirectory}');
+              print(
+                  'modificationDate: ${zipEntry.modificationDate?.toLocal().toIso8601String()}');
+              print('uncompressedSize: ${zipEntry.uncompressedSize}');
+              print('compressedSize: ${zipEntry.compressedSize}');
+              print('compressionMethod: ${zipEntry.compressionMethod}');
+              print('crc: ${zipEntry.crc}');
+              return ExtractOperation.extract;
+            }*/
+      );
+      await _dataDir.list().forEach((file) async {
+        if (file is File) {
+          await _parseJson(file);
+        } else {
+          developer.log(
+            'did not import some files',
+            name: 'leptopoda.bierverkostung.importDataService',
+            error: jsonEncode(file.toString()),
+          );
+        }
+      });
+      _dataDir.deleteSync(recursive: true);
+    } catch (error) {
+      developer.log(
+        'error restoring backup',
+        name: 'leptopoda.bierverkostung.importDataService',
+        error: jsonEncode(error.toString()),
+      );
+    }
+  }
 
-    final _tasting = Tasting(
-      date: data['date'].toDate() as DateTime,
-      beer: _beer,
-      location: data['location'] as String?,
-      beerColour: data['opticalAppearance']['beerColour'] as String?,
-      beerColourDesc: data['opticalAppearance']['beerColourDescription'] as String?,
-      colourEbc: data['opticalAppearance']['ebc'] as int,
-      clarity: data['opticalAppearance']['clarityDescription'] as String?,
-      foamColour: data['opticalAppearance']['foamColour'] as String?,
-      foamStructure: data['opticalAppearance']['foamStructureDescription'] as String?,
-      foamStability: data['opticalAppearance']['foamStability'] as int,
-      bitternessRating: data['taste']['bitternessRating'] as int,
-      sweetnessRating: data['taste']['sweetnessRating'] as int,
-      acidityRating: data['taste']['acidityRating'] as int,
-      mouthFeelDesc: data['taste']['mouthfeelDescription'] as String?,
-      fullBodiedRating: data['taste']['fullBodiedRating'] as int,
-      bodyDesc: data['taste']['bodyDescription'] as String?,
-      aftertasteDesc: data['taste']['aftertaste']['description'] as String?,
-      aftertasteRating: data['taste']['aftertaste']['rating'] as int,
-      foodRecommendation: data['foodRecommendation'] as String?,
-      totalImpressionDesc: data['totalImpressionDescription'] as String?,
-      totalImpressionRating: data['totalImpressionDescription'] as int,
-    );
+  Future<void> _parseJson(File file) async {
+    try {
+      final String _contents = await file.readAsString();
+      final Map _data = jsonDecode(_contents) as Map;
+
+      final _brewery = Brewery(
+        breweryName: _data['beer']?['name'] as String,
+        breweryLocation: _data['beer']?['location'] as String?,
+        country: _data['beer']?['country']?['name'] as String?,
+      );
+
+      final _beer = Beer(
+        beerName: (_data['name'] != null) ? _data['name'] as String : 'dreck',
+        brewery: _brewery,
+        style: _data['style']?['name'] as String?,
+        originalWort: _data['originalWort'] as double?,
+        alcohol: _data['alcohol'] as double?,
+        ibu: _data['ibu'] as int?,
+        ingredients: _data['ingredients'] as String?,
+        specifics: _data['specifics'] as String?,
+        beerNotes: _data['notes'] as String?,
+      );
+
+      Tasting(
+        date: DateTime.now(), //_data['date'].toDate() as DateTime,
+        beer: _beer,
+        location: _data['location'] as String?,
+        beerColour: _data['opticalAppearance']?['beerColour'] as String?,
+        beerColourDesc:
+            _data['opticalAppearance']?['beerColourDescription'] as String?,
+        colourEbc: _data['opticalAppearance']?['ebc'] as int?,
+        clarity: _data['opticalAppearance']?['clarityDescription'] as String?,
+        foamColour: _data['opticalAppearance']?['foamColour'] as String?,
+        foamStructure:
+            _data['opticalAppearance']?['foamStructureDescription'] as String?,
+        foamStability: (_data['opticalAppearance']?['foamStability'] != null)
+            ? _data['opticalAppearance']['foamStability'] as int
+            : 0,
+        bitternessRating: (_data['taste']?['bitternessRating'] != null)
+            ? _data['taste']['bitternessRating'] as int
+            : 0,
+        sweetnessRating: (_data['taste']?['sweetnessRating'] != null)
+            ? _data['taste']['sweetnessRating'] as int
+            : 0,
+        acidityRating: (_data['taste']?['acidityRating'] != null)
+            ? _data['taste']['acidityRating'] as int
+            : 0,
+        mouthFeelDesc: _data['taste']?['mouthfeelDescription'] as String?,
+        fullBodiedRating: (_data['taste']?['fullBodiedRating'] != null)
+            ? _data['taste']['fullBodiedRating'] as int
+            : 0,
+        bodyDesc: _data['taste']?['bodyDescription'] as String?,
+        aftertasteDesc:
+            _data['taste']?['aftertaste']?['description'] as String?,
+        aftertasteRating: (_data['taste']?['aftertaste']?['rating'] != null)
+            ? _data['taste']['aftertaste']['rating'] as int
+            : 0,
+        foodRecommendation: _data['foodRecommendation'] as String?,
+        totalImpressionDesc: _data['totalImpressionDescription'] as String?,
+        totalImpressionRating: _data['totalImpressionRating'] as int,
+      );
+    } catch (error) {
+      developer.log(
+        'error parsing json',
+        name: 'leptopoda.bierverkostung.importDataService',
+        error: jsonEncode(error.toString()),
+      );
+    }
   }
 }

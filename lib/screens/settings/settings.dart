@@ -40,6 +40,16 @@ class Settings extends StatelessWidget {
             trailing: const Icon(Icons.keyboard_arrow_right),
             onTap: () => Navigator.pushNamed(context, '/Settings/Groups'),
           ),
+                    const Divider(),
+          ListTile(
+            leading: const Icon(Icons.import_export_outlined),
+            title: const Text(
+              'Import Data',
+              style: TextStyle(fontSize: 18),
+            ),
+            trailing: const Icon(Icons.keyboard_arrow_right),
+            onTap: () => Navigator.pushNamed(context, '/Settings/Import'),
+          ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.info_outline),
@@ -49,16 +59,6 @@ class Settings extends StatelessWidget {
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
             onTap: () => Navigator.pushNamed(context, '/Settings/About'),
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.import_export_outlined),
-            title: const Text(
-              'Group Management',
-              style: TextStyle(fontSize: 18),
-            ),
-            trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => Navigator.pushNamed(context, '/Settings/Import'),
           ),
         ],
       ),

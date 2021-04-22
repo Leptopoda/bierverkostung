@@ -25,45 +25,61 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
+
+  # Firebase
+  cloud_firestore: any
+  cloud_functions: any
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: any
+
+  # email validator
+  email_validator: any
+
+  # file picker
+  file_picker: any
+
+  # Firebase
+  firebase_auth: any
+  firebase_core: any
+
   flutter:
     sdk: flutter
+
+  # unzip
+  flutter_archive: any
 
   # Internationalization support.
   flutter_localizations:
     sdk: flutter
   intl: any
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: any
-  provider: any
-
-  # qr Codes
-  qr_flutter: any
-  qr_code_scanner: any
+  # file paths
+  path_provider: any
 
   # floating_action_bubble: any
   pattern_formatter: any
-  # email validator
-  email_validator: any
 
-  # Firebase
-  firebase_core: any
-  cloud_firestore: any
-  firebase_auth: any
-  cloud_functions: any
+  provider: any
+
+  # qr Codes
+  qr_code_scanner: any
+  qr_flutter: any
 
 dev_dependencies:
   # Change launcher icon
   #flutter_launcher_icons: any
   # rename app
   #flutter_rename_app: any
+  
+  flutter_test:
+    sdk: flutter
+
   # linting
   lint: any
 
   yaml: any
-  flutter_test:
-    sdk: flutter
 
 flutter_intl:
   enabled: true
