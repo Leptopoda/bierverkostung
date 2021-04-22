@@ -15,7 +15,7 @@ class SomethingWentWrong extends StatelessWidget {
     developer.log(
       'generic error',
       name: 'leptopoda.bierverkostung.SomethingWentWrong',
-      error: jsonEncode(error),
+      error: jsonEncode(error.toString()),
     );
     return Scaffold(
       body: Container(

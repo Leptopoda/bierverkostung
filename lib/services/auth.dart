@@ -82,7 +82,7 @@ class AuthService {
       developer.log(
         'error on email sign in',
         name: 'leptopoda.bierverkostung.AuthService',
-        error: jsonEncode(error),
+        error: jsonEncode(error.toString()),
       );
       return false;
     }
@@ -97,7 +97,7 @@ class AuthService {
       developer.log(
         'error on email register',
         name: 'leptopoda.bierverkostung.AuthService',
-        error: jsonEncode(error),
+        error: jsonEncode(error.toString()),
       );
       return false;
     }
