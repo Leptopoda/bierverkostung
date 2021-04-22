@@ -6,6 +6,11 @@ It will consist of three parts
  - Bierverkostung
  - Konsum Tracking
 
+## Platforms
+We currently only support Android and Web. Although every package selected does also support iOS/iPadOS/MacOS i don't have a mac to text and build. Reach out to me if you want to help with this.
+Regarding other Desktop support like Linux and Windows firebase currently does not support those platforms. 
+We'll need to wait for this to tackle propper desktop support.
+
 ## Hosted
 This project is already hosted on https://saufen.rimikis.de. Check it out as more features will arrive.
 
