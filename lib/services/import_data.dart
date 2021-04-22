@@ -129,7 +129,6 @@ class ImportDataService {
         totalImpressionRating: _data['totalImpressionRating'] as int,
       );
 
-      print(_beer.alcohol);
       DatabaseService(user: user).saveBeer(_beer);
       DatabaseService(user: user).saveTasting(_tasting);
     } catch (error) {
