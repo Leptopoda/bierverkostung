@@ -11,6 +11,10 @@ import 'package:file_picker/file_picker.dart';
 class ImportDataSettings extends StatelessWidget {
   const ImportDataSettings({Key? key}) : super(key: key);
 
+  static const TextStyle _text = TextStyle(
+    fontSize: 18,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,8 +29,10 @@ class ImportDataSettings extends StatelessWidget {
               'This feature allows you to import data from the old Bierverkostung app. '
               "Please note that we currently do'nt support scent. "
               "We'll also interpret null values on sliders as a 0 as that is how we used the app",
+              style: _text,
             ),
           ),
+          const SizedBox(height: 16),
           ElevatedButton.icon(
             onPressed: () => _importData(),
             icon: const Icon(Icons.import_export_outlined),
