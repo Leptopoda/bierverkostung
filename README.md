@@ -51,3 +51,7 @@ Build the app with the local config pre applied
 ```
 flutter run --dart-define=local_firebase=true
 ```
+Need a custom domain/ip? 
+```
+flutter run --dart-define=local_firebase_ip=10.0.0.2
+```
