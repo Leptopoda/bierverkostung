@@ -15,19 +15,21 @@ class Brewery {
     this.country,
   });
 
-  factory Brewery.fromMap(dynamic data) {
+  factory Brewery.fromMap(Map data) {
     return Brewery(
-      breweryName: data['breweryName'] as String,
-      breweryLocation: data['breweryLocation'] as String?,
-      country: data['country'] as String?,
+      breweryName: data['name'] as String,
+      breweryLocation: data['location'] as String?,
+      country: data['country']?['name'] as String?,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'breweryName': breweryName,
-      'breweryLocation': breweryLocation,
-      'country': country,
+      'name': breweryName,
+      'location': breweryLocation,
+      'country': {
+        'name': country,
+      },
     };
   }
 }

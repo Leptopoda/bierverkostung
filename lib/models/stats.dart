@@ -2,8 +2,6 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:cloud_firestore/cloud_firestore.dart' show DocumentSnapshot;
-
 import 'package:bierverkostung/models/beers.dart';
 
 class Stat {
@@ -20,9 +18,7 @@ class Stat {
     //this.id,
   });
 
-  factory Stat.fromMap(DocumentSnapshot doc) {
-    final Map<String, dynamic> data = doc.data()!;
-
+  factory Stat.fromMap(Map data) {
     return Stat(
       // id: doc.data(),
       menge: data['amount'] as double,
