@@ -2,7 +2,6 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:cloud_firestore/cloud_firestore.dart' show DocumentSnapshot;
 import 'package:bierverkostung/models/breweries.dart';
 
 class Beer {
@@ -30,35 +29,37 @@ class Beer {
     this.beerNotes,
   });
 
-  factory Beer.fromMap(DocumentSnapshot doc) {
-    final Map<String, dynamic> data = doc.data()!;
-
+  factory Beer.fromMap(Map data) {
     return Beer(
-      beerName: data['beerName'] as String,
-      brewery: (data['breweryName'] != null)
-          ? Brewery.fromMap(data['brewery'])
-          : null,
-      style: data['style'] as String?,
-      originalWort: data['originalWort'] as double?,
-      alcohol: data['alcohol'] as double?,
+      beerName: data['name'] as String,
+      brewery:
+          (data['brewery'] != null) ? Brewery.fromMap(data['brewery'] as Map) : null,
+      style: data['style']?['name'] as String?,
+      /* originalWort: double?.tryParse((data['originalWort'] != null)
+          ? data['originalWort'] as String
+          : ''),
+      alcohol: double?.tryParse(
+          (data['alcohol'] != null) ? data['alcohol'] as String : ''), */
       ibu: data['ibu'] as int?,
       ingredients: data['ingredients'] as String?,
       specifics: data['specifics'] as String?,
-      beerNotes: data['beerNotes'] as String?,
+      beerNotes: data['notes'] as String?,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'beerName': beerName,
+      'name': beerName,
       'brewery': brewery?.toMap(),
-      'style': style,
+      'style': {
+        'style': style,
+      },
       'originalWort': originalWort,
       'alcohol': alcohol,
       'ibu': ibu,
       'ingredients': ingredients,
       'specifics': specifics,
-      'beerNotes': beerNotes,
+      'notes': beerNotes,
     };
   }
 }

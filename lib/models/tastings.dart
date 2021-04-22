@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:cloud_firestore/cloud_firestore.dart' show DocumentSnapshot;
+import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:bierverkostung/models/beers.dart';
 
 class Tasting {
@@ -54,31 +54,44 @@ class Tasting {
     this.totalImpressionRating = 0,
   });
 
-  factory Tasting.fromMap(DocumentSnapshot doc) {
-    final Map<String, dynamic> data = doc.data()!;
-
+  factory Tasting.fromMap(Map data) {
     return Tasting(
-      // id: doc.data(),
-      date: data['date'].toDate() as DateTime,
-      beer: Beer(beerName: data['beer'] as String),
+      date: (data['date'] is Timestamp)
+          ? data['date'].toDate() as DateTime
+          : DateTime.parse(data['date'] as String),
+      beer: Beer.fromMap(data['beer'] as Map),
       location: data['location'] as String?,
-      beerColour: data['beerColour'] as String?,
-      beerColourDesc: data['beerColourDesc'] as String?,
-      colourEbc: data['colourEbc'] as int?,
-      clarity: data['clarity'] as String?,
-      foamColour: data['foamColour'] as String?,
-      foamStructure: data['foamStructure'] as String?,
-      foamStability: data['foamStability'] as int,
-      bitternessRating: data['bitternessRating'] as int,
-      sweetnessRating: data['sweetnessRating'] as int,
-      acidityRating: data['acidityRating'] as int,
-      mouthFeelDesc: data['mouthFeelDesc'] as String?,
-      fullBodiedRating: data['fullBodiedRating'] as int,
-      bodyDesc: data['bodyDesc'] as String?,
-      aftertasteDesc: data['aftertasteDesc'] as String?,
-      aftertasteRating: data['aftertasteRating'] as int,
+      beerColour: data['opticalAppearance']?['beerColour'] as String?,
+      beerColourDesc:
+          data['opticalAppearance']?['beerColourDescription'] as String?,
+      colourEbc: data['opticalAppearance']?['ebc'] as int?,
+      clarity: data['opticalAppearance']?['clarityDescription'] as String?,
+      foamColour: data['opticalAppearance']?['foamColour'] as String?,
+      foamStructure:
+          data['opticalAppearance']?['foamStructureDescription'] as String?,
+      foamStability: (data['opticalAppearance']?['foamStability'] != null)
+          ? data['opticalAppearance']['foamStability'] as int
+          : 0,
+      bitternessRating: (data['taste']?['bitternessRating'] != null)
+          ? data['taste']['bitternessRating'] as int
+          : 0,
+      sweetnessRating: (data['taste']?['sweetnessRating'] != null)
+          ? data['taste']['sweetnessRating'] as int
+          : 0,
+      acidityRating: (data['taste']?['acidityRating'] != null)
+          ? data['taste']['acidityRating'] as int
+          : 0,
+      mouthFeelDesc: data['taste']?['mouthfeelDescription'] as String?,
+      fullBodiedRating: (data['taste']?['fullBodiedRating'] != null)
+          ? data['taste']['fullBodiedRating'] as int
+          : 0,
+      bodyDesc: data['taste']?['bodyDescription'] as String?,
+      aftertasteDesc: data['taste']?['aftertaste']?['description'] as String?,
+      aftertasteRating: (data['taste']?['aftertaste']?['rating'] != null)
+          ? data['taste']['aftertaste']['rating'] as int
+          : 0,
       foodRecommendation: data['foodRecommendation'] as String?,
-      totalImpressionDesc: data['totalImpressionDesc'] as String?,
+      totalImpressionDesc: data['totalImpressionDescription'] as String?,
       totalImpressionRating: data['totalImpressionRating'] as int,
     );
   }
@@ -86,25 +99,31 @@ class Tasting {
   Map<String, dynamic> toMap() {
     return {
       'date': date,
-      'beer': beer.beerName,
+      'beer': beer.toMap(),
       'location': location,
-      'beerColour': beerColour,
-      'beerColourDesc': beerColourDesc,
-      'colourEbc': colourEbc,
-      'clarity': clarity,
-      'foamColour': foamColour,
-      'foamStructure': foamStructure,
-      'foamStability': foamStability,
-      'bitternessRating': bitternessRating,
-      'sweetnessRating': sweetnessRating,
-      'acidityRating': acidityRating,
-      'mouthFeelDesc': mouthFeelDesc,
-      'fullBodiedRating': fullBodiedRating,
-      'bodyDesc': bodyDesc,
-      'aftertasteDesc': aftertasteDesc,
-      'aftertasteRating': aftertasteRating,
+      'opticalAppearance': {
+        'beerColour': beerColour,
+        'beerColourDesc': beerColourDesc,
+        'colourEbc': colourEbc,
+        'clarity': clarity,
+        'foamColour': foamColour,
+        'foamStructure': foamStructure,
+        'foamStability': foamStability,
+      },
+      'taste': {
+        'bitternessRating': bitternessRating,
+        'sweetnessRating': sweetnessRating,
+        'acidityRating': acidityRating,
+        'mouthFeelDesc': mouthFeelDesc,
+        'fullBodiedRating': fullBodiedRating,
+        'bodyDesc': bodyDesc,
+        'aftertaste': {
+          'aftertasteDesc': aftertasteDesc,
+          'aftertasteRating': aftertasteRating,
+        },
+      },
       'foodRecommendation': foodRecommendation,
-      'totalImpressionDesc': totalImpressionDesc,
+      'totalImpressionDescription': totalImpressionDesc,
       'totalImpressionRating': totalImpressionRating,
     };
   }

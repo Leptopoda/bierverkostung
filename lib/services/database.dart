@@ -16,7 +16,7 @@ class DatabaseService {
 
   // Firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  UserData? user2;
+  // UserData? user2;
 
   // Stats
   // save Stat
@@ -35,7 +35,7 @@ class DatabaseService {
         .doc(user!.uid)
         .collection('stats')
         .snapshots()
-        .map((list) => list.docs.map((doc) => Stat.fromMap(doc)).toList());
+        .map((list) => list.docs.map((doc) => Stat.fromMap(doc.data())).toList());
   }
 
   // Tasting
@@ -55,7 +55,7 @@ class DatabaseService {
         .doc(user!.guid)
         .collection('tastings')
         .snapshots()
-        .map((list) => list.docs.map((doc) => Tasting.fromMap(doc)).toList());
+        .map((list) => list.docs.map((doc) => Tasting.fromMap(doc.data())).toList());
   }
 
   // Beer
@@ -75,7 +75,7 @@ class DatabaseService {
         .doc(user!.guid)
         .collection('beers')
         .snapshots()
-        .map((list) => list.docs.map((doc) => Beer.fromMap(doc)).toList());
+        .map((list) => list.docs.map((doc) => Beer.fromMap(doc.data())).toList());
   }
 
   // User
