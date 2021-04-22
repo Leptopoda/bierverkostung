@@ -367,7 +367,7 @@ class _NewTastingState extends State<NewTasting> {
         totalImpressionRating: _totalImpressionRating,
       );
 
-      await DatabaseService(user: _user).saveTasting(_tasting1);
+      await DatabaseService(user: _user).saveTasting(_tasting1.toMap());
 
       Navigator.of(context).pop();
     }

@@ -170,7 +170,7 @@ class NewBeer extends StatelessWidget {
         beerNotes: _beerNotes.value.text,
       );
 
-      await DatabaseService(user: _user).saveBeer(_bier1);
+      await DatabaseService(user: _user).saveBeer(_bier1.toMap());
 
       Navigator.of(context).pop();
     }
