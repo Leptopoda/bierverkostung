@@ -12,7 +12,7 @@ import 'package:bierverkostung/models/beers.dart';
 
 class DatabaseService {
   final UserData? user;
-  DatabaseService({this.user});
+  DatabaseService({required this.user});
 
   // Firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -80,9 +80,9 @@ class DatabaseService {
 
   // User
   // save User
-  Future<void> saveUser() async {
+  /* Future<void> saveUser() async {
     await _firestore.collection('users').doc(user2!.uid).set(user2!.toMap());
-  }
+  } */
 
   // init user
   /* Future<void> initDB(UserData _user) async {

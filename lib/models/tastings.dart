@@ -13,7 +13,7 @@ class Tasting {
   Beer beer;
   String? beerColour;
   String? beerColourDesc;
-  int colourEbc;
+  int? colourEbc;
   String? clarity;
   String? foamColour;
   String? foamStructure;
@@ -36,22 +36,22 @@ class Tasting {
     this.location,
     this.beerColour,
     this.beerColourDesc,
-    this.colourEbc = 4,
+    this.colourEbc,
     this.clarity,
     this.foamColour,
     this.foamStructure,
-    this.foamStability = 1,
-    this.bitternessRating = 1,
-    this.sweetnessRating = 1,
-    this.acidityRating = 1,
+    this.foamStability = 0,
+    this.bitternessRating = 0,
+    this.sweetnessRating = 0,
+    this.acidityRating = 0,
     this.mouthFeelDesc,
-    this.fullBodiedRating = 1,
+    this.fullBodiedRating = 0,
     this.bodyDesc,
     this.aftertasteDesc,
-    this.aftertasteRating = 1,
+    this.aftertasteRating = 0,
     this.foodRecommendation,
     this.totalImpressionDesc,
-    this.totalImpressionRating = 1,
+    this.totalImpressionRating = 0,
   });
 
   factory Tasting.fromMap(DocumentSnapshot doc) {
@@ -64,7 +64,7 @@ class Tasting {
       location: data['location'] as String?,
       beerColour: data['beerColour'] as String?,
       beerColourDesc: data['beerColourDesc'] as String?,
-      colourEbc: data['colourEbc'] as int,
+      colourEbc: data['colourEbc'] as int?,
       clarity: data['clarity'] as String?,
       foamColour: data['foamColour'] as String?,
       foamStructure: data['foamStructure'] as String?,

@@ -1,1 +1,7 @@
 include: package:lint/analysis_options_package.yaml
+
+
+analyzer:
+  exclude:
+    # generated code
+    - lib/generated_plugin_registrant.dart

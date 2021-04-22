@@ -89,8 +89,8 @@ class DispTasting extends StatelessWidget {
           const Text('Foam Stability'),
           SliderIndicator(
             value: tasting.foamStability,
-            min: 1,
-            max: 4,
+            min: 0,
+            max: 3,
           ),
           TextFormField(
             style: _text,
@@ -143,26 +143,26 @@ class DispTasting extends StatelessWidget {
           const Text('Bitterness'),
           SliderIndicator(
             value: tasting.bitternessRating,
-            min: 1,
-            max: 4,
+            min: 0,
+            max: 3,
           ),
           const Text('Sweetness'),
           SliderIndicator(
             value: tasting.sweetnessRating,
-            min: 1,
-            max: 4,
+            min: 0,
+            max: 3,
           ),
           const Text('Acidity'),
           SliderIndicator(
             value: tasting.acidityRating,
-            min: 1,
-            max: 4,
+            min: 0,
+            max: 3,
           ),
           const Text('Body Fullness'),
           SliderIndicator(
             value: tasting.fullBodiedRating,
-            min: 1,
-            max: 4,
+            min: 0,
+            max: 3,
           ),
           TextFormField(
             style: _text,
@@ -183,8 +183,8 @@ class DispTasting extends StatelessWidget {
           const Text('Nachgeschmack rating'),
           SliderIndicator(
             value: tasting.aftertasteRating,
-            min: 1,
-            max: 4,
+            min: 0,
+            max: 3,
           ),
           TextFormField(
             style: _text,
