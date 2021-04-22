@@ -40,7 +40,7 @@ class Settings extends StatelessWidget {
             trailing: const Icon(Icons.keyboard_arrow_right),
             onTap: () => Navigator.pushNamed(context, '/Settings/Groups'),
           ),
-                    const Divider(),
+          const Divider(),
           ListTile(
             leading: const Icon(Icons.import_export_outlined),
             title: const Text(

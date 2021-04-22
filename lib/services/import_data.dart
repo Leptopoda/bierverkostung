@@ -6,18 +6,24 @@ import 'dart:convert';
 import 'dart:developer' as developer show log;
 import 'dart:io';
 
+import 'package:bierverkostung/services/database.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/breweries.dart';
 import 'package:bierverkostung/models/tastings.dart';
+import 'package:bierverkostung/models/users.dart';
 
 class ImportDataService {
+  final UserData user;
+  ImportDataService({required this.user});
+
   Future importData(File archive) async {
     try {
       final Directory _tempDir = await getTemporaryDirectory();
-      final Directory _dataDir = Directory('${_tempDir.path}/import/${DateTime.now()}');
+      final Directory _dataDir =
+          Directory('${_tempDir.path}/import/${DateTime.now()}');
 
       await ZipFile.extractToDirectory(
         zipFile: archive,
@@ -46,6 +52,7 @@ class ImportDataService {
           );
         }
       });
+
       _dataDir.deleteSync(recursive: true);
     } catch (error) {
       developer.log(
@@ -62,25 +69,29 @@ class ImportDataService {
       final Map _data = jsonDecode(_contents) as Map;
 
       final _brewery = Brewery(
-        breweryName: _data['beer']?['name'] as String,
-        breweryLocation: _data['beer']?['location'] as String?,
-        country: _data['beer']?['country']?['name'] as String?,
+        breweryName: _data['beer']?['brewery']?['name'] as String,
+        breweryLocation: _data['beer']?['brewery']?['location'] as String?,
+        country: _data['beer']?['brewery']?['country']?['name'] as String?,
       );
 
       final _beer = Beer(
-        beerName: (_data['name'] != null) ? _data['name'] as String : 'dreck',
+        beerName: _data['beer']?['name'] as String,
         brewery: _brewery,
-        style: _data['style']?['name'] as String?,
-        originalWort: _data['originalWort'] as double?,
-        alcohol: _data['alcohol'] as double?,
-        ibu: _data['ibu'] as int?,
-        ingredients: _data['ingredients'] as String?,
-        specifics: _data['specifics'] as String?,
-        beerNotes: _data['notes'] as String?,
+        style: _data['beer']?['style']?['name'] as String?,
+        originalWort: double?.tryParse((_data['beer']?['originalWort'] != null)
+            ? _data['beer']['originalWort'] as String
+            : ''),
+        alcohol: double?.tryParse((_data['beer']?['alcohol'] != null)
+            ? _data['beer']['alcohol'] as String
+            : ''),
+        ibu: _data['beer']?['ibu'] as int?,
+        ingredients: _data['beer']?['ingredients'] as String?,
+        specifics: _data['beer']?['specifics'] as String?,
+        beerNotes: _data['beer']?['notes'] as String?,
       );
 
-      Tasting(
-        date: DateTime.now(), //_data['date'].toDate() as DateTime,
+      final _tasting = Tasting(
+        date: DateTime.parse(_data['date'] as String),
         beer: _beer,
         location: _data['location'] as String?,
         beerColour: _data['opticalAppearance']?['beerColour'] as String?,
@@ -117,11 +128,15 @@ class ImportDataService {
         totalImpressionDesc: _data['totalImpressionDescription'] as String?,
         totalImpressionRating: _data['totalImpressionRating'] as int,
       );
+
+      print(_beer.alcohol);
+      DatabaseService(user: user).saveBeer(_beer);
+      DatabaseService(user: user).saveTasting(_tasting);
     } catch (error) {
       developer.log(
         'error parsing json',
         name: 'leptopoda.bierverkostung.importDataService',
-        error: jsonEncode(error.toString()),
+        error: jsonEncode('{error: ${error.toString()}, file: $file}'),
       );
     }
   }

@@ -4,9 +4,12 @@
 
 import 'dart:io';
 
-import 'package:bierverkostung/services/import_data.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:provider/provider.dart';
+
+import 'package:bierverkostung/services/import_data.dart';
+import 'package:bierverkostung/models/users.dart';
 
 class ImportDataSettings extends StatelessWidget {
   const ImportDataSettings({Key? key}) : super(key: key);
@@ -34,7 +37,7 @@ class ImportDataSettings extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           ElevatedButton.icon(
-            onPressed: () => _importData(),
+            onPressed: () => _importData(context),
             icon: const Icon(Icons.import_export_outlined),
             label: const Text('import data'),
           ),
@@ -43,7 +46,7 @@ class ImportDataSettings extends StatelessWidget {
     );
   }
 
-  Future _importData() async {
+  Future _importData(BuildContext context) async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['zip'],
@@ -51,7 +54,9 @@ class ImportDataSettings extends StatelessWidget {
 
     if (result != null) {
       final File _zipFile = File(result.files.single.path!);
-      ImportDataService().importData(_zipFile);
+      final UserData _user = Provider.of<UserData?>(context, listen: false)!;
+
+      ImportDataService(user: _user).importData(_zipFile);
     }
   }
 }
