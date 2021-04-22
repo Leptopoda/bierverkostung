@@ -32,8 +32,9 @@ class Beer {
   factory Beer.fromMap(Map data) {
     return Beer(
       beerName: data['name'] as String,
-      brewery:
-          (data['brewery'] != null) ? Brewery.fromMap(data['brewery'] as Map) : null,
+      brewery: (data['brewery'] != null)
+          ? Brewery.fromMap(data['brewery'] as Map)
+          : null,
       style: data['style']?['name'] as String?,
       /* originalWort: double?.tryParse((data['originalWort'] != null)
           ? data['originalWort'] as String

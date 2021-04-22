@@ -20,12 +20,8 @@ class DatabaseService {
 
   // Stats
   // save Stat
-  Future<void> saveStat(Stat stat) async {
-    _firestore
-        .collection('users')
-        .doc(user!.uid)
-        .collection('stats')
-        .add(stat.toMap());
+  Future<void> saveStat(Map<String, dynamic> stat) async {
+    _firestore.collection('users').doc(user!.uid).collection('stats').add(stat);
   }
 
   // get stats stream
@@ -35,17 +31,18 @@ class DatabaseService {
         .doc(user!.uid)
         .collection('stats')
         .snapshots()
-        .map((list) => list.docs.map((doc) => Stat.fromMap(doc.data())).toList());
+        .map((list) =>
+            list.docs.map((doc) => Stat.fromMap(doc.data())).toList());
   }
 
   // Tasting
   // save Tasting
-  Future<void> saveTasting(Tasting tasting) async {
+  Future<void> saveTasting(Map<String, dynamic> tasting) async {
     _firestore
         .collection('groups')
         .doc(user!.guid)
         .collection('tastings')
-        .add(tasting.toMap());
+        .add(tasting);
   }
 
   // get tasting stream
@@ -55,17 +52,18 @@ class DatabaseService {
         .doc(user!.guid)
         .collection('tastings')
         .snapshots()
-        .map((list) => list.docs.map((doc) => Tasting.fromMap(doc.data())).toList());
+        .map((list) =>
+            list.docs.map((doc) => Tasting.fromMap(doc.data())).toList());
   }
 
   // Beer
   // save Beer
-  Future<void> saveBeer(Beer beer) async {
+  Future<void> saveBeer(Map<String, dynamic> beer) async {
     _firestore
         .collection('groups')
         .doc(user!.guid)
         .collection('beers')
-        .add(beer.toMap());
+        .add(beer);
   }
 
   // get beers stream
@@ -75,7 +73,8 @@ class DatabaseService {
         .doc(user!.guid)
         .collection('beers')
         .snapshots()
-        .map((list) => list.docs.map((doc) => Beer.fromMap(doc.data())).toList());
+        .map((list) =>
+            list.docs.map((doc) => Beer.fromMap(doc.data())).toList());
   }
 
   // User

@@ -19,7 +19,6 @@ class Stat {
   });
 
   factory Stat.fromMap(Map data) {
-
     return Stat(
       // id: doc.data(),
       menge: data['amount'] as double,

@@ -10,9 +10,6 @@ import 'package:bierverkostung/services/database.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:bierverkostung/models/beers.dart';
-import 'package:bierverkostung/models/breweries.dart';
-import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/models/users.dart';
 
 class ImportDataService {
@@ -68,12 +65,9 @@ class ImportDataService {
       final String _contents = await file.readAsString();
       final Map _data = jsonDecode(_contents) as Map;
 
-      final _beer = Beer.fromMap(_data['beer'] as Map);
-
-      final _tasting = Tasting.fromMap(_data);
-
-      DatabaseService(user: user).saveBeer(_beer);
-      DatabaseService(user: user).saveTasting(_tasting);
+      DatabaseService(user: user)
+          .saveBeer(_data['beer'] as Map<String, dynamic>);
+      DatabaseService(user: user).saveTasting(_data as Map<String, dynamic>);
     } catch (error) {
       developer.log(
         'error parsing json',
