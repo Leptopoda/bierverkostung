@@ -153,7 +153,7 @@ class _QRViewExampleState extends State<QRViewExample> {
         developer.log(
           'error parsing json',
           name: 'leptopoda.bierverkostung.QRViewExample',
-          error: jsonEncode(error),
+          error: jsonEncode(error.toString()),
         );
       }
     });
