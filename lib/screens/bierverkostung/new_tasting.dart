@@ -56,7 +56,8 @@ class _NewTastingState extends State<NewTasting> {
   int _aftertasteRating = 1;
   int _totalImpressionRating = 1;
 
-  final List<int> _ebc = [
+  final List<int?> _ebc = [
+    null,
     4,
     6,
     8,
@@ -168,8 +169,8 @@ class _NewTastingState extends State<NewTasting> {
             const Text('Foam Stability'),
             Slider(
               value: _foamStability.toDouble(),
-              min: 1,
-              max: 4,
+              // min: 0,
+              max: 3,
               divisions: 3,
               label: '$_foamStability',
               onChanged: (double value) =>
@@ -178,7 +179,7 @@ class _NewTastingState extends State<NewTasting> {
             DropdownButtonFormField(
               value: _colourEbc,
               items: _ebc.map<DropdownMenuItem<int>>(
-                (int val) {
+                (int? val) {
                   return DropdownMenuItem(
                     value: val,
                     child: Text('$val'),
@@ -229,8 +230,8 @@ class _NewTastingState extends State<NewTasting> {
             const Text('Bitterness'),
             Slider(
               value: _bitternessRating.toDouble(),
-              min: 1,
-              max: 4,
+              // min: 0,
+              max: 3,
               divisions: 3,
               label: '$_bitternessRating',
               onChanged: (double value) =>
@@ -239,8 +240,8 @@ class _NewTastingState extends State<NewTasting> {
             const Text('Sweetness'),
             Slider(
               value: _sweetnessRating.toDouble(),
-              min: 1,
-              max: 4,
+              // min: 0,
+              max: 3,
               divisions: 3,
               label: '$_sweetnessRating',
               onChanged: (double value) =>
@@ -249,8 +250,8 @@ class _NewTastingState extends State<NewTasting> {
             const Text('Acidity'),
             Slider(
               value: _acidityRating.toDouble(),
-              min: 1,
-              max: 4,
+              // min: 0,
+              max: 3,
               divisions: 3,
               label: '$_acidityRating',
               onChanged: (double value) =>
@@ -259,8 +260,8 @@ class _NewTastingState extends State<NewTasting> {
             const Text('Body Fullness'),
             Slider(
               value: _fullBodiedRating.toDouble(),
-              min: 1,
-              max: 4,
+              // min: 0,
+              max: 3,
               divisions: 3,
               label: '$_fullBodiedRating',
               onChanged: (double value) =>
@@ -283,8 +284,8 @@ class _NewTastingState extends State<NewTasting> {
             const Text('Nachgeschmack rating'),
             Slider(
               value: _aftertasteRating.toDouble(),
-              min: 1,
-              max: 4,
+              // min: 0,
+              max: 3,
               divisions: 3,
               label: '$_aftertasteRating',
               onChanged: (double value) =>

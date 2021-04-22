@@ -30,6 +30,7 @@ class Settings extends StatelessWidget {
               builder: (BuildContext _) => const LogOutAlert(),
             ),
           ),
+          const Divider(),
           ListTile(
             leading: const Icon(Icons.group_add_outlined),
             title: const Text(
@@ -38,6 +39,26 @@ class Settings extends StatelessWidget {
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
             onTap: () => Navigator.pushNamed(context, '/Settings/Groups'),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.import_export_outlined),
+            title: const Text(
+              'Import Data',
+              style: TextStyle(fontSize: 18),
+            ),
+            trailing: const Icon(Icons.keyboard_arrow_right),
+            onTap: () => Navigator.pushNamed(context, '/Settings/Import'),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.info_outline),
+            title: const Text(
+              'About this App',
+              style: TextStyle(fontSize: 18),
+            ),
+            trailing: const Icon(Icons.keyboard_arrow_right),
+            onTap: () => Navigator.pushNamed(context, '/Settings/About'),
           ),
         ],
       ),
