@@ -65,6 +65,7 @@ class ImportDataService {
       final String _contents = await file.readAsString();
       final Map _data = jsonDecode(_contents) as Map;
 
+      // TODO: validate json (maybe externalize to cloud function)
       DatabaseService(user: user)
           .saveBeer(_data['beer'] as Map<String, dynamic>);
       DatabaseService(user: user).saveTasting(_data as Map<String, dynamic>);
