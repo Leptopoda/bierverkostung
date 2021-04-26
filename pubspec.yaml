@@ -44,6 +44,9 @@ dependencies:
   firebase_auth: any
   firebase_core: any
 
+  # charts
+  fl_chart: any
+  
   flutter:
     sdk: flutter
 
