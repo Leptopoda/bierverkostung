@@ -1,0 +1,50 @@
+// Copyright 2021 Leptopoda. All rights reserved.
+// Use of this source code is governed by an APACHE-style license that can be
+// found in the LICENSE file.
+
+import * as functions from "firebase-functions";
+
+exports.statCounter = functions.database.ref("/users/{userID}")
+    .onWrite(async (change, context) => {
+      try {
+        if (change.after.exists()) {
+          if (change.before.exists()) {
+            const valObjBefore = change.before.val();
+            const valObjAfter = change.after.val();
+
+            const nbrReviewsBefore = Object.keys(valObjBefore).length;
+            const nbrReviewsAfter = Object.keys(valObjAfter).length;
+
+            if (nbrReviewsBefore !== nbrReviewsAfter) {
+              // We update the reviewCounter node
+              const reviewCounterRef = change.after.ref.parent!.child("reviewsCounter");
+              await reviewCounterRef.transaction(() => {
+                return nbrReviewsAfter;
+              });
+              return null;
+            } else {
+              // No need to update the reviewsCounter node
+              return null;
+            }
+          } else {
+            // This is the case for the first review for the restaurant
+            const reviewCounterRef = change.before.ref.parent!.child("reviewsCounter");
+            await reviewCounterRef.transaction(() => {
+              return 1;
+            });
+            return null;
+          }
+        } else {
+          // This is the case when no more reviews exist for this restaurant
+          // i.e. they have all been deleted
+          const userJobsCounterRef = change.before.ref.parent!.child("reviewsCounter");
+          await userJobsCounterRef.transaction(() => {
+            return 0;
+          });
+          return null;
+        }
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
+    });
