@@ -5,7 +5,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
-const addGroup = functions.https.onCall(async (data, context) => {
+export const addGroup = functions.https.onCall(async (data, context) => {
   // check request is made by a group member or new user
   if (context?.auth?.token["group_ID"] !== data.guid &&
   context?.auth?.token["user_id"] !== data.guid) {
@@ -38,5 +38,3 @@ const addGroup = functions.https.onCall(async (data, context) => {
     return err;
   }
 });
-
-export {addGroup};

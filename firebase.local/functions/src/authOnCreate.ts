@@ -5,7 +5,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 
-const authOnCreate = functions.auth.user().onCreate(async (context) => {
+export const authOnCreate = functions.auth.user().onCreate(async (context) => {
   try {
     await admin.auth().setCustomUserClaims(context.uid, {
       group_id: context.uid,
@@ -20,5 +20,3 @@ const authOnCreate = functions.auth.user().onCreate(async (context) => {
     return err;
   }
 });
-
-export {authOnCreate};
