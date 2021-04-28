@@ -7,12 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/models/beers.dart';
 
+import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/screens/bierverkostung/beers.dart';
 import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
-import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/screens/home.dart';
 import 'package:bierverkostung/screens/bierverkostung/new_tasting.dart';
 import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
+import 'package:bierverkostung/screens/conference/conference.dart';
 import 'package:bierverkostung/screens/settings/settings.dart';
 import 'package:bierverkostung/screens/settings/qr_scan.dart';
 import 'package:bierverkostung/screens/settings/user_settings.dart';
@@ -55,6 +56,9 @@ class RouteGenerator {
 
       case '/BeerList':
         return MaterialPageRoute<Beer?>(builder: (_) => const BeerList());
+
+      case '/Conference':
+        return MaterialPageRoute<Beer?>(builder: (_) => const Meeting());
 
       case '/Login':
         return MaterialPageRoute(builder: (_) => const Login());

@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/screens/conference/conference.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
@@ -67,6 +68,7 @@ class _MyHomeState extends State<MyHome> {
       appBar: AppBar(
         title: Text(_pageTitles[_selectedIndex]),
         actions: const <Widget>[
+          MeetingButton(),
           PromilleRechnerButton(),
           SettingsButton(),
         ],

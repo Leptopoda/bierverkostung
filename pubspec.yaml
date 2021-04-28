@@ -58,6 +58,9 @@ dependencies:
     sdk: flutter
   intl: any
 
+  # jitsi
+  jitsi_meet: any
+
   # file paths
   path_provider: any
 
