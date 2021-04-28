@@ -38,7 +38,7 @@ export const beerStats = functions.firestore
         const db = firestore();
         const increment = firestore.FieldValue.increment(1);
         const data = change.after.data();
-        const beer = ( data != undefined && data["beer"] != null)?
+        const beer: string = ( data != undefined && data["beer"] != null)?
           data["beer"] : "undefined";
 
         const statsRef = db.collection("users")
@@ -46,8 +46,11 @@ export const beerStats = functions.firestore
             .collection("stats-computed")
             .doc(beer);
 
-        await statsRef.set({beercount: increment}, {merge: true});
-        console.log("invremented value");
+        await statsRef.set({
+          beerName: beer,
+          beerCount: increment,
+        }, {merge: true});
+        console.log("incremented value");
       } catch (error) {
         console.log(error);
       }

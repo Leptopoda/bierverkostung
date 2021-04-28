@@ -2,172 +2,112 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:random_color/random_color.dart';
 
 import 'package:bierverkostung/screens/statistiken/chart_indicator.dart';
 
-class PieChartSample2 extends StatefulWidget {
-  const PieChartSample2({Key? key}) : super(key: key);
+class StatistikenBeerChart extends StatefulWidget {
+  final List<Map> data;
+  const StatistikenBeerChart({Key? key, required this.data}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => PieChart2State();
+  _StatistikenBeerChartState createState() => _StatistikenBeerChartState();
 }
 
-class PieChart2State extends State {
+class _StatistikenBeerChartState extends State<StatistikenBeerChart> {
   int touchedIndex = -1;
+  late List<Color> colors;
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: Card(
-        color: Colors.white,
-        child: Row(
-          children: <Widget>[
-            const SizedBox(
-              height: 18,
-            ),
-            Expanded(
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: PieChart(
-                  PieChartData(
-                      pieTouchData:
-                          PieTouchData(touchCallback: (pieTouchResponse) {
-                        setState(() {
-                          final desiredTouch = pieTouchResponse.touchInput
-                                  is! PointerExitEvent &&
-                              pieTouchResponse.touchInput is! PointerUpEvent;
-                          if (desiredTouch &&
-                              pieTouchResponse.touchedSection != null) {
-                            touchedIndex = pieTouchResponse
-                                .touchedSection!.touchedSectionIndex;
-                          } else {
-                            touchedIndex = -1;
-                          }
-                        });
-                      }),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 40,
-                      sections: showingSections()),
-                ),
-              ),
-            ),
-            Column(
-              // mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const <Widget>[
-                Indicator(
-                  color: Color(0xff0293ee),
-                  text: 'First',
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xfff8b250),
-                  text: 'Second',
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xff845bef),
-                  text: 'Third',
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xff13d38e),
-                  text: 'Fourth',
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 18,
-                ),
-              ],
-            ),
-            const SizedBox(
-              width: 28,
-            ),
-          ],
+    colors = randomColors(widget.data.length);
+    return Row(
+      children: <Widget>[
+        const SizedBox(
+          height: 18,
+        ),
+        chart(),
+        Column(
+          // mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: legend(widget.data),
+        ),
+        const SizedBox(
+          width: 28,
+        ),
+      ],
+    );
+  }
+
+  Widget chart() {
+    return Expanded(
+      child: PieChart(
+        PieChartData(
+          pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+            setState(() {
+              final desiredTouch =
+                  pieTouchResponse.touchInput is! PointerExitEvent &&
+                      pieTouchResponse.touchInput is! PointerUpEvent;
+              if (desiredTouch && pieTouchResponse.touchedSection != null) {
+                touchedIndex =
+                    pieTouchResponse.touchedSection!.touchedSectionIndex;
+              } else {
+                touchedIndex = -1;
+              }
+            });
+          }),
+          borderData: FlBorderData(
+            show: false,
+          ),
+          sectionsSpace: 0,
+          centerSpaceRadius: 40,
+          sections: showingSections(widget.data),
         ),
       ),
     );
   }
 
-  List<PieChartSectionData> showingSections() {
-    return List.generate(4, (i) {
+  List<Widget> legend(List<Map> data) {
+    return List.generate(data.length, (i) {
+      return Indicator(
+        color: colors[i],
+        text: data[i]['beerName'] as String,
+        isSquare: true,
+      );
+    });
+  }
+
+  List<PieChartSectionData> showingSections(List<Map> data) {
+    int count = 0;
+    for (final element in data) {
+      count += element['beerCount'] as int;
+    }
+
+    return List.generate(data.length, (i) {
       final isTouched = i == touchedIndex;
       final double fontSize = isTouched ? 25 : 16;
       final double radius = isTouched ? 60 : 50;
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: const Color(0xff0293ee),
-            value: 40,
-            title: '40%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: const Color(0xfff8b250),
-            value: 30,
-            title: '30%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-        case 2:
-          return PieChartSectionData(
-            color: const Color(0xff845bef),
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-        case 3:
-          return PieChartSectionData(
-            color: const Color(0xff13d38e),
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-        default:
-          return PieChartSectionData(
-            color: const Color(0xff13d38e),
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-      }
+      final double value = ((data[i]['beerCount'] as int) / count) * 100;
+      return PieChartSectionData(
+        color: colors[i],
+        value: value,
+        title: '${value.toStringAsFixed(1)}%',
+        radius: radius,
+        titleStyle: TextStyle(
+          fontSize: fontSize,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+    });
+  }
+
+  List<Color> randomColors(int size) {
+    return List.generate(size, (i) {
+      return RandomColor().randomColor(colorHue: ColorHue.yellow);
     });
   }
 }

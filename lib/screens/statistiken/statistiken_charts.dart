@@ -46,11 +46,9 @@ class _LineChartSample2State extends State<LineChartSample2> {
             width: 60,
             height: 34,
             child: TextButton(
-              onPressed: () {
-                setState(() {
-                  showAvg = !showAvg;
-                });
-              },
+              onPressed: () => setState(() {
+                showAvg = !showAvg;
+              }),
               child: Text(
                 'avg',
                 style: TextStyle(
@@ -70,18 +68,14 @@ class _LineChartSample2State extends State<LineChartSample2> {
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: const Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-            color: const Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
+        getDrawingHorizontalLine: (value) => FlLine(
+          color: const Color(0xff37434d),
+          strokeWidth: 1,
+        ),
+        getDrawingVerticalLine: (value) => FlLine(
+          color: const Color(0xff37434d),
+          strokeWidth: 1,
+        ),
       ),
       titlesData: FlTitlesData(
         show: true,
@@ -128,10 +122,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ),
       borderData: FlBorderData(
-          show: true,
-          border: Border.all(
-            color: const Color(0xff37434d), /*width: 1*/
-          )),
+        show: true,
+        border: Border.all(
+          color: const Color(0xff37434d), /*width: 1*/
+        ),
+      ),
       minX: 0,
       maxX: 11,
       minY: 0,
@@ -228,10 +223,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ),
       borderData: FlBorderData(
-          show: true,
-          border: Border.all(
-            color: const Color(0xff37434d), /*width: 1*/
-          )),
+        show: true,
+        border: Border.all(
+          color: const Color(0xff37434d), /*width: 1*/
+        ),
+      ),
       minX: 0,
       maxX: 11,
       minY: 0,
@@ -259,14 +255,17 @@ class _LineChartSample2State extends State<LineChartSample2> {
           dotData: FlDotData(
             show: false,
           ),
-          belowBarData: BarAreaData(show: true, colors: <Color>[
-            ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                .lerp(0.2)!
-                .withOpacity(0.1),
-            ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                .lerp(0.2)!
-                .withOpacity(0.1),
-          ]),
+          belowBarData: BarAreaData(
+            show: true,
+            colors: <Color>[
+              ColorTween(begin: gradientColors[0], end: gradientColors[1])
+                  .lerp(0.2)!
+                  .withOpacity(0.1),
+              ColorTween(begin: gradientColors[0], end: gradientColors[1])
+                  .lerp(0.2)!
+                  .withOpacity(0.1),
+            ],
+          ),
         ),
       ],
     );
