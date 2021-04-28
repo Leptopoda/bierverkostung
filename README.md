@@ -60,3 +60,16 @@ Need a custom domain/ip?
 ```
 flutter run --dart-define=local_firebase_ip=10.0.0.2
 ```
+
+### Local Testing
+Before creating a PR be shure to test your changes!
+
+Use emulators or real devices. Testing the web version can be done like this:
+```
+flutter build web --release
+```
+and in the output dir run
+```
+python -m http.server 8000
+```
+
