@@ -44,6 +44,14 @@ class StatistikenList extends StatelessWidget {
           );
         }
         return StatistikenBeerChart(data: snapshot.data!);
+        /*ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: <Widget>[
+            StatistikenBeerChart(data: snapshot.data!),
+            const Divider(),
+
+          ],
+        );*/
       },
     );
   }
