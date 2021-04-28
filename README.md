@@ -6,6 +6,11 @@ It will consist of three parts
  - Bierverkostung
  - Konsum Tracking
 
+## Platforms
+We currently only support Android and Web. Although every package selected does also support iOS/iPadOS/MacOS i don't have a mac to text and build. Reach out to me if you want to help with this.
+Regarding other Desktop support like Linux and Windows firebase currently does not support those platforms. 
+We'll need to wait for this to tackle propper desktop support.
+
 ## Hosted
 This project is already hosted on https://saufen.rimikis.de. Check it out as more features will arrive.
 
@@ -51,3 +56,20 @@ Build the app with the local config pre applied
 ```
 flutter run --dart-define=local_firebase=true
 ```
+Need a custom domain/ip? 
+```
+flutter run --dart-define=local_firebase_ip=10.0.0.2
+```
+
+### Local Testing
+Before creating a PR be shure to test your changes!
+
+Use emulators or real devices. Testing the web version can be done like this:
+```
+flutter build web --release
+```
+and in the output dir run
+```
+python -m http.server 8000
+```
+
