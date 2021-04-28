@@ -35,6 +35,16 @@ class DatabaseService {
             list.docs.map((doc) => Stat.fromMap(doc.data())).toList());
   }
 
+  // get stats stream
+  Stream<List<Map<String, dynamic>>> get statsComputed {
+    return _firestore
+        .collection('users')
+        .doc(user!.uid)
+        .collection('stats-computed')
+        .snapshots()
+        .map((list) => list.docs.map((doc) => doc.data()).toList());
+  }
+
   // Tasting
   // save Tasting
   Future<void> saveTasting(Map<String, dynamic> tasting) async {
