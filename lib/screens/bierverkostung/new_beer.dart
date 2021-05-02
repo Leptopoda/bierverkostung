@@ -48,96 +48,91 @@ class NewBeer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('New Beer'),
-      ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(30.0),
-          children: <Widget>[
-            TextFormField(
-              style: _text,
-              controller: _beerName,
-              decoration: const InputDecoration(
-                labelText: 'Beer Name',
-              ),
+    return Form(
+      key: _formKey,
+      child: ListView(
+        padding: const EdgeInsets.all(30.0),
+        children: <Widget>[
+          TextFormField(
+            style: _text,
+            controller: _beerName,
+            decoration: const InputDecoration(
+              labelText: 'Beer Name',
             ),
-            TextFormField(
-              style: _text,
-              controller: _brewery,
-              decoration: const InputDecoration(
-                labelText: 'Brewery',
-              ),
+          ),
+          TextFormField(
+            style: _text,
+            controller: _brewery,
+            decoration: const InputDecoration(
+              labelText: 'Brewery',
             ),
-            TextFormField(
-              style: _text,
-              controller: _style,
-              decoration: const InputDecoration(
-                labelText: 'Beer Style',
-              ),
+          ),
+          TextFormField(
+            style: _text,
+            controller: _style,
+            decoration: const InputDecoration(
+              labelText: 'Beer Style',
             ),
-            TextFormField(
-              style: _text,
-              controller: _originalWort,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                ThousandsFormatter(allowFraction: true),
-              ],
-              decoration: const InputDecoration(
-                labelText: 'Original Wort',
-              ),
+          ),
+          TextFormField(
+            style: _text,
+            controller: _originalWort,
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              ThousandsFormatter(allowFraction: true),
+            ],
+            decoration: const InputDecoration(
+              labelText: 'Original Wort',
             ),
-            TextFormField(
-              style: _text,
-              controller: _alcohol,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                ThousandsFormatter(allowFraction: true),
-              ],
-              decoration: const InputDecoration(
-                labelText: 'Alcohol %',
-              ),
+          ),
+          TextFormField(
+            style: _text,
+            controller: _alcohol,
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              ThousandsFormatter(allowFraction: true),
+            ],
+            decoration: const InputDecoration(
+              labelText: 'Alcohol %',
             ),
-            TextFormField(
-              style: _text,
-              controller: _ibu,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              decoration: const InputDecoration(
-                labelText: 'IBU',
-              ),
+          ),
+          TextFormField(
+            style: _text,
+            controller: _ibu,
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+            decoration: const InputDecoration(
+              labelText: 'IBU',
             ),
-            TextFormField(
-              style: _text,
-              controller: _ingredients,
-              decoration: const InputDecoration(
-                labelText: 'Ingredients',
-              ),
+          ),
+          TextFormField(
+            style: _text,
+            controller: _ingredients,
+            decoration: const InputDecoration(
+              labelText: 'Ingredients',
             ),
-            TextFormField(
-              style: _text,
-              controller: _specifics,
-              decoration: const InputDecoration(
-                labelText: 'Specifics',
-              ),
+          ),
+          TextFormField(
+            style: _text,
+            controller: _specifics,
+            decoration: const InputDecoration(
+              labelText: 'Specifics',
             ),
-            TextFormField(
-              style: _text,
-              controller: _beerNotes,
-              decoration: const InputDecoration(
-                labelText: 'Beer Notes',
-              ),
+          ),
+          TextFormField(
+            style: _text,
+            controller: _beerNotes,
+            decoration: const InputDecoration(
+              labelText: 'Beer Notes',
             ),
-            ElevatedButton(
-              onPressed: () => _submit(context),
-              child: const Text('Submit'),
-            ),
-          ],
-        ),
+          ),
+          ElevatedButton(
+            onPressed: () => _submit(context),
+            child: const Text('Submit'),
+          ),
+        ],
       ),
     );
   }

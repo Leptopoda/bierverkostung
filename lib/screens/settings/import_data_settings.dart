@@ -20,29 +20,24 @@ class ImportDataSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Import Data'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: <Widget>[
-          const Center(
-            child: Text(
-              'This feature allows you to import data from the old Bierverkostung app. '
-              "Please note that we currently do'nt support scent. "
-              "We'll also interpret null values on sliders as a 0 as that is how we used the app",
-              style: _text,
-            ),
+    return ListView(
+      padding: const EdgeInsets.all(16.0),
+      children: <Widget>[
+        const Center(
+          child: Text(
+            'This feature allows you to import data from the old Bierverkostung app. '
+            "Please note that we currently do'nt support scent. "
+            "We'll also interpret null values on sliders as a 0 as that is how we used the app",
+            style: _text,
           ),
-          const SizedBox(height: 16),
-          ElevatedButton.icon(
-            onPressed: () => _importData(context),
-            icon: const Icon(Icons.import_export_outlined),
-            label: const Text('import data'),
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 16),
+        ElevatedButton.icon(
+          onPressed: () => _importData(context),
+          icon: const Icon(Icons.import_export_outlined),
+          label: const Text('import data'),
+        ),
+      ],
     );
   }
 
