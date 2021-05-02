@@ -13,7 +13,7 @@ class HomeAppBar extends StatelessWidget {
   const HomeAppBar({Key? key, required this.title}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  AppBar build(BuildContext context) {
     return AppBar(
       title: Text(title),
       actions: const <Widget>[

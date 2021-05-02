@@ -9,12 +9,8 @@ class AboutUsSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('About us'),
-        ),
-        body: const Center(
-          child: Text('coming'),
-        ));
+    return const Center(
+      child: Text('coming'),
+    );
   }
 }

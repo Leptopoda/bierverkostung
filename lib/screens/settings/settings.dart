@@ -2,20 +2,32 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/screens/settings/about_us_settings.dart';
+import 'package:bierverkostung/screens/settings/group_management.dart';
+import 'package:bierverkostung/screens/settings/import_data_settings.dart';
+import 'package:bierverkostung/shared/constants.dart';
+import 'package:bierverkostung/shared/master_details_scaffold.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/screens/settings/user_settings.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
 
   @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  Widget? child;
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MasterDetailContainer(
       appBar: AppBar(
         title: const Text('Settings'),
       ),
-      body: ListView(
+      master: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           ListTile(
@@ -38,7 +50,7 @@ class Settings extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => Navigator.pushNamed(context, '/Settings/Groups'),
+            onTap: () => _onTap(context, const GroupScreen()),
           ),
           const Divider(),
           ListTile(
@@ -48,7 +60,7 @@ class Settings extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => Navigator.pushNamed(context, '/Settings/Import'),
+            onTap: () => _onTap(context, const ImportDataSettings()),
           ),
           const Divider(),
           ListTile(
@@ -58,10 +70,26 @@ class Settings extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => Navigator.pushNamed(context, '/Settings/About'),
+            onTap: () => _onTap(context, const AboutUsSettings()),
           ),
         ],
       ),
+      detail: child,
     );
+  }
+
+  void _onTap(BuildContext context, Widget detail) {
+    if (isMobile(context)) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => detail,
+        ),
+      );
+    } else {
+      setState(() {
+        child = detail;
+      });
+    }
   }
 }

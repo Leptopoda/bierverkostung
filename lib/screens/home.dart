@@ -8,7 +8,7 @@ import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
 import 'package:bierverkostung/screens/statistiken/disp_statistiken.dart';
 
-import 'package:bierverkostung/shared/breakpoints.dart';
+import 'package:bierverkostung/shared/constants.dart';
 
 class MyHome extends StatefulWidget {
   const MyHome({Key? key}) : super(key: key);

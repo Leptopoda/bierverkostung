@@ -2,6 +2,9 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
+import 'package:bierverkostung/shared/constants.dart';
+import 'package:bierverkostung/shared/master_details_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
 
@@ -10,19 +13,25 @@ import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/beers.dart';
 
-class BeerList extends StatelessWidget {
+class BeerList extends StatefulWidget {
   const BeerList({
     Key? key,
   }) : super(key: key);
 
   @override
+  _BeerListState createState() => _BeerListState();
+}
+
+class _BeerListState extends State<BeerList> {
+  Widget? child;
+  @override
   Widget build(BuildContext context) {
     final UserData _user = Provider.of<UserData?>(context)!;
-    return Scaffold(
+    return MasterDetailContainer(
       appBar: AppBar(
         title: const Text('Biere'),
       ),
-      body: StreamBuilder<List<Beer>>(
+      master: StreamBuilder<List<Beer>>(
         stream: DatabaseService(user: _user).beers,
         builder: (BuildContext context, AsyncSnapshot<List<Beer>> snapshot) {
           if (snapshot.hasError) {
@@ -63,20 +72,29 @@ class BeerList extends StatelessWidget {
           }
         },
       ),
-      floatingActionButton: const BierverkostungFab(),
+      detail: child,
+      fab: _fab(context),
     );
   }
-}
 
-class BierverkostungFab extends StatelessWidget {
-  const BierverkostungFab({
-    Key? key,
-  }) : super(key: key);
+  void _onTap(BuildContext context, Widget detail) {
+    if (isMobile(context)) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => detail,
+        ),
+      );
+    } else {
+      setState(() {
+        child = detail;
+      });
+    }
+  }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _fab(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () => Navigator.pushNamed(context, '/NewBeer'),
+      onPressed: () => _onTap(context, NewBeer()),
       child: const Icon(Icons.add),
     );
   }
