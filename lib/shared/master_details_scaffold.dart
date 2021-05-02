@@ -75,7 +75,7 @@ class _MasterDetailContainerState extends State<MasterDetailContainer> {
     );
   }
 
-    /* void onTap(BuildContext context, Widget detail) {
+  /* void onTap(BuildContext context, Widget detail) {
     if (isMobile(context)) {
       Navigator.push(
         context,
