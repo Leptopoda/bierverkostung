@@ -11,7 +11,7 @@ import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/models/beers.dart';
 
 class DatabaseService {
-  final UserData? user;
+  final UserData user;
   DatabaseService({required this.user});
 
   // Firestore instance
@@ -21,14 +21,14 @@ class DatabaseService {
   // Stats
   // save Stat
   Future<void> saveStat(Map<String, dynamic> stat) async {
-    _firestore.collection('users').doc(user!.uid).collection('stats').add(stat);
+    _firestore.collection('users').doc(user.uid).collection('stats').add(stat);
   }
 
   // get stats stream
   Stream<List<Stat>> get stats {
     return _firestore
         .collection('users')
-        .doc(user!.uid)
+        .doc(user.uid)
         .collection('stats')
         .snapshots()
         .map((list) =>
@@ -39,7 +39,7 @@ class DatabaseService {
   Stream<List<Map<String, dynamic>>> get statsComputed {
     return _firestore
         .collection('users')
-        .doc(user!.uid)
+        .doc(user.uid)
         .collection('stats-computed')
         .snapshots()
         .map((list) => list.docs.map((doc) => doc.data()).toList());
@@ -50,7 +50,7 @@ class DatabaseService {
   Future<void> saveTasting(Map<String, dynamic> tasting) async {
     _firestore
         .collection('groups')
-        .doc(user!.guid)
+        .doc(user.guid)
         .collection('tastings')
         .add(tasting);
   }
@@ -59,7 +59,7 @@ class DatabaseService {
   Stream<List<Tasting>> get tastings {
     return _firestore
         .collection('groups')
-        .doc(user!.guid)
+        .doc(user.guid)
         .collection('tastings')
         .snapshots()
         .map((list) =>
@@ -71,7 +71,7 @@ class DatabaseService {
   Future<void> saveBeer(Map<String, dynamic> beer) async {
     _firestore
         .collection('groups')
-        .doc(user!.guid)
+        .doc(user.guid)
         .collection('beers')
         .add(beer);
   }
@@ -80,7 +80,7 @@ class DatabaseService {
   Stream<List<Beer>> get beers {
     return _firestore
         .collection('groups')
-        .doc(user!.guid)
+        .doc(user.guid)
         .collection('beers')
         .snapshots()
         .map((list) =>

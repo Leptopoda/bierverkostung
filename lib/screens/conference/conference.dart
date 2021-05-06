@@ -75,23 +75,25 @@ class _MeetingState extends State<Meeting> {
                     child: meetConfig(),
                   ),
                   SizedBox(
-                      width: width * 0.60,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                            color: Colors.white54,
-                            child: SizedBox(
-                              width: width * 0.60 * 0.70,
-                              height: width * 0.60 * 0.70,
-                              child: JitsiMeetConferencing(
-                                extraJS: const [
-                                  // extraJs setup example
-                                  '<script>function echo(){console.log("echo!!!")};</script>',
-                                  '<script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>'
-                                ],
-                              ),
-                            )),
-                      ))
+                    width: width * 0.60,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        color: Colors.white54,
+                        child: SizedBox(
+                          width: width * 0.60 * 0.70,
+                          height: width * 0.60 * 0.70,
+                          child: JitsiMeetConferencing(
+                            extraJS: const [
+                              // extraJs setup example
+                              '<script>function echo(){console.log("echo!!!")};</script>',
+                              '<script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>'
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               )
             : meetConfig(),
@@ -159,9 +161,10 @@ class _MeetingState extends State<Meeting> {
           TextField(
             controller: iosAppBarRGBAColor,
             decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "AppBar Color(IOS only)",
-                hintText: "Hint: This HAS to be in HEX RGBA format"),
+              border: OutlineInputBorder(),
+              labelText: "AppBar Color(IOS only)",
+              hintText: "Hint: This HAS to be in HEX RGBA format",
+            ),
           ),
           const SizedBox(
             height: 14.0,

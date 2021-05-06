@@ -25,8 +25,6 @@ class MasterDetailContainer extends StatefulWidget {
 }
 
 class _MasterDetailContainerState extends State<MasterDetailContainer> {
-  Widget? child;
-
   @override
   Widget build(BuildContext context) {
     if (isMobile(context)) {
@@ -74,19 +72,4 @@ class _MasterDetailContainerState extends State<MasterDetailContainer> {
       floatingActionButton: widget.fab,
     );
   }
-
-    /* void onTap(BuildContext context, Widget detail) {
-    if (isMobile(context)) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => detail,
-        ),
-      );
-    } else {
-      setState(() {
-        child = detail;
-      });
-    }
-  } */
 }
