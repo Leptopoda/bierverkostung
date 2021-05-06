@@ -1,28 +1,28 @@
-# Feature request
+### Feature request
 <!-- 
 Please descire your feature below 
 -->
 
-# Related issues
+### Related issues
 <!-- 
 When your feature is related to a problem you face describe it below.
 I'm always frustrated when [...]
  -->
 
-# Solution
+### Solution
 <!--
 How should this be implemented?
 The more information you give the better.
 Make lists where possible
 -->
 
-# Alternatives
+### Alternatives
 <!--
 Describe alternatives you've considered.
 A clear and concise description of any alternative solutions or features you've considered.
 -->
 
-# Additional context 
+### Additional context 
 <!--
 Add any other context or screenshots about the feature request here.
 -->
