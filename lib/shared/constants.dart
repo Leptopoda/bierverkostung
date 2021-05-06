@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 const kTabletBreakpoint = 720.0;
 const kDesktopBreakpoint = 1440.0;
 const kListViewWidth = 300.0;
+const kSideMenuWidth = 250.0;
 
 double width(BuildContext context) => MediaQuery.of(context).size.width;
 

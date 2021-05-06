@@ -58,7 +58,6 @@ class _MyHomeState extends State<MyHome> {
 
   @override
   Widget build(BuildContext context) {
-    const kSideMenuWidth = 250.0;
     return LayoutBuilder(
       builder: (context, dimens) {
         if (dimens.maxWidth >= kDesktopBreakpoint) {
