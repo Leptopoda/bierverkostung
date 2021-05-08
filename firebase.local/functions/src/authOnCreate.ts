@@ -4,12 +4,15 @@
 
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import {setGroupClaims} from "./setGroupClaims";
 
 export const authOnCreate = functions.auth.user().onCreate(async (context) => {
   try {
     await admin.auth().setCustomUserClaims(context.uid, {
       group_id: context.uid,
     });
+
+    await setGroupClaims(context.uid, context.uid);
 
     console.log(`${context.uid} has been initialized with default group`);
     return {message:

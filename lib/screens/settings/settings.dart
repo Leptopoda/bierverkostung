@@ -2,14 +2,16 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/material.dart';
+
+import 'package:bierverkostung/shared/constants.dart';
+import 'package:bierverkostung/shared/master_details_scaffold.dart';
+
+import 'package:bierverkostung/screens/settings/user_settings.dart';
 import 'package:bierverkostung/screens/settings/about_us_settings.dart';
 import 'package:bierverkostung/screens/settings/group_management.dart';
 import 'package:bierverkostung/screens/settings/import_data_settings.dart';
-import 'package:bierverkostung/shared/constants.dart';
-import 'package:bierverkostung/shared/master_details_scaffold.dart';
-import 'package:flutter/material.dart';
-
-import 'package:bierverkostung/screens/settings/user_settings.dart';
+import 'package:bierverkostung/screens/settings/notification_settings.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -51,6 +53,16 @@ class _SettingsState extends State<Settings> {
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
             onTap: () => _onTap(context, const GroupScreen()),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.notifications_active_outlined),
+            title: const Text(
+              'Notifications',
+              style: TextStyle(fontSize: 18),
+            ),
+            trailing: const Icon(Icons.keyboard_arrow_right),
+            onTap: () => _onTap(context, const NotificationSettings()),
           ),
           const Divider(),
           ListTile(

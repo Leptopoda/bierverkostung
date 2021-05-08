@@ -43,6 +43,7 @@ dependencies:
   # Firebase
   firebase_auth: any
   firebase_core: any
+  firebase_messaging: any
 
   # charts
   fl_chart: any
@@ -75,6 +76,9 @@ dependencies:
 
   # random color
   random_color:  1.0.6-nullsafety
+
+  # local data storage
+  shared_preferences: any
 
 dev_dependencies:
   # Change launcher icon

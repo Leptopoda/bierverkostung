@@ -13,10 +13,11 @@ class AuthService {
 
   // create UserData obj based on firebase user
   Future<UserData?> _userFromFirebaseUser(User? user) async {
-    return await user
-        ?.getIdTokenResult()
-        .then((token) => token.claims)
-        .then((claims) => (claims != null) ? UserData.fromMap(claims) : null);
+    final IdTokenResult? token = await user?.getIdTokenResult();
+
+    return (token != null && token.claims != null)
+        ? UserData.fromMap(token.claims!)
+        : null;
   }
 
   // auth change user stream
