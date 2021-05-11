@@ -52,7 +52,8 @@ class _SettingsState extends State<Settings> {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => _onTap(context, const GroupScreen()),
+            onTap: () =>
+                _onTap(context, const GroupScreen(), 'Group Management'),
           ),
           const Divider(),
           ListTile(
@@ -62,7 +63,8 @@ class _SettingsState extends State<Settings> {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => _onTap(context, const NotificationSettings()),
+            onTap: () =>
+                _onTap(context, const NotificationSettings(), 'Notifications'),
           ),
           const Divider(),
           ListTile(
@@ -72,7 +74,8 @@ class _SettingsState extends State<Settings> {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => _onTap(context, const ImportDataSettings()),
+            onTap: () =>
+                _onTap(context, const ImportDataSettings(), 'Import Data'),
           ),
           const Divider(),
           ListTile(
@@ -82,7 +85,7 @@ class _SettingsState extends State<Settings> {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => _onTap(context, const AboutUsSettings()),
+            onTap: () => _onTap(context, const AboutUsSettings(), 'About us'),
           ),
         ],
       ),
@@ -90,12 +93,17 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  void _onTap(BuildContext context, Widget detail) {
+  void _onTap(BuildContext context, Widget detail, String title) {
     if (isMobile(context)) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => detail,
+          builder: (BuildContext context) => Scaffold(
+            appBar: AppBar(
+              title: Text(title),
+            ),
+            body: detail,
+          ),
         ),
       );
     } else {

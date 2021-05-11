@@ -91,7 +91,7 @@ class _GroupScreenState extends State<GroupScreen> {
                 : null,
           ),
           ElevatedButton.icon(
-            onPressed: () => _submit(context),
+            onPressed: () => _submit(context, _user),
             icon: const Icon(Icons.group_add_outlined),
             label: const Text('Add user to group'),
           ),
@@ -105,10 +105,10 @@ class _GroupScreenState extends State<GroupScreen> {
     );
   }
 
-  Future<void> _submit(BuildContext context) async {
+  Future<void> _submit(BuildContext context, UserData _user) async {
     if (_formKey.currentState!.validate()) {
       final HttpsCallableResult<dynamic> result = await CloudFunctionsService()
-          .setGroup(_newUser.value.text, _uid.value.text);
+          .setGroup(_newUser.value.text, _user.guid);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result.data.toString()),

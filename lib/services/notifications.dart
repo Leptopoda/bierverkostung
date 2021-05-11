@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart' show FieldValue;
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/database.dart';
 
@@ -16,8 +17,8 @@ import 'package:flutter/foundation.dart';
 class NotificationService {
   NotificationService();
 
-  //final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+
   Future<void> askPermission(UserData user) async {
     await _fcm.requestPermission(
       announcement: true,
@@ -33,5 +34,28 @@ class NotificationService {
         'platform': kIsWeb ? 'Web' : Platform.operatingSystem,
       });
     }
+  }
+
+  Future initialise() async {
+    // TODO: fix duplicate refreshing
+
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    final RemoteMessage? initialMessage = await _fcm.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+
+    if (initialMessage?.data['auth_refresh'] == 'true') {
+      AuthService().refreshToken();
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      if (message.data['auth_refresh'] == 'true') {
+        AuthService().refreshToken();
+      }
+    });
   }
 }

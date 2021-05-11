@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import * as admin from "firebase-admin";
+import {auth} from "firebase-admin";
 
 /**
  * Sets group claim for the given user
@@ -11,7 +11,7 @@ import * as admin from "firebase-admin";
  * @return {Promise<void>}
  */
 export async function setGroupClaims(uid: string, guid: string):Promise<void> {
-  return await admin.auth().setCustomUserClaims(uid, {
+  return await auth().setCustomUserClaims(uid, {
     group_id: guid,
   });
 }

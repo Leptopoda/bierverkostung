@@ -2,7 +2,6 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:bierverkostung/shared/error_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
 
@@ -62,34 +61,20 @@ class _MyHomeState extends State<MyHome> {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    final UserData _user = Provider.of<UserData?>(context)!;
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
 
-    return FutureBuilder<bool?>(
-      future: LocalDatabaseService().isFirstLogin(),
-      builder: (BuildContext context, AsyncSnapshot<bool?> snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-          //return const Loading();
-          default:
-            if (!snapshot.hasError) {
-              if (snapshot.data != null) {
-                return _homeScreen();
-              } else {
-                NotificationService().askPermission(_user);
-                LocalDatabaseService().setFirstLogin();
-                return _homeScreen();
-              }
-            } else {
-              return SomethingWentWrong(error: snapshot.error.toString());
-            }
-        }
-      },
-    );
+    final UserData _user = Provider.of<UserData?>(context)!;
+    final bool? isFirstLogin = await LocalDatabaseService().isFirstLogin();
+    if (isFirstLogin != true) {
+      NotificationService().askPermission(_user);
+      LocalDatabaseService().setFirstLogin();
+    }
+    await NotificationService().initialise();
   }
 
-  Widget _homeScreen() {
+  @override
+  Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, dimens) {
         if (dimens.maxWidth >= kDesktopBreakpoint) {

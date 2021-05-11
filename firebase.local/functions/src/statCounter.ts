@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import * as functions from "firebase-functions";
+import {firestore as functions} from "firebase-functions";
 import {firestore} from "firebase-admin";
 
 // Listen for updates to any `user` document.
@@ -31,7 +31,7 @@ import {firestore} from "firebase-admin";
       }, {merge: true});
     }); */
 
-export const beerStats = functions.firestore
+export const beerStats = functions
     .document("/users/{userID}/stats/{statsID}")
     .onWrite(async (change, context) => {
       try {

@@ -82,7 +82,12 @@ class _BeerListState extends State<BeerList> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => detail,
+          builder: (BuildContext context) => Scaffold(
+            appBar: AppBar(
+              title: const Text('New Beer'),
+            ),
+            body: detail,
+          ),
         ),
       );
     } else {

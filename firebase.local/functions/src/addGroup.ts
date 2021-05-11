@@ -2,11 +2,12 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
+import {https as functions} from "firebase-functions";
+import {auth, messaging} from "firebase-admin";
 import {setGroupClaims} from "./setGroupClaims";
+import {notifyUser} from "./notification";
 
-export const addGroup = functions.https.onCall(async (data, context) => {
+export const addGroup = functions.onCall(async (data, context) => {
   // check request is made by a group member or new user
   if (context?.auth?.token["group_ID"] !== data.guid &&
   context?.auth?.token["user_id"] !== data.guid) {
@@ -16,13 +17,24 @@ export const addGroup = functions.https.onCall(async (data, context) => {
 
   // get user and add admin custom claim
   try {
-    const user = await admin.auth().getUser(data.uid);
+    const user = await auth().getUser(data.uid);
 
-    if (user.customClaims?["group_id"] : undefined === data.guid) {
+    if (user.customClaims?.["group_id"] == data.guid) {
       return {message: "User is already in the group"};
     }
 
     await setGroupClaims(user.uid, data.guid);
+
+    const payload: messaging.MessagingPayload = {
+      notification: {
+        title: "New Group!",
+        body: `you have been added to the group ${data.guid}`,
+        // icon: "your-icon-url",
+        click_action: "FLUTTER_NOTIFICATION_CLICK",
+        auth_refresh: "true",
+      },
+    };
+    await notifyUser(user.uid, payload);
 
     console.log(`${user.uid}
     has been added to the group ${data.guid} 

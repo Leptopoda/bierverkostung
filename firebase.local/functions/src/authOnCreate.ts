@@ -2,13 +2,13 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
+import {auth as functions} from "firebase-functions";
+import {auth} from "firebase-admin";
 import {setGroupClaims} from "./setGroupClaims";
 
-export const authOnCreate = functions.auth.user().onCreate(async (context) => {
+export const authOnCreate = functions.user().onCreate(async (context) => {
   try {
-    await admin.auth().setCustomUserClaims(context.uid, {
+    await auth().setCustomUserClaims(context.uid, {
       group_id: context.uid,
     });
 
