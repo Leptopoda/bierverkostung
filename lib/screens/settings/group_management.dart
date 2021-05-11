@@ -41,79 +41,74 @@ class _GroupScreenState extends State<GroupScreen> {
     final UserData _user = Provider.of<UserData?>(context)!;
     _uid.text = _user.uid;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add groups'),
-      ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: <Widget>[
-            TextFormField(
-              style: _text,
-              readOnly: true,
-              controller: _uid,
-              decoration: const InputDecoration(
-                labelText: 'Your ID',
-                suffixIcon: Icon(Icons.group_outlined),
-              ),
+    return Form(
+      key: _formKey,
+      child: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: <Widget>[
+          TextFormField(
+            style: _text,
+            readOnly: true,
+            controller: _uid,
+            decoration: const InputDecoration(
+              labelText: 'Your ID',
+              suffixIcon: Icon(Icons.group_outlined),
             ),
-            const SizedBox(height: 16),
-            Center(
-              child: ElevatedButton(
-                onPressed: () => _scanQR(),
-                style: ElevatedButton.styleFrom(
-                  shape: const CircleBorder(),
-                ),
-                child: Container(
-                  height: 230,
-                  padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: <Widget>[
-                      QrImage(
-                        data: jsonEncode(_user.toMap()),
-                        size: 175.0,
-                      ),
-                      const Text('press to scan'),
-                    ],
-                  ),
+          ),
+          const SizedBox(height: 16),
+          Center(
+            child: ElevatedButton(
+              onPressed: () => _scanQR(),
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+              ),
+              child: Container(
+                height: 230,
+                padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+                alignment: Alignment.center,
+                child: Column(
+                  children: <Widget>[
+                    QrImage(
+                      data: jsonEncode(_user.toMap()),
+                      size: 175.0,
+                    ),
+                    const Text('press to scan'),
+                  ],
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            TextFormField(
-              style: _text,
-              controller: _newUser,
-              decoration: const InputDecoration(
-                labelText: 'User ID',
-                suffixIcon: Icon(Icons.person_outline),
-              ),
-              validator: (value) => (value == null || value.length != 28)
-                  ? 'Kein gültiger Nutzer'
-                  : null,
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            style: _text,
+            controller: _newUser,
+            decoration: const InputDecoration(
+              labelText: 'User ID',
+              suffixIcon: Icon(Icons.person_outline),
             ),
-            ElevatedButton.icon(
-              onPressed: () => _submit(context),
-              icon: const Icon(Icons.group_add_outlined),
-              label: const Text('Add user to group'),
-            ),
-            ElevatedButton.icon(
-              onPressed: () => AuthService().refreshToken(),
-              icon: const Icon(Icons.refresh_outlined),
-              label: const Text('Reload Status'),
-            ),
-          ],
-        ),
+            validator: (value) => (value == null || value.length != 28)
+                ? 'Kein gültiger Nutzer'
+                : null,
+          ),
+          ElevatedButton.icon(
+            onPressed: () => _submit(context, _user),
+            icon: const Icon(Icons.group_add_outlined),
+            label: const Text('Add user to group'),
+          ),
+          ElevatedButton.icon(
+            onPressed: () => AuthService().refreshToken(),
+            icon: const Icon(Icons.refresh_outlined),
+            label: const Text('Reload Status'),
+          ),
+        ],
       ),
     );
   }
 
-  Future<void> _submit(BuildContext context) async {
+  Future<void> _submit(BuildContext context, UserData _user) async {
     if (_formKey.currentState!.validate()) {
       final HttpsCallableResult<dynamic> result = await CloudFunctionsService()
-          .setGroup(_newUser.value.text, _uid.value.text);
+          .setGroup(_newUser.value.text, _user.guid);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result.data.toString()),

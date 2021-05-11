@@ -42,6 +42,7 @@ dependencies:
   # Firebase
   firebase_auth: any
   firebase_core: any
+  firebase_messaging: any
 
   # charts
   fl_chart: any
@@ -64,6 +65,9 @@ dependencies:
 
   intl: any
 
+  # jitsi
+  jitsi_meet: any
+
   # required for build version
   package_info_plus: any
 
@@ -81,9 +85,6 @@ dependencies:
 
   # random color
   random_color: 1.0.6-nullsafety
-
-  # url launcher
-  url_launcher: any
 
 dev_dependencies:
   # Change launcher icon
