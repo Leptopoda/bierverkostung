@@ -17,7 +17,7 @@ import 'package:bierverkostung/screens/settings/settings.dart';
 import 'package:bierverkostung/screens/settings/qr_scan.dart';
 import 'package:bierverkostung/screens/settings/user_settings.dart';
 import 'package:bierverkostung/screens/settings/group_management.dart';
-import 'package:bierverkostung/screens/settings/about_us_settings.dart';
+// import 'package:bierverkostung/screens/settings/about_us_settings.dart';
 import 'package:bierverkostung/screens/settings/import_data_settings.dart';
 import 'package:bierverkostung/screens/login/login.dart';
 import 'package:bierverkostung/screens/login_controller.dart';
@@ -71,8 +71,8 @@ class RouteGenerator {
       case '/Settings/User':
         return MaterialPageRoute(builder: (_) => const LogOutAlert());
 
-      case '/Settings/About':
-        return MaterialPageRoute(builder: (_) => const AboutUsSettings());
+      /* case '/Settings/About':
+        return MaterialPageRoute(builder: (_) => const AboutUsSettings()); */
 
       case '/Settings/Import':
         return MaterialPageRoute(builder: (_) => const ImportDataSettings());

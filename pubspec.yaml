@@ -7,7 +7,7 @@ description: Bierverkostung redone in Flutter
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -22,10 +22,9 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 0.9.2+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-
   # Firebase
   cloud_firestore: any
   cloud_functions: any
@@ -46,17 +45,27 @@ dependencies:
 
   # charts
   fl_chart: any
-  
+
   flutter:
     sdk: flutter
 
   # unzip
   flutter_archive: any
 
+  # format links
+  flutter_linkify: any
+
   # Internationalization support.
   flutter_localizations:
     sdk: flutter
+
+  # svg image support
+  flutter_svg: any
+
   intl: any
+
+  # required for build version
+  package_info_plus: any
 
   # file paths
   path_provider: any
@@ -71,14 +80,17 @@ dependencies:
   qr_flutter: any
 
   # random color
-  random_color:  1.0.6-nullsafety
+  random_color: 1.0.6-nullsafety
+
+  # url launcher
+  url_launcher: any
 
 dev_dependencies:
   # Change launcher icon
   #flutter_launcher_icons: any
   # rename app
   #flutter_rename_app: any
-  
+
   flutter_test:
     sdk: flutter
 
@@ -107,7 +119,6 @@ flutter_icons:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -117,13 +128,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/error.png
-
+    - "assets/icon/icon.svg"
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
