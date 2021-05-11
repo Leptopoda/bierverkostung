@@ -2,24 +2,26 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import {auth as functions} from "firebase-functions";
+import * as functions from "firebase-functions";
 import {auth} from "firebase-admin";
 import {setGroupClaims} from "./setGroupClaims";
+import {dataCenter} from "./comon";
 
-export const authOnCreate = functions.user().onCreate(async (context) => {
-  try {
-    await auth().setCustomUserClaims(context.uid, {
-      group_id: context.uid,
-    });
+export const authOnCreate = functions.region(dataCenter).
+    auth.user().onCreate(async (context) => {
+      try {
+        await auth().setCustomUserClaims(context.uid, {
+          group_id: context.uid,
+        });
 
-    await setGroupClaims(context.uid, context.uid);
+        await setGroupClaims(context.uid, context.uid);
 
-    console.log(`${context.uid} has been initialized with default group`);
-    return {message:
+        console.log(`${context.uid} has been initialized with default group`);
+        return {message:
       `Success! ${context.uid} has been initialized with group ${context.uid}.`,
-    };
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-});
+        };
+      } catch (err) {
+        console.log(err);
+        return err;
+      }
+    });
