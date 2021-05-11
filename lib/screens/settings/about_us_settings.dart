@@ -30,9 +30,17 @@ Future<void> aboutUsDialog(BuildContext context) async {
   final PackageInfo packageInfo = await PackageInfo.fromPlatform();
   showAboutDialog(
     context: context,
-    applicationIcon: SvgPicture.asset(
-      'assets/icon/icon.svg',
-      height: 40,
+    applicationIcon: Container(
+      height: 50,
+      width: 50,
+      padding: const EdgeInsets.all(5),
+      decoration: const BoxDecoration(
+        color: Colors.grey,
+        shape: BoxShape.circle,
+      ),
+      child: SvgPicture.asset(
+        'assets/icon/icon.svg',
+      ),
     ),
     applicationName: packageInfo.appName,
     applicationVersion: packageInfo.version,
