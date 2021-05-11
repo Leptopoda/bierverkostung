@@ -74,11 +74,11 @@ python -m http.server 8000
 ```
 
 ## Credits 
-This app is inspired by the app [Bierverkostung by Jürgen Fickel](https://bitbucket.org/jufickel/bierverkostung)
-Application Icon: [drunken_duck (via openClipart.org)](https://openclipart.org/detail/2214/beer)
-Error page Icon: [Big_Ryan](https://www.gettyimages.de/detail/illustration/unicorn-lizenfreie-illustration/165601541)
-Authors: see [AUTHORS](AUTHORS)
-Libraries: see [LIBRARIES.md](LIBRARIES.md)
+- This app is inspired by the app [Bierverkostung by Jürgen Fickel](https://bitbucket.org/jufickel/bierverkostung)
+- Application Icon: [drunken_duck (via openClipart.org)](https://openclipart.org/detail/2214/beer)
+- Error page Icon: [Big_Ryan](https://www.gettyimages.de/detail/illustration/unicorn-lizenfreie-illustration/165601541)
+- Authors: see [AUTHORS](AUTHORS)
+- Libraries: see [LIBRARIES.md](LIBRARIES.md)
 
 
 # Lizenz/Licence
