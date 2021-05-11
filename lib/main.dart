@@ -2,7 +2,6 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:bierverkostung/screens/login_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,6 +18,8 @@ import 'package:bierverkostung/shared/enviornment_config.dart';
 import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/route_generator.dart';
+
+import 'package:bierverkostung/screens/login_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

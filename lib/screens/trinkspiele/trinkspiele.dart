@@ -68,7 +68,12 @@ class _TrinkspieleState extends State<Trinkspiele> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => _spielePages[index],
+          builder: (BuildContext context) => Scaffold(
+            appBar: AppBar(
+              title: const Text('Trinksprüche'),
+            ),
+            body: _spielePages[index],
+          ),
         ),
       );
     } else {

@@ -2,14 +2,16 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/material.dart';
+
+import 'package:bierverkostung/shared/constants.dart';
+import 'package:bierverkostung/shared/master_details_scaffold.dart';
+
+import 'package:bierverkostung/screens/settings/user_settings.dart';
 import 'package:bierverkostung/screens/settings/about_us_settings.dart';
 import 'package:bierverkostung/screens/settings/group_management.dart';
 import 'package:bierverkostung/screens/settings/import_data_settings.dart';
-import 'package:bierverkostung/shared/constants.dart';
-import 'package:bierverkostung/shared/master_details_scaffold.dart';
-import 'package:flutter/material.dart';
-
-import 'package:bierverkostung/screens/settings/user_settings.dart';
+import 'package:bierverkostung/screens/settings/notification_settings.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -50,7 +52,19 @@ class _SettingsState extends State<Settings> {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => _onTap(context, const GroupScreen()),
+            onTap: () =>
+                _onTap(context, const GroupScreen(), 'Group Management'),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.notifications_active_outlined),
+            title: const Text(
+              'Notifications',
+              style: TextStyle(fontSize: 18),
+            ),
+            trailing: const Icon(Icons.keyboard_arrow_right),
+            onTap: () =>
+                _onTap(context, const NotificationSettings(), 'Notifications'),
           ),
           const Divider(),
           ListTile(
@@ -60,7 +74,8 @@ class _SettingsState extends State<Settings> {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => _onTap(context, const ImportDataSettings()),
+            onTap: () =>
+                _onTap(context, const ImportDataSettings(), 'Import Data'),
           ),
           const Divider(),
           ListTile(
@@ -70,7 +85,7 @@ class _SettingsState extends State<Settings> {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => _onTap(context, const AboutUsSettings()),
+            onTap: () => _onTap(context, const AboutUsSettings(), 'About us'),
           ),
         ],
       ),
@@ -78,12 +93,17 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  void _onTap(BuildContext context, Widget detail) {
+  void _onTap(BuildContext context, Widget detail, String title) {
     if (isMobile(context)) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => detail,
+          builder: (BuildContext context) => Scaffold(
+            appBar: AppBar(
+              title: Text(title),
+            ),
+            body: detail,
+          ),
         ),
       );
     } else {

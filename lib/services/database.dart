@@ -13,15 +13,17 @@ import 'package:bierverkostung/models/beers.dart';
 class DatabaseService {
   final UserData user;
   DatabaseService({required this.user});
-
   // Firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // UserData? user2;
 
   // Stats
   // save Stat
   Future<void> saveStat(Map<String, dynamic> stat) async {
-    _firestore.collection('users').doc(user.uid).collection('stats').add(stat);
+    await _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('stats')
+        .add(stat);
   }
 
   // get stats stream
@@ -45,10 +47,19 @@ class DatabaseService {
         .map((list) => list.docs.map((doc) => doc.data()).toList());
   }
 
+  // save NotificationToken
+  Future<void> saveNotificationToken(Map<String, dynamic> token) async {
+    await _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('notification-token')
+        .add(token);
+  }
+
   // Tasting
   // save Tasting
   Future<void> saveTasting(Map<String, dynamic> tasting) async {
-    _firestore
+    await _firestore
         .collection('groups')
         .doc(user.guid)
         .collection('tastings')
@@ -69,7 +80,7 @@ class DatabaseService {
   // Beer
   // save Beer
   Future<void> saveBeer(Map<String, dynamic> beer) async {
-    _firestore
+    await _firestore
         .collection('groups')
         .doc(user.guid)
         .collection('beers')

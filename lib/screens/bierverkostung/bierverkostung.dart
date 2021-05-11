@@ -92,7 +92,12 @@ class _BierverkostungState extends State<Bierverkostung> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => detail,
+          builder: (BuildContext context) => Scaffold(
+            appBar: AppBar(
+              title: const Text('New Tasting'),
+            ),
+            body: detail,
+          ),
         ),
       );
     } else {
