@@ -5,6 +5,7 @@
 -->
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -29,29 +30,22 @@
   <link rel="apple-touch-icon" href="icons/android-chrome-192x192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.ico"/>
+  <link rel="icon" type="image/png" href="favicon.ico" />
 
   <title>Bierverkostung</title>
   <link rel="manifest" href="manifest.json">
 
   <style>
     @media (prefers-color-scheme: dark) {
-    body { color: #eee; background: #121212; }
+      body {
+        color: #eee;
+        background: #121212;
+      }
     }
   </style>
 </head>
-<body>
-  <!-- This script installs service_worker.js to provide PWA functionality to
-       application. For more information, see:
-       https://developers.google.com/web/fundamentals/primers/service-workers -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('flutter-first-frame', function () {
-        navigator.serviceWorker.register('flutter_service_worker.js');
-      });
-    }
-  </script>
 
+<body>
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
 
@@ -60,21 +54,38 @@
   <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-functions.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-messaging.js"></script>
+
+  <!-- Jitsi -->
+  <script src="https://meet.jit.si/external_api.js" type="application/javascript"></script>
 
   <script>
-   // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyAAN82DwdO5v3x7TBgemToctFTd_s13Irc",
-    authDomain: "bierverkostung-a585f.firebaseapp.com",
-    projectId: "bierverkostung-a585f",
-    storageBucket: "bierverkostung-a585f.appspot.com",
-    messagingSenderId: "66227538668",
-    appId: "1:66227538668:web:e00b056f002db5c33c73c9"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAAN82DwdO5v3x7TBgemToctFTd_s13Irc",
+      authDomain: "bierverkostung-a585f.firebaseapp.com",
+      projectId: "bierverkostung-a585f",
+      storageBucket: "bierverkostung-a585f.appspot.com",
+      messagingSenderId: "66227538668",
+      appId: "1:66227538668:web:e00b056f002db5c33c73c9"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
   </script>
 
   <script src="main.dart.js" type="application/javascript"></script>
+
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
+        navigator.serviceWorker.register("/firebase-messaging-sw.js");
+      });
+    }
+  </script>
 </body>
+
 </html>

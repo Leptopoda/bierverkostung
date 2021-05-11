@@ -47,57 +47,52 @@ class _TrinkspruecheState extends State<Trinksprueche> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Trinksprüche'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(30.0),
-        reverse: true,
-        children: <Widget>[
-          ElevatedButton(
-            onPressed: () => _randomIndex(),
-            child: const Text('Random'),
-          ),
-          const SizedBox(height: 16),
-          const Center(
-            child: Text('Zufällige Zahl?'),
-          ),
-          const SizedBox(height: 16),
-          Slider(
-            value: _index.toDouble(),
-            min: 1,
-            max: widget.sprueche.length.toDouble(),
-            onChanged: (double value) => setState(() => _index = value.round()),
-            divisions: widget.sprueche.length - 1,
-            label: "$_index",
-          ),
-          const SizedBox(height: 16),
-          const Center(
-            child: Text('Bestimmte Zahl?'),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ElevatedButton(
-                onPressed: () => _lastIndex(),
-                child: const Text('Zurück'),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                onPressed: () => _nextIndex(),
-                child: const Text('Weiter'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          Text(
-            widget.sprueche[_index - 1],
-            style: const TextStyle(fontSize: 18),
-          ),
-        ],
-      ),
+    return ListView(
+      padding: const EdgeInsets.all(30.0),
+      reverse: true,
+      children: <Widget>[
+        ElevatedButton(
+          onPressed: () => _randomIndex(),
+          child: const Text('Random'),
+        ),
+        const SizedBox(height: 16),
+        const Center(
+          child: Text('Zufällige Zahl?'),
+        ),
+        const SizedBox(height: 16),
+        Slider(
+          value: _index.toDouble(),
+          min: 1,
+          max: widget.sprueche.length.toDouble(),
+          onChanged: (double value) => setState(() => _index = value.round()),
+          divisions: widget.sprueche.length - 1,
+          label: "$_index",
+        ),
+        const SizedBox(height: 16),
+        const Center(
+          child: Text('Bestimmte Zahl?'),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: () => _lastIndex(),
+              child: const Text('Zurück'),
+            ),
+            const SizedBox(width: 16),
+            ElevatedButton(
+              onPressed: () => _nextIndex(),
+              child: const Text('Weiter'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 30),
+        Text(
+          widget.sprueche[_index - 1],
+          style: const TextStyle(fontSize: 18),
+        ),
+      ],
     );
   }
 }

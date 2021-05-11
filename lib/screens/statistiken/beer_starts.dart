@@ -64,49 +64,42 @@ class _StatistikenBeerChartState extends State<StatistikenBeerChart> {
     const double kShowTitleThresholdPercentage = 5.0;
 
     return Consumer<PieChartNotifier>(
-      builder: (
-        BuildContext context,
-        PieChartNotifier notifier,
-        _,
-      ) {
-        return PieChart(
-          PieChartData(
-            borderData: FlBorderData(
-              show: false,
-            ),
-            sectionsSpace: (notifier.selected >= 0) ? 4.0 : 2.0,
-            pieTouchData: PieTouchData(
-              touchCallback: (PieTouchResponse pieTouchResponse) =>
-                  setState(() {
-                final desiredTouch =
-                    pieTouchResponse.touchInput is! PointerExitEvent &&
-                        pieTouchResponse.touchInput is! PointerUpEvent;
-                if (desiredTouch && pieTouchResponse.touchedSection != null) {
-                  notifier.selected =
-                      pieTouchResponse.touchedSection!.touchedSectionIndex;
-                } else {
-                  notifier.selected = -1;
-                }
-              }),
-            ),
-            sections: List.generate(widget.data.length, (i) {
-              final double value =
-                  ((widget.data[i]['beerCount'] as int) / count) * 100;
-              return PieChartSectionData(
-                color: colors[i],
-                value: value,
-                title: '${value.toStringAsFixed(1)}%',
-                radius: 60 + (notifier.selected == i ? 5.0 : 0.0),
-                showTitle: value >= kShowTitleThresholdPercentage,
-                titleStyle: TextStyle(
-                  fontSize: notifier.selected == i ? 18 : 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
+      builder: (BuildContext context, PieChartNotifier notifier, _) => PieChart(
+        PieChartData(
+          borderData: FlBorderData(
+            show: false,
+          ),
+          sectionsSpace: (notifier.selected >= 0) ? 4.0 : 2.0,
+          pieTouchData: PieTouchData(
+            touchCallback: (PieTouchResponse pieTouchResponse) => setState(() {
+              final desiredTouch =
+                  pieTouchResponse.touchInput is! PointerExitEvent &&
+                      pieTouchResponse.touchInput is! PointerUpEvent;
+              if (desiredTouch && pieTouchResponse.touchedSection != null) {
+                notifier.selected =
+                    pieTouchResponse.touchedSection!.touchedSectionIndex;
+              } else {
+                notifier.selected = -1;
+              }
             }),
           ),
-        );
-      },
+          sections: List.generate(widget.data.length, (i) {
+            final double value =
+                ((widget.data[i]['beerCount'] as int) / count) * 100;
+            return PieChartSectionData(
+              color: colors[i],
+              value: value,
+              title: '${value.toStringAsFixed(1)}%',
+              radius: 60 + (notifier.selected == i ? 5.0 : 0.0),
+              showTitle: value >= kShowTitleThresholdPercentage,
+              titleStyle: TextStyle(
+                fontSize: notifier.selected == i ? 18 : 16,
+                fontWeight: FontWeight.bold,
+              ),
+            );
+          }),
+        ),
+      ),
     );
   }
 

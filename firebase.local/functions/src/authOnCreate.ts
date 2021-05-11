@@ -3,20 +3,25 @@
 // found in the LICENSE file.
 
 import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
+import {auth} from "firebase-admin";
+import {setGroupClaims} from "./setGroupClaims";
+import {dataCenter} from "./comon";
 
-export const authOnCreate = functions.auth.user().onCreate(async (context) => {
-  try {
-    await admin.auth().setCustomUserClaims(context.uid, {
-      group_id: context.uid,
-    });
+export const authOnCreate = functions.region(dataCenter).
+    auth.user().onCreate(async (context) => {
+      try {
+        await auth().setCustomUserClaims(context.uid, {
+          group_id: context.uid,
+        });
 
-    console.log(`${context.uid} has been initialized with default group`);
-    return {message:
+        await setGroupClaims(context.uid, context.uid);
+
+        console.log(`${context.uid} has been initialized with default group`);
+        return {message:
       `Success! ${context.uid} has been initialized with group ${context.uid}.`,
-    };
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-});
+        };
+      } catch (err) {
+        console.log(err);
+        return err;
+      }
+    });

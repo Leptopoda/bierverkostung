@@ -4,6 +4,7 @@
 
 import * as functions from "firebase-functions";
 import {firestore} from "firebase-admin";
+import {dataCenter} from "./comon";
 
 // Listen for updates to any `user` document.
 /* export const countNameChanges = functions.firestore
@@ -31,7 +32,8 @@ import {firestore} from "firebase-admin";
       }, {merge: true});
     }); */
 
-export const beerStats = functions.firestore
+export const beerStats = functions.region(dataCenter)
+    .firestore
     .document("/users/{userID}/stats/{statsID}")
     .onWrite(async (change, context) => {
       try {

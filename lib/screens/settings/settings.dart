@@ -4,19 +4,32 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:bierverkostung/shared/constants.dart';
+import 'package:bierverkostung/shared/master_details_scaffold.dart';
+
 import 'package:bierverkostung/screens/settings/user_settings.dart';
 import 'package:bierverkostung/screens/settings/about_us_settings.dart';
+import 'package:bierverkostung/screens/settings/group_management.dart';
+import 'package:bierverkostung/screens/settings/import_data_settings.dart';
+import 'package:bierverkostung/screens/settings/notification_settings.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
 
   @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  Widget? child;
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MasterDetailContainer(
       appBar: AppBar(
         title: const Text('Settings'),
       ),
-      body: ListView(
+      master: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           ListTile(
@@ -39,7 +52,19 @@ class Settings extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => Navigator.pushNamed(context, '/Settings/Groups'),
+            onTap: () =>
+                _onTap(context, const GroupScreen(), 'Group Management'),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.notifications_active_outlined),
+            title: const Text(
+              'Notifications',
+              style: TextStyle(fontSize: 18),
+            ),
+            trailing: const Icon(Icons.keyboard_arrow_right),
+            onTap: () =>
+                _onTap(context, const NotificationSettings(), 'Notifications'),
           ),
           const Divider(),
           ListTile(
@@ -49,7 +74,8 @@ class Settings extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => Navigator.pushNamed(context, '/Settings/Import'),
+            onTap: () =>
+                _onTap(context, const ImportDataSettings(), 'Import Data'),
           ),
           const Divider(),
           ListTile(
@@ -63,6 +89,27 @@ class Settings extends StatelessWidget {
           ),
         ],
       ),
+      detail: child,
     );
+  }
+
+  void _onTap(BuildContext context, Widget detail, String title) {
+    if (isMobile(context)) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => Scaffold(
+            appBar: AppBar(
+              title: Text(title),
+            ),
+            body: detail,
+          ),
+        ),
+      );
+    } else {
+      setState(() {
+        child = detail;
+      });
+    }
   }
 }
