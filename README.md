@@ -73,3 +73,26 @@ and in the output dir run
 python -m http.server 8000
 ```
 
+## Credits 
+This app is inspired by the app [Bierverkostung by Jürgen Fickel](https://bitbucket.org/jufickel/bierverkostung)
+Application Icon: [drunken_duck (via openClipart.org)](https://openclipart.org/detail/2214/beer)
+Error page Icon: [Big_Ryan](https://www.gettyimages.de/detail/illustration/unicorn-lizenfreie-illustration/165601541)
+Authors: see [AUTHORS](AUTHORS)
+Libraries: see [LIBRARIES.md](LIBRARIES.md)
+
+
+# Lizenz/Licence
+
+Copyright 2021 Leptopoda
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
