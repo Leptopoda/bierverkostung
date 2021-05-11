@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/screens/settings/user_settings.dart';
+import 'package:bierverkostung/screens/settings/about_us_settings.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
@@ -58,7 +59,7 @@ class Settings extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             trailing: const Icon(Icons.keyboard_arrow_right),
-            onTap: () => Navigator.pushNamed(context, '/Settings/About'),
+            onTap: () => aboutUsDialog(context),
           ),
         ],
       ),
