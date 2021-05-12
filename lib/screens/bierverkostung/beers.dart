@@ -2,16 +2,16 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
+import 'package:flutter/material.dart';
+
+import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/shared/constants.dart';
 import 'package:bierverkostung/shared/master_details_scaffold.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart' show Provider;
-
-import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/beers.dart';
+
+import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
 
 class BeerList extends StatefulWidget {
   const BeerList({
@@ -24,15 +24,31 @@ class BeerList extends StatefulWidget {
 
 class _BeerListState extends State<BeerList> {
   Widget? child;
+  String? _groupID;
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+
+  // ignore: avoid_void_async
+  void getUser() async {
+    final String? _groupID2 =
+        await AuthService().getClaim('group_id') as String?;
+    setState(() {
+      _groupID = _groupID2;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final UserData _user = Provider.of<UserData?>(context)!;
     return MasterDetailContainer(
       appBar: AppBar(
         title: const Text('Biere'),
       ),
       master: StreamBuilder<List<Beer>>(
-        stream: DatabaseService(user: _user).beers,
+        stream: DatabaseService(groupID: _groupID).beers,
         builder: (BuildContext context, AsyncSnapshot<List<Beer>> snapshot) {
           if (snapshot.hasError) {
             return SomethingWentWrong(

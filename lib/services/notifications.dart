@@ -8,7 +8,6 @@ import 'package:cloud_firestore/cloud_firestore.dart' show FieldValue;
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:bierverkostung/services/auth.dart';
-import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/database.dart';
 
 import 'package:bierverkostung/shared/constants.dart';
@@ -19,7 +18,7 @@ class NotificationService {
 
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
-  Future<void> askPermission(UserData user) async {
+  Future<void> askPermission() async {
     await _fcm.requestPermission(
       announcement: true,
       carPlay: true,
@@ -28,7 +27,7 @@ class NotificationService {
 
     final String? _token = await _fcm.getToken(vapidKey: vapidKey);
     if (_token != null) {
-      await DatabaseService(user: user).saveNotificationToken({
+      await DatabaseService().saveNotificationToken({
         'token': _token,
         'createdAt': FieldValue.serverTimestamp(),
         'platform': kIsWeb ? 'Web' : Platform.operatingSystem,

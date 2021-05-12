@@ -2,13 +2,17 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+@Deprecated(
+    'Well start transition to the firebase user as we do not need extra info ')
 class UserData {
   final String uid;
   final String guid;
+  bool isAnon;
 
   UserData({
     required this.uid,
     required this.guid,
+    this.isAnon = false,
   });
 
   factory UserData.fromMap(Map<String, dynamic> doc) {

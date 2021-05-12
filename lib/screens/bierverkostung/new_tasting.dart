@@ -4,10 +4,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
-import 'package:provider/provider.dart' show Provider;
 
+import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/database.dart';
-import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
 
@@ -325,7 +324,6 @@ class _NewTastingState extends State<NewTasting> {
   }
 
   Future<void> _submit(BuildContext context) async {
-    final UserData _user = Provider.of<UserData?>(context, listen: false)!;
     // Validate returns true if the form is valid, or false otherwise.
     if (_formKey.currentState!.validate()) {
       // If the form is valid, display a snackbar. In the real world,
@@ -361,8 +359,9 @@ class _NewTastingState extends State<NewTasting> {
         totalImpressionDesc: _totalImpressionDesc.value.text,
         totalImpressionRating: _totalImpressionRating,
       );
-
-      await DatabaseService(user: _user).saveTasting(_tasting1.toMap());
+      final String? _groupID =
+          await AuthService().getClaim('group_id') as String?;
+      await DatabaseService(groupID: _groupID).saveTasting(_tasting1.toMap());
 
       Navigator.of(context).pop();
     }

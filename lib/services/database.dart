@@ -4,24 +4,27 @@
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
+import 'package:firebase_auth/firebase_auth.dart' show User;
+
+import 'package:bierverkostung/services/auth.dart';
 
 import 'package:bierverkostung/models/stats.dart';
-import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/models/beers.dart';
 
 class DatabaseService {
-  final UserData user;
-  DatabaseService({required this.user});
+  String? groupID;
+  DatabaseService({this.groupID});
   // Firestore instance
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final User user2 = AuthService().getUser()!;
 
   // Stats
   // save Stat
   Future<void> saveStat(Map<String, dynamic> stat) async {
     await _firestore
         .collection('users')
-        .doc(user.uid)
+        .doc(user2.uid)
         .collection('stats')
         .add(stat);
   }
@@ -30,7 +33,7 @@ class DatabaseService {
   Stream<List<Stat>> get stats {
     return _firestore
         .collection('users')
-        .doc(user.uid)
+        .doc(user2.uid)
         .collection('stats')
         .snapshots()
         .map((list) =>
@@ -41,7 +44,7 @@ class DatabaseService {
   Stream<List<Map<String, dynamic>>> get statsComputed {
     return _firestore
         .collection('users')
-        .doc(user.uid)
+        .doc(user2.uid)
         .collection('stats-computed')
         .snapshots()
         .map((list) => list.docs.map((doc) => doc.data()).toList());
@@ -51,7 +54,7 @@ class DatabaseService {
   Future<void> saveNotificationToken(Map<String, dynamic> token) async {
     await _firestore
         .collection('users')
-        .doc(user.uid)
+        .doc(user2.uid)
         .collection('notification-token')
         .add(token);
   }
@@ -61,7 +64,7 @@ class DatabaseService {
   Future<void> saveTasting(Map<String, dynamic> tasting) async {
     await _firestore
         .collection('groups')
-        .doc(user.guid)
+        .doc((groupID != null) ? groupID : user2.uid)
         .collection('tastings')
         .add(tasting);
   }
@@ -70,7 +73,7 @@ class DatabaseService {
   Stream<List<Tasting>> get tastings {
     return _firestore
         .collection('groups')
-        .doc(user.guid)
+        .doc((groupID != null) ? groupID : user2.uid)
         .collection('tastings')
         .snapshots()
         .map((list) =>
@@ -82,7 +85,7 @@ class DatabaseService {
   Future<void> saveBeer(Map<String, dynamic> beer) async {
     await _firestore
         .collection('groups')
-        .doc(user.guid)
+        .doc((groupID != null) ? groupID : user2.uid)
         .collection('beers')
         .add(beer);
   }
@@ -91,7 +94,7 @@ class DatabaseService {
   Stream<List<Beer>> get beers {
     return _firestore
         .collection('groups')
-        .doc(user.guid)
+        .doc((groupID != null) ? groupID : user2.uid)
         .collection('beers')
         .snapshots()
         .map((list) =>
@@ -126,7 +129,7 @@ class DatabaseService {
   /* Future<void> saveGroups(UserData user) async {
     _firestore
         .collection('groups')
-        .doc(user.guid)
+        .doc(groupID as String)
         .collection('info')
         .add(user.toMap());
   } */
@@ -135,7 +138,7 @@ class DatabaseService {
   /* Stream<List<UserData>> get groups {
     return _firestore
         .collection('groups')
-        .doc(user.guid)
+        .doc(groupID as String)
         .collection('info')
         .snapshots()
         .map((list) => list.docs.map((doc) => UserData.fromMap(doc)).toList());

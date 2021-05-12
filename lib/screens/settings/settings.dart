@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/services/auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/shared/constants.dart';
@@ -41,7 +42,10 @@ class _SettingsState extends State<Settings> {
             trailing: const Icon(Icons.keyboard_arrow_right),
             onTap: () => showDialog(
               context: context,
-              builder: (BuildContext _) => const LogOutAlert(),
+              builder: (BuildContext _) =>
+                  (AuthService().getUser()!.isAnonymous)
+                      ? const LogOutAnonAlert()
+                      : const LogOutAlert(),
             ),
           ),
           const Divider(),

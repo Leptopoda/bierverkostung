@@ -3,12 +3,10 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart' show Provider;
 
 import 'package:bierverkostung/shared/constants.dart';
 import 'package:bierverkostung/services/local_storage.dart';
 import 'package:bierverkostung/services/notifications.dart';
-import 'package:bierverkostung/models/users.dart';
 
 import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
@@ -64,10 +62,9 @@ class _MyHomeState extends State<MyHome> {
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-    final UserData _user = Provider.of<UserData?>(context)!;
     final bool? isFirstLogin = await LocalDatabaseService().isFirstLogin();
     if (isFirstLogin != true) {
-      NotificationService().askPermission(_user);
+      NotificationService().askPermission();
       LocalDatabaseService().setFirstLogin();
     }
     await NotificationService().initialise();

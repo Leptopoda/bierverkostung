@@ -6,22 +6,29 @@ import 'dart:convert' show jsonEncode;
 import 'dart:developer' as developer show log;
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:bierverkostung/models/users.dart';
-
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // create UserData obj based on firebase user
-  Future<UserData?> _userFromFirebaseUser(User? user) async {
+  /* Future<UserData?> _userFromFirebaseUser(User? user) async {
     final IdTokenResult? token = await user?.getIdTokenResult();
     return (token?.claims != null) ? UserData.fromMap(token!.claims!) : null;
-  }
+  } */
 
   // auth change user stream
-  Stream<UserData?> get user {
+  Stream<User?> get user {
     // TODO: maybe use idTokenChanges instead of user
-    return _auth.userChanges().asyncMap(_userFromFirebaseUser);
+    return _auth.userChanges();
     //.map((FirebaseUser user) => _userFromFirebaseUser(user));
+  }
+
+  Future<dynamic?> getClaim(String value) async {
+    final IdTokenResult? token = await _auth.currentUser?.getIdTokenResult();
+    return token?.claims?[value];
+  }
+
+  User? getUser() {
+    return _auth.currentUser;
   }
 
   // register in anon
@@ -103,7 +110,7 @@ class AuthService {
 
   // refresh Token
   Future refreshToken() async {
-    await _auth.currentUser!.getIdToken(true);
+    await _auth.currentUser?.getIdToken(true);
   }
 
   // sign out <void>??

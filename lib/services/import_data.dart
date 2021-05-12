@@ -10,12 +10,9 @@ import 'package:bierverkostung/services/database.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:bierverkostung/models/users.dart';
+import 'package:bierverkostung/services/auth.dart';
 
 class ImportDataService {
-  final UserData user;
-  ImportDataService({required this.user});
-
   Future importData(File archive) async {
     try {
       final Directory _tempDir = await getTemporaryDirectory();
@@ -65,10 +62,14 @@ class ImportDataService {
       final String _contents = await file.readAsString();
       final Map _data = jsonDecode(_contents) as Map;
 
+      final String? _groupID =
+          await AuthService().getClaim('group_id') as String?;
+
       // TODO: validate json (maybe externalize to cloud function)
-      DatabaseService(user: user)
+      DatabaseService(groupID: _groupID)
           .saveBeer(_data['beer'] as Map<String, dynamic>);
-      DatabaseService(user: user).saveTasting(_data as Map<String, dynamic>);
+      DatabaseService(groupID: _groupID)
+          .saveTasting(_data as Map<String, dynamic>);
     } catch (error) {
       developer.log(
         'error parsing json',

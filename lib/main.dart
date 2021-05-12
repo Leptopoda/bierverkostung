@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart' show FirebaseFunctions;
 
@@ -15,7 +15,6 @@ import 'package:bierverkostung/shared/theme.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
 import 'package:bierverkostung/shared/enviornment_config.dart';
-import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/route_generator.dart';
 
@@ -67,7 +66,7 @@ class MyApp extends StatelessWidget {
 
           return MultiProvider(
             providers: <StreamProvider>[
-              StreamProvider<UserData?>.value(
+              StreamProvider<User?>.value(
                 value: AuthService().user,
                 initialData: null,
               ),
