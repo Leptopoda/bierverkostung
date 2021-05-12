@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pattern_formatter/pattern_formatter.dart'
     show ThousandsFormatter;
-import 'package:provider/provider.dart' show Provider;
 
-import 'package:bierverkostung/models/users.dart';
+import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/models/breweries.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/models/beers.dart';
@@ -138,7 +137,6 @@ class NewBeer extends StatelessWidget {
   }
 
   Future<void> _submit(BuildContext context) async {
-    final UserData _user = Provider.of<UserData?>(context, listen: false)!;
     // Validate returns true if the form is valid, or false otherwise.
     if (_formKey.currentState!.validate()) {
       // If the form is valid, display a snackbar. In the real world,
@@ -165,7 +163,9 @@ class NewBeer extends StatelessWidget {
         beerNotes: _beerNotes.value.text,
       );
 
-      await DatabaseService(user: _user).saveBeer(_bier1.toMap());
+      final String? _groupID =
+          await AuthService().getClaim('group_id') as String?;
+      await DatabaseService(groupID: _groupID).saveBeer(_bier1.toMap());
 
       Navigator.of(context).pop();
     }

@@ -3,9 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart' show Provider;
 
-import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 
@@ -22,9 +20,8 @@ class StatistikenList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserData _user = Provider.of<UserData?>(context)!;
     return StreamBuilder<List<Map>>(
-      stream: DatabaseService(user: _user).statsComputed,
+      stream: DatabaseService().statsComputed,
       builder: (BuildContext context, AsyncSnapshot<List<Map>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(

@@ -6,11 +6,10 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart' show Provider;
 import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-import 'package:bierverkostung/models/users.dart';
+import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/cloud_functions.dart';
 
 class QRViewExample extends StatefulWidget {
@@ -143,7 +142,7 @@ class _QRViewExampleState extends State<QRViewExample> {
     controller.scannedDataStream.listen((scanData) async {
       try {
         final Map _userScanned = jsonDecode(scanData.code) as Map;
-        final String? _userID = _userScanned['info']['user_id'] as String?;
+        final String? _userID = _userScanned['user'] as String?;
         if (_userID != null && _userID.length == 28) {
           await controller.pauseCamera();
           await _showAlert(_userID);
@@ -173,24 +172,28 @@ class _QRViewExampleState extends State<QRViewExample> {
             child: const Text('Abbruch'),
           ),
           TextButton(
-            onPressed: () async {
-              final UserData _user =
-                  Provider.of<UserData?>(context, listen: false)!;
-              final HttpsCallableResult<dynamic> result =
-                  await CloudFunctionsService().setGroup(userID, _user.guid);
-              // TODO: popAndPushNamed to avoid reloading of the camera
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(result.data.toString()),
-                ),
-              );
-              Navigator.pop(context);
-              Navigator.pop(context);
-            },
+            onPressed: () => _addGroup(userID),
             child: const Text('Weiter'),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _addGroup(String userID) async {
+    final String? _groupID =
+        await AuthService().getClaim('group_id') as String?;
+    if (_groupID != null) {
+      final HttpsCallableResult<dynamic> result =
+          await CloudFunctionsService().setGroup(userID, _groupID);
+      // TODO: popAndPushNamed to avoid reloading of the camera
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result.data.toString()),
+        ),
+      );
+    }
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 }
