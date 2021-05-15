@@ -6,6 +6,20 @@ import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/services/auth.dart';
 
+class LogOut extends StatelessWidget {
+  const LogOut({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext _) => (AuthService().getUser()!.isAnonymous)
+            ? const LogOutAnonAlert()
+            : const LogOutAlert());
+    return Container();
+  }
+}
+
 class LogOutAlert extends StatelessWidget {
   const LogOutAlert({Key? key}) : super(key: key);
 

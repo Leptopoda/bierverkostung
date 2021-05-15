@@ -86,6 +86,12 @@ dependencies:
   # random color
   random_color: 1.0.6-nullsafety
 
+  # Master Detail View
+  responsive_scaffold:
+    git:
+      url: https://gitlab.rimikis.de/Leptopoda/responsive_scaffold.git
+      ref: master
+
   # local storage
   shared_preferences: any
 
