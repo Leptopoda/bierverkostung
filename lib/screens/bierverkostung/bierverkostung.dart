@@ -9,6 +9,7 @@ import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/tastings.dart';
+import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
 import 'package:bierverkostung/screens/conference/conference.dart';
 import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
@@ -79,8 +80,9 @@ class _BierverkostungState extends State<Bierverkostung> {
                   ),
                 );
               },
-              nullItems: const Center(child: CircularProgressIndicator()),
-              emptyItems: const Center(child: Text('No Items Found')),
+              nullItems: ResponsiveScaffoldNullItems(),
+              emptyItems: ResponsiveScaffoldEmptyItems(),
+              tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
               slivers: const <Widget>[
                 SliverAppBar(
                   title: Text('Verkostungen'),

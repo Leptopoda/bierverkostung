@@ -9,10 +9,7 @@ import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/beers.dart';
-
-// Copyright 2021 Leptopoda. All rights reserved.
-// Use of this source code is governed by an APACHE-style license that can be
-// found in the LICENSE file.
+import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
 class BeerList extends StatefulWidget {
   const BeerList({Key? key}) : super(key: key);
@@ -72,8 +69,9 @@ class _BeerListState extends State<BeerList> {
                   ),
                 );
               },
-              nullItems: const Center(child: CircularProgressIndicator()),
-              emptyItems: const Center(child: Text('No Items Found')),
+              nullItems: ResponsiveScaffoldNullItems(),
+              emptyItems: ResponsiveScaffoldEmptyItems(),
+              tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
               slivers: const <Widget>[
                 SliverAppBar(
                   title: Text('Biere'),

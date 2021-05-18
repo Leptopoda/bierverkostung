@@ -10,6 +10,7 @@ import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
 import 'package:bierverkostung/screens/settings/settings_button.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
+import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
 class Trinkspiele extends StatefulWidget {
   const Trinkspiele({Key? key}) : super(key: key);
@@ -51,8 +52,9 @@ class _TrinkspieleState extends State<Trinkspiele> {
           ),
         );
       },
-      nullItems: const Center(child: CircularProgressIndicator()),
-      emptyItems: const Center(child: Text('No Items Found')),
+      nullItems: ResponsiveScaffoldNullItems(),
+      emptyItems: ResponsiveScaffoldEmptyItems(),
+      tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
       slivers: const <Widget>[
         SliverAppBar(
           title: Text('Trinkspiele'),

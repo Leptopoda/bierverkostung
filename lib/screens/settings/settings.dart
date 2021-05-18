@@ -5,6 +5,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 
+import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
+
 import 'package:bierverkostung/screens/settings/user_settings.dart';
 import 'package:bierverkostung/screens/settings/about_us_settings.dart';
 import 'package:bierverkostung/screens/settings/group_management.dart';
@@ -94,8 +96,9 @@ class _SettingsState extends State<Settings> {
           ),
         );
       },
-      nullItems: const Center(child: CircularProgressIndicator()),
-      emptyItems: const Center(child: Text('No Items Found')),
+      nullItems: ResponsiveScaffoldNullItems(),
+      emptyItems: ResponsiveScaffoldEmptyItems(),
+      tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
       slivers: const <Widget>[
         SliverAppBar(
           title: Text('Settings'),
