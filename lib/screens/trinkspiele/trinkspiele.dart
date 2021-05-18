@@ -55,12 +55,10 @@ class _TrinkspieleState extends State<Trinkspiele> {
       nullItems: ResponsiveScaffoldNullItems(),
       emptyItems: ResponsiveScaffoldEmptyItems(),
       tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
-      slivers: const <Widget>[
-        SliverAppBar(
-          title: Text('Trinkspiele'),
-          actions: _actionBarItems,
-        ),
-      ],
+      appBar: AppBar(
+        title: const Text('Trinkspiele'),
+        actions: _actionBarItems,
+      ),
       itemCount: _spiele.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
@@ -94,7 +92,6 @@ class TrinkspieleDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
         automaticallyImplyLeading: !tablet,
         title: const Text('Details'),
         // actions: tablet ? actionBarItems : null,

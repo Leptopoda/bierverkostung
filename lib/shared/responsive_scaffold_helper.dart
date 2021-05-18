@@ -9,7 +9,6 @@ class ResponsiveScaffoldNoItemSelected extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
         automaticallyImplyLeading: false,
       ),
       body: const Center(
@@ -22,23 +21,13 @@ class ResponsiveScaffoldNoItemSelected extends StatelessWidget {
 class ResponsiveScaffoldNullItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-      ),
-      body: const Center(child: CircularProgressIndicator()),
-    );
+    return const Center(child: CircularProgressIndicator());
   }
 }
 
 class ResponsiveScaffoldEmptyItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-      ),
-      body: const Center(child: Text('No Items Found')),
-    );
+    return const Center(child: Text('No Items Found'));
   }
 }

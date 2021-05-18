@@ -83,12 +83,10 @@ class _BierverkostungState extends State<Bierverkostung> {
               nullItems: ResponsiveScaffoldNullItems(),
               emptyItems: ResponsiveScaffoldEmptyItems(),
               tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
-              slivers: const <Widget>[
-                SliverAppBar(
-                  title: Text('Verkostungen'),
-                  actions: _actionBarItems,
-                ),
-              ],
+              appBar: AppBar(
+                title: const Text('Verkostungen'),
+                actions: _actionBarItems,
+              ),
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(

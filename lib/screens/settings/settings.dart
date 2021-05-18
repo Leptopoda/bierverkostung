@@ -99,11 +99,9 @@ class _SettingsState extends State<Settings> {
       nullItems: ResponsiveScaffoldNullItems(),
       emptyItems: ResponsiveScaffoldEmptyItems(),
       tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
-      slivers: const <Widget>[
-        SliverAppBar(
-          title: Text('Settings'),
-        ),
-      ],
+      appBar: AppBar(
+        title: const Text('Settings'),
+      ),
       itemCount: _items.length,
       itemBuilder: (BuildContext context, int index) {
         return _items[index];
@@ -130,7 +128,6 @@ class SettingsDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
         automaticallyImplyLeading: !tablet,
         title: Text(title[row!]),
         // actions: tablet ? actionBarItems : null,

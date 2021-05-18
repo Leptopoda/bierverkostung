@@ -72,11 +72,9 @@ class _BeerListState extends State<BeerList> {
               nullItems: ResponsiveScaffoldNullItems(),
               emptyItems: ResponsiveScaffoldEmptyItems(),
               tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
-              slivers: const <Widget>[
-                SliverAppBar(
-                  title: Text('Biere'),
-                ),
-              ],
+              appBar: AppBar(
+                title: const Text('Biere'),
+              ),
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
@@ -116,7 +114,6 @@ class BeerListDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
         automaticallyImplyLeading: !tablet,
         title: const Text('New Beer'),
         // actions: tablet ? actionBarItems : null,
