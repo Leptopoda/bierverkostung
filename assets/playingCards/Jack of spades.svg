@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
-<!-- http://code.google.com/p/vector-playing-cards/ -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -11,14 +8,14 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="167.0869141pt"
-   height="242.6669922pt"
+   width="100%"
+   height="100%"
    viewBox="0 0 167.0869141 242.6669922"
    xml:space="preserve"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.0 r9654"
-   sodipodi:docname="J_of_spades.svg"><metadata
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
+   sodipodi:docname="Jack of spades.svg"><metadata
    id="metadata43"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
          rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
@@ -39,34 +36,7 @@
        id="stop3775" /><stop
        style="stop-color:#000000;stop-opacity:0.64885497;"
        offset="1"
-       id="stop3777" /></linearGradient><radialGradient
-     inkscape:collect="always"
-     xlink:href="#linearGradient3773"
-     id="radialGradient3957"
-     cx="-0.15782039"
-     cy="-8.8345356"
-     fx="-0.15782039"
-     fy="-8.8345356"
-     r="7.9997029"
-     gradientTransform="matrix(-1.5842693,-0.02349808,0.03071979,-2.4775745,-0.24856378,-26.713507)"
-     gradientUnits="userSpaceOnUse" /><linearGradient
-     id="linearGradient3959"><stop
-       style="stop-color:#000000;stop-opacity:1;"
-       offset="0"
-       id="stop3961" /><stop
-       style="stop-color:#000000;stop-opacity:0.64885497;"
-       offset="1"
-       id="stop3963" /></linearGradient><radialGradient
-     r="81.902771"
-     fy="509.47577"
-     fx="168.02475"
-     cy="509.47577"
-     cx="168.02475"
-     gradientTransform="matrix(1.2565605,-0.77740644,0.33663816,0.5361257,-221.20213,359.24256)"
-     gradientUnits="userSpaceOnUse"
-     id="radialGradient3975"
-     xlink:href="#linearGradient3784-4"
-     inkscape:collect="always" /><linearGradient
+       id="stop3777" /></linearGradient><linearGradient
      id="linearGradient3784-4"><stop
        style="stop-color:#ffffff;stop-opacity:0.4351145;"
        offset="0"
@@ -83,17 +53,7 @@
      height="1.3287311"><feGaussianBlur
        inkscape:collect="always"
        stdDeviation="14.131424"
-       id="feGaussianBlur3805" /></filter><radialGradient
-     inkscape:collect="always"
-     xlink:href="#linearGradient3784-4-5"
-     id="radialGradient3929"
-     gradientUnits="userSpaceOnUse"
-     gradientTransform="matrix(1.2565605,-0.77740644,0.33663816,0.5361257,-221.20213,359.24256)"
-     cx="168.02475"
-     cy="509.47577"
-     fx="168.02475"
-     fy="509.47577"
-     r="81.902771" /><linearGradient
+       id="feGaussianBlur3805" /></filter><linearGradient
      id="linearGradient3784-4-5"><stop
        style="stop-color:#ffffff;stop-opacity:0.48854962;"
        offset="0"
@@ -110,17 +70,7 @@
      height="1.3287311"><feGaussianBlur
        inkscape:collect="always"
        stdDeviation="14.131424"
-       id="feGaussianBlur3805-8" /></filter><radialGradient
-     inkscape:collect="always"
-     xlink:href="#linearGradient3784-4-1"
-     id="radialGradient3927"
-     gradientUnits="userSpaceOnUse"
-     gradientTransform="matrix(1.2565605,-0.77740644,0.33663816,0.5361257,-221.20213,359.24256)"
-     cx="168.02475"
-     cy="509.47577"
-     fx="168.02475"
-     fy="509.47577"
-     r="81.902771" /><linearGradient
+       id="feGaussianBlur3805-8" /></filter><linearGradient
      id="linearGradient3784-4-1"><stop
        style="stop-color:#ffffff;stop-opacity:0.23664123;"
        offset="0"
@@ -186,17 +136,18 @@
    guidetolerance="10"
    inkscape:pageopacity="0"
    inkscape:pageshadow="2"
-   inkscape:window-width="1680"
-   inkscape:window-height="977"
+   inkscape:window-width="1600"
+   inkscape:window-height="855"
    id="namedview39"
    showgrid="false"
    inkscape:zoom="3.4417536"
    inkscape:cx="100.52062"
    inkscape:cy="205.84141"
    inkscape:window-x="0"
-   inkscape:window-y="25"
+   inkscape:window-y="0"
    inkscape:window-maximized="1"
-   inkscape:current-layer="svg2" />
+   inkscape:current-layer="svg2"
+   inkscape:document-rotation="0" />
 	<g
    id="Layer_x0020_1"
    style="fill-rule:nonzero;clip-rule:nonzero;stroke:#000000;stroke-miterlimit:4;">
@@ -276,17 +227,16 @@
      d="m 19.993242,106.65013 0,854.28121 677.156298,0 0,-854.28121 -677.156298,0 z M 371.74324,221.86888 c 7.6845,55.45326 245.9718,277.15012 253.6563,394.93746 5.3664,83.267 -53.7711,117.7523 -107.5625,117.7813 -65.9492,-2.4147 -108.515,-82.591 -123.0313,-97 -7.6845,20.7877 50.8972,194 69.1875,194 l -184.5,0 c 18.2904,0 76.872,-173.2123 69.1875,-194 -16.5797,15.6867 -64.7259,96.3734 -123,97 -53.8231,0 -112.9914,-34.5143 -107.625,-117.7813 7.6845,-117.81637 246.003,-339.51323 253.6875,-394.93746 z"
      style="fill:#fffeff;fill-opacity:1;fill-rule:nonzero;stroke:none" /></g><text
    xml:space="preserve"
-   style="font-size:32px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+   style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
    x="-157.42149"
    y="-215.79399"
    id="text3788-2"
-   sodipodi:linespacing="125%"
-   transform="scale(-1,-1)"><tspan
+   transform="scale(-1)"><tspan
      sodipodi:role="line"
      id="tspan3790-3"
      x="-157.42149"
      y="-215.79399"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">J</tspan></text>
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial">J</tspan></text>
 
 
 <g
@@ -298,16 +248,15 @@
      style="fill:#000000"
      sodipodi:nodetypes="cccccccccc" /></g><text
    xml:space="preserve"
-   style="font-size:32px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+   style="font-style:normal;font-weight:normal;line-height:0%;font-family:'Bitstream Vera Sans';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
    x="9.4998217"
    y="28.013288"
-   id="text3788"
-   sodipodi:linespacing="125%"><tspan
+   id="text3788"><tspan
      sodipodi:role="line"
      id="tspan3790"
      x="9.4998217"
      y="28.013288"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">J</tspan></text>
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial">J</tspan></text>
 
 
 <g
