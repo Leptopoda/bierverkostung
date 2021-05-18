@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/shared/constants.dart';
 
+@Deprecated("Weve satrted to use a third party lib for this. "
+    "We'll probably fork it but this classs isn't used anymore")
 class MasterDetailContainer extends StatefulWidget {
   final Widget master;
   final Widget? detail;
@@ -24,6 +26,7 @@ class MasterDetailContainer extends StatefulWidget {
   _MasterDetailContainerState createState() => _MasterDetailContainerState();
 }
 
+// ignore: deprecated_member_use_from_same_package
 class _MasterDetailContainerState extends State<MasterDetailContainer> {
   @override
   Widget build(BuildContext context) {

@@ -511,6 +511,22 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.6-nullsafety"
+  responsive_scaffold:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: a5276edc92ecdea70eef6c189178e702ce1dc2fd
+      url: "https://gitlab.rimikis.de/Leptopoda/responsive_scaffold.git"
+    source: git
+    version: "2.0.0+1"
+  scroll_to_index:
+    dependency: transitive
+    description:
+      name: scroll_to_index
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   shared_preferences:
     dependency: "direct main"
     description:

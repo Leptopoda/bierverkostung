@@ -3,27 +3,24 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:responsive_scaffold/responsive_scaffold.dart';
 
 import 'package:bierverkostung/services/auth.dart';
-import 'package:bierverkostung/shared/constants.dart';
-import 'package:bierverkostung/shared/master_details_scaffold.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/beers.dart';
-
-import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
+import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
 class BeerList extends StatefulWidget {
-  const BeerList({
-    Key? key,
-  }) : super(key: key);
+  const BeerList({Key? key}) : super(key: key);
 
   @override
   _BeerListState createState() => _BeerListState();
 }
 
 class _BeerListState extends State<BeerList> {
-  Widget? child;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   String? _groupID;
 
   @override
@@ -34,89 +31,96 @@ class _BeerListState extends State<BeerList> {
 
   // ignore: avoid_void_async
   void getUser() async {
-    final String? _groupID2 =
-        await AuthService().getClaim('group_id') as String?;
-    setState(() {
-      _groupID = _groupID2;
-    });
+    _groupID = await AuthService().getClaim('group_id') as String?;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return MasterDetailContainer(
-      appBar: AppBar(
-        title: const Text('Biere'),
-      ),
-      master: StreamBuilder<List<Beer>>(
-        stream: DatabaseService(groupID: _groupID).beers,
-        builder: (BuildContext context, AsyncSnapshot<List<Beer>> snapshot) {
-          if (snapshot.hasError) {
-            return SomethingWentWrong(
-              error: '${snapshot.error}',
+    return StreamBuilder<List<Beer>>(
+      stream: DatabaseService(groupID: _groupID).beers,
+      builder: (BuildContext context, AsyncSnapshot<List<Beer>> snapshot) {
+        if (snapshot.hasError) {
+          return SomethingWentWrong(
+            error: '${snapshot.error}',
+          );
+        }
+
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }
-
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
+          default:
+            if (!snapshot.hasData) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: Text('noch keine Biere vorhanden'),
               );
-            default:
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: Text('noch keine Biere vorhanden'),
-                );
-              }
+            }
 
-              return ListView.separated(
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(),
-                padding: const EdgeInsets.all(16.0),
-                itemCount: snapshot.data!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(
-                      'Bier: ${snapshot.data![index].beerName}',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    onTap: () {
-                      Navigator.pop(context, snapshot.data![index]);
-                    },
-                  );
-                },
-              );
-          }
-        },
-      ),
-      detail: child,
-      fab: _fab(context),
+            return ResponsiveListScaffold.builder(
+              scaffoldKey: _scaffoldKey,
+              detailBuilder: (BuildContext context, int? index, bool tablet) {
+                return DetailsScreen(
+                  body: BeerListDetail(
+                    items: snapshot.data!,
+                    row: index,
+                    tablet: tablet,
+                  ),
+                );
+              },
+              nullItems: ResponsiveScaffoldNullItems(),
+              emptyItems: ResponsiveScaffoldEmptyItems(),
+              tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
+              appBar: AppBar(
+                title: const Text('Biere'),
+              ),
+              itemCount: snapshot.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(
+                    'Bier: ${snapshot.data![index].beerName}',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context, snapshot.data![index]);
+                  },
+                );
+              },
+              floatingActionButton: FloatingActionButton(
+                onPressed: () => Navigator.of(context).pushNamed('/NewBeer'),
+                child: const Icon(Icons.add),
+              ),
+            );
+        }
+      },
     );
   }
+}
 
-  void _onTap(BuildContext context, Widget detail) {
-    if (isMobile(context)) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => Scaffold(
-            appBar: AppBar(
-              title: const Text('New Beer'),
-            ),
-            body: detail,
-          ),
-        ),
-      );
-    } else {
-      setState(() {
-        child = detail;
-      });
-    }
-  }
+class BeerListDetail extends StatelessWidget {
+  const BeerListDetail({
+    Key? key,
+    required this.items,
+    required this.row,
+    required this.tablet,
+  }) : super(key: key);
 
-  Widget _fab(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () => _onTap(context, NewBeer()),
-      child: const Icon(Icons.add),
+  final List<Beer> items;
+  final int? row;
+  final bool tablet;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: !tablet,
+        title: const Text('New Beer'),
+        // actions: tablet ? actionBarItems : null,
+      ),
+      body: Center(
+        child: Text(items[row!].beerName),
+      ),
     );
   }
 }
