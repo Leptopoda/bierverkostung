@@ -33,18 +33,68 @@ class BurningRingOfFire extends StatelessWidget {
     'Snake Eyes - Whoever picks this card has ‘snake eyes’. Whenever they make eye contact with another player throughout the game, that player must drink.',
   ];
 
+  static const List<Widget> _gameDescription = [
+    ListTile(
+      title: Text('Genral Rules'),
+    ),
+    ListTile(
+      leading: Text('1'),
+      title: Text(
+          'To set up the game, first clear off your table and set a can of beer in the center with the deck of cards placed around the cup in a circle.'),
+    ),
+    ListTile(
+      leading: Text('2'),
+      title: Text(
+          'Now get a group of friends to gather around the table, each person having a cup/bottle of their preferred booze to themselves.'),
+    ),
+    ListTile(
+      leading: Text('3'),
+      title: Text(
+          'Before you can start with the game you should know what each card stands for so have a look at the list below.'),
+    ),
+    ListTile(
+      leading: Text('4'),
+      title: Text(
+          'Now that you know the rules. One person starts off by picking up a card, and whatever the card may be, follow the rule. Push the card into the can opener (without crackig the can open). Go in a circle and keep picking a card till the last card is picked!'),
+    ),
+    ListTile(
+      title: Text(
+          'If someone breaks the ring of cards or the can opens he has to shotgun  the middle beer! When this happens, the circle is broken and another can of beer has to be placed at the center and you continue playing. '),
+    ),
+    ListTile(
+      title: Text('Materials'),
+    ),
+    ListTile(
+      leading: Text('1'),
+      title: Text(
+          'Enough bewerage for everyone. Typically one or two crates of beer.'),
+    ),
+    ListTile(
+      leading: Text('2'),
+      title: Text('A few cans of beer. Expect to need between 3 or 5'),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final String _type = _types[Random().nextInt(3)];
     return ListView.separated(
       itemBuilder: (BuildContext context, int index) {
+        if (index < _gameDescription.length) {
+          return _gameDescription[index];
+        }
+
+        index -= _gameDescription.length;
         return ListTile(
-          leading: _getCard(index, _type),
+          leading: AspectRatio(
+            aspectRatio: 1.45,
+            child: _getCard(index, _type),
+          ),
           title: Text(_description[index]),
         );
       },
       separatorBuilder: (BuildContext context, int index) => const Divider(),
-      itemCount: 13,
+      itemCount: _gameDescription.length + 13,
     );
   }
 
@@ -67,11 +117,8 @@ class BurningRingOfFire extends StatelessWidget {
       'Black joker',
       'Pinochle2',
     ];
-    return SvgPicture.asset(
-      'assets/playingCards/Ace of hearts.svg',
-    );
+
     if (number < 10) {
-      print('assets/playingCards/${_cards[number]} of $type.svg');
       return SvgPicture.asset(
         'assets/playingCards/${_cards[number]} of $type.svg',
       );
