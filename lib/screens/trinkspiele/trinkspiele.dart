@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/screens/trinkspiele/burning_ring_of_fire.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 
@@ -25,11 +26,13 @@ class _TrinkspieleState extends State<Trinkspiele> {
   static const List<String> _spiele = [
     'Alte Trinksprüche',
     'Neue Trinksprüche',
+    'Burning ring of fire',
   ];
 
   static const List<Widget> _spielePages = [
     TrinkspruecheAlt(),
     TrinkspruecheNeu(),
+    BurningRingOfFire(),
   ];
 
   static const List<Widget> _actionBarItems = [
