@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.10.2] - 2011-05-20
+## Added:
+- fix burning ring of fire not loading all assets
+
 ## [0.10.1] - 2011-05-20
 ## Added:
 - Logout handling

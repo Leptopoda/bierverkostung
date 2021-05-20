@@ -22,7 +22,7 @@ class AuthService {
     //.map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
-  Future<dynamic?> getClaim(String value) async {
+  Future<dynamic> getClaim(String value) async {
     final IdTokenResult? token = await _auth.currentUser?.getIdTokenResult();
     return token?.claims?[value];
   }
