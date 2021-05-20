@@ -7,14 +7,7 @@ import 'package:flutter/material.dart';
 class ResponsiveScaffoldNoItemSelected extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-      ),
-      body: const Center(
-        child: Text("No Item Selected"),
-      ),
-    );
+    return const Center(child: Text("No Item Selected"));
   }
 }
 

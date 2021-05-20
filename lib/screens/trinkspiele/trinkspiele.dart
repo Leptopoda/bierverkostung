@@ -6,9 +6,6 @@ import 'package:bierverkostung/screens/trinkspiele/burning_ring_of_fire.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 
-import 'package:bierverkostung/screens/conference/conference.dart';
-import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
-import 'package:bierverkostung/screens/settings/settings_button.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
@@ -35,12 +32,6 @@ class _TrinkspieleState extends State<Trinkspiele> {
     BurningRingOfFire(),
   ];
 
-  static const List<Widget> _actionBarItems = [
-    MeetingButton(),
-    PromilleRechnerButton(),
-    SettingsButton(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return ResponsiveListScaffold.builder(
@@ -51,17 +42,12 @@ class _TrinkspieleState extends State<Trinkspiele> {
             items: _spielePages,
             row: index,
             tablet: tablet,
-            actionBarItems: _actionBarItems,
           ),
         );
       },
       nullItems: ResponsiveScaffoldNullItems(),
       emptyItems: ResponsiveScaffoldEmptyItems(),
       tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
-      appBar: AppBar(
-        title: const Text('Trinkspiele'),
-        actions: _actionBarItems,
-      ),
       itemCount: _spiele.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
@@ -83,22 +69,21 @@ class TrinkspieleDetail extends StatelessWidget {
     required this.items,
     required this.row,
     required this.tablet,
-    this.actionBarItems,
   }) : super(key: key);
 
   final List<Widget> items;
   final int? row;
   final bool tablet;
-  final List<Widget>? actionBarItems;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: !tablet,
-        title: const Text('Details'),
-        // actions: tablet ? actionBarItems : null,
-      ),
+      appBar: !tablet
+          ? AppBar(
+              automaticallyImplyLeading: !tablet,
+              title: const Text('Details'),
+            )
+          : null,
       body: (row != null) ? items[row!] : null,
     );
   }

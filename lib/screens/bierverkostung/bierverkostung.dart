@@ -11,9 +11,6 @@ import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
-import 'package:bierverkostung/screens/conference/conference.dart';
-import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
-import 'package:bierverkostung/screens/settings/settings_button.dart';
 import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
 
 class Bierverkostung extends StatefulWidget {
@@ -25,12 +22,6 @@ class Bierverkostung extends StatefulWidget {
 
 class _BierverkostungState extends State<Bierverkostung> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  static const List<Widget> _actionBarItems = [
-    MeetingButton(),
-    PromilleRechnerButton(),
-    SettingsButton(),
-  ];
 
   String? _groupID;
 
@@ -83,10 +74,6 @@ class _BierverkostungState extends State<Bierverkostung> {
               nullItems: ResponsiveScaffoldNullItems(),
               emptyItems: ResponsiveScaffoldEmptyItems(),
               tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
-              appBar: AppBar(
-                title: const Text('Verkostungen'),
-                actions: _actionBarItems,
-              ),
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
@@ -121,6 +108,9 @@ class BierverkostungDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DispTasting(tasting: items[row!]);
+    return DispTasting(
+      tasting: items[row!],
+      tablet: tablet,
+    );
   }
 }

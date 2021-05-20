@@ -12,10 +12,12 @@ import 'package:bierverkostung/screens/bierverkostung/disp_beer.dart';
 
 class DispTasting extends StatelessWidget {
   final Tasting tasting;
+  final bool tablet;
 
   const DispTasting({
     Key? key,
     required this.tasting,
+    required this.tablet,
   }) : super(key: key);
 
   static const TextStyle _heading = TextStyle(
@@ -29,9 +31,11 @@ class DispTasting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Verkostung'),
-      ),
+      appBar: !tablet
+          ? AppBar(
+              title: const Text('Verkostung'),
+            )
+          : null,
       body: ListView(
         padding: const EdgeInsets.all(30.0),
         children: <Widget>[

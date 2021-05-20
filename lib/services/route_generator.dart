@@ -4,12 +4,12 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:bierverkostung/models/tastings.dart';
+// import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/models/beers.dart';
 
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/screens/bierverkostung/beers.dart';
-import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
+// import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
 import 'package:bierverkostung/screens/home.dart';
 import 'package:bierverkostung/screens/bierverkostung/new_tasting.dart';
 import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
@@ -41,7 +41,7 @@ class RouteGenerator {
       case '/NewTasting':
         return MaterialPageRoute(builder: (_) => const NewTasting());
 
-      case '/DispTasting':
+      /* case '/DispTasting':
         if (_args is Tasting) {
           return MaterialPageRoute(
             builder: (_) => DispTasting(
@@ -49,7 +49,7 @@ class RouteGenerator {
             ),
           );
         }
-        return _errorRoute();
+        return _errorRoute(); */
 
       case '/NewBeer':
         return MaterialPageRoute(builder: (_) => NewBeer());
