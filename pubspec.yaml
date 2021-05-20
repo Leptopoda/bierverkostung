@@ -68,6 +68,12 @@ dependencies:
   # jitsi
   jitsi_meet: any
 
+  # dynamic nav bar
+  navigation_rail:
+    git:
+      url: https://gitlab.rimikis.de/Leptopoda/navigation_rail.git
+      ref: master
+
   # required for build version
   package_info_plus: any
 
