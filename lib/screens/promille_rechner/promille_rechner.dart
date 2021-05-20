@@ -6,6 +6,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:bierverkostung/shared/drink_safe.dart';
+
 class PromilleRechnerButton extends StatelessWidget {
   const PromilleRechnerButton({Key? key}) : super(key: key);
 
@@ -40,6 +42,12 @@ class _PromilleRechnerState extends State<PromilleRechner> {
   int mengeDrink = 500;
   double alcohol = 4.9;
   int time = 1;
+
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    await drinkSafe(context);
+  }
 
   @override
   Widget build(BuildContext context) {

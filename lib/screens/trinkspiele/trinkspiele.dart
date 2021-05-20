@@ -2,13 +2,14 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:bierverkostung/screens/trinkspiele/burning_ring_of_fire.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 
+import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
+
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
-import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
+import 'package:bierverkostung/screens/trinkspiele/burning_ring_of_fire.dart';
 
 class Trinkspiele extends StatefulWidget {
   const Trinkspiele({Key? key}) : super(key: key);
