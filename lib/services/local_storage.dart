@@ -11,8 +11,28 @@ class LocalDatabaseService {
     await prefs.setBool('first_run', true);
   }
 
-  Future<bool?> isFirstLogin() async {
+  Future<bool?> getFirstLogin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('first_run');
+  }
+
+  Future<void> setDrinkResponsible() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('drink_responsible', true);
+  }
+
+  Future<bool?> getDrinkResponsible() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('drink_responsible');
+  }
+
+  Future<void> setDrinkSafe() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('drink_safe', true);
+  }
+
+  Future<bool?> getDrinkSafe() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('drink_safe');
   }
 }
