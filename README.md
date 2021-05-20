@@ -77,6 +77,7 @@ python -m http.server 8000
 - This app is inspired by the app [Bierverkostung by Jürgen Fickel](https://bitbucket.org/jufickel/bierverkostung)
 - Application Icon: [drunken_duck (via openClipart.org)](https://openclipart.org/detail/2214/beer)
 - Error page Icon: [Big_Ryan](https://www.gettyimages.de/detail/illustration/unicorn-lizenfreie-illustration/165601541)
+- Playing cards: [Byron Knoll](https://commons.m.wikimedia.org/wiki/Category:Playing_cards_set_by_Byron_Knoll)
 - Authors: see [AUTHORS](AUTHORS)
 - Libraries: see [LIBRARIES.md](LIBRARIES.md)
 

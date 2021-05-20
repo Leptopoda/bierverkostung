@@ -4,10 +4,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
-import 'package:provider/provider.dart' show Provider;
 
+import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/database.dart';
-import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
 
@@ -100,232 +99,236 @@ class _NewTastingState extends State<NewTasting> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: ListView(
-        padding: const EdgeInsets.all(30.0),
-        children: <Widget>[
-          const Text(
-            'General',
-            style: _heading,
-          ),
-          // InputDatePickerFormField(firstDate: DateTime(2015), lastDate: DateTime(2100)),
-          TextFormField(
-            style: _text,
-            readOnly: true,
-            controller: _dateController,
-            onTap: () => _selectDate(context),
-            decoration: const InputDecoration(
-              labelText: 'Date',
-              suffixIcon: Icon(Icons.calendar_today_outlined),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('New Beer'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(30.0),
+          children: <Widget>[
+            const Text(
+              'General',
+              style: _heading,
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _location,
-            decoration: const InputDecoration(
-              labelText: 'Location',
-              suffixIcon: Icon(Icons.location_on_outlined),
-            ),
-          ),
-          TextFormField(
-            style: _text,
-            readOnly: true,
-            controller: _beer,
-            onTap: () => _selectBeer(context),
-            decoration: const InputDecoration(
-              labelText: 'Bier',
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Pflichtfeld';
-              }
-              return null;
-            },
-          ),
-          const Text(
-            'Optical Appearance',
-            style: _heading,
-          ),
-          TextFormField(
-            style: _text,
-            controller: _foamColour,
-            decoration: const InputDecoration(
-              labelText: 'Foam Colour',
-              suffixIcon: Icon(Icons.color_lens_outlined),
-            ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _foamStructure,
-            decoration: const InputDecoration(
-              labelText: 'Foam Structure',
-            ),
-          ),
-          const Text('Foam Stability'),
-          Slider(
-            value: _foamStability.toDouble(),
-            // min: 0,
-            max: 3,
-            divisions: 3,
-            label: '$_foamStability',
-            onChanged: (double value) =>
-                setState(() => _foamStability = value.round()),
-          ),
-          DropdownButtonFormField(
-            value: _colourEbc,
-            items: _ebc.map<DropdownMenuItem<int>>(
-              (int? val) {
-                return DropdownMenuItem(
-                  value: val,
-                  child: Text('$val'),
-                );
-              },
-            ).toList(),
-            onChanged: (int? val) => setState(() => _colourEbc = val!),
-            decoration: InputDecoration(
-              labelText: 'EBC',
-              suffixIcon: Icon(
-                Icons.circle,
-                color: Colors.yellow[800],
+            // InputDatePickerFormField(firstDate: DateTime(2015), lastDate: DateTime(2100)),
+            TextFormField(
+              style: _text,
+              readOnly: true,
+              controller: _dateController,
+              onTap: () => _selectDate(context),
+              decoration: const InputDecoration(
+                labelText: 'Date',
+                suffixIcon: Icon(Icons.calendar_today_outlined),
               ),
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _beerColour,
-            decoration: const InputDecoration(
-              labelText: 'Beer Colour',
+            TextFormField(
+              style: _text,
+              controller: _location,
+              decoration: const InputDecoration(
+                labelText: 'Location',
+                suffixIcon: Icon(Icons.location_on_outlined),
+              ),
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _beerColourDesc,
-            decoration: const InputDecoration(
-              labelText: 'Color Description',
+            TextFormField(
+              style: _text,
+              readOnly: true,
+              controller: _beer,
+              onTap: () => _selectBeer(context),
+              decoration: const InputDecoration(
+                labelText: 'Bier',
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Pflichtfeld';
+                }
+                return null;
+              },
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _clarity,
-            decoration: const InputDecoration(
-              labelText: 'Clarity',
+            const Text(
+              'Optical Appearance',
+              style: _heading,
             ),
-          ),
-          const Text(
-            'Taste',
-            style: _heading,
-          ),
-          TextFormField(
-            style: _text,
-            controller: _mouthFeelDesc,
-            decoration: const InputDecoration(
-              labelText: 'Mundgefühl',
+            TextFormField(
+              style: _text,
+              controller: _foamColour,
+              decoration: const InputDecoration(
+                labelText: 'Foam Colour',
+                suffixIcon: Icon(Icons.color_lens_outlined),
+              ),
             ),
-          ),
-          const Text('Bitterness'),
-          Slider(
-            value: _bitternessRating.toDouble(),
-            // min: 0,
-            max: 3,
-            divisions: 3,
-            label: '$_bitternessRating',
-            onChanged: (double value) =>
-                setState(() => _bitternessRating = value.round()),
-          ),
-          const Text('Sweetness'),
-          Slider(
-            value: _sweetnessRating.toDouble(),
-            // min: 0,
-            max: 3,
-            divisions: 3,
-            label: '$_sweetnessRating',
-            onChanged: (double value) =>
-                setState(() => _sweetnessRating = value.round()),
-          ),
-          const Text('Acidity'),
-          Slider(
-            value: _acidityRating.toDouble(),
-            // min: 0,
-            max: 3,
-            divisions: 3,
-            label: '$_acidityRating',
-            onChanged: (double value) =>
-                setState(() => _acidityRating = value.round()),
-          ),
-          const Text('Body Fullness'),
-          Slider(
-            value: _fullBodiedRating.toDouble(),
-            // min: 0,
-            max: 3,
-            divisions: 3,
-            label: '$_fullBodiedRating',
-            onChanged: (double value) =>
-                setState(() => _fullBodiedRating = value.round()),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _bodyDesc,
-            decoration: const InputDecoration(
-              labelText: 'Body Description',
+            TextFormField(
+              style: _text,
+              controller: _foamStructure,
+              decoration: const InputDecoration(
+                labelText: 'Foam Structure',
+              ),
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _aftertasteDesc,
-            decoration: const InputDecoration(
-              labelText: 'Nachgeschmack',
+            const Text('Foam Stability'),
+            Slider(
+              value: _foamStability.toDouble(),
+              // min: 0,
+              max: 3,
+              divisions: 3,
+              label: '$_foamStability',
+              onChanged: (double value) =>
+                  setState(() => _foamStability = value.round()),
             ),
-          ),
-          const Text('Nachgeschmack rating'),
-          Slider(
-            value: _aftertasteRating.toDouble(),
-            // min: 0,
-            max: 3,
-            divisions: 3,
-            label: '$_aftertasteRating',
-            onChanged: (double value) =>
-                setState(() => _aftertasteRating = value.round()),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _foodRecommendation,
-            decoration: const InputDecoration(
-              labelText: 'Food Recomendation',
+            DropdownButtonFormField(
+              value: _colourEbc,
+              items: _ebc.map<DropdownMenuItem<int>>(
+                (int? val) {
+                  return DropdownMenuItem(
+                    value: val,
+                    child: Text('$val'),
+                  );
+                },
+              ).toList(),
+              onChanged: (int? val) => setState(() => _colourEbc = val!),
+              decoration: InputDecoration(
+                labelText: 'EBC',
+                suffixIcon: Icon(
+                  Icons.circle,
+                  color: Colors.yellow[800],
+                ),
+              ),
             ),
-          ),
-          const Text(
-            'Conclusion',
-            style: _heading,
-          ),
-          TextFormField(
-            style: _text,
-            controller: _totalImpressionDesc,
-            decoration: const InputDecoration(
-              labelText: 'Total Impression',
+            TextFormField(
+              style: _text,
+              controller: _beerColour,
+              decoration: const InputDecoration(
+                labelText: 'Beer Colour',
+              ),
             ),
-          ),
-          const Text('Total Rating'),
-          Slider(
-            value: _totalImpressionRating.toDouble(),
-            min: 1,
-            max: 3,
-            divisions: 2,
-            label: '$_totalImpressionRating',
-            onChanged: (double value) =>
-                setState(() => _totalImpressionRating = value.round()),
-          ),
-          ElevatedButton(
-            onPressed: () => _submit(context),
-            child: const Text('Submit'),
-          ),
-        ],
+            TextFormField(
+              style: _text,
+              controller: _beerColourDesc,
+              decoration: const InputDecoration(
+                labelText: 'Color Description',
+              ),
+            ),
+            TextFormField(
+              style: _text,
+              controller: _clarity,
+              decoration: const InputDecoration(
+                labelText: 'Clarity',
+              ),
+            ),
+            const Text(
+              'Taste',
+              style: _heading,
+            ),
+            TextFormField(
+              style: _text,
+              controller: _mouthFeelDesc,
+              decoration: const InputDecoration(
+                labelText: 'Mundgefühl',
+              ),
+            ),
+            const Text('Bitterness'),
+            Slider(
+              value: _bitternessRating.toDouble(),
+              // min: 0,
+              max: 3,
+              divisions: 3,
+              label: '$_bitternessRating',
+              onChanged: (double value) =>
+                  setState(() => _bitternessRating = value.round()),
+            ),
+            const Text('Sweetness'),
+            Slider(
+              value: _sweetnessRating.toDouble(),
+              // min: 0,
+              max: 3,
+              divisions: 3,
+              label: '$_sweetnessRating',
+              onChanged: (double value) =>
+                  setState(() => _sweetnessRating = value.round()),
+            ),
+            const Text('Acidity'),
+            Slider(
+              value: _acidityRating.toDouble(),
+              // min: 0,
+              max: 3,
+              divisions: 3,
+              label: '$_acidityRating',
+              onChanged: (double value) =>
+                  setState(() => _acidityRating = value.round()),
+            ),
+            const Text('Body Fullness'),
+            Slider(
+              value: _fullBodiedRating.toDouble(),
+              // min: 0,
+              max: 3,
+              divisions: 3,
+              label: '$_fullBodiedRating',
+              onChanged: (double value) =>
+                  setState(() => _fullBodiedRating = value.round()),
+            ),
+            TextFormField(
+              style: _text,
+              controller: _bodyDesc,
+              decoration: const InputDecoration(
+                labelText: 'Body Description',
+              ),
+            ),
+            TextFormField(
+              style: _text,
+              controller: _aftertasteDesc,
+              decoration: const InputDecoration(
+                labelText: 'Nachgeschmack',
+              ),
+            ),
+            const Text('Nachgeschmack rating'),
+            Slider(
+              value: _aftertasteRating.toDouble(),
+              // min: 0,
+              max: 3,
+              divisions: 3,
+              label: '$_aftertasteRating',
+              onChanged: (double value) =>
+                  setState(() => _aftertasteRating = value.round()),
+            ),
+            TextFormField(
+              style: _text,
+              controller: _foodRecommendation,
+              decoration: const InputDecoration(
+                labelText: 'Food Recomendation',
+              ),
+            ),
+            const Text(
+              'Conclusion',
+              style: _heading,
+            ),
+            TextFormField(
+              style: _text,
+              controller: _totalImpressionDesc,
+              decoration: const InputDecoration(
+                labelText: 'Total Impression',
+              ),
+            ),
+            const Text('Total Rating'),
+            Slider(
+              value: _totalImpressionRating.toDouble(),
+              min: 1,
+              max: 3,
+              divisions: 2,
+              label: '$_totalImpressionRating',
+              onChanged: (double value) =>
+                  setState(() => _totalImpressionRating = value.round()),
+            ),
+            ElevatedButton(
+              onPressed: () => _submit(context),
+              child: const Text('Submit'),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Future<void> _submit(BuildContext context) async {
-    final UserData _user = Provider.of<UserData?>(context, listen: false)!;
     // Validate returns true if the form is valid, or false otherwise.
     if (_formKey.currentState!.validate()) {
       // If the form is valid, display a snackbar. In the real world,
@@ -361,8 +364,9 @@ class _NewTastingState extends State<NewTasting> {
         totalImpressionDesc: _totalImpressionDesc.value.text,
         totalImpressionRating: _totalImpressionRating,
       );
-
-      await DatabaseService(user: _user).saveTasting(_tasting1.toMap());
+      final String? _groupID =
+          await AuthService().getClaim('group_id') as String?;
+      await DatabaseService(groupID: _groupID).saveTasting(_tasting1.toMap());
 
       Navigator.of(context).pop();
     }

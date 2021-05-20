@@ -5,11 +5,10 @@
 import 'dart:convert' show jsonEncode;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:provider/provider.dart' show Provider;
 import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:qr_flutter/qr_flutter.dart' show QrImage;
+import 'package:firebase_auth/firebase_auth.dart' show User;
 
-import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/services/cloud_functions.dart';
 import 'package:bierverkostung/services/auth.dart';
 
@@ -38,7 +37,7 @@ class _GroupScreenState extends State<GroupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final UserData _user = Provider.of<UserData?>(context)!;
+    final User _user = AuthService().getUser()!;
     _uid.text = _user.uid;
 
     return Form(
@@ -69,7 +68,7 @@ class _GroupScreenState extends State<GroupScreen> {
                 child: Column(
                   children: <Widget>[
                     QrImage(
-                      data: jsonEncode(_user.toMap()),
+                      data: jsonEncode({'user': _user.uid}),
                       size: 175.0,
                     ),
                     const Text('press to scan'),
@@ -91,7 +90,7 @@ class _GroupScreenState extends State<GroupScreen> {
                 : null,
           ),
           ElevatedButton.icon(
-            onPressed: () => _submit(context, _user),
+            onPressed: () => _submit(context),
             icon: const Icon(Icons.group_add_outlined),
             label: const Text('Add user to group'),
           ),
@@ -105,10 +104,11 @@ class _GroupScreenState extends State<GroupScreen> {
     );
   }
 
-  Future<void> _submit(BuildContext context, UserData _user) async {
+  Future<void> _submit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
+      final _groupID = AuthService().getClaim('group_id');
       final HttpsCallableResult<dynamic> result = await CloudFunctionsService()
-          .setGroup(_newUser.value.text, _user.guid);
+          .setGroup(_newUser.value.text, _groupID as String);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result.data.toString()),

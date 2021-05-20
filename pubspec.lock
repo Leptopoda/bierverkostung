@@ -329,6 +329,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
+  navigation_rail:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: b3a0b2372366b0dd99c61446b331200f0af90962
+      url: "https://gitlab.rimikis.de/Leptopoda/navigation_rail.git"
+    source: git
+    version: "1.6.0-dev.1"
   nested:
     dependency: transitive
     description:
@@ -511,6 +520,22 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.6-nullsafety"
+  responsive_scaffold:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: a5276edc92ecdea70eef6c189178e702ce1dc2fd
+      url: "https://gitlab.rimikis.de/Leptopoda/responsive_scaffold.git"
+    source: git
+    version: "2.0.0+1"
+  scroll_to_index:
+    dependency: transitive
+    description:
+      name: scroll_to_index
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   shared_preferences:
     dependency: "direct main"
     description:

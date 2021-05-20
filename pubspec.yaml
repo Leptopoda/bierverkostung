@@ -19,7 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.10.0+4
+version: 0.10.1+1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -68,6 +68,12 @@ dependencies:
   # jitsi
   jitsi_meet: any
 
+  # dynamic nav bar
+  navigation_rail:
+    git:
+      url: https://gitlab.rimikis.de/Leptopoda/navigation_rail.git
+      ref: master
+
   # required for build version
   package_info_plus: any
 
@@ -85,6 +91,12 @@ dependencies:
 
   # random color
   random_color: 1.0.6-nullsafety
+
+  # Master Detail View
+  responsive_scaffold:
+    git:
+      url: https://gitlab.rimikis.de/Leptopoda/responsive_scaffold.git
+      ref: master
 
   # local storage
   shared_preferences: any
@@ -136,6 +148,7 @@ flutter:
   assets:
     - assets/error.png
     - "assets/icon/icon.svg"
+    - assets/playingCards/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

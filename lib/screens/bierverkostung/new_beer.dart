@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pattern_formatter/pattern_formatter.dart'
     show ThousandsFormatter;
-import 'package:provider/provider.dart' show Provider;
 
-import 'package:bierverkostung/models/users.dart';
+import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/models/breweries.dart';
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/models/beers.dart';
@@ -48,97 +47,101 @@ class NewBeer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: ListView(
-        padding: const EdgeInsets.all(30.0),
-        children: <Widget>[
-          TextFormField(
-            style: _text,
-            controller: _beerName,
-            decoration: const InputDecoration(
-              labelText: 'Beer Name',
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('New Beer'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(30.0),
+          children: <Widget>[
+            TextFormField(
+              style: _text,
+              controller: _beerName,
+              decoration: const InputDecoration(
+                labelText: 'Beer Name',
+              ),
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _brewery,
-            decoration: const InputDecoration(
-              labelText: 'Brewery',
+            TextFormField(
+              style: _text,
+              controller: _brewery,
+              decoration: const InputDecoration(
+                labelText: 'Brewery',
+              ),
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _style,
-            decoration: const InputDecoration(
-              labelText: 'Beer Style',
+            TextFormField(
+              style: _text,
+              controller: _style,
+              decoration: const InputDecoration(
+                labelText: 'Beer Style',
+              ),
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _originalWort,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              ThousandsFormatter(allowFraction: true),
-            ],
-            decoration: const InputDecoration(
-              labelText: 'Original Wort',
+            TextFormField(
+              style: _text,
+              controller: _originalWort,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                ThousandsFormatter(allowFraction: true),
+              ],
+              decoration: const InputDecoration(
+                labelText: 'Original Wort',
+              ),
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _alcohol,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              ThousandsFormatter(allowFraction: true),
-            ],
-            decoration: const InputDecoration(
-              labelText: 'Alcohol %',
+            TextFormField(
+              style: _text,
+              controller: _alcohol,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                ThousandsFormatter(allowFraction: true),
+              ],
+              decoration: const InputDecoration(
+                labelText: 'Alcohol %',
+              ),
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _ibu,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly,
-            ],
-            decoration: const InputDecoration(
-              labelText: 'IBU',
+            TextFormField(
+              style: _text,
+              controller: _ibu,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              decoration: const InputDecoration(
+                labelText: 'IBU',
+              ),
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _ingredients,
-            decoration: const InputDecoration(
-              labelText: 'Ingredients',
+            TextFormField(
+              style: _text,
+              controller: _ingredients,
+              decoration: const InputDecoration(
+                labelText: 'Ingredients',
+              ),
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _specifics,
-            decoration: const InputDecoration(
-              labelText: 'Specifics',
+            TextFormField(
+              style: _text,
+              controller: _specifics,
+              decoration: const InputDecoration(
+                labelText: 'Specifics',
+              ),
             ),
-          ),
-          TextFormField(
-            style: _text,
-            controller: _beerNotes,
-            decoration: const InputDecoration(
-              labelText: 'Beer Notes',
+            TextFormField(
+              style: _text,
+              controller: _beerNotes,
+              decoration: const InputDecoration(
+                labelText: 'Beer Notes',
+              ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () => _submit(context),
-            child: const Text('Submit'),
-          ),
-        ],
+            ElevatedButton(
+              onPressed: () => _submit(context),
+              child: const Text('Submit'),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Future<void> _submit(BuildContext context) async {
-    final UserData _user = Provider.of<UserData?>(context, listen: false)!;
     // Validate returns true if the form is valid, or false otherwise.
     if (_formKey.currentState!.validate()) {
       // If the form is valid, display a snackbar. In the real world,
@@ -165,7 +168,9 @@ class NewBeer extends StatelessWidget {
         beerNotes: _beerNotes.value.text,
       );
 
-      await DatabaseService(user: _user).saveBeer(_bier1.toMap());
+      final String? _groupID =
+          await AuthService().getClaim('group_id') as String?;
+      await DatabaseService(groupID: _groupID).saveBeer(_bier1.toMap());
 
       Navigator.of(context).pop();
     }

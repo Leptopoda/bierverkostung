@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.10.1] - 2011-05-20
+## Added:
+- Logout handling
+- Burning ring of fire [game]
+- reworked UI
+
+## [0.10.0] - 2011-05-11
+## Added:
+- Conferences
+- Notifications
+
 ## [0.9.3] - 2021-05-11
 ### Added:
 - Credits

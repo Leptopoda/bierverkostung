@@ -2,21 +2,16 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
-import 'package:bierverkostung/screens/bierverkostung/new_tasting.dart';
-import 'package:bierverkostung/shared/constants.dart';
-import 'package:bierverkostung/shared/master_details_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart' show Provider;
+import 'package:responsive_scaffold/responsive_scaffold.dart';
 
+import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/database.dart';
-import 'package:bierverkostung/models/users.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/tastings.dart';
+import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
-import 'package:bierverkostung/screens/conference/conference.dart';
-import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
-import 'package:bierverkostung/screens/settings/settings_button.dart';
+import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
 
 class Bierverkostung extends StatefulWidget {
   const Bierverkostung({Key? key}) : super(key: key);
@@ -26,91 +21,96 @@ class Bierverkostung extends StatefulWidget {
 }
 
 class _BierverkostungState extends State<Bierverkostung> {
-  Widget? child;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  String? _groupID;
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+
+  // ignore: avoid_void_async
+  void getUser() async {
+    _groupID = await AuthService().getClaim('group_id') as String?;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    final UserData _user = Provider.of<UserData?>(context)!;
-    return MasterDetailContainer(
-      master: StreamBuilder<List<Tasting>>(
-        stream: DatabaseService(user: _user).tastings,
-        builder: (BuildContext context, AsyncSnapshot<List<Tasting>> snapshot) {
-          if (snapshot.hasError) {
-            return SomethingWentWrong(
-              error: '${snapshot.error}',
+    return StreamBuilder<List<Tasting>>(
+      stream: DatabaseService(groupID: _groupID).tastings,
+      builder: (BuildContext context, AsyncSnapshot<List<Tasting>> snapshot) {
+        if (snapshot.hasError) {
+          return SomethingWentWrong(
+            error: '${snapshot.error}',
+          );
+        }
+
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }
-
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
+          default:
+            if (!snapshot.hasData) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: Text('noch keine Verkostungen vorhanden'),
               );
-            default:
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: Text('noch keine Verkostungen vorhanden'),
-                );
-              }
+            }
 
-              return ListView.separated(
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(),
-                padding: const EdgeInsets.all(16.0),
-                itemCount: snapshot.data!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(
-                      'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date}',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    onTap: () => _onTap(
-                      context,
-                      DispTasting(tasting: snapshot.data![index]),
-                    ),
-                  );
-                },
-              );
-          }
-        },
-      ),
-      detail: child,
-      appBar: AppBar(
-        title: const Text('Bierverkostung'),
-        actions: const <Widget>[
-          MeetingButton(),
-          PromilleRechnerButton(),
-          SettingsButton(),
-        ],
-      ),
-      fab: _fab(context),
+            return ResponsiveListScaffold.builder(
+              scaffoldKey: _scaffoldKey,
+              detailBuilder: (BuildContext context, int? index, bool tablet) {
+                return DetailsScreen(
+                  body: BierverkostungDetail(
+                    items: snapshot.data!,
+                    row: index,
+                    tablet: tablet,
+                  ),
+                );
+              },
+              nullItems: ResponsiveScaffoldNullItems(),
+              emptyItems: ResponsiveScaffoldEmptyItems(),
+              tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
+              itemCount: snapshot.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(
+                    'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date}',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                );
+              },
+              floatingActionButton: FloatingActionButton(
+                onPressed: () => Navigator.of(context).pushNamed('/NewTasting'),
+                child: const Icon(Icons.add),
+              ),
+            );
+        }
+      },
     );
   }
+}
 
-  void _onTap(BuildContext context, Widget detail) {
-    if (isMobile(context)) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => Scaffold(
-            appBar: AppBar(
-              title: const Text('New Tasting'),
-            ),
-            body: detail,
-          ),
-        ),
-      );
-    } else {
-      setState(() {
-        child = detail;
-      });
-    }
-  }
+class BierverkostungDetail extends StatelessWidget {
+  const BierverkostungDetail({
+    Key? key,
+    required this.items,
+    required this.row,
+    required this.tablet,
+  }) : super(key: key);
 
-  Widget _fab(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () => _onTap(context, const NewTasting()),
-      child: const Icon(Icons.add),
+  final List<Tasting> items;
+  final int? row;
+  final bool tablet;
+
+  @override
+  Widget build(BuildContext context) {
+    return DispTasting(
+      tasting: items[row!],
+      tablet: tablet,
     );
   }
 }

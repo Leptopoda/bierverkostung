@@ -6,10 +6,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:provider/provider.dart';
 
 import 'package:bierverkostung/services/import_data.dart';
-import 'package:bierverkostung/models/users.dart';
 
 class ImportDataSettings extends StatelessWidget {
   const ImportDataSettings({Key? key}) : super(key: key);
@@ -49,9 +47,8 @@ class ImportDataSettings extends StatelessWidget {
 
     if (result != null) {
       final File _zipFile = File(result.files.single.path!);
-      final UserData _user = Provider.of<UserData?>(context, listen: false)!;
 
-      ImportDataService(user: _user).importData(_zipFile);
+      ImportDataService().importData(_zipFile);
     }
   }
 }
