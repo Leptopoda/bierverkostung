@@ -21,7 +21,7 @@ import 'package:bierverkostung/services/route_generator.dart';
 import 'package:bierverkostung/screens/login_controller.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized(); // we don't need this as runApp calls it anyways
   runApp(MyApp());
 }
 
