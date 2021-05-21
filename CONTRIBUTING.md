@@ -1,7 +1,7 @@
 # Bierverkostung Contribution Guide
 
 Welcome! We're a pretty friendly community and we're thrilled that you want to
-help make this game even better. However, we do ask that you follow some general
+help make this App even better. However, we do ask that you follow some general
 guidelines while doing so, just so we can keep things organized around here.
 
 1. Make sure an [issue][1] is created for the bug you're about to fix, or
