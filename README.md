@@ -7,7 +7,11 @@ It will consist of three parts
  - Konsum Tracking
 
 ## Platforms
-We currently only support Android and Web. Although every package selected does also support iOS/iPadOS/MacOS i don't have a mac to text and build. Reach out to me if you want to help with this.
+Currently Supported platforms:
+- Android
+- iOS/iPadOS
+- MacOS
+- Web
 Regarding other Desktop support like Linux and Windows firebase currently does not support those platforms. 
 We'll need to wait for this to tackle propper desktop support.
 
