@@ -29,19 +29,19 @@ class StatistikenList extends StatelessWidget {
           );
         }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
-        if (!snapshot.hasData) {
-          return const Center(
-            child: Text('noch keine Verkostungen vorhanden'),
-          );
-        }
-        return StatistikenBeerChart(data: snapshot.data!);
-        /*ListView(
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          default:
+            if (!snapshot.hasData) {
+              return const Center(
+                child: Text('noch keine Verkostungen vorhanden'),
+              );
+            }
+            return StatistikenBeerChart(data: snapshot.data!);
+          /*ListView(
           padding: const EdgeInsets.all(16.0),
           children: <Widget>[
             StatistikenBeerChart(data: snapshot.data!),
@@ -49,6 +49,7 @@ class StatistikenList extends StatelessWidget {
 
           ],
         );*/
+        }
       },
     );
   }
