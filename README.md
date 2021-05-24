@@ -72,10 +72,11 @@ Use emulators or real devices. Testing the web version can be done like this:
 ```
 flutter build web --release
 ```
-and in the output dir run
+and in the firebase.local dir run
 ```
-python -m http.server 8000
+firebase serve
 ```
+to host the static assets localy. If you also need to test backend functions refer to [Firebase](#Firebase).
 
 ## Credits 
 - This app is inspired by the app [Bierverkostung by Jürgen Fickel](https://bitbucket.org/jufickel/bierverkostung)
