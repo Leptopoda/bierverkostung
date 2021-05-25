@@ -5,7 +5,8 @@
 import 'package:cloud_functions/cloud_functions.dart';
 
 class CloudFunctionsService {
-  final FirebaseFunctions _functions = FirebaseFunctions.instance;
+  final FirebaseFunctions _functions =
+      FirebaseFunctions.instanceFor(region: 'europe-west3');
 
   Future<HttpsCallableResult<dynamic>> setGroup(String uid, String guid) async {
     final HttpsCallable callable = _functions.httpsCallable('addGroup');
