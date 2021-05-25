@@ -8,3 +8,4 @@ admin.initializeApp();
 export {authOnCreate} from "./authOnCreate";
 export {addGroup} from "./addGroup";
 export {beerStats} from "./statCounter";
+export {exportData, clearData} from "./gdprData/index";

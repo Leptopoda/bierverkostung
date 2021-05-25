@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import * as functions from "firebase-functions";
+import {region} from "firebase-functions";
 import {firestore} from "firebase-admin";
 import {dataCenter} from "./comon";
 
@@ -32,7 +32,7 @@ import {dataCenter} from "./comon";
       }, {merge: true});
     }); */
 
-export const beerStats = functions.region(dataCenter)
+export const beerStats = region(dataCenter)
     .firestore
     .document("/users/{userID}/stats/{statsID}")
     .onWrite(async (change, context) => {
