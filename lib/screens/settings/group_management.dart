@@ -106,14 +106,18 @@ class _GroupScreenState extends State<GroupScreen> {
 
   Future<void> _submit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      final _groupID = AuthService().getClaim('group_id');
-      final HttpsCallableResult<dynamic> result = await CloudFunctionsService()
-          .setGroup(_newUser.value.text, _groupID as String);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(result.data.toString()),
-        ),
-      );
+      final String? _groupID =
+          await AuthService().getClaim('group_id') as String?;
+      if (_groupID != null) {
+        final HttpsCallableResult<dynamic> result =
+            await CloudFunctionsService()
+                .setGroup(_newUser.value.text, _groupID);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result.data.toString()),
+          ),
+        );
+      }
     }
   }
 
