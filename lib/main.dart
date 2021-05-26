@@ -4,6 +4,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -71,18 +72,23 @@ class MyApp extends StatelessWidget {
                 initialData: null,
               ),
             ],
-            child: MaterialApp(
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              // themeMode: ThemeMode.system,
-              theme: AppTheme.lightTheme,
-              darkTheme: AppTheme.darkTheme,
-              onGenerateTitle: (BuildContext context) =>
-                  AppLocalizations.of(context)!.appName,
+            child: Shortcuts(
+              shortcuts: <LogicalKeySet, Intent>{
+                LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+              },
+              child: MaterialApp(
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                // themeMode: ThemeMode.system,
+                theme: AppTheme.lightTheme,
+                darkTheme: AppTheme.darkTheme,
+                onGenerateTitle: (BuildContext context) =>
+                    AppLocalizations.of(context)!.appName,
 
-              home: const LoginController(),
-              //initialRoute: '/Login',
-              onGenerateRoute: RouteGenerator.generateRoute,
+                home: const LoginController(),
+                //initialRoute: '/Login',
+                onGenerateRoute: RouteGenerator.generateRoute,
+              ),
             ),
           );
         }
