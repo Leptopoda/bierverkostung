@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 - GDPR screen
 - delete old users
 - IOS support
+### Experimental
+- ANdroid TV support
 ## Changed:
 - Documentation for running locally
 
