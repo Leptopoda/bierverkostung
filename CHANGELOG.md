@@ -2,6 +2,21 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+## Added:
+- GDPR screen
+- delete old users
+
+
+## [0.10.3] - 2011-05-27
+## Added:
+- Drink safe banner
+- GDPR screen
+- delete old users
+- IOS support
+### Experimental
+- Android TV support
+## Changed:
+- Documentation for running locally
 
 ## [0.10.2] - 2011-05-20
 ## Added:

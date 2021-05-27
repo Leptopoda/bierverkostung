@@ -1,0 +1,34 @@
+{
+    "exportDataUploadBucket": "wipeout-takeout.appspot.com",
+    "database": {
+        "clearData": [
+            "/users/UID_VARIABLE",
+            "/admins/UID_VARIABLE"
+        ],
+        "exportData": [
+            "/users/UID_VARIABLE",
+            "/admins/UID_VARIABLE"
+        ]
+    },
+    "firestore": {
+        "clearData": [
+            { "collection": "users", "doc": "UID_VARIABLE", "field": "name" },
+            { "collection": "users", "doc": "UID_VARIABLE" },
+            { "collection": "admins", "doc": "UID_VARIABLE" }
+        ],
+        "exportData": [
+            { "collection": "users", "doc": "UID_VARIABLE", "field": "name" },
+            { "collection": "users", "doc": "UID_VARIABLE" },
+            { "collection": "admins", "doc": "UID_VARIABLE" }
+        ]
+    },
+    "storage": {
+        "clearData": [
+            ["wipeout-takeout.appspot.com", "UID_VARIABLE/sample_data.json"],
+            ["wipeout-takeout.appspot.com", "UID_VARIABLE"]
+        ],
+        "exportData": [
+            ["wipeout-takeout.appspot.com", "UID_VARIABLE/sample_data.json"]
+        ]
+    }
+}

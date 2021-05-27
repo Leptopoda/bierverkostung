@@ -2,14 +2,14 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import * as functions from "firebase-functions";
+import {region} from "firebase-functions";
 import {auth, messaging} from "firebase-admin";
 import {setGroupClaims} from "./setGroupClaims";
 import {notifyUser} from "./notification";
 import {dataCenter} from "./comon";
 
 
-export const addGroup = functions.region(dataCenter)
+export const addGroup = region(dataCenter)
     .https.onCall(async (data, context) => {
       // check request is made by a group member or new user
       if (context?.auth?.token["group_ID"] !== data.guid &&

@@ -26,13 +26,9 @@ class _BierverkostungState extends State<Bierverkostung> {
   String? _groupID;
 
   @override
-  void initState() {
-    super.initState();
-    getUser();
-  }
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
 
-  // ignore: avoid_void_async
-  void getUser() async {
     _groupID = await AuthService().getClaim('group_id') as String?;
     setState(() {});
   }

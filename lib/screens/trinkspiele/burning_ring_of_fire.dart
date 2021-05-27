@@ -120,15 +120,15 @@ class BurningRingOfFire extends StatelessWidget {
 
     if (number < 10) {
       return SvgPicture.asset(
-        'assets/playingCards/${_cards[number]} of $type.svg',
+        'assets/playingCards/card ${_cards[number]} of $type.svg',
       );
     } else if (number < 13) {
       return SvgPicture.asset(
-        'assets/playingCards/${_cards[number]} of ${type}2.svg',
+        'assets/playingCards/card ${_cards[number]} of ${type}2.svg',
       );
     } else {
       return SvgPicture.asset(
-        'assets/playingCards/${_cards[number]}.svg',
+        'assets/playingCards/card ${_cards[number]}.svg',
       );
     }
   }

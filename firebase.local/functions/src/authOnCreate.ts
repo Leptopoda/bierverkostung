@@ -2,12 +2,12 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import * as functions from "firebase-functions";
+import {region} from "firebase-functions";
 import {auth} from "firebase-admin";
 import {setGroupClaims} from "./setGroupClaims";
 import {dataCenter} from "./comon";
 
-export const authOnCreate = functions.region(dataCenter).
+export const authOnCreate = region(dataCenter).
     auth.user().onCreate(async (context) => {
       try {
         await auth().setCustomUserClaims(context.uid, {

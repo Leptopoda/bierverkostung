@@ -7,6 +7,7 @@ import 'package:navigation_rail/navigation_rail.dart';
 
 import 'package:bierverkostung/services/local_storage.dart';
 import 'package:bierverkostung/services/notifications.dart';
+import 'package:bierverkostung/shared/drink_safe.dart';
 
 import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
@@ -32,8 +33,8 @@ class _MyHomeState extends State<MyHome> {
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-    final bool? isFirstLogin = await LocalDatabaseService().isFirstLogin();
-    if (isFirstLogin != true) {
+    final bool? isFirstLogin = await LocalDatabaseService().getFirstLogin();
+    if (isFirstLogin == false) {
       NotificationService().askPermission();
       LocalDatabaseService().setFirstLogin();
     }
@@ -80,8 +81,12 @@ class _MyHomeState extends State<MyHome> {
       },
       title: Text(_pageTitles[_currentIndex]),
       currentIndex: _currentIndex,
-      onTap: (val) {
+      onTap: (val) async {
         if (mounted) setState(() => _currentIndex = val);
+
+        if (_currentIndex == 0) {
+          await drinkResponsible(context);
+        }
       },
       body: IndexedStack(
         index: _currentIndex,
