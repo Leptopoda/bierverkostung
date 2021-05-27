@@ -74,7 +74,8 @@ class MyApp extends StatelessWidget {
             ],
             child: Shortcuts(
               shortcuts: <LogicalKeySet, Intent>{
-                LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+                LogicalKeySet(LogicalKeyboardKey.select):
+                    const ActivateIntent(),
               },
               child: MaterialApp(
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
