@@ -3,10 +3,11 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:bierverkostung/gen/assets.gen.dart';
 
 class AboutUsSettings extends StatefulWidget {
   const AboutUsSettings({Key? key}) : super(key: key);
@@ -34,9 +35,7 @@ class _AboutUsSettingsState extends State<AboutUsSettings> {
           color: Colors.grey,
           shape: BoxShape.circle,
         ),
-        child: SvgPicture.asset(
-          'assets/icon/icon.svg',
-        ),
+        child: Assets.icon.icon.svg(),
       ),
       applicationName: packageInfo.appName,
       applicationVersion: packageInfo.version,

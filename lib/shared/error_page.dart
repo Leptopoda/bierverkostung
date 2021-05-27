@@ -5,6 +5,7 @@
 import 'dart:convert' show jsonEncode;
 import 'dart:developer' as developer show log;
 import 'package:flutter/material.dart';
+import 'package:bierverkostung/gen/assets.gen.dart';
 
 class SomethingWentWrong extends StatelessWidget {
   final String error;
@@ -29,7 +30,7 @@ class SomethingWentWrong extends StatelessWidget {
               ),
               const SizedBox(height: 18),
               Expanded(
-                child: Image.asset('assets/error.png'),
+                child: Assets.error.image(),
               ),
               const SizedBox(height: 35),
               Text(
