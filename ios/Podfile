@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, '14.1'
+platform :ios, '11.0'
     
 # Override Firebase SDK Version
 $FirebaseSDKVersion = '8.0.0'
