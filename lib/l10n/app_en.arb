@@ -1,0 +1,57 @@
+{
+  "@@locale": "en",
+
+  "login": "Login",
+  "login_signIn": "Sign in",
+  "login_eMail": "E-Mail",
+  "login_eMail_invalid": "Invalid Email",
+  "login_password": "Password",
+  "login_password_forgot": "Forgot Password",
+  "login_password_empty": "empty field",
+  "login_password_upperCase": "should contain at least one upper case",
+  "login_password_lowerCase": "should contain at least one lower case",
+  "login_password_digit": "should contain at least one digit",
+  "login_password_length": "Must be at least 8 characters in length",
+  "login_newAccount": "Don't have an account?",
+  "login_register": "Register",
+  "login_anonymously": "Login Anonymously",
+  "login_anonymous": "Anonymous",
+  "login_error": "error signing in",
+
+  "noItemSelected": "No Item Selected",
+  "noItemsFound": "No Items Found",
+  "details": "Details",
+
+  "loading": "Loading",
+
+  "somethingWentWrong": "something went wrong",
+  "errorMessage": "The unicorns are on thier way to fix the problem. To help them please report the following error:",
+
+  "drinkSafe": "Drink Safe!",
+  "drinkSafe_banner": "This can be a lot of fun. Any children’s game can essentially be made into something that involves drinking. While these games are fun, we must remember to drink responsibly and even hand over the keys, order a Lyft/Uber to get home, or have someone who is the designated driver available to you. That being said, not everyone drinks, so you shouldn’t force it upon him or her. If they want to partake in the game as well (because it will be fun, drinking or not), you’ll want to offer them something else to drink, water, soda, nonalcoholic versions of what everyone else is drinking, etc. It doesn’t have to be limited to just those who are “partying” someone has to be responsible or maybe they are Sober, and that’s okay too. No one has to be left out. Have fun and if you are looking for a few more ideas, just get creative and make some up that are more relevant to your group of people and let us know about your ideas.",
+  "drinkResponsible_banner": "This can be a lot of fun. Any children’s game can essentially be made into something that involves drinking. While these games are fun, we must remember to drink responsibly and even hand over the keys, order a Lyft/Uber to get home, or have someone who is the designated driver available to you. That being said, not everyone drinks, so you shouldn’t force it upon him or her. If they want to partake in the game as well (because it will be fun, drinking or not), you’ll want to offer them something else to drink, water, soda, nonalcoholic versions of what everyone else is drinking, etc. It doesn’t have to be limited to just those who are “partying” someone has to be responsible or maybe they are Sober, and that’s okay too. No one has to be left out. Have fun and if you are looking for a few more ideas, just get creative and make some up that are more relevant to your group of people and let us know about your ideas.",
+
+  "alert_donotShowAgain": "Don't show again",
+  "alert_continue": "Continue",
+
+  "drinkingGames": "Drinking Games",
+  "drinkingGames_toasts_random": "Random",
+  "drinkingGames_toasts_random_desc": "Random number?",
+  "drinkingGames_toasts_specific": "Specific number?",
+  "drinkingGames_toasts_back": "Back",
+  "drinkingGames_toasts_next": "Next",
+  "drinkingGames_toasts_old": "Old toasts",
+  "drinkingGames_toasts_new": "New toasts",
+  "drinkingGames_burningRingOfFire": "Burning ring of fire",
+
+
+
+  "beertasting": "Beertasting",
+  "stats": "Stats",
+  "alcoholCalculator": "Alcohol Calculator",
+  "conference": "Conference",
+  "settings": "Settings"
+
+
+
+}
