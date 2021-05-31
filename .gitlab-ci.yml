@@ -4,8 +4,26 @@
 # See https://docs.gitlab.com/ee/ci/variables/#priority-of-environment-variables
 stages:
   - test
+
 sast:
   stage: test
 include:
   - template: Security/SAST.gitlab-ci.yml
   - template: Security/Secret-Detection.gitlab-ci.yml
+
+flutter_sast:
+  image: cirrusci/flutter:stable
+  stage: test
+  before_script:
+    - flutter pub get
+  script:
+    - flutter build aot
+    - flutter analyze
+    - flutter test --coverage
+    - lcov --list coverage/lcov.info
+    - genhtml coverage/lcov.info --output=coverage
+  artifacts:
+    paths:
+      - coverage
+  #only:
+  #  - merge_requests
