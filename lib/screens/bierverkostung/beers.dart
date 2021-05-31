@@ -39,7 +39,7 @@ class _BeerListState extends State<BeerList> {
       builder: (BuildContext context, AsyncSnapshot<List<Beer>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
-            error: '${snapshot.error}',
+            error: snapshot.error.toString(),
           );
         }
 
