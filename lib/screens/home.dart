@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:navigation_rail/navigation_rail.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/local_storage.dart';
 import 'package:bierverkostung/services/notifications.dart';
@@ -23,12 +24,6 @@ class MyHome extends StatefulWidget {
 class _MyHomeState extends State<MyHome> {
   int _currentIndex = 1;
 
-  static const List<String> _pageTitles = [
-    "Trinkspiele",
-    "Bierverkostung",
-    "Statistik",
-  ];
-
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
@@ -43,6 +38,12 @@ class _MyHomeState extends State<MyHome> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> _pageTitles = [
+      AppLocalizations.of(context)!.drinkingGames,
+      AppLocalizations.of(context)!.beertasting,
+      AppLocalizations.of(context)!.stats,
+    ];
+
     return NavRail(
       /* drawerHeaderBuilder: (context) {
         return Column(
@@ -59,17 +60,17 @@ class _MyHomeState extends State<MyHome> {
           children: <Widget>[
             ListTile(
               leading: const Icon(Icons.no_drinks_outlined),
-              title: const Text("Promille Rechner"),
+              title: Text(AppLocalizations.of(context)!.alcoholCalculator),
               onTap: () => Navigator.pushNamed(context, '/PromilleRechner'),
             ),
             ListTile(
               leading: const Icon(Icons.call_outlined),
-              title: const Text("Conference"),
+              title: Text(AppLocalizations.of(context)!.conference),
               onTap: () => Navigator.pushNamed(context, '/Conference'),
             ),
             ListTile(
               leading: const Icon(Icons.settings_outlined),
-              title: const Text("Settings"),
+              title: Text(AppLocalizations.of(context)!.settings),
               onTap: () => Navigator.pushNamed(context, '/Settings'),
             ),
             /* ListTile(

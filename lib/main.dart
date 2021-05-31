@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
                 theme: AppTheme.lightTheme,
                 darkTheme: AppTheme.darkTheme,
                 onGenerateTitle: (BuildContext context) =>
-                    AppLocalizations.of(context)!.appName,
+                    AppLocalizations.of(context)!.beertasting,
 
                 home: const LoginController(),
                 //initialRoute: '/Login',

@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
@@ -21,12 +22,6 @@ class Trinkspiele extends StatefulWidget {
 class _TrinkspieleState extends State<Trinkspiele> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static const List<String> _spiele = [
-    'Alte Trinksprüche',
-    'Neue Trinksprüche',
-    'Burning ring of fire',
-  ];
-
   static const List<Widget> _spielePages = [
     TrinkspruecheAlt(),
     TrinkspruecheNeu(),
@@ -35,6 +30,11 @@ class _TrinkspieleState extends State<Trinkspiele> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> _spiele = [
+      AppLocalizations.of(context)!.drinkingGames_toasts_old,
+      AppLocalizations.of(context)!.drinkingGames_toasts_new,
+      AppLocalizations.of(context)!.drinkingGames_burningRingOfFire,
+    ];
     return ResponsiveListScaffold.builder(
       scaffoldKey: _scaffoldKey,
       detailBuilder: (BuildContext context, int? index, bool tablet) {
@@ -82,7 +82,7 @@ class TrinkspieleDetail extends StatelessWidget {
       appBar: !tablet
           ? AppBar(
               automaticallyImplyLeading: !tablet,
-              title: const Text('Details'),
+              title: Text(AppLocalizations.of(context)!.details),
             )
           : null,
       body: (row != null) ? items[row!] : null,

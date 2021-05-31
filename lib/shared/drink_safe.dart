@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:bierverkostung/services/local_storage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> drinkResponsible(BuildContext context) async {
   final bool? drinkResponsibleShown =
@@ -14,14 +15,9 @@ Future<void> drinkResponsible(BuildContext context) async {
   return showDialog(
     context: context,
     builder: (BuildContext _) => AlertDialog(
-      title: const Text('Drink Safe!'),
-      content: const SingleChildScrollView(
-        child: Text(
-          'This can be a lot of fun. Any children’s game can essentially be made into something that involves drinking. While these games are fun, we must remember to drink responsibly and even hand over the keys, order a Lyft/Uber to get home, or have someone who is the designated driver available to you. '
-          'That being said, not everyone drinks, so you shouldn’t force it upon him or her. If they want to partake in the game as well (because it will be fun, drinking or not), you’ll want to offer them something else to drink, water, soda, nonalcoholic versions of what everyone else is drinking, etc. '
-          'It doesn’t have to be limited to just those who are “partying” someone has to be responsible or maybe they are Sober, and that’s okay too. No one has to be left out. '
-          'Have fun and if you are looking for a few more ideas, just get creative and make some up that are more relevant to your group of people and let us know about your ideas.',
-        ),
+      title: Text(AppLocalizations.of(context)!.drinkSafe),
+      content: SingleChildScrollView(
+        child: Text(AppLocalizations.of(context)!.drinkResponsible_banner),
       ),
       actions: <Widget>[
         TextButton(
@@ -29,11 +25,11 @@ Future<void> drinkResponsible(BuildContext context) async {
             LocalDatabaseService().setDrinkResponsible();
             Navigator.of(context).pop();
           },
-          child: const Text("Don't show again"),
+          child: Text(AppLocalizations.of(context)!.alert_donotShowAgain),
         ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Continue'),
+          child: Text(AppLocalizations.of(context)!.alert_continue),
         ),
       ],
     ),
@@ -49,15 +45,10 @@ Future<void> drinkSafe(BuildContext context) async {
   return showDialog(
     context: context,
     builder: (BuildContext _) => AlertDialog(
-      title: const Text('Drink Safe!'),
+      title: Text(AppLocalizations.of(context)!.drinkSafe),
       // TODO: change message
-      content: const SingleChildScrollView(
-        child: Text(
-          'This can be a lot of fun. Any children’s game can essentially be made into something that involves drinking. While these games are fun, we must remember to drink responsibly and even hand over the keys, order a Lyft/Uber to get home, or have someone who is the designated driver available to you. '
-          'That being said, not everyone drinks, so you shouldn’t force it upon him or her. If they want to partake in the game as well (because it will be fun, drinking or not), you’ll want to offer them something else to drink, water, soda, nonalcoholic versions of what everyone else is drinking, etc. '
-          'It doesn’t have to be limited to just those who are “partying” someone has to be responsible or maybe they are Sober, and that’s okay too. No one has to be left out. '
-          'Have fun and if you are looking for a few more ideas, just get creative and make some up that are more relevant to your group of people and let us know about your ideas.',
-        ),
+      content: SingleChildScrollView(
+        child: Text(AppLocalizations.of(context)!.drinkSafe_banner),
       ),
       actions: <Widget>[
         TextButton(
@@ -65,11 +56,11 @@ Future<void> drinkSafe(BuildContext context) async {
             LocalDatabaseService().setDrinkSafe();
             Navigator.of(context).pop();
           },
-          child: const Text("Don't show again"),
+          child: Text(AppLocalizations.of(context)!.alert_donotShowAgain),
         ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Continue'),
+          child: Text(AppLocalizations.of(context)!.alert_continue),
         ),
       ],
     ),

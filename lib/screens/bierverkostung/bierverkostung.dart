@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/database.dart';
@@ -51,8 +52,9 @@ class _BierverkostungState extends State<Bierverkostung> {
             );
           default:
             if (!snapshot.hasData) {
-              return const Center(
-                child: Text('noch keine Verkostungen vorhanden'),
+              return Center(
+                child:
+                    Text(AppLocalizations.of(context)!.beertasting_noTasting),
               );
             }
 

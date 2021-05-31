@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/import_data.dart';
 
@@ -21,11 +22,9 @@ class ImportDataSettings extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: <Widget>[
-        const Center(
+        Center(
           child: Text(
-            'This feature allows you to import data from the old Bierverkostung app. '
-            "Please note that we currently do'nt support scent. "
-            "We'll also interpret null values on sliders as a 0 as that is how we used the app",
+            AppLocalizations.of(context)!.settings_importData_desc,
             style: _text,
           ),
         ),
@@ -33,7 +32,7 @@ class ImportDataSettings extends StatelessWidget {
         ElevatedButton.icon(
           onPressed: () => _importData(context),
           icon: const Icon(Icons.import_export_outlined),
-          label: const Text('import data'),
+          label: Text(AppLocalizations.of(context)!.settings_importData),
         ),
       ],
     );

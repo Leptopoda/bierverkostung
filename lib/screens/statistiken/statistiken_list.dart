@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
@@ -36,8 +37,8 @@ class StatistikenList extends StatelessWidget {
             );
           default:
             if (!snapshot.hasData) {
-              return const Center(
-                child: Text('noch keine Verkostungen vorhanden'),
+              return Center(
+                child: Text(AppLocalizations.of(context)!.stats_noStats),
               );
             }
             return StatistikenBeerChart(data: snapshot.data!);
