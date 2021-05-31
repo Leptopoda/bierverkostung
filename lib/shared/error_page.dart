@@ -6,6 +6,7 @@ import 'dart:convert' show jsonEncode;
 import 'dart:developer' as developer show log;
 import 'package:flutter/material.dart';
 import 'package:bierverkostung/gen/assets.gen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SomethingWentWrong extends StatelessWidget {
   final String error;
@@ -24,9 +25,9 @@ class SomethingWentWrong extends StatelessWidget {
         child: Center(
           child: Column(
             children: <Widget>[
-              const Text(
-                'Something went wrong',
-                style: TextStyle(fontSize: 22.0),
+              Text(
+                AppLocalizations.of(context)!.somethingWentWrong,
+                style: const TextStyle(fontSize: 22.0),
               ),
               const SizedBox(height: 18),
               Expanded(
@@ -34,7 +35,7 @@ class SomethingWentWrong extends StatelessWidget {
               ),
               const SizedBox(height: 35),
               Text(
-                'Die Einhörner versuchen dieses Problem schnellstens zu beheben. Um ihnen zu helfen gebe folgenden error weiter: $error',
+                '${AppLocalizations.of(context)!.errorMessage} $error',
                 style: const TextStyle(fontSize: 18.0),
               ),
             ],

@@ -4,6 +4,7 @@
 
 import 'dart:math' show Random;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Trinksprueche extends StatefulWidget {
   final List<String> sprueche;
@@ -53,11 +54,13 @@ class _TrinkspruecheState extends State<Trinksprueche> {
       children: <Widget>[
         ElevatedButton(
           onPressed: () => _randomIndex(),
-          child: const Text('Random'),
+          child:
+              Text(AppLocalizations.of(context)!.drinkingGames_toasts_random),
         ),
         const SizedBox(height: 16),
-        const Center(
-          child: Text('Zufällige Zahl?'),
+        Center(
+          child: Text(
+              AppLocalizations.of(context)!.drinkingGames_toasts_random_desc),
         ),
         const SizedBox(height: 16),
         Slider(
@@ -69,8 +72,9 @@ class _TrinkspruecheState extends State<Trinksprueche> {
           label: "$_index",
         ),
         const SizedBox(height: 16),
-        const Center(
-          child: Text('Bestimmte Zahl?'),
+        Center(
+          child:
+              Text(AppLocalizations.of(context)!.drinkingGames_toasts_specific),
         ),
         const SizedBox(height: 16),
         Row(
@@ -78,12 +82,14 @@ class _TrinkspruecheState extends State<Trinksprueche> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () => _lastIndex(),
-              child: const Text('Zurück'),
+              child:
+                  Text(AppLocalizations.of(context)!.drinkingGames_toasts_back),
             ),
             const SizedBox(width: 16),
             ElevatedButton(
               onPressed: () => _nextIndex(),
-              child: const Text('Weiter'),
+              child:
+                  Text(AppLocalizations.of(context)!.drinkingGames_toasts_next),
             ),
           ],
         ),

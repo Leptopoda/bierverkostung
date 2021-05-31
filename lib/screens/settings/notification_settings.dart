@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/notifications.dart';
 
@@ -14,7 +15,7 @@ class NotificationSettings extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () => NotificationService().askPermission(),
-        child: const Text('Enable Notifications'),
+        child: Text(AppLocalizations.of(context)!.settings_notification_enable),
       ),
     );
   }

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/auth.dart';
 
@@ -26,27 +27,28 @@ class LogOutAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Log out'),
-      content: const Text(
-        'Auf wieder Sehen! ',
+      title: Text(AppLocalizations.of(context)!.settings_logOut),
+      content: Text(
+        AppLocalizations.of(context)!.settings_logOut_goodbye,
       ),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Abbruch'),
+          child: Text(AppLocalizations.of(context)!.alert_escape),
         ),
         TextButton(
           onPressed: () async {
             await AuthService().signOut();
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('loged out'),
+              SnackBar(
+                content: Text(
+                    AppLocalizations.of(context)!.settings_logOut_logedOut),
               ),
             );
             Navigator.of(context).pop();
             Navigator.of(context).pop();
           },
-          child: const Text('Abmelden'),
+          child: Text(AppLocalizations.of(context)!.settings_logOut),
         ),
       ],
     );
@@ -59,29 +61,26 @@ class LogOutAnonAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Achtung!!'),
-      content: const Text(
-        'Durch fortfahren wird der aktuelle benutzer abgemeldet. '
-        'Da dein account Anonym ist wird der Zugriff auf alle Daten verloren gehen. '
-        'Zuvor solltest du deiene Daten in den Einstellungen exportieren.',
-      ),
+      title: Text(AppLocalizations.of(context)!.settings_logOut_caution),
+      content: Text(AppLocalizations.of(context)!.settings_logOut_cautionAlert),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Abbruch'),
+          child: Text(AppLocalizations.of(context)!.alert_escape),
         ),
         TextButton(
           onPressed: () async {
             await AuthService().signOut();
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('loged out'),
+              SnackBar(
+                content: Text(
+                    AppLocalizations.of(context)!.settings_logOut_logedOut),
               ),
             );
             Navigator.of(context).pop();
             Navigator.of(context).pop();
           },
-          child: const Text('Weiter'),
+          child: Text(AppLocalizations.of(context)!.alert_continue),
         ),
       ],
     );

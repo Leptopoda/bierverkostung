@@ -3,11 +3,12 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResponsiveScaffoldNoItemSelected extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text("No Item Selected"));
+    return Center(child: Text(AppLocalizations.of(context)!.noItemSelected));
   }
 }
 
@@ -21,6 +22,6 @@ class ResponsiveScaffoldNullItems extends StatelessWidget {
 class ResponsiveScaffoldEmptyItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('No Items Found'));
+    return Center(child: Text(AppLocalizations.of(context)!.noItemsFound));
   }
 }

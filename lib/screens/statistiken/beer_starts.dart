@@ -5,8 +5,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:intl/intl.dart';
 import 'package:random_color/random_color.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'graph_legend_item.dart';
 import 'pie_chart_notifier.dart';
 
@@ -42,11 +45,11 @@ class _StatistikenBeerChartState extends State<StatistikenBeerChart> {
             child: ListView(
               shrinkWrap: true,
               children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 16.0),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
                   child: Text(
-                    'Biere',
-                    style: TextStyle(fontSize: 18),
+                    AppLocalizations.of(context)!.beerOther,
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ),
                 ...legendItems(),
@@ -84,12 +87,11 @@ class _StatistikenBeerChartState extends State<StatistikenBeerChart> {
             }),
           ),
           sections: List.generate(widget.data.length, (i) {
-            final double value =
-                ((widget.data[i]['beerCount'] as int) / count) * 100;
+            final double value = (widget.data[i]['beerCount'] as int) / count;
             return PieChartSectionData(
               color: colors[i],
               value: value,
-              title: '${value.toStringAsFixed(1)}%',
+              title: NumberFormat('#0.0#%').format(value),
               radius: 60 + (notifier.selected == i ? 5.0 : 0.0),
               showTitle: value >= kShowTitleThresholdPercentage,
               titleStyle: TextStyle(
@@ -105,13 +107,13 @@ class _StatistikenBeerChartState extends State<StatistikenBeerChart> {
 
   List<Widget> legendItems() {
     return List.generate(widget.data.length, (i) {
-      final double value = ((widget.data[i]['beerCount'] as int) / count) * 100;
+      final double value = (widget.data[i]['beerCount'] as int) / count;
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),
         child: GraphLegendItem(
           index: i,
           title: widget.data[i]['beerName'] as String,
-          subtitle: '${value.toStringAsFixed(2)}%',
+          subtitle: NumberFormat('#0.00%').format(value),
           color: colors[i],
         ),
       );

@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/shared/firebase_setup.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,13 +10,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart' show FirebaseFunctions;
 
 import 'package:bierverkostung/shared/theme.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
-import 'package:bierverkostung/shared/enviornment_config.dart';
 import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/route_generator.dart';
 
@@ -45,25 +43,7 @@ class MyApp extends StatelessWidget {
         }
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          if (EnvironmentConfig.localFirebase ||
-              EnvironmentConfig.localFirebaseIP != 'localhost') {
-            const String _host = EnvironmentConfig.localFirebaseIP;
-
-            if (!kIsWeb) {
-              FirebaseAuth.instance.useEmulator('http://$_host:9099');
-            }
-            FirebaseFunctions.instance
-                .useFunctionsEmulator(origin: 'http://$_host:5001');
-
-            FirebaseFirestore.instance.settings = const Settings(
-              host: '$_host:8080',
-              sslEnabled: false,
-              persistenceEnabled: false,
-            );
-          } else {
-            FirebaseFirestore.instance.settings =
-                const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
-          }
+          setupFirebase();
 
           return MultiProvider(
             providers: <StreamProvider>[
@@ -84,7 +64,7 @@ class MyApp extends StatelessWidget {
                 theme: AppTheme.lightTheme,
                 darkTheme: AppTheme.darkTheme,
                 onGenerateTitle: (BuildContext context) =>
-                    AppLocalizations.of(context)!.appName,
+                    AppLocalizations.of(context)!.beertasting,
 
                 home: const LoginController(),
                 //initialRoute: '/Login',

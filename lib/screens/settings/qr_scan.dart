@@ -8,6 +8,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/cloud_functions.dart';
@@ -44,7 +45,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Scan a code'),
+        title: Text(AppLocalizations.of(context)!.settings_qrScan_scan),
       ),
       body: OrientationBuilder(
         builder: (context, orientation) {
@@ -162,18 +163,18 @@ class _QRViewExampleState extends State<QRViewExample> {
     return showDialog(
       context: context,
       builder: (BuildContext _) => AlertDialog(
-        title: const Text('Zur Gruppe hinzufügen'),
-        content: Text(
-          'Soll der gescante Nutzer $userID der Gruppe hinzugefügt werden?',
-        ),
+        title: Text(
+            AppLocalizations.of(context)!.settings_groupManagement_addToGroup),
+        content:
+            Text(AppLocalizations.of(context)!.settings_qrScan_alert(userID)),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Abbruch'),
+            child: Text(AppLocalizations.of(context)!.alert_escape),
           ),
           TextButton(
             onPressed: () => _addGroup(userID),
-            child: const Text('Weiter'),
+            child: Text(AppLocalizations.of(context)!.alert_continue),
           ),
         ],
       ),

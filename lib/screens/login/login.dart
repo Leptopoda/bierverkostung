@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:bierverkostung/services/auth.dart';
@@ -34,7 +35,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: Text(AppLocalizations.of(context)!.login),
       ),
       body: Form(
         key: _formKey,
@@ -44,9 +45,9 @@ class _LoginState extends State<Login> {
             children: <Widget>[
               Container(
                 alignment: Alignment.center,
-                child: const Text(
-                  'Bierverkosung',
-                  style: TextStyle(
+                child: Text(
+                  AppLocalizations.of(context)!.beertasting,
+                  style: const TextStyle(
                     color: Colors.yellow,
                     fontWeight: FontWeight.w500,
                     fontSize: 30,
@@ -54,9 +55,9 @@ class _LoginState extends State<Login> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Center(
+              Center(
                 child: Text(
-                  'Sign in',
+                  AppLocalizations.of(context)!.login_signIn,
                   style: _text,
                 ),
               ),
@@ -66,13 +67,13 @@ class _LoginState extends State<Login> {
                 controller: _mailController,
                 autofillHints: const [AutofillHints.username],
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'E-Mail',
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.login_eMail,
                 ),
                 validator: (email) =>
                     (email != null && !EmailValidator.validate(email))
-                        ? 'Keine gültige Email'
+                        ? AppLocalizations.of(context)!.login_eMail_invalid
                         : null,
               ),
               const SizedBox(height: 10),
@@ -81,28 +82,29 @@ class _LoginState extends State<Login> {
                 obscureText: true,
                 controller: _passwordController,
                 autofillHints: const [AutofillHints.password],
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.login_password,
                 ),
                 validator: (String? pwd) => _validatePassword(pwd),
               ),
               TextButton(
                 onPressed: () => _forgotPassword(),
-                child: const Text('Forgot Password'),
+                child:
+                    Text(AppLocalizations.of(context)!.login_password_forgot),
               ),
               ElevatedButton(
                 onPressed: () => _signInWithEmailAndPassword(),
-                child: const Text('Login'),
+                child: Text(AppLocalizations.of(context)!.login),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text("Don't have an account?"),
+                  Text(AppLocalizations.of(context)!.login_newAccount),
                   TextButton(
                     onPressed: () => _registerWithEmailAndPassword(),
-                    child: const Text(
-                      'Register',
+                    child: Text(
+                      AppLocalizations.of(context)!.login_register,
                       style: _text,
                     ),
                   ),
@@ -111,11 +113,11 @@ class _LoginState extends State<Login> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text('Login Anonymously'),
+                  Text(AppLocalizations.of(context)!.login_anonymously),
                   TextButton(
                     onPressed: () => _registerAnon(),
-                    child: const Text(
-                      'Anonymous',
+                    child: Text(
+                      AppLocalizations.of(context)!.login_anonymous,
                       style: _text,
                     ),
                   ),
@@ -132,7 +134,8 @@ class _LoginState extends State<Login> {
     final bool _result = await AuthService().registerAnon();
     if (_result) {
     } else {
-      Navigator.pushNamed(context, '/error', arguments: 'error signing in');
+      Navigator.pushNamed(context, '/error',
+          arguments: AppLocalizations.of(context)!.login_error);
     }
   }
 
@@ -144,7 +147,8 @@ class _LoginState extends State<Login> {
       );
       if (_result) {
       } else {
-        Navigator.pushNamed(context, '/error', arguments: 'error signing in');
+        Navigator.pushNamed(context, '/error',
+            arguments: AppLocalizations.of(context)!.login_error);
       }
     }
   }
@@ -160,7 +164,8 @@ class _LoginState extends State<Login> {
       );
       if (_result) {
       } else {
-        Navigator.pushNamed(context, '/error', arguments: 'error signing in');
+        Navigator.pushNamed(context, '/error',
+            arguments: AppLocalizations.of(context)!.login_error);
       }
     }
   }
@@ -169,19 +174,19 @@ class _LoginState extends State<Login> {
 
   String? _validatePassword(String? pwd) {
     if (pwd == null) {
-      return 'empty field';
+      return AppLocalizations.of(context)!.login_password_empty;
     }
 
     if (!RegExp('(?=.*[A-Z])').hasMatch(pwd)) {
-      return 'should contain at least one upper case';
+      return AppLocalizations.of(context)!.login_password_upperCase;
     }
 
     if (!RegExp('(?=.*[a-z])').hasMatch(pwd)) {
-      return 'should contain at least one lower case';
+      return AppLocalizations.of(context)!.login_password_lowerCase;
     }
 
     if (!RegExp('(?=.*?[0-9])').hasMatch(pwd)) {
-      return 'should contain at least one digit';
+      return AppLocalizations.of(context)!.login_password_digit;
     }
 
     /* if (!RegExp(r'(?=.*?[!@#\$&*~])').hasMatch(pwd)) {
@@ -189,7 +194,7 @@ class _LoginState extends State<Login> {
     } */
 
     if (!RegExp(r'.{8,}$').hasMatch(pwd)) {
-      return 'Must be at least 8 characters in length';
+      return AppLocalizations.of(context)!.login_password_length;
     }
 
     return null;

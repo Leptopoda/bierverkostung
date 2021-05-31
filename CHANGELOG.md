@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## Added:
 - GDPR screen
 - delete old users
+- internationalization
 
 
 ## [0.10.3] - 2011-05-27

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/database.dart';
 import 'package:bierverkostung/models/stats.dart';
@@ -43,18 +44,18 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Noch ein Bier"),
+      title: Text(AppLocalizations.of(context)!.stats_anotherBeer),
       content: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             RadioListTile<_bier>(
-              title: const Text('Klein (0.3)'),
+              title: Text(AppLocalizations.of(context)!.stats_smallBeer),
               value: _bier.klein,
               groupValue: _character,
               onChanged: (_bier? value) => setState(() => _character = value),
             ),
             RadioListTile<_bier>(
-              title: const Text('Groß (0.5)'),
+              title: Text(AppLocalizations.of(context)!.stats_bigBeer),
               value: _bier.gross,
               groupValue: _character,
               onChanged: (_bier? value) => setState(() => _character = value),
@@ -75,12 +76,12 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
               readOnly: true,
               controller: _beer,
               onTap: () => _selectBeer(context),
-              decoration: const InputDecoration(
-                labelText: 'Bier',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.beerOne,
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Pflichtfeld';
+                  return AppLocalizations.of(context)!.form_required;
                 }
                 return null;
               },
@@ -91,11 +92,11 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(AppLocalizations.of(context)!.alert_escape),
         ),
         TextButton(
           onPressed: () => _onSubmit(),
-          child: const Text('Submit'),
+          child: Text(AppLocalizations.of(context)!.form_submit),
         ),
       ],
     );

@@ -1,3 +1,8 @@
+<a href="http://weblate.rimikis.de/engage/bierverkostung/">
+<img src="http://weblate.rimikis.de/widgets/bierverkostung/-/svg-badge.svg" alt="Translation Progress" />
+</a>
+
+
 # Bierverkostung
 This project aims to improve an abandoned [project](https://bitbucket.org/jufickel/bierverkostung).
 
@@ -10,13 +15,16 @@ It will consist of three parts
 Currently Supported platforms:
 - Android
 - iOS/iPadOS
-- MacOS
 - Web
-Regarding other Desktop support like Linux and Windows firebase currently does not support those platforms. 
-We'll need to wait for this to tackle propper desktop support.
+
+Regarding Desktop support like Linux or Windows firebase currently does not support those platforms. 
+We'll need to wait for this to tackle propper desktop support. MacOS is theoratiacally supported but we'll finalize the implementation with the other desktop support.
 
 ## Hosted
 This project is already hosted on https://saufen.rimikis.de. Check it out as more features will arrive.
+
+## Translation
+The app is translated on https://weblate.rimikis.de/projects/bierverkostung.
 
 ## Versioning
 For now we use a fairly uncommon versioning scheme. Until 1.0.0 we increment the minor version when work on a big new feature starts and increment accordingly until finished.
