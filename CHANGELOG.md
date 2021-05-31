@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - GDPR screen
 - delete old users
 - internationalization
+- Web QR scan
 
 
 ## [0.10.3] - 2011-05-27
