@@ -1,7 +1,6 @@
-<a href="http://weblate.rimikis.de/engage/bierverkostung/">
-<img src="http://weblate.rimikis.de/widgets/bierverkostung/-/svg-badge.svg" alt="Translation Progress" />
-</a>
-
+[![translation progress](http://weblate.rimikis.de/widgets/bierverkostung/-/svg-badge.svg)](http://weblate.rimikis.de/engage/bierverkostung/) 
+[![pipeline status](https://gitlab.rimikis.de/Leptopoda/bierverkostung/badges/master/pipeline.svg)](https://gitlab.rimikis.de/Leptopoda/bierverkostung/-/commits/master) 
+[![coverage report](https://gitlab.rimikis.de/Leptopoda/bierverkostung/badges/master/coverage.svg)](https://gitlab.rimikis.de/Leptopoda/bierverkostung/-/commits/master) 
 
 # Bierverkostung
 This project aims to improve an abandoned [project](https://bitbucket.org/jufickel/bierverkostung).
