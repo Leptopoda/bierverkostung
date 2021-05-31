@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/screens/bierverkostung/disp_beer.dart';
@@ -33,64 +34,65 @@ class DispTasting extends StatelessWidget {
     return Scaffold(
       appBar: !tablet
           ? AppBar(
-              title: const Text('Verkostung'),
+              title: Text(AppLocalizations.of(context)!.beertasting),
             )
           : null,
       body: ListView(
         padding: const EdgeInsets.all(30.0),
         children: <Widget>[
-          const Text(
-            'General',
+          Text(
+            AppLocalizations.of(context)!.beertasting_general,
             style: _heading,
           ),
           TextFormField(
             style: _text,
             readOnly: true,
             initialValue: DateFormat.yMMMMd().format(tasting.date),
-            decoration: const InputDecoration(
-              labelText: 'Date',
-              suffixIcon: Icon(Icons.calendar_today_outlined),
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.beertasting_date,
+              suffixIcon: const Icon(Icons.calendar_today_outlined),
             ),
           ),
           TextFormField(
             style: _text,
             readOnly: true,
             initialValue: tasting.location,
-            decoration: const InputDecoration(
-              labelText: 'Location',
-              suffixIcon: Icon(Icons.location_on_outlined),
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.beertasting_location,
+              suffixIcon: const Icon(Icons.location_on_outlined),
             ),
           ),
           TextFormField(
             style: _text,
             readOnly: true,
             initialValue: tasting.beer.beerName,
-            decoration: const InputDecoration(
-              labelText: 'Bier',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.beerOne,
             ),
           ),
-          const Text(
-            'Optical Appearance',
+          Text(
+            AppLocalizations.of(context)!.beertasting_opticalAppearence,
             style: _heading,
           ),
           TextFormField(
             style: _text,
             readOnly: true,
             initialValue: tasting.foamColour,
-            decoration: const InputDecoration(
-              labelText: 'Foam Colour',
-              suffixIcon: Icon(Icons.color_lens_outlined),
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.beertasting_foamColour,
+              suffixIcon: const Icon(Icons.color_lens_outlined),
             ),
           ),
           TextFormField(
             style: _text,
             readOnly: true,
             initialValue: tasting.foamStructure,
-            decoration: const InputDecoration(
-              labelText: 'Foam Structure',
+            decoration: InputDecoration(
+              labelText:
+                  AppLocalizations.of(context)!.beertasting_foamStructure,
             ),
           ),
-          const Text('Foam Stability'),
+          Text(AppLocalizations.of(context)!.beertasting_foamStability),
           SliderIndicator(
             value: tasting.foamStability,
             min: 0,
@@ -101,7 +103,7 @@ class DispTasting extends StatelessWidget {
             readOnly: true,
             initialValue: '${tasting.colourEbc}',
             decoration: InputDecoration(
-              labelText: 'EBC',
+              labelText: AppLocalizations.of(context)!.beertasting_ebc,
               suffixIcon: Icon(
                 Icons.circle,
                 color: Colors.yellow[800],
@@ -112,57 +114,58 @@ class DispTasting extends StatelessWidget {
             style: _text,
             readOnly: true,
             initialValue: tasting.beerColour,
-            decoration: const InputDecoration(
-              labelText: 'Beer Colour',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.beertasting_beerColour,
             ),
           ),
           TextFormField(
             style: _text,
             readOnly: true,
             initialValue: tasting.beerColourDesc,
-            decoration: const InputDecoration(
-              labelText: 'Color Description',
+            decoration: InputDecoration(
+              labelText:
+                  AppLocalizations.of(context)!.beertasting_colorDescription,
             ),
           ),
           TextFormField(
             style: _text,
             readOnly: true,
             initialValue: tasting.clarity,
-            decoration: const InputDecoration(
-              labelText: 'Clarity',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.beertasting_clarity,
             ),
           ),
-          const Text(
-            'Taste',
+          Text(
+            AppLocalizations.of(context)!.beertasting_taste,
             style: _heading,
           ),
           TextFormField(
             style: _text,
             readOnly: true,
             initialValue: tasting.mouthFeelDesc,
-            decoration: const InputDecoration(
-              labelText: 'Mundgefühl',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.beertasting_mmouthFeel,
             ),
           ),
-          const Text('Bitterness'),
+          Text(AppLocalizations.of(context)!.beertasting_bitterness),
           SliderIndicator(
             value: tasting.bitternessRating,
             min: 0,
             max: 3,
           ),
-          const Text('Sweetness'),
+          Text(AppLocalizations.of(context)!.beertasting_sweetness),
           SliderIndicator(
             value: tasting.sweetnessRating,
             min: 0,
             max: 3,
           ),
-          const Text('Acidity'),
+          Text(AppLocalizations.of(context)!.beertasting_acidity),
           SliderIndicator(
             value: tasting.acidityRating,
             min: 0,
             max: 3,
           ),
-          const Text('Body Fullness'),
+          Text(AppLocalizations.of(context)!.beertasting_bodyFullness),
           SliderIndicator(
             value: tasting.fullBodiedRating,
             min: 0,
@@ -172,19 +175,20 @@ class DispTasting extends StatelessWidget {
             style: _text,
             readOnly: true,
             initialValue: tasting.bodyDesc,
-            decoration: const InputDecoration(
-              labelText: 'Body Description',
+            decoration: InputDecoration(
+              labelText:
+                  AppLocalizations.of(context)!.beertasting_bodyDescription,
             ),
           ),
           TextFormField(
             style: _text,
             readOnly: true,
             initialValue: tasting.aftertasteDesc,
-            decoration: const InputDecoration(
-              labelText: 'Nachgeschmack',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.beertasting_aftertaste,
             ),
           ),
-          const Text('Nachgeschmack rating'),
+          Text(AppLocalizations.of(context)!.beertasting_aftertasteRating),
           SliderIndicator(
             value: tasting.aftertasteRating,
             min: 0,
@@ -194,35 +198,37 @@ class DispTasting extends StatelessWidget {
             style: _text,
             readOnly: true,
             initialValue: tasting.foodRecommendation,
-            decoration: const InputDecoration(
-              labelText: 'Food Recomendation',
+            decoration: InputDecoration(
+              labelText:
+                  AppLocalizations.of(context)!.beertasting_foodRecomendation,
             ),
           ),
-          const Text(
-            'Conclusion',
+          Text(
+            AppLocalizations.of(context)!.beertasting_conclusion,
             style: _heading,
           ),
           TextFormField(
             style: _text,
             readOnly: true,
             initialValue: tasting.totalImpressionDesc,
-            decoration: const InputDecoration(
-              labelText: 'Total Impression',
+            decoration: InputDecoration(
+              labelText:
+                  AppLocalizations.of(context)!.beertasting_totalImpression,
             ),
           ),
-          const Text('Total Rating'),
+          Text(AppLocalizations.of(context)!.beertasting_totalRating),
           SliderIndicator(
             value: tasting.totalImpressionRating,
             min: 1,
             max: 3,
           ),
-          const Text(
-            'Beer',
+          Text(
+            AppLocalizations.of(context)!.beerOne,
             style: _heading,
           ),
           ...DispBeer(
             beer: tasting.beer,
-          ).dispBeer(),
+          ).dispBeer(context),
         ],
       ),
     );

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pattern_formatter/pattern_formatter.dart'
     show ThousandsFormatter;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/models/beers.dart';
 
@@ -20,30 +21,30 @@ class DispBeer {
     fontSize: 18,
   );
 
-  List<Widget> dispBeer() {
+  List<Widget> dispBeer(BuildContext context) {
     return <Widget>[
       TextFormField(
         style: _text,
         readOnly: true,
         initialValue: beer.beerName,
-        decoration: const InputDecoration(
-          labelText: 'Beer Name',
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context)!.beer_name,
         ),
       ),
       TextFormField(
         style: _text,
         readOnly: true,
         initialValue: beer.brewery?.breweryName,
-        decoration: const InputDecoration(
-          labelText: 'Brewery',
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context)!.beer_brewery,
         ),
       ),
       TextFormField(
         style: _text,
         readOnly: true,
         initialValue: beer.style,
-        decoration: const InputDecoration(
-          labelText: 'Beer Style',
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context)!.beer_style,
         ),
       ),
       TextFormField(
@@ -53,8 +54,8 @@ class DispBeer {
         inputFormatters: <TextInputFormatter>[
           ThousandsFormatter(allowFraction: true),
         ],
-        decoration: const InputDecoration(
-          labelText: 'Original Wort',
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context)!.beer_originalWort,
         ),
       ),
       TextFormField(
@@ -64,8 +65,8 @@ class DispBeer {
         inputFormatters: <TextInputFormatter>[
           ThousandsFormatter(allowFraction: true),
         ],
-        decoration: const InputDecoration(
-          labelText: 'Alcohol %',
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context)!.beer_alcohol,
         ),
       ),
       TextFormField(
@@ -75,32 +76,32 @@ class DispBeer {
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.digitsOnly,
         ],
-        decoration: const InputDecoration(
-          labelText: 'IBU',
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context)!.beer_ibu,
         ),
       ),
       TextFormField(
         style: _text,
         readOnly: true,
         initialValue: beer.ingredients,
-        decoration: const InputDecoration(
-          labelText: 'Ingredients',
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context)!.beer_ingredients,
         ),
       ),
       TextFormField(
         style: _text,
         readOnly: true,
         initialValue: beer.specifics,
-        decoration: const InputDecoration(
-          labelText: 'Specifics',
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context)!.beer_specifics,
         ),
       ),
       TextFormField(
         style: _text,
         readOnly: true,
         initialValue: beer.beerNotes,
-        decoration: const InputDecoration(
-          labelText: 'Beer Notes',
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context)!.beer_notes,
         ),
       ),
     ];

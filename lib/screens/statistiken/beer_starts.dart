@@ -7,6 +7,8 @@ import 'package:flutter/gestures.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:random_color/random_color.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'graph_legend_item.dart';
 import 'pie_chart_notifier.dart';
 
@@ -42,11 +44,11 @@ class _StatistikenBeerChartState extends State<StatistikenBeerChart> {
             child: ListView(
               shrinkWrap: true,
               children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 16.0),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
                   child: Text(
-                    'Biere',
-                    style: TextStyle(fontSize: 18),
+                    AppLocalizations.of(context)!.beerOther,
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ),
                 ...legendItems(),

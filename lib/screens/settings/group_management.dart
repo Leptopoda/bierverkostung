@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:qr_flutter/qr_flutter.dart' show QrImage;
 import 'package:firebase_auth/firebase_auth.dart' show User;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/cloud_functions.dart';
 import 'package:bierverkostung/services/auth.dart';
@@ -49,9 +50,10 @@ class _GroupScreenState extends State<GroupScreen> {
             style: _text,
             readOnly: true,
             controller: _uid,
-            decoration: const InputDecoration(
-              labelText: 'Your ID',
-              suffixIcon: Icon(Icons.group_outlined),
+            decoration: InputDecoration(
+              labelText:
+                  AppLocalizations.of(context)!.settings_groupManagement_yourID,
+              suffixIcon: const Icon(Icons.group_outlined),
             ),
           ),
           const SizedBox(height: 16),
@@ -71,7 +73,8 @@ class _GroupScreenState extends State<GroupScreen> {
                       data: jsonEncode({'user': _user.uid}),
                       size: 175.0,
                     ),
-                    const Text('press to scan'),
+                    Text(AppLocalizations.of(context)!
+                        .settings_groupManagement_scanCode),
                   ],
                 ),
               ),
@@ -81,23 +84,27 @@ class _GroupScreenState extends State<GroupScreen> {
           TextFormField(
             style: _text,
             controller: _newUser,
-            decoration: const InputDecoration(
-              labelText: 'User ID',
-              suffixIcon: Icon(Icons.person_outline),
+            decoration: InputDecoration(
+              labelText:
+                  AppLocalizations.of(context)!.settings_groupManagement_uid,
+              suffixIcon: const Icon(Icons.person_outline),
             ),
             validator: (value) => (value == null || value.length != 28)
-                ? 'Kein gültiger Nutzer'
+                ? AppLocalizations.of(context)!
+                    .settings_groupManagement_invalidUid
                 : null,
           ),
           ElevatedButton.icon(
             onPressed: () => _submit(context),
             icon: const Icon(Icons.group_add_outlined),
-            label: const Text('Add user to group'),
+            label: Text(AppLocalizations.of(context)!
+                .settings_groupManagement_addToGroup),
           ),
           ElevatedButton.icon(
             onPressed: () => AuthService().refreshToken(),
             icon: const Icon(Icons.refresh_outlined),
-            label: const Text('Reload Status'),
+            label: Text(AppLocalizations.of(context)!
+                .settings_groupManagement_refreshToken),
           ),
         ],
       ),
@@ -126,9 +133,9 @@ class _GroupScreenState extends State<GroupScreen> {
       Navigator.pushNamed(context, '/Settings/Groups/ScanCode');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-              'Only IOS and Android are currently supported for scanning QR codes'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!
+              .settings_groupManagement_scanErrorWeb),
         ),
       );
     }
