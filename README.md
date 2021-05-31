@@ -1,3 +1,7 @@
+<a href="http://weblate.rimikis.de/engage/bierverkostung/en/">
+<img src="http://weblate.rimikis.de/widgets/bierverkostung/en/bierverkostung-app/svg-badge.svg" alt="Übersetzungsstatus" />
+</a>
+
 # Bierverkostung
 This project aims to improve an abandoned [project](https://bitbucket.org/jufickel/bierverkostung).
 
@@ -17,6 +21,9 @@ We'll need to wait for this to tackle propper desktop support.
 
 ## Hosted
 This project is already hosted on https://saufen.rimikis.de. Check it out as more features will arrive.
+
+## Translation
+The app is translated on https://weblate.rimikis.de/projects/bierverkostung.
 
 ## Versioning
 For now we use a fairly uncommon versioning scheme. Until 1.0.0 we increment the minor version when work on a big new feature starts and increment accordingly until finished.
