@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/gen/assets.gen.dart';
 
@@ -39,7 +40,8 @@ class _AboutUsSettingsState extends State<AboutUsSettings> {
       ),
       applicationName: packageInfo.appName,
       applicationVersion: packageInfo.version,
-      applicationLegalese: '©2021 Leptopoda',
+      applicationLegalese:
+          AppLocalizations.of(context)!.settings_aboutUs_copyright,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 15),
@@ -51,9 +53,8 @@ class _AboutUsSettingsState extends State<AboutUsSettings> {
                 throw 'Could not launch $link';
               }
             },
-            text: 'This is an open source app made with love in my free time. '
-                'You can help the development, report issues or audit the code at '
-                'https://gitlab.rimikis.de/Leptopoda/bierverkostung',
+            text:
+                '${AppLocalizations.of(context)!.settings_aboutUs_desc}https://gitlab.rimikis.de/Leptopoda/bierverkostung',
           ),
         ),
       ],

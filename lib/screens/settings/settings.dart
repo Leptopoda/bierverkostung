@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
@@ -31,49 +32,6 @@ class _SettingsState extends State<Settings> {
     'About this App',
   ];
 
-  static const List<ListTile> _items = [
-    ListTile(
-      leading: Icon(Icons.login_outlined),
-      title: Text(
-        'Log Out',
-        style: TextStyle(fontSize: 18),
-      ),
-      trailing: Icon(Icons.keyboard_arrow_right),
-    ),
-    ListTile(
-      leading: Icon(Icons.group_add_outlined),
-      title: Text(
-        'Group Management',
-        style: TextStyle(fontSize: 18),
-      ),
-      trailing: Icon(Icons.keyboard_arrow_right),
-    ),
-    ListTile(
-      leading: Icon(Icons.notifications_active_outlined),
-      title: Text(
-        'Notifications',
-        style: TextStyle(fontSize: 18),
-      ),
-      trailing: Icon(Icons.keyboard_arrow_right),
-    ),
-    ListTile(
-      leading: Icon(Icons.import_export_outlined),
-      title: Text(
-        'Import Data',
-        style: TextStyle(fontSize: 18),
-      ),
-      trailing: Icon(Icons.keyboard_arrow_right),
-    ),
-    ListTile(
-      leading: Icon(Icons.info_outline),
-      title: Text(
-        'About this App',
-        style: TextStyle(fontSize: 18),
-      ),
-      trailing: Icon(Icons.keyboard_arrow_right),
-    ),
-  ];
-
   static const List<Widget> _actions = [
     LogOut(),
     GroupScreen(),
@@ -84,6 +42,49 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    final List<ListTile> _items = [
+      ListTile(
+        leading: const Icon(Icons.login_outlined),
+        title: Text(
+          AppLocalizations.of(context)!.settings_logOut,
+          style: const TextStyle(fontSize: 18),
+        ),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+      ListTile(
+        leading: const Icon(Icons.group_add_outlined),
+        title: Text(
+          AppLocalizations.of(context)!.settings_groupManagement,
+          style: const TextStyle(fontSize: 18),
+        ),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+      ListTile(
+        leading: const Icon(Icons.notifications_active_outlined),
+        title: Text(
+          AppLocalizations.of(context)!.settings_notification,
+          style: const TextStyle(fontSize: 18),
+        ),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+      ListTile(
+        leading: const Icon(Icons.import_export_outlined),
+        title: Text(
+          AppLocalizations.of(context)!.settings_importData,
+          style: const TextStyle(fontSize: 18),
+        ),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+      ListTile(
+        leading: const Icon(Icons.info_outline),
+        title: Text(
+          AppLocalizations.of(context)!.settings_aboutUs,
+          style: const TextStyle(fontSize: 18),
+        ),
+        trailing: const Icon(Icons.keyboard_arrow_right),
+      ),
+    ];
+
     return ResponsiveListScaffold.builder(
       scaffoldKey: _scaffoldKey,
       detailBuilder: (BuildContext context, int? index, bool tablet) {
@@ -100,7 +101,7 @@ class _SettingsState extends State<Settings> {
       emptyItems: ResponsiveScaffoldEmptyItems(),
       tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       itemCount: _items.length,
       itemBuilder: (BuildContext context, int index) {

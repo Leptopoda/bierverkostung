@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/services/database.dart';
@@ -49,8 +50,8 @@ class _BeerListState extends State<BeerList> {
             );
           default:
             if (!snapshot.hasData) {
-              return const Center(
-                child: Text('noch keine Biere vorhanden'),
+              return Center(
+                child: Text(AppLocalizations.of(context)!.beer_noBeers),
               );
             }
 
@@ -69,7 +70,7 @@ class _BeerListState extends State<BeerList> {
               emptyItems: ResponsiveScaffoldEmptyItems(),
               tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
               appBar: AppBar(
-                title: const Text('Biere'),
+                title: Text(AppLocalizations.of(context)!.beerOther),
               ),
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
@@ -111,7 +112,7 @@ class BeerListDetail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: !tablet,
-        title: const Text('New Beer'),
+        title: Text(AppLocalizations.of(context)!.beer_newBeer),
         // actions: tablet ? actionBarItems : null,
       ),
       body: Center(

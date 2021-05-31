@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsButton extends StatelessWidget {
   const SettingsButton({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class SettingsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.settings_outlined),
-      tooltip: 'Settings',
+      tooltip: AppLocalizations.of(context)!.settings,
       onPressed: () => Navigator.pushNamed(context, '/Settings'),
     );
   }

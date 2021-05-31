@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pattern_formatter/pattern_formatter.dart'
     show ThousandsFormatter;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/models/breweries.dart';
@@ -49,7 +50,7 @@ class NewBeer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New Beer'),
+        title: Text(AppLocalizations.of(context)!.beer_newBeer),
       ),
       body: Form(
         key: _formKey,
@@ -59,22 +60,22 @@ class NewBeer extends StatelessWidget {
             TextFormField(
               style: _text,
               controller: _beerName,
-              decoration: const InputDecoration(
-                labelText: 'Beer Name',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.beer_name,
               ),
             ),
             TextFormField(
               style: _text,
               controller: _brewery,
-              decoration: const InputDecoration(
-                labelText: 'Brewery',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.beer_brewery,
               ),
             ),
             TextFormField(
               style: _text,
               controller: _style,
-              decoration: const InputDecoration(
-                labelText: 'Beer Style',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.beer_style,
               ),
             ),
             TextFormField(
@@ -84,8 +85,8 @@ class NewBeer extends StatelessWidget {
               inputFormatters: <TextInputFormatter>[
                 ThousandsFormatter(allowFraction: true),
               ],
-              decoration: const InputDecoration(
-                labelText: 'Original Wort',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.beer_originalWort,
               ),
             ),
             TextFormField(
@@ -95,8 +96,8 @@ class NewBeer extends StatelessWidget {
               inputFormatters: <TextInputFormatter>[
                 ThousandsFormatter(allowFraction: true),
               ],
-              decoration: const InputDecoration(
-                labelText: 'Alcohol %',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.beer_alcohol,
               ),
             ),
             TextFormField(
@@ -106,34 +107,34 @@ class NewBeer extends StatelessWidget {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly,
               ],
-              decoration: const InputDecoration(
-                labelText: 'IBU',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.beer_ibu,
               ),
             ),
             TextFormField(
               style: _text,
               controller: _ingredients,
-              decoration: const InputDecoration(
-                labelText: 'Ingredients',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.beer_ingredients,
               ),
             ),
             TextFormField(
               style: _text,
               controller: _specifics,
-              decoration: const InputDecoration(
-                labelText: 'Specifics',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.beer_specifics,
               ),
             ),
             TextFormField(
               style: _text,
               controller: _beerNotes,
-              decoration: const InputDecoration(
-                labelText: 'Beer Notes',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.beer_notes,
               ),
             ),
             ElevatedButton(
               onPressed: () => _submit(context),
-              child: const Text('Submit'),
+              child: Text(AppLocalizations.of(context)!.form_submit),
             ),
           ],
         ),
@@ -146,8 +147,11 @@ class NewBeer extends StatelessWidget {
     if (_formKey.currentState!.validate()) {
       // If the form is valid, display a snackbar. In the real world,
       // you'd often call a server or save the information in a database.
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Processing Data')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.loading_processingData),
+        ),
+      );
       _formKey.currentState!.save();
 
       final Beer _bier1 = Beer(
