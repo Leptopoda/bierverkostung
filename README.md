@@ -1,6 +1,7 @@
-<a href="http://weblate.rimikis.de/engage/bierverkostung/en/">
-<img src="http://weblate.rimikis.de/widgets/bierverkostung/en/bierverkostung-app/svg-badge.svg" alt="Übersetzungsstatus" />
+<a href="http://weblate.rimikis.de/engage/bierverkostung/">
+<img src="http://weblate.rimikis.de/widgets/bierverkostung/-/svg-badge.svg" alt="Translation Progress" />
 </a>
+
 
 # Bierverkostung
 This project aims to improve an abandoned [project](https://bitbucket.org/jufickel/bierverkostung).
