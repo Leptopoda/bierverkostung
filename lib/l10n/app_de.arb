@@ -1,21 +1,17 @@
 {
-  "alert_continue": "Continue",
-  "alert_donotShowAgain": "Don't show again",
+
   "anonymous": "Anonym",
   "appName": "Bierverkostung",
-  "drinkResponsible_banner": "This can be a lot of fun. Any children’s game can essentially be made into something that involves drinking. While these games are fun, we must remember to drink responsibly and even hand over the keys, order a Lyft/Uber to get home, or have someone who is the designated driver available to you. That being said, not everyone drinks, so you shouldn’t force it upon him or her. If they want to partake in the game as well (because it will be fun, drinking or not), you’ll want to offer them something else to drink, water, soda, nonalcoholic versions of what everyone else is drinking, etc. It doesn’t have to be limited to just those who are “partying” someone has to be responsible or maybe they are Sober, and that’s okay too. No one has to be left out. Have fun and if you are looking for a few more ideas, just get creative and make some up that are more relevant to your group of people and let us know about your ideas.",
-  "drinkSafe": "Drink Safe!",
-  "drinkSafe_banner": "This can be a lot of fun. Any children’s game can essentially be made into something that involves drinking. While these games are fun, we must remember to drink responsibly and even hand over the keys, order a Lyft/Uber to get home, or have someone who is the designated driver available to you. That being said, not everyone drinks, so you shouldn’t force it upon him or her. If they want to partake in the game as well (because it will be fun, drinking or not), you’ll want to offer them something else to drink, water, soda, nonalcoholic versions of what everyone else is drinking, etc. It doesn’t have to be limited to just those who are “partying” someone has to be responsible or maybe they are Sober, and that’s okay too. No one has to be left out. Have fun and if you are looking for a few more ideas, just get creative and make some up that are more relevant to your group of people and let us know about your ideas.",
+
+ 
+ 
   "eMail_invalid": "Ungültige E-Mail",
-  "errorMessage": "The unicorns are on thier way to fix the problem. To help them please report the following error:",
-  "loading": "Loading",
   "login": "Anmelden",
   "login_anonymously": "Anonym registrieren",
   "login_eMail": "E-Mail",
   "login_error": "Fehler bei der Anmeldung",
   "newAccount": "Noch keinen Account?",
-  "noItemSelected": "No Item Selected",
-  "noItemsFound": "No Items Found",
+
   "password": "Passwort",
   "password_digit": "sollte mindestens eine Ziffer enthalten",
   "password_empty": "Feld ist leer",
@@ -24,6 +20,5 @@
   "password_lowerCase": "sollte mindestens einen Kleinbuchstaben enthalten",
   "password_upperCase": "sollte mindestens einen Großbuchstaben enthalten",
   "register": "Registrieren",
-  "signIn": "Anmelden",
-  "somethingWentWrong": "something went wrong"
+  "signIn": "Anmelden"
 }
