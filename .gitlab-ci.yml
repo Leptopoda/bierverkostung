@@ -4,13 +4,10 @@
 
 stages:
   - test
-  - build
+#  - build
 
 sast:
   stage: test
-  only:
-    - merge_requests
-
 include:
   - template: Security/SAST.gitlab-ci.yml
   - template: Security/Secret-Detection.gitlab-ci.yml
@@ -30,14 +27,14 @@ flutter_sast:
       - coverage
   only:
     - merge_requests
-
-flutter_build:
-  stage: build:debug
-  image: cirrusci/flutter:stable
-  script:
-    - flutter build apk --debug --target-platform
-  only:
-    - merge_requests
+#
+# flutter_build:
+#   stage: build:debug
+#   image: cirrusci/flutter:stable
+#   script:
+#     - flutter build apk --debug --target-platform
+#   only:
+#     - merge_requests
 #
 # flutter_build_release:
 #   stage: build:release
@@ -48,4 +45,3 @@ flutter_build:
 #     -
 #   only:
 #     - merge_requests
-
