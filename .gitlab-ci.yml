@@ -1,12 +1,16 @@
-# You can override the included template(s) by including variable overrides
-# See https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ee/ci/variables/#priority-of-environment-variables
+# Copyright 2021 Leptopoda. All rights reserved.
+# Use of this source code is governed by an APACHE-style license that can be
+# found in the LICENSE file.
+
 stages:
   - test
+  - build
 
 sast:
   stage: test
+  only:
+    - merge_requests
+
 include:
   - template: Security/SAST.gitlab-ci.yml
   - template: Security/Secret-Detection.gitlab-ci.yml
@@ -24,5 +28,24 @@ flutter_sast:
   artifacts:
     paths:
       - coverage
-  #only:
-  #  - merge_requests
+  only:
+    - merge_requests
+
+flutter_build:
+  stage: build:debug
+  image: cirrusci/flutter:stable
+  script:
+    - flutter build apk --debug --target-platform
+  only:
+    - merge_requests
+#
+# flutter_build_release:
+#   stage: build:release
+#   image: cirrusci/flutter
+#   script:
+#     - flutter build apk --release --split-per-abi
+#     - flutter build web --release
+#     -
+#   only:
+#     - merge_requests
+
