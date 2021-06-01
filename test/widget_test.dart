@@ -5,8 +5,21 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-// import 'package:flutter/material.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:bierverkostung/main.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:bierverkostung/services/local_storage.dart';
 
-void main() {}
+void main() {
+  group('Local database', () {
+    test('value should not be set', () async {
+      expect(await LocalDatabaseService().getDrinkSafe(), null);
+    });
+
+    test('value should not be set', () async {
+      expect(await LocalDatabaseService().getDrinkResponsible(), null);
+    });
+
+    test('value should not be set', () async {
+      expect(await LocalDatabaseService().getFirstLogin(), null);
+    });
+  });
+}

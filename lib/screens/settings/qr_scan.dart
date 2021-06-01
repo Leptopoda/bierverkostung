@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -71,18 +72,19 @@ class _QRViewExampleState extends State<QRViewExample> {
             return Row(
               children: <Widget>[
                 Expanded(child: _buildQrView(context)),
-                SizedBox(
-                  width: 100,
-                  child: FittedBox(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        _flashButton(),
-                        _cameraButton(),
-                      ],
+                if (!kIsWeb)
+                  SizedBox(
+                    width: 100,
+                    child: FittedBox(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          _flashButton(),
+                          _cameraButton(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
               ],
             );
           }

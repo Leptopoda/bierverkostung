@@ -4,7 +4,6 @@
 
 import 'dart:convert' show jsonEncode;
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:qr_flutter/qr_flutter.dart' show QrImage;
 import 'package:firebase_auth/firebase_auth.dart' show User;
@@ -129,15 +128,6 @@ class _GroupScreenState extends State<GroupScreen> {
   }
 
   void _scanQR() {
-    if (!kIsWeb) {
-      Navigator.pushNamed(context, '/Settings/Groups/ScanCode');
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!
-              .settings_groupManagement_scanErrorWeb),
-        ),
-      );
-    }
+    Navigator.pushNamed(context, '/Settings/Groups/ScanCode');
   }
 }
