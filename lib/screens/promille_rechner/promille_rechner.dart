@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 
 import 'package:bierverkostung/shared/drink_safe.dart';
 
@@ -41,7 +42,7 @@ class _PromilleRechnerState extends State<PromilleRechner> {
   int groesse = 175;
   int magenFuelle = 10;
   int mengeDrink = 500;
-  double alcohol = 4.9;
+  double alcohol = 0.049;
   int time = 1;
 
   @override
@@ -87,7 +88,7 @@ class _PromilleRechnerState extends State<PromilleRechner> {
             max: 100,
             onChanged: (double value) => setState(() => age = value.round()),
             divisions: 100,
-            label: '$age',
+            label: age.toString(),
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_weight),
           Slider(
@@ -97,7 +98,7 @@ class _PromilleRechnerState extends State<PromilleRechner> {
             onChanged: (double value) =>
                 setState(() => gewicht = value.round()),
             divisions: 140,
-            label: '$gewicht',
+            label: gewicht.toString(),
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_height),
           Slider(
@@ -107,7 +108,7 @@ class _PromilleRechnerState extends State<PromilleRechner> {
             onChanged: (double value) =>
                 setState(() => groesse = value.round()),
             divisions: 100,
-            label: '$groesse',
+            label: groesse.toString(),
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_stomach),
           Slider(
@@ -127,16 +128,16 @@ class _PromilleRechnerState extends State<PromilleRechner> {
             onChanged: (double value) =>
                 setState(() => mengeDrink = value.round()),
             divisions: 100,
-            label: '$mengeDrink',
+            label: mengeDrink.toString(),
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_alcohol),
           Slider(
             value: alcohol,
             // min: 0.0,
-            max: 10,
+            max: 0.1,
             onChanged: (double value) => setState(() => alcohol = value),
             divisions: 100,
-            label: '$alcohol',
+            label: NumberFormat('#0.0#%').format(alcohol),
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_time),
           Slider(
@@ -145,7 +146,7 @@ class _PromilleRechnerState extends State<PromilleRechner> {
             max: 72,
             onChanged: (double value) => setState(() => time = value.round()),
             divisions: 72,
-            label: '$time',
+            label: time.toString(),
           ),
           Container(
             // color: Colors.orange[200],
@@ -156,7 +157,7 @@ class _PromilleRechnerState extends State<PromilleRechner> {
               ),
             ),
             child: Text(
-              _calculate().toString(),
+              NumberFormat().format(_calculate()),
               style: const TextStyle(fontSize: 18),
             ),
           ),
@@ -166,7 +167,7 @@ class _PromilleRechnerState extends State<PromilleRechner> {
   }
 
   double _calculate() {
-    final double _alcAmount = (mengeDrink * alcohol) / 125;
+    final double _alcAmount = (mengeDrink * alcohol) / 1.25;
     final double _redFaktor = (character == Gender.male)
         ? (1.055 *
                 (2.447 - 0.09516 * age + 0.1074 * groesse + 0.3362 * gewicht)) /

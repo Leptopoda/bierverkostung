@@ -5,9 +5,12 @@ All notable changes to this project will be documented in this file.
 ## Added:
 - GDPR screen
 - delete old users
+- Web QR scan
 
+## [0.10.4] - 2021-05-31
+- internationalization
 
-## [0.10.3] - 2011-05-27
+## [0.10.3] - 2021-05-27
 ## Added:
 - Drink safe banner
 - GDPR screen
@@ -18,17 +21,17 @@ All notable changes to this project will be documented in this file.
 ## Changed:
 - Documentation for running locally
 
-## [0.10.2] - 2011-05-20
+## [0.10.2] - 2021-05-20
 ## Added:
 - fix burning ring of fire not loading all assets
 
-## [0.10.1] - 2011-05-20
+## [0.10.1] - 2021-05-20
 ## Added:
 - Logout handling
 - Burning ring of fire [game]
 - reworked UI
 
-## [0.10.0] - 2011-05-11
+## [0.10.0] - 2021-05-11
 ## Added:
 - Conferences
 - Notifications

@@ -1,0 +1,47 @@
+# Copyright 2021 Leptopoda. All rights reserved.
+# Use of this source code is governed by an APACHE-style license that can be
+# found in the LICENSE file.
+
+stages:
+  - test
+#  - build
+
+sast:
+  stage: test
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
+
+flutter_sast:
+  image: cirrusci/flutter:stable
+  stage: test
+  before_script:
+    - flutter pub get
+  script:
+    - flutter analyze
+    - flutter test --coverage
+    - lcov --list coverage/lcov.info
+    - genhtml coverage/lcov.info --output=coverage
+  artifacts:
+    paths:
+      - coverage
+  only:
+    - merge_requests
+#
+# flutter_build:
+#   stage: build:debug
+#   image: cirrusci/flutter:stable
+#   script:
+#     - flutter build apk --debug --target-platform
+#   only:
+#     - merge_requests
+#
+# flutter_build_release:
+#   stage: build:release
+#   image: cirrusci/flutter
+#   script:
+#     - flutter build apk --release --split-per-abi
+#     - flutter build web --release
+#     -
+#   only:
+#     - merge_requests

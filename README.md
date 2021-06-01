@@ -1,6 +1,6 @@
-<a href="http://weblate.rimikis.de/engage/bierverkostung/en/">
-<img src="http://weblate.rimikis.de/widgets/bierverkostung/en/bierverkostung-app/svg-badge.svg" alt="Übersetzungsstatus" />
-</a>
+[![translation progress](http://weblate.rimikis.de/widgets/bierverkostung/-/svg-badge.svg)](http://weblate.rimikis.de/engage/bierverkostung/) 
+[![pipeline status](https://gitlab.rimikis.de/Leptopoda/bierverkostung/badges/master/pipeline.svg)](https://gitlab.rimikis.de/Leptopoda/bierverkostung/-/commits/master) 
+[![coverage report](https://gitlab.rimikis.de/Leptopoda/bierverkostung/badges/master/coverage.svg)](https://gitlab.rimikis.de/Leptopoda/bierverkostung/-/commits/master) 
 
 # Bierverkostung
 This project aims to improve an abandoned [project](https://bitbucket.org/jufickel/bierverkostung).
@@ -14,10 +14,10 @@ It will consist of three parts
 Currently Supported platforms:
 - Android
 - iOS/iPadOS
-- MacOS
 - Web
-Regarding other Desktop support like Linux and Windows firebase currently does not support those platforms. 
-We'll need to wait for this to tackle propper desktop support.
+
+Regarding Desktop support like Linux or Windows firebase currently does not support those platforms. 
+We'll need to wait for this to tackle propper desktop support. MacOS is theoratiacally supported but we'll finalize the implementation with the other desktop support.
 
 ## Hosted
 This project is already hosted on https://saufen.rimikis.de. Check it out as more features will arrive.
