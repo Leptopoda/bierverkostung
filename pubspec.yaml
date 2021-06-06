@@ -110,11 +110,13 @@ dev_dependencies:
   # rename app
   #flutter_rename_app: any
 
-  #build_runner: any
+  build_runner: any
   #flutter_gen: any
 
   flutter_test:
     sdk: flutter
+
+  json_serializable: any
 
   # linting
   lint: any

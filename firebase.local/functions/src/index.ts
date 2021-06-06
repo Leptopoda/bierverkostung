@@ -5,7 +5,8 @@
 import {initializeApp} from "firebase-admin";
 initializeApp();
 
-export {authOnCreate} from "./authOnCreate";
-export {addGroup} from "./addGroup";
+export {authOnCreate} from "./groupManagement/authOnCreate";
+export {addGroup} from "./groupManagement/addGroup";
 export {beerStats} from "./statCounter";
 export {exportData, clearData} from "./gdprData/index";
+export {moneyCalc} from "./moneyCalc";

@@ -288,5 +288,9 @@
         "example": "Y7e2uBFRBidqz0DQkYb6k0a7MYl2"
       }
     }
-  }
+  },
+  "moneyCalculator": "Money Calculator",
+  "moneyCalculator_noData": "No etries available",
+  "moneyCalculator_amount": "amount"
+
 }

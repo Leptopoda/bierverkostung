@@ -5,7 +5,8 @@
 import {region} from "firebase-functions";
 import {auth} from "firebase-admin";
 import {setGroupClaims} from "./setGroupClaims";
-import {dataCenter} from "./comon";
+import {dataCenter} from "../comon";
+import {addGroupUpdate} from "./updateGroupData";
 
 export const authOnCreate = region(dataCenter).
     auth.user().onCreate(async (context) => {
@@ -15,6 +16,7 @@ export const authOnCreate = region(dataCenter).
         });
 
         await setGroupClaims(context.uid, context.uid);
+        await addGroupUpdate(context.uid, context.uid);
 
         console.log(`${context.uid} has been initialized with default group`);
         return {message:
