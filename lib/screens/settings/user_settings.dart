@@ -12,12 +12,17 @@ class LogOut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext _) => (AuthService().getUser()!.isAnonymous)
-            ? const LogOutAnonAlert()
-            : const LogOutAlert());
-    return Container();
+    return Center(
+      child: ElevatedButton(
+        onPressed: () => showDialog(
+          context: context,
+          builder: (BuildContext _) => (AuthService().getUser()!.isAnonymous)
+              ? const LogOutAnonAlert()
+              : const LogOutAlert(),
+        ),
+        child: const Text('Log out'),
+      ),
+    );
   }
 }
 

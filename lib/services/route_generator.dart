@@ -25,6 +25,7 @@ import 'package:bierverkostung/screens/login_controller.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
 import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
+import 'package:bierverkostung/screens/moneyManagement/money_management.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -89,6 +90,9 @@ class RouteGenerator {
 
       case '/PromilleRechner':
         return MaterialPageRoute(builder: (_) => const PromilleRechner());
+
+      case '/MoneyCalculator':
+        return MaterialPageRoute(builder: (_) => const MoneyCalculator());
 
       case '/error':
         if (_args is String) {

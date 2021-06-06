@@ -11,6 +11,7 @@ import 'package:bierverkostung/services/auth.dart';
 import 'package:bierverkostung/models/stats.dart';
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/models/beers.dart';
+import 'package:bierverkostung/models/money_calc.dart';
 
 class DatabaseService {
   String? groupID;
@@ -101,46 +102,35 @@ class DatabaseService {
             list.docs.map((doc) => Beer.fromMap(doc.data())).toList());
   }
 
-  // User
-  // save User
-  /* Future<void> saveUser() async {
-    await _firestore.collection('users').doc(user2!.uid).set(user2!.toMap());
-  } */
-
-  // init user
-  /* Future<void> initDB(UserData _user) async {
-    final result = await _firestore.collection('users').doc(_user.uid).snapshots().first;
-    user2 = UserData.fromMap(result);
-  } */
-
-// get users stream
-/* Stream<UserData?> get users {
-    return (user2 != null)
-        ? _firestore
-        .collection('users')
-        .doc(user2!.uid)
-        .snapshots()
-        .map((doc) => UserData.fromMap(doc))
-        : AuthService().user;
-  } */
-
-  // Group
-  // save Group
-  /* Future<void> saveGroups(UserData user) async {
-    _firestore
+  // Money Calculations
+  // save money stat
+  Future<void> saveMoneyCalc(Map<String, dynamic> money) async {
+    await _firestore
         .collection('groups')
-        .doc(groupID as String)
-        .collection('info')
-        .add(user.toMap());
-  } */
+        .doc((groupID != null) ? groupID : user2.uid)
+        .collection('money')
+        .add(money);
+  }
 
-  // get groups stream
-  /* Stream<List<UserData>> get groups {
+  // get money stat stream
+  Stream<List<MoneyCalc>> get moneyCalc {
     return _firestore
         .collection('groups')
-        .doc(groupID as String)
-        .collection('info')
+        .doc((groupID != null) ? groupID : user2.uid)
+        .collection('money')
         .snapshots()
-        .map((list) => list.docs.map((doc) => UserData.fromMap(doc)).toList());
-  } */
+        .map((list) =>
+            list.docs.map((doc) => MoneyCalc.fromJson(doc.data())).toList());
+  }
+
+  // get computed money stat stream
+  Stream<List<MoneyCalc>> get moneyCalcComp {
+    return _firestore
+        .collection('groups')
+        .doc((groupID != null) ? groupID : user2.uid)
+        .collection('money-computed')
+        .snapshots()
+        .map((list) =>
+            list.docs.map((doc) => MoneyCalc.fromJson(doc.data())).toList());
+  }
 }

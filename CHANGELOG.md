@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - GDPR screen
 - delete old users
 - Web QR scan
+- money mManagement
 
 ## [0.10.4] - 2021-05-31
 - internationalization

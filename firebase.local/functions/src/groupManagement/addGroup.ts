@@ -5,8 +5,9 @@
 import {region} from "firebase-functions";
 import {auth, messaging} from "firebase-admin";
 import {setGroupClaims} from "./setGroupClaims";
-import {notifyUser} from "./notification";
-import {dataCenter} from "./comon";
+import {notifyUser} from "../notification";
+import {dataCenter} from "../comon";
+import {addGroupUpdate, removeGroupUpdate} from "./updateGroupData";
 
 
 export const addGroup = region(dataCenter)
@@ -27,7 +28,9 @@ export const addGroup = region(dataCenter)
           return {message: "User is already in the group"};
         }
 
+        await removeGroupUpdate(user.uid, user.customClaims?.["group_id"]);
         await setGroupClaims(user.uid, data.guid);
+        await addGroupUpdate(user.uid, data.guid);
 
         const payload: messaging.MessagingPayload = {
           notification: {
