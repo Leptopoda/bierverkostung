@@ -59,6 +59,11 @@ class _MyHomeState extends State<MyHome> {
         return Column(
           children: <Widget>[
             ListTile(
+              leading: const Icon(Icons.money_outlined),
+              title: Text(AppLocalizations.of(context)!.moneyCalculator),
+              onTap: () => Navigator.pushNamed(context, '/MoneyCalculator'),
+            ),
+            ListTile(
               leading: const Icon(Icons.no_drinks_outlined),
               title: Text(AppLocalizations.of(context)!.alcoholCalculator),
               onTap: () => Navigator.pushNamed(context, '/PromilleRechner'),
