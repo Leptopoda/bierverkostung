@@ -100,7 +100,7 @@
   "@drinkingGames_burningRingOfFire_description_seven": {},
   "drinkingGames_burningRingOfFire_description_eight": "Mate - Chose a drinking mate who has to drink with you every time.",
   "@drinkingGames_burningRingOfFire_description_eight": {},
-  "drinkingGames_burningRingOfFire_description_nine": "Rhyme - Pick a word such as and the person next to you must rhyme with that word, this goes on to the next person and the next, in a circle, until someone messes up and he or she will have to drink. You have to know atleast two rhymes yourself!",
+  "drinkingGames_burningRingOfFire_description_nine": "Rhyme - Pick a word and the person next to you must rhyme with that word. This goes on to the next person and the next one in a circle, until someone messes up and he or she will have to drink. You have to know at least two rhymes yourself!",
   "@drinkingGames_burningRingOfFire_description_nine": {},
   "drinkingGames_burningRingOfFire_description_ten": "Never have I ever - Play a round \"Never have I ever …\", whoever has done it must drink.",
   "@drinkingGames_burningRingOfFire_description_ten": {},
@@ -290,7 +290,9 @@
     }
   },
   "moneyCalculator": "Money Calculator",
+  "@moneyCalculator": {},
   "moneyCalculator_noData": "No etries available",
-  "moneyCalculator_amount": "amount"
-
+  "@moneyCalculator_noData": {},
+  "moneyCalculator_amount": "amount",
+  "@moneyCalculator_amount": {}
 }
