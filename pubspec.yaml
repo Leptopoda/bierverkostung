@@ -111,7 +111,7 @@ dev_dependencies:
   #flutter_rename_app: any
 
   build_runner: any
-  #flutter_gen: any
+  flutter_gen_runner: any
 
   flutter_test:
     sdk: flutter
