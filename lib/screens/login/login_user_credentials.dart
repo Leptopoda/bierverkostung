@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:bierverkostung/services/auth.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
 
 class UserCredentialsAlert extends StatelessWidget {
   const UserCredentialsAlert({Key? key}) : super(key: key);

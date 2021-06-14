@@ -1,0 +1,28 @@
+// Copyright 2021 Leptopoda. All rights reserved.
+// Use of this source code is governed by an APACHE-style license that can be
+// found in the LICENSE file.
+
+rules_version = '2';
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /users/{userID}/{allPaths=**} {
+      allow read, write : if isOwner(userID);
+    }
+
+    match /groups/{groupID}/{allPaths=**} {
+      allow read, write : if isMember(groupID) || isOwner(groupID);
+    }
+
+    // Functions //
+
+    function isOwner(userID) {
+      return  request.auth.uid == userID;
+    }
+
+    function isMember(groupID) {
+      return  request.auth.token.group_id == groupID;
+    }
+  }
+}

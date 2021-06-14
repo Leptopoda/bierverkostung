@@ -6,11 +6,11 @@ import 'dart:convert';
 import 'dart:developer' as developer show log;
 import 'dart:io';
 
-import 'package:bierverkostung/services/database.dart';
+import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:bierverkostung/services/auth.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
 
 class ImportDataService {
   Future importData(File archive) async {

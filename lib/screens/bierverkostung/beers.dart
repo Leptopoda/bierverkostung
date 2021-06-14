@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/services/auth.dart';
-import 'package:bierverkostung/services/database.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
+import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
