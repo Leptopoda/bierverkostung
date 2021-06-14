@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> drinkResponsible(BuildContext context) async {
   final bool? drinkResponsibleShown =
-      await LocalDatabaseService().getDrinkResponsible();
+      await LocalDatabaseService.getDrinkResponsible();
   if (drinkResponsibleShown == true) {
     return;
   }
@@ -22,7 +22,7 @@ Future<void> drinkResponsible(BuildContext context) async {
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            LocalDatabaseService().setDrinkResponsible();
+            LocalDatabaseService.setDrinkResponsible();
             Navigator.of(context).pop();
           },
           child: Text(AppLocalizations.of(context)!.alert_donotShowAgain),
@@ -37,8 +37,7 @@ Future<void> drinkResponsible(BuildContext context) async {
 }
 
 Future<void> drinkSafe(BuildContext context) async {
-  final bool? drinkResponsibleShown =
-      await LocalDatabaseService().getDrinkSafe();
+  final bool? drinkResponsibleShown = await LocalDatabaseService.getDrinkSafe();
   if (drinkResponsibleShown == true) {
     return;
   }
@@ -53,7 +52,7 @@ Future<void> drinkSafe(BuildContext context) async {
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            LocalDatabaseService().setDrinkSafe();
+            LocalDatabaseService.setDrinkSafe();
             Navigator.of(context).pop();
           },
           child: Text(AppLocalizations.of(context)!.alert_donotShowAgain),

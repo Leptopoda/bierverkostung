@@ -22,13 +22,13 @@ class BeerList extends StatefulWidget {
 class _BeerListState extends State<BeerList> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  String? _groupID;
+  static String? _groupID;
 
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-    _groupID = await AuthService().getClaim('group_id') as String?;
+    _groupID = await AuthService.getClaim('group_id') as String?;
     setState(() {});
   }
 

@@ -19,7 +19,7 @@ class _LogOutAnonAlert extends StatelessWidget {
         ),
         TextButton(
           onPressed: () async {
-            await AuthService().signOut();
+            await AuthService.signOut();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(

@@ -113,7 +113,7 @@ class BurningRingOfFire extends StatelessWidget {
     );
   }
 
-  SvgPicture _getCard(int number, String? type) {
+  static SvgPicture _getCard(int number, String? type) {
     const List<String> _cards = [
       'Ace',
       '2',

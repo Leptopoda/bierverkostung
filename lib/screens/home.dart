@@ -28,12 +28,12 @@ class _MyHomeState extends State<MyHome> {
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-    final bool? isFirstLogin = await LocalDatabaseService().getFirstLogin();
+    final bool? isFirstLogin = await LocalDatabaseService.getFirstLogin();
     if (isFirstLogin == false) {
-      NotificationService().askPermission();
-      LocalDatabaseService().setFirstLogin();
+      NotificationService.askPermission();
+      LocalDatabaseService.setFirstLogin();
     }
-    await NotificationService().initialise();
+    await NotificationService.initialise();
   }
 
   @override

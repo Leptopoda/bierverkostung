@@ -47,8 +47,8 @@ class _PromilleRechnerState extends State<PromilleRechner> {
 
   @override
   Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
     await drinkSafe(context);
+    super.didChangeDependencies();
   }
 
   @override

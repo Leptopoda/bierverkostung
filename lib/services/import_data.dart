@@ -13,7 +13,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
 
 class ImportDataService {
-  Future importData(File archive) async {
+  const ImportDataService();
+
+  static Future importData(File archive) async {
     try {
       final Directory _tempDir = await getTemporaryDirectory();
       final Directory _dataDir =
@@ -57,13 +59,13 @@ class ImportDataService {
     }
   }
 
-  Future<void> _parseJson(File file) async {
+  static Future<void> _parseJson(File file) async {
     try {
       final String _contents = await file.readAsString();
       final Map _data = jsonDecode(_contents) as Map;
 
       final String? _groupID =
-          await AuthService().getClaim('group_id') as String?;
+          await AuthService.getClaim('group_id') as String?;
 
       // TODO: validate json (maybe externalize to cloud function)
       DatabaseService(groupID: _groupID)

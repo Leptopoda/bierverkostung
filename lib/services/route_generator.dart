@@ -28,6 +28,8 @@ import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
 import 'package:bierverkostung/screens/moneyManagement/money_management.dart';
 
 class RouteGenerator {
+  const RouteGenerator();
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
     final _args = settings.arguments;
@@ -53,7 +55,7 @@ class RouteGenerator {
         return _errorRoute(); */
 
       case '/NewBeer':
-        return MaterialPageRoute(builder: (_) => NewBeer());
+        return MaterialPageRoute(builder: (_) => const NewBeer());
 
       case '/BeerList':
         return MaterialPageRoute<Beer?>(builder: (_) => const BeerList());

@@ -7,7 +7,9 @@ import 'dart:developer' as developer show log;
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  const AuthService();
+
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // create UserData obj based on firebase user
   /* Future<UserData?> _userFromFirebaseUser(User? user) async {
@@ -16,23 +18,23 @@ class AuthService {
   } */
 
   // auth change user stream
-  Stream<User?> get user {
+  static Stream<User?> get user {
     // TODO: maybe use idTokenChanges instead of user
     return _auth.userChanges();
     //.map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
-  Future<dynamic> getClaim(String value) async {
+  static Future<dynamic> getClaim(String value) async {
     final IdTokenResult? token = await _auth.currentUser?.getIdTokenResult();
     return token?.claims?[value];
   }
 
-  User? getUser() {
+  static User? getUser() {
     return _auth.currentUser;
   }
 
   // register in anon
-  Future<bool> registerAnon() async {
+  static Future<bool> registerAnon() async {
     try {
       await _auth.signInAnonymously();
       return true;
@@ -47,7 +49,8 @@ class AuthService {
   }
 
   // sign in with email and password
-  Future<bool> signInWithEmailAndPassword(String email, String password) async {
+  static Future<bool> signInWithEmailAndPassword(
+      String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return true;
@@ -62,7 +65,7 @@ class AuthService {
   }
 
   // register with email and password
-  Future<bool> registerWithEmailAndPassword(
+  static Future<bool> registerWithEmailAndPassword(
       String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(
@@ -109,12 +112,12 @@ class AuthService {
   } */
 
   // refresh Token
-  Future refreshToken() async {
+  static Future refreshToken() async {
     await _auth.currentUser?.getIdToken(true);
   }
 
   // sign out <void>??
-  Future signOut() async {
+  static Future signOut() async {
     try {
       return await _auth.signOut();
     } catch (error) {

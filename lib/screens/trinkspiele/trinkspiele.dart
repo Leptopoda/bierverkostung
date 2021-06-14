@@ -12,15 +12,10 @@ import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
 import 'package:bierverkostung/screens/trinkspiele/burning_ring_of_fire.dart';
 
-class Trinkspiele extends StatefulWidget {
+class Trinkspiele extends StatelessWidget {
   const Trinkspiele({Key? key}) : super(key: key);
 
-  @override
-  _TrinkspieleState createState() => _TrinkspieleState();
-}
-
-class _TrinkspieleState extends State<Trinkspiele> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   static const List<Widget> _spielePages = [
     TrinkspruecheAlt(),

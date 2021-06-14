@@ -23,7 +23,7 @@ class QRViewExample extends StatefulWidget {
 
 class _QRViewExampleState extends State<QRViewExample> {
   QRViewController? controller;
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  static final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -148,7 +148,7 @@ class _QRViewExampleState extends State<QRViewExample> {
         final String? _userID = _userScanned['user'] as String?;
         if (_userID != null && _userID.length == 28) {
           await controller.pauseCamera();
-          await _showAlert(_userID);
+          await _showAlert(_userID, context);
           await controller.resumeCamera();
         }
       } catch (error) {
@@ -161,7 +161,7 @@ class _QRViewExampleState extends State<QRViewExample> {
     });
   }
 
-  Future<Widget?> _showAlert(String userID) {
+  static Future<Widget?> _showAlert(String userID, BuildContext context) {
     return showDialog(
       context: context,
       builder: (BuildContext _) => AlertDialog(
@@ -175,7 +175,7 @@ class _QRViewExampleState extends State<QRViewExample> {
             child: Text(AppLocalizations.of(context)!.alert_escape),
           ),
           TextButton(
-            onPressed: () => _addGroup(userID),
+            onPressed: () => _addGroup(userID, context),
             child: Text(AppLocalizations.of(context)!.alert_continue),
           ),
         ],
@@ -183,12 +183,11 @@ class _QRViewExampleState extends State<QRViewExample> {
     );
   }
 
-  Future<void> _addGroup(String userID) async {
-    final String? _groupID =
-        await AuthService().getClaim('group_id') as String?;
+  static Future<void> _addGroup(String userID, BuildContext context) async {
+    final String? _groupID = await AuthService.getClaim('group_id') as String?;
     if (_groupID != null) {
       final HttpsCallableResult<dynamic> result =
-          await CloudFunctionsService().setGroup(userID, _groupID);
+          await CloudFunctionsService.setGroup(userID, _groupID);
       // TODO: popAndPushNamed to avoid reloading of the camera
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

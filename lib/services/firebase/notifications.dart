@@ -14,11 +14,11 @@ import 'package:bierverkostung/shared/constants.dart';
 import 'package:flutter/foundation.dart';
 
 class NotificationService {
-  NotificationService();
+  const NotificationService();
 
-  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+  static final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
-  Future<void> askPermission() async {
+  static Future<void> askPermission() async {
     await _fcm.requestPermission(
       announcement: true,
       carPlay: true,
@@ -27,7 +27,7 @@ class NotificationService {
 
     final String? _token = await _fcm.getToken(vapidKey: vapidKey);
     if (_token != null) {
-      await DatabaseService().saveNotificationToken({
+      await DatabaseService.saveNotificationToken({
         'token': _token,
         'createdAt': FieldValue.serverTimestamp(),
         'platform': kIsWeb ? 'Web' : Platform.operatingSystem,
@@ -35,7 +35,7 @@ class NotificationService {
     }
   }
 
-  Future initialise() async {
+  static Future initialise() async {
     // TODO: fix duplicate refreshing
 
     // Get any messages which caused the application to open from
@@ -46,14 +46,14 @@ class NotificationService {
     // navigate to a chat screen
 
     if (initialMessage?.data['auth_refresh'] == 'true') {
-      AuthService().refreshToken();
+      AuthService.refreshToken();
     }
 
     // Also handle any interaction when the app is in the background via a
     // Stream listener
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       if (message.data['auth_refresh'] == 'true') {
-        AuthService().refreshToken();
+        AuthService.refreshToken();
       }
     });
   }

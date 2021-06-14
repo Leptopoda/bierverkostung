@@ -21,13 +21,13 @@ class MoneyCalculator extends StatefulWidget {
 }
 
 class _MoneyCalculatorState extends State<MoneyCalculator> {
-  String? _groupID;
+  static String? _groupID;
 
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-    _groupID = await AuthService().getClaim('group_id') as String?;
+    _groupID = await AuthService.getClaim('group_id') as String?;
     setState(() {});
   }
 

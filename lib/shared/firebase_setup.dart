@@ -2,15 +2,9 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart' show FirebaseFunctions;
-import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
-import 'package:firebase_storage/firebase_storage.dart' show FirebaseStorage;
+part of 'package:bierverkostung/main.dart';
 
-import 'package:bierverkostung/shared/enviornment_config.dart';
-
-Future<void> setupFirebase() async {
+Future<void> _setupFirebase() async {
   if (EnvironmentConfig.localFirebase ||
       EnvironmentConfig.localFirebaseIP != 'localhost') {
     const String _host = EnvironmentConfig.localFirebaseIP;

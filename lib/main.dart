@@ -2,15 +2,19 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:bierverkostung/shared/firebase_setup.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show FirebaseFirestore, Settings;
+import 'package:cloud_functions/cloud_functions.dart' show FirebaseFunctions;
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, User;
+import 'package:firebase_storage/firebase_storage.dart' show FirebaseStorage;
 
+import 'package:bierverkostung/shared/enviornment_config.dart';
 import 'package:bierverkostung/shared/theme.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
@@ -18,6 +22,8 @@ import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/services/route_generator.dart';
 
 import 'package:bierverkostung/screens/login_controller.dart';
+
+part 'package:bierverkostung/shared/firebase_setup.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,12 +49,12 @@ class MyApp extends StatelessWidget {
         }
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          setupFirebase();
+          _setupFirebase();
 
           return MultiProvider(
             providers: <StreamProvider>[
               StreamProvider<User?>.value(
-                value: AuthService().user,
+                value: AuthService.user,
                 initialData: null,
               ),
             ],

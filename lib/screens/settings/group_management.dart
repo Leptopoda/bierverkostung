@@ -37,7 +37,7 @@ class _GroupScreenState extends State<GroupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final User _user = AuthService().getUser()!;
+    final User _user = AuthService.getUser()!;
     _uid.text = _user.uid;
 
     return Form(
@@ -100,7 +100,7 @@ class _GroupScreenState extends State<GroupScreen> {
                 .settings_groupManagement_addToGroup),
           ),
           ElevatedButton.icon(
-            onPressed: () => AuthService().refreshToken(),
+            onPressed: () => AuthService.refreshToken(),
             icon: const Icon(Icons.refresh_outlined),
             label: Text(AppLocalizations.of(context)!
                 .settings_groupManagement_refreshToken),
@@ -113,10 +113,10 @@ class _GroupScreenState extends State<GroupScreen> {
   Future<void> _submit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       final String? _groupID =
-          await AuthService().getClaim('group_id') as String?;
-      final HttpsCallableResult<dynamic> result = await CloudFunctionsService()
-          .setGroup(_newUser.value.text,
-              (_groupID != null) ? _groupID : AuthService().getUser()!.uid);
+          await AuthService.getClaim('group_id') as String?;
+      final HttpsCallableResult<dynamic> result =
+          await CloudFunctionsService.setGroup(_newUser.value.text,
+              (_groupID != null) ? _groupID : AuthService.getUser()!.uid);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result.data.toString()),

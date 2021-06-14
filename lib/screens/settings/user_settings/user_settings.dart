@@ -23,7 +23,7 @@ part 'logout_alert_anon.dart';
 class UserSettings extends StatelessWidget {
   const UserSettings({Key? key}) : super(key: key);
 
-  static final User user = AuthService().getUser()!;
+  static final User user = AuthService.getUser()!;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +126,7 @@ class UserSettings extends StatelessWidget {
               onPressed: () => showDialog(
                 context: context,
                 builder: (BuildContext _) =>
-                    (AuthService().getUser()!.isAnonymous)
+                    (AuthService.getUser()!.isAnonymous)
                         ? const _LogOutAnonAlert()
                         : const _LogOutAlert(),
               ),
@@ -159,8 +159,7 @@ class UserSettings extends StatelessWidget {
       );
 
       if (_cropped != null) {
-        final String? _url =
-            await CloudStorageService().uploadProfile(_cropped);
+        final String? _url = await CloudStorageService.uploadProfile(_cropped);
         if (_url != null) {
           user.updatePhotoURL(_url);
         }

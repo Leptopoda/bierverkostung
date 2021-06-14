@@ -11,13 +11,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'auth.dart';
 
 class CloudStorageService {
-  String? groupID;
-  CloudStorageService({this.groupID});
+  final String? groupID;
+  const CloudStorageService({this.groupID});
   // Firestore instance
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-  final User user2 = AuthService().getUser()!;
+  static final FirebaseStorage _storage = FirebaseStorage.instance;
+  static final User user2 = AuthService.getUser()!;
 
-  Future<String?> uploadProfile(Uint8List image) async {
+  static Future<String?> uploadProfile(Uint8List image) async {
     try {
       final Reference _ref = _storage.ref('${user2.uid}/profile.png');
       await _ref.putData(image);

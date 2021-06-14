@@ -40,7 +40,7 @@ class _MoneyAlertState extends State<MoneyAlert> {
 
   @override
   void initState() {
-    _buyer.text = AuthService().getUser()!.uid;
+    _buyer.text = AuthService.getUser()!.uid;
     super.initState();
   }
 
@@ -102,7 +102,7 @@ class _MoneyAlertState extends State<MoneyAlert> {
   Future<void> _onSubmit() async {
     final DateTime _date = DateTime.now();
 
-    await DatabaseService().saveMoneyCalc(
+    await const DatabaseService().saveMoneyCalc(
       MoneyCalc(
         buyer: _buyer.value.text,
         amount: double.parse(_amount.value.text) * -1,
