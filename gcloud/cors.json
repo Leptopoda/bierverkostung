@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["https://saufen.rimikis.de"],
+    "method": ["GET"],
+    "maxAgeSeconds": 3600
+  }
+]

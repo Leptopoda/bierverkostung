@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
-import 'package:bierverkostung/screens/settings/user_settings.dart';
+import 'package:bierverkostung/screens/settings/user_settings/user_settings.dart';
 import 'package:bierverkostung/screens/settings/about_us_settings.dart';
 import 'package:bierverkostung/screens/settings/group_management.dart';
 import 'package:bierverkostung/screens/settings/import_data_settings.dart';
@@ -33,7 +33,7 @@ class _SettingsState extends State<Settings> {
   ];
 
   static const List<Widget> _actions = [
-    LogOut(),
+    UserSettings(),
     GroupScreen(),
     NotificationSettings(),
     ImportDataSettings(),
@@ -44,9 +44,9 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     final List<ListTile> _items = [
       ListTile(
-        leading: const Icon(Icons.login_outlined),
+        leading: const Icon(Icons.person_outline),
         title: Text(
-          AppLocalizations.of(context)!.settings_logOut,
+          AppLocalizations.of(context)!.settings_userManagement,
           style: const TextStyle(fontSize: 18),
         ),
         trailing: const Icon(Icons.keyboard_arrow_right),

@@ -6,26 +6,21 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{userID}/{document=**} {
-        allow read, write : if isOwner(userID);
+      allow read, write : if isOwner(userID);
     }
 
     match /groups/{groupID}/{document=**} {
-            allow read, write : if isMember(groupID) || isOwner(groupID);
-        }
-
-      /* match /{document=**} {
-          allow read, write : if true;
-      } */
-
+      allow read, write : if isMember(groupID) || isOwner(groupID);
+    }
 
     // Functions //
 
     function isOwner(userID) {
-        return  request.auth.uid == userID;
+      return  request.auth.uid == userID;
     }
 
     function isMember(groupID) {
-        return  request.auth.token.group_id == groupID;
+      return  request.auth.token.group_id == groupID;
     }
   }
 }

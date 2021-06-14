@@ -14,7 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bierverkostung/shared/theme.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
-import 'package:bierverkostung/services/auth.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/services/route_generator.dart';
 
 import 'package:bierverkostung/screens/login_controller.dart';
@@ -64,7 +64,9 @@ class MyApp extends StatelessWidget {
                 theme: AppTheme.lightTheme,
                 darkTheme: AppTheme.darkTheme,
                 onGenerateTitle: (BuildContext context) =>
-                    AppLocalizations.of(context)!.beertasting,
+                    (AppLocalizations.of(context) != null)
+                        ? AppLocalizations.of(context)!.beertasting
+                        : 'Beertasting',
 
                 home: const LoginController(),
                 //initialRoute: '/Login',

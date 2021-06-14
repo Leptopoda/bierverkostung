@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/services/notifications.dart';
+import 'package:bierverkostung/services/firebase/notifications.dart';
 
 class NotificationSettings extends StatelessWidget {
   const NotificationSettings({Key? key}) : super(key: key);

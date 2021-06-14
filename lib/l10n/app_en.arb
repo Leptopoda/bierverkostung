@@ -294,5 +294,16 @@
   "moneyCalculator_noData": "No etries available",
   "@moneyCalculator_noData": {},
   "moneyCalculator_amount": "amount",
-  "@moneyCalculator_amount": {}
+  "@moneyCalculator_amount": {},
+
+  "settings_userManagement": "Profile",
+  "settings_userManagement_username": "Username",
+  "settings_userManagement_changeProfile": "Change picture",
+  "settings_userManagement_choosePhoto": "Choose photo",
+  "settings_userManagement_takePhoto": "Take photo",
+  "settings_userManagement_chooseGallery": "Choose from gallery",
+  "settings_userManagement_removePhoto": "Reemove photo",
+  "settings_userManagement_cropImage": "Crop Image",
+  "settings_userManagement_reset": "reset"
+
 }

@@ -7,8 +7,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart' show FieldValue;
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'package:bierverkostung/services/auth.dart';
-import 'package:bierverkostung/services/database.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
+import 'package:bierverkostung/services/firebase/database.dart';
 
 import 'package:bierverkostung/shared/constants.dart';
 import 'package:flutter/foundation.dart';

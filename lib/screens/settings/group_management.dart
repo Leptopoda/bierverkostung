@@ -9,8 +9,8 @@ import 'package:qr_flutter/qr_flutter.dart' show QrImage;
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/services/cloud_functions.dart';
-import 'package:bierverkostung/services/auth.dart';
+import 'package:bierverkostung/services/firebase/cloud_functions.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
 
 class GroupScreen extends StatefulWidget {
   const GroupScreen({Key? key}) : super(key: key);

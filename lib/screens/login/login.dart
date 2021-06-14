@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:email_validator/email_validator.dart';
 
-import 'package:bierverkostung/services/auth.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);

@@ -7,7 +7,7 @@ import 'package:navigation_rail/navigation_rail.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/local_storage.dart';
-import 'package:bierverkostung/services/notifications.dart';
+import 'package:bierverkostung/services/firebase/notifications.dart';
 import 'package:bierverkostung/shared/drink_safe.dart';
 
 import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
