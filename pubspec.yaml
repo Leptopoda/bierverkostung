@@ -19,7 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.11.0+1
+version: 0.12.0+1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -28,6 +28,9 @@ dependencies:
   # Firebase
   cloud_firestore: any
   cloud_functions: any
+
+  # crop_image: any
+  crop_your_image: any
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -43,6 +46,7 @@ dependencies:
   firebase_auth: any
   firebase_core: any
   firebase_messaging: any
+  firebase_storage: any
 
   # charts
   fl_chart: any
@@ -63,6 +67,8 @@ dependencies:
   # svg image support
   flutter_svg: any
 
+  #image: any
+  image_picker: any
   intl: any
 
   # jitsi
@@ -90,7 +96,7 @@ dependencies:
   qr_flutter: any
 
   # random color
-  random_color: 1.0.6-nullsafety
+  random_color: ^1.0.6-nullsafety
 
   # Master Detail View
   responsive_scaffold:
@@ -111,7 +117,7 @@ dev_dependencies:
   #flutter_rename_app: any
 
   build_runner: any
-  #flutter_gen: any
+  flutter_gen_runner: any
 
   flutter_test:
     sdk: flutter
@@ -164,6 +170,7 @@ flutter:
   assets:
     - assets/error.png
     - assets/icon/icon.svg
+    - assets/icon/icon.png
     - assets/playingCards/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

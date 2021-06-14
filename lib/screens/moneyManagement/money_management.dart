@@ -8,8 +8,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
-import 'package:bierverkostung/services/auth.dart';
-import 'package:bierverkostung/services/database.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
+import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/money_calc.dart';
 

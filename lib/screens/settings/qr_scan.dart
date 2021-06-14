@@ -11,8 +11,8 @@ import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/services/auth.dart';
-import 'package:bierverkostung/services/cloud_functions.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
+import 'package:bierverkostung/services/firebase/cloud_functions.dart';
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);

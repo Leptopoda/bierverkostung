@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 - GDPR screen
 - delete old users
 
+## [0.12.0] - 2021-06-14
+- user setting
+
 ## [0.11.0] - 2021-06-06
 - Web QR scan
 - money mManagement

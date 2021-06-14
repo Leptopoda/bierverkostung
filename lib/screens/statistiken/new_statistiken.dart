@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/services/database.dart';
+import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/models/stats.dart';
 import 'package:bierverkostung/models/beers.dart';
 

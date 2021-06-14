@@ -12,7 +12,9 @@ class Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.loading),
+        title: Text((AppLocalizations.of(context) != null)
+            ? AppLocalizations.of(context)!.loading
+            : 'loading'),
       ),
       body: const Center(
         child: CircularProgressIndicator(),
