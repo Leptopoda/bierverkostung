@@ -3,8 +3,6 @@
 // found in the LICENSE file.
 
 rules_version = '2';
-
-rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
     match /users/{userID}/{allPaths=**} {
