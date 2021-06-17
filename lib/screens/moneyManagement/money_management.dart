@@ -13,23 +13,10 @@ import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/money_calc.dart';
 
-class MoneyCalculator extends StatefulWidget {
+class MoneyCalculator extends StatelessWidget {
   const MoneyCalculator({Key? key}) : super(key: key);
 
-  @override
-  _MoneyCalculatorState createState() => _MoneyCalculatorState();
-}
-
-class _MoneyCalculatorState extends State<MoneyCalculator> {
-  static String? _groupID;
-
-  @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
-
-    _groupID = await AuthService.getClaim('group_id') as String?;
-    setState(() {});
-  }
+  static final String? _groupID = AuthService.claims?['group_id'] as String?;
 
   @override
   Widget build(BuildContext context) {

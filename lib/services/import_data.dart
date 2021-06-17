@@ -64,8 +64,7 @@ class ImportDataService {
       final String _contents = await file.readAsString();
       final Map _data = jsonDecode(_contents) as Map;
 
-      final String? _groupID =
-          await AuthService.getClaim('group_id') as String?;
+      final String? _groupID = AuthService.claims?['group_id'] as String?;
 
       // TODO: validate json (maybe externalize to cloud function)
       DatabaseService(groupID: _groupID)

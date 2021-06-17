@@ -11,19 +11,23 @@ class AuthService {
 
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  static Map<String, dynamic>? claims;
+
   // create UserData obj based on firebase user
-  /* Future<UserData?> _userFromFirebaseUser(User? user) async {
-    final IdTokenResult? token = await user?.getIdTokenResult();
-    return (token?.claims != null) ? UserData.fromMap(token!.claims!) : null;
-  } */
+  static Future<User?> _userFromFirebaseUser(User? user) async {
+    final IdTokenResult? token = await _auth.currentUser?.getIdTokenResult();
+    claims = token?.claims;
+    return user;
+  }
 
   // auth change user stream
   static Stream<User?> get user {
     // TODO: maybe use idTokenChanges instead of user
-    return _auth.userChanges();
+    return _auth.userChanges().asyncMap(_userFromFirebaseUser);
     //.map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
+  @Deprecated('use the [AuthService.claims]')
   static Future<dynamic> getClaim(String value) async {
     final IdTokenResult? token = await _auth.currentUser?.getIdTokenResult();
     return token?.claims?[value];
@@ -81,6 +85,24 @@ class AuthService {
     }
   }
 
+  // refresh Token
+  static Future<void> refreshToken() async {
+    await _auth.currentUser?.getIdToken(true);
+  }
+
+  // sign out
+  static Future<void> signOut() async {
+    try {
+      return await _auth.signOut();
+    } catch (error) {
+      developer.log(
+        'error on sign out',
+        name: 'leptopoda.bierverkostung.AuthService',
+        error: jsonEncode(error.toString()),
+      );
+    }
+  }
+
   // sign in with Google and password
   /* Future<bool> signInWithGoogle(String email, String password) async {
     try {
@@ -111,22 +133,4 @@ class AuthService {
     }
   } */
 
-  // refresh Token
-  static Future refreshToken() async {
-    await _auth.currentUser?.getIdToken(true);
-  }
-
-  // sign out <void>??
-  static Future signOut() async {
-    try {
-      return await _auth.signOut();
-    } catch (error) {
-      developer.log(
-        'error on sign out',
-        name: 'leptopoda.bierverkostung.AuthService',
-        error: jsonEncode(error.toString()),
-      );
-      return null;
-    }
-  }
 }

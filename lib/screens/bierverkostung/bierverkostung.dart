@@ -14,25 +14,12 @@ import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
 import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
 
-class Bierverkostung extends StatefulWidget {
+class Bierverkostung extends StatelessWidget {
   const Bierverkostung({Key? key}) : super(key: key);
 
-  @override
-  _BierverkostungState createState() => _BierverkostungState();
-}
+  static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-class _BierverkostungState extends State<Bierverkostung> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  static String? _groupID;
-
-  @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
-
-    _groupID = await AuthService.getClaim('group_id') as String?;
-    setState(() {});
-  }
+  static final String? _groupID = AuthService.claims?['group_id'] as String?;
 
   @override
   Widget build(BuildContext context) {

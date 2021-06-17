@@ -121,7 +121,7 @@ class _QRScannerState extends State<_QRScanner> {
   }
 
   static Future<void> _addGroup(String userID, BuildContext context) async {
-    final String? _groupID = await AuthService.getClaim('group_id') as String?;
+    final String? _groupID = AuthService.claims?['group_id'] as String?;
     if (_groupID != null) {
       final HttpsCallableResult<dynamic> result =
           await CloudFunctionsService.setGroup(userID, _groupID);

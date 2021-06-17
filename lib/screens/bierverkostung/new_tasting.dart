@@ -372,8 +372,7 @@ class _NewTastingState extends State<NewTasting> {
         totalImpressionDesc: _totalImpressionDesc.value.text,
         totalImpressionRating: _totalImpressionRating,
       );
-      final String? _groupID =
-          await AuthService.getClaim('group_id') as String?;
+      final String? _groupID = AuthService.claims?['group_id'] as String?;
       await DatabaseService(groupID: _groupID).saveTasting(_tasting1.toMap());
 
       Navigator.of(context).pop();

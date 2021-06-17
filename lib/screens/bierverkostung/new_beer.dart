@@ -172,8 +172,7 @@ class NewBeer extends StatelessWidget {
         beerNotes: _beerNotes.value.text,
       );
 
-      final String? _groupID =
-          await AuthService.getClaim('group_id') as String?;
+      final String? _groupID = AuthService.claims?['group_id'] as String?;
       await DatabaseService(groupID: _groupID).saveBeer(_bier1.toMap());
 
       Navigator.of(context).pop();

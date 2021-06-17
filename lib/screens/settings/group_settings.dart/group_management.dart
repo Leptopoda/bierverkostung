@@ -107,8 +107,7 @@ class GroupScreen extends StatelessWidget {
 
   Future<void> _submit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      final String? _groupID =
-          await AuthService.getClaim('group_id') as String?;
+      final String? _groupID = AuthService.claims?['group_id'] as String?;
       final HttpsCallableResult<dynamic> result =
           await CloudFunctionsService.setGroup(_newUser.value.text,
               (_groupID != null) ? _groupID : AuthService.getUser()!.uid);
