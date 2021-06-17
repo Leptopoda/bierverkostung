@@ -15,9 +15,8 @@ import 'package:bierverkostung/screens/bierverkostung/new_tasting.dart';
 import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
 import 'package:bierverkostung/screens/conference/conference.dart';
 import 'package:bierverkostung/screens/settings/settings.dart';
-import 'package:bierverkostung/screens/settings/qr_scan.dart';
 import 'package:bierverkostung/screens/settings/user_settings/user_settings.dart';
-import 'package:bierverkostung/screens/settings/group_management.dart';
+import 'package:bierverkostung/screens/settings/group_settings.dart/group_management.dart';
 // import 'package:bierverkostung/screens/settings/about_us_settings.dart';
 import 'package:bierverkostung/screens/settings/import_data_settings.dart';
 import 'package:bierverkostung/screens/login/login.dart';
@@ -72,8 +71,8 @@ class RouteGenerator {
       case '/Settings/Groups':
         return MaterialPageRoute(builder: (_) => const GroupScreen());
 
-      case '/Settings/Groups/ScanCode':
-        return MaterialPageRoute(builder: (_) => const QRViewExample());
+      // case '/Settings/Groups/ScanCode':
+      //   return MaterialPageRoute(builder: (_) => const QRViewExample());
 
       case '/Settings/User':
         return MaterialPageRoute(builder: (_) => const UserSettings());

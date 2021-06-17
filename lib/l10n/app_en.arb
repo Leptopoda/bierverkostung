@@ -304,6 +304,8 @@
   "settings_userManagement_chooseGallery": "Choose from gallery",
   "settings_userManagement_removePhoto": "Reemove photo",
   "settings_userManagement_cropImage": "Crop Image",
-  "settings_userManagement_reset": "reset"
+  "settings_userManagement_reset": "reset",
+  "settings_groupManagement_flash" : "Toggle flash",
+  "settings_groupManagement_orientation" : "Flip camera"
 
 }

@@ -2,28 +2,26 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:convert';
-import 'dart:developer' as developer;
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter/material.dart';
-import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+part of 'group_management.dart';
 
-import 'package:bierverkostung/services/firebase/auth.dart';
-import 'package:bierverkostung/services/firebase/cloud_functions.dart';
-
-class QRViewExample extends StatefulWidget {
-  const QRViewExample({Key? key}) : super(key: key);
+class _QRScanner extends StatefulWidget {
+  const _QRScanner({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _QRViewExampleState();
+  State<StatefulWidget> createState() => _QRScannerState();
 }
 
-class _QRViewExampleState extends State<QRViewExample> {
+class _QRScannerState extends State<_QRScanner> {
   QRViewController? controller;
   static final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+  }
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -39,85 +37,17 @@ class _QRViewExampleState extends State<QRViewExample> {
   @override
   void dispose() {
     controller?.dispose();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settings_qrScan_scan),
-      ),
-      body: OrientationBuilder(
-        builder: (context, orientation) {
-          if (orientation == Orientation.portrait) {
-            return Column(
-              children: <Widget>[
-                Expanded(child: _buildQrView(context)),
-                SizedBox(
-                  height: 100,
-                  child: FittedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        _flashButton(),
-                        _cameraButton(),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            );
-          } else {
-            return Row(
-              children: <Widget>[
-                Expanded(child: _buildQrView(context)),
-                if (!kIsWeb)
-                  SizedBox(
-                    width: 100,
-                    child: FittedBox(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          _flashButton(),
-                          _cameraButton(),
-                        ],
-                      ),
-                    ),
-                  ),
-              ],
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _flashButton() {
-    return IconButton(
-      icon: FutureBuilder(
-        future: controller?.getFlashStatus(),
-        builder: (context, snapshot) {
-          return (snapshot.data != null && snapshot.data! as bool)
-              ? const Icon(Icons.flash_on_outlined)
-              : const Icon(Icons.flash_off_outlined);
-        },
-      ),
-      onPressed: () async {
-        await controller?.toggleFlash();
-        setState(() {});
-      },
-    );
-  }
-
-  Widget _cameraButton() {
-    return IconButton(
-      icon: const Icon(Icons.flip_camera_android_outlined),
-      onPressed: () => controller?.flipCamera(),
-    );
-  }
-
-  Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     final double scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
@@ -125,16 +55,23 @@ class _QRViewExampleState extends State<QRViewExample> {
         : 250.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
-    return QRView(
-      key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
-      overlay: QrScannerOverlayShape(
-        borderColor: Theme.of(context).accentColor,
-        borderRadius: 10,
-        borderLength: 30,
-        borderWidth: 10,
-        cutOutSize: scanArea,
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.settings_qrScan_scan),
       ),
+      body: QRView(
+        key: qrKey,
+        onQRViewCreated: _onQRViewCreated,
+        overlay: QrScannerOverlayShape(
+          borderColor: Theme.of(context).accentColor,
+          borderRadius: 10,
+          borderLength: 30,
+          borderWidth: 10,
+          cutOutSize: scanArea,
+        ),
+      ),
+      bottomSheet: kIsWeb ? null : _BottomBar(controller: controller),
     );
   }
 
@@ -197,5 +134,79 @@ class _QRViewExampleState extends State<QRViewExample> {
     }
     Navigator.pop(context);
     Navigator.pop(context);
+  }
+}
+
+class _BottomBar extends StatelessWidget {
+  final QRViewController? controller;
+  const _BottomBar({
+    required this.controller,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        _FlashButton(
+          controller: controller,
+        ),
+        const SizedBox(width: 40),
+        _CameraButton(
+          controller: controller,
+        ),
+      ],
+    );
+  }
+}
+
+class _FlashButton extends StatefulWidget {
+  final QRViewController? controller;
+  const _FlashButton({
+    required this.controller,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  __FlashButtonState createState() => __FlashButtonState();
+}
+
+class __FlashButtonState extends State<_FlashButton> {
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: AppLocalizations.of(context)?.settings_groupManagement_flash,
+      icon: FutureBuilder(
+        future: widget.controller?.getFlashStatus(),
+        builder: (context, AsyncSnapshot<bool?> snapshot) {
+          return (snapshot.data != null && snapshot.data!)
+              ? const Icon(Icons.flash_on_outlined, size: 40)
+              : const Icon(Icons.flash_off_outlined, size: 40);
+        },
+      ),
+      onPressed: () async {
+        await widget.controller?.toggleFlash();
+        setState(() {});
+      },
+    );
+  }
+}
+
+class _CameraButton extends StatelessWidget {
+  final QRViewController? controller;
+  const _CameraButton({
+    required this.controller,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip:
+          AppLocalizations.of(context)?.settings_groupManagement_orientation,
+      icon: const Icon(Icons.flip_camera_android_outlined, size: 40),
+      onPressed: () => controller?.flipCamera(),
+    );
   }
 }

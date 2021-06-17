@@ -2,15 +2,22 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:convert' show jsonEncode;
+import 'dart:convert';
+import 'dart:developer' as developer;
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/services.dart';
 import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:qr_flutter/qr_flutter.dart' show QrImage;
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import 'package:bierverkostung/services/firebase/cloud_functions.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
+
+part 'qr_scan.dart';
 
 class GroupScreen extends StatefulWidget {
   const GroupScreen({Key? key}) : super(key: key);
@@ -58,7 +65,7 @@ class _GroupScreenState extends State<GroupScreen> {
           const SizedBox(height: 16),
           Center(
             child: ElevatedButton(
-              onPressed: () => _scanQR(),
+              onPressed: () => _scanQR(context),
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
               ),
@@ -125,7 +132,11 @@ class _GroupScreenState extends State<GroupScreen> {
     }
   }
 
-  void _scanQR() {
-    Navigator.pushNamed(context, '/Settings/Groups/ScanCode');
+  static void _scanQR(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => const _QRScanner(),
+      ),
+    );
   }
 }
