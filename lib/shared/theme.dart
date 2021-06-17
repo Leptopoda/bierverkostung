@@ -8,9 +8,9 @@ part of '../main.dart';
 class _AppTheme {
   const _AppTheme._();
   static const _primarySwatch = Colors.yellow;
-  static final _accentColor = Colors.amber[800];
+  static const _accentColor = Color(0xFFFF8F00); //Colors.orange[800]
 
-  static final ThemeData lightTheme = ThemeData(
+  static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     primarySwatch: _primarySwatch,
     accentColor: _accentColor,

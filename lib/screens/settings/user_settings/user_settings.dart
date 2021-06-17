@@ -178,6 +178,7 @@ class UserSettings extends StatelessWidget {
       return ImageCropper.cropImage(
         sourcePath: path,
         aspectRatioPresets: [CropAspectRatioPreset.square],
+        cropStyle: CropStyle.circle,
         androidUiSettings: AndroidUiSettings(
           toolbarTitle:
               AppLocalizations.of(context)?.settings_userManagement_cropImage,
