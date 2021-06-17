@@ -15,7 +15,6 @@ import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, User;
 import 'package:firebase_storage/firebase_storage.dart' show FirebaseStorage;
 
 import 'package:bierverkostung/shared/enviornment_config.dart';
-import 'package:bierverkostung/shared/theme.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
@@ -24,6 +23,7 @@ import 'package:bierverkostung/services/route_generator.dart';
 import 'package:bierverkostung/screens/login_controller.dart';
 
 part 'package:bierverkostung/shared/firebase_setup.dart';
+part 'shared/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,8 +67,8 @@ class MyApp extends StatelessWidget {
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
                 // themeMode: ThemeMode.system,
-                theme: AppTheme.lightTheme,
-                darkTheme: AppTheme.darkTheme,
+                theme: _AppTheme.lightTheme,
+                darkTheme: _AppTheme.darkTheme,
                 onGenerateTitle: (BuildContext context) =>
                     (AppLocalizations.of(context) != null)
                         ? AppLocalizations.of(context)!.beertasting
@@ -84,8 +84,8 @@ class MyApp extends StatelessWidget {
         // Otherwise, show something whilst waiting for initialization to complete
         // TODO: maybe handle differently
         return MaterialApp(
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
+          theme: _AppTheme.lightTheme,
+          darkTheme: _AppTheme.darkTheme,
           home: const Loading(),
         );
       },

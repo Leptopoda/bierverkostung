@@ -2,10 +2,11 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart';
+part of '../main.dart';
 
-class AppTheme {
-  AppTheme._();
+@immutable
+class _AppTheme {
+  const _AppTheme._();
   static const _primarySwatch = Colors.yellow;
   static final _accentColor = Colors.amber[800];
 
