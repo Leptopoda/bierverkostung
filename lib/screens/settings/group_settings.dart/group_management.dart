@@ -19,28 +19,16 @@ import 'package:bierverkostung/services/firebase/auth.dart';
 
 part 'qr_scan.dart';
 
-class GroupScreen extends StatefulWidget {
+class GroupScreen extends StatelessWidget {
   const GroupScreen({Key? key}) : super(key: key);
 
-  @override
-  _GroupScreenState createState() => _GroupScreenState();
-}
-
-class _GroupScreenState extends State<GroupScreen> {
   static const TextStyle _text = TextStyle(
     fontSize: 18,
   );
 
-  final TextEditingController _uid = TextEditingController();
-  final TextEditingController _newUser = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  void dispose() {
-    _uid.dispose();
-    _newUser.dispose();
-    super.dispose();
-  }
+  static final TextEditingController _uid = TextEditingController();
+  static final TextEditingController _newUser = TextEditingController();
+  static final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
