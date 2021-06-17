@@ -22,7 +22,7 @@ class StatistikenList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Map>>(
-      stream: DatabaseService().statsComputed,
+      stream: DatabaseService.statsComputed,
       builder: (BuildContext context, AsyncSnapshot<List<Map>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(

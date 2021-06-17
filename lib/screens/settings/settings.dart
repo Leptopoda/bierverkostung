@@ -10,19 +10,14 @@ import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
 import 'package:bierverkostung/screens/settings/user_settings/user_settings.dart';
 import 'package:bierverkostung/screens/settings/about_us_settings.dart';
-import 'package:bierverkostung/screens/settings/group_management.dart';
+import 'package:bierverkostung/screens/settings/group_settings.dart/group_management.dart';
 import 'package:bierverkostung/screens/settings/import_data_settings.dart';
 import 'package:bierverkostung/screens/settings/notification_settings.dart';
 
-class Settings extends StatefulWidget {
+class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
 
-  @override
-  _SettingsState createState() => _SettingsState();
-}
-
-class _SettingsState extends State<Settings> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   static const List<String> _names = [
     'Log Out',

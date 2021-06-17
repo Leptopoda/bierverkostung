@@ -32,7 +32,7 @@ class UserCredentialsAlert extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                final bool _result = await AuthService().registerAnon();
+                final bool _result = await AuthService.registerAnon();
                 if (_result) {
                 } else {
                   Navigator.pushNamed(context, '/error',

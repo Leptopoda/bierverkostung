@@ -13,9 +13,9 @@ class LineChartSample2 extends StatefulWidget {
 }
 
 class _LineChartSample2State extends State<LineChartSample2> {
-  List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
+  static const List<Color> gradientColors = [
+    Color(0xff23b6e6),
+    Color(0xff02d39a),
   ];
 
   bool showAvg = false;

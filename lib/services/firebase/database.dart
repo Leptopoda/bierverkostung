@@ -14,15 +14,15 @@ import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/money_calc.dart';
 
 class DatabaseService {
-  String? groupID;
-  DatabaseService({this.groupID});
+  final String? groupID;
+  const DatabaseService({this.groupID});
   // Firestore instance
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final User user2 = AuthService().getUser()!;
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final User user2 = AuthService.getUser()!;
 
   // Stats
   /// save Stat
-  Future<void> saveStat(Map<String, dynamic> stat) async {
+  static Future<void> saveStat(Map<String, dynamic> stat) async {
     await _firestore
         .collection('users')
         .doc(user2.uid)
@@ -31,7 +31,7 @@ class DatabaseService {
   }
 
   /// get stats stream
-  Stream<List<Stat>> get stats {
+  static Stream<List<Stat>> get stats {
     return _firestore
         .collection('users')
         .doc(user2.uid)
@@ -42,7 +42,7 @@ class DatabaseService {
   }
 
   /// get cumputed stats stream
-  Stream<List<Map<String, dynamic>>> get statsComputed {
+  static Stream<List<Map<String, dynamic>>> get statsComputed {
     return _firestore
         .collection('users')
         .doc(user2.uid)
@@ -52,7 +52,7 @@ class DatabaseService {
   }
 
   /// save NotificationToken
-  Future<void> saveNotificationToken(Map<String, dynamic> token) async {
+  static Future<void> saveNotificationToken(Map<String, dynamic> token) async {
     await _firestore
         .collection('users')
         .doc(user2.uid)

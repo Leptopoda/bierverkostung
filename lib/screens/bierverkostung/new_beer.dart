@@ -14,21 +14,21 @@ import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/models/beers.dart';
 
 class NewBeer extends StatelessWidget {
-  NewBeer({
+  const NewBeer({
     Key? key,
   }) : super(key: key);
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _beerName = TextEditingController();
-  final TextEditingController _brewery = TextEditingController();
-  final TextEditingController _style = TextEditingController();
-  final TextEditingController _originalWort = TextEditingController();
-  final TextEditingController _alcohol = TextEditingController();
-  final TextEditingController _ibu = TextEditingController();
-  final TextEditingController _ingredients = TextEditingController();
-  final TextEditingController _specifics = TextEditingController();
-  final TextEditingController _beerNotes = TextEditingController();
+  static final TextEditingController _beerName = TextEditingController();
+  static final TextEditingController _brewery = TextEditingController();
+  static final TextEditingController _style = TextEditingController();
+  static final TextEditingController _originalWort = TextEditingController();
+  static final TextEditingController _alcohol = TextEditingController();
+  static final TextEditingController _ibu = TextEditingController();
+  static final TextEditingController _ingredients = TextEditingController();
+  static final TextEditingController _specifics = TextEditingController();
+  static final TextEditingController _beerNotes = TextEditingController();
 
   static const TextStyle _text = TextStyle(
     fontSize: 18,
@@ -172,8 +172,7 @@ class NewBeer extends StatelessWidget {
         beerNotes: _beerNotes.value.text,
       );
 
-      final String? _groupID =
-          await AuthService().getClaim('group_id') as String?;
+      final String? _groupID = AuthService.claims?['group_id'] as String?;
       await DatabaseService(groupID: _groupID).saveBeer(_bier1.toMap());
 
       Navigator.of(context).pop();

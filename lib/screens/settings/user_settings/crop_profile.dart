@@ -4,10 +4,10 @@
 
 part of 'user_settings.dart';
 
-class _CropProfile extends StatelessWidget {
+class _CropProfileWeb extends StatelessWidget {
   final String imagePath;
 
-  const _CropProfile({
+  const _CropProfileWeb({
     Key? key,
     required this.imagePath,
   }) : super(key: key);

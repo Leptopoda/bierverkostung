@@ -4,11 +4,13 @@
 
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // import 'package:crop_image/crop_image.dart';
 import 'package:crop_your_image/crop_your_image.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:bierverkostung/services/firebase/cloud_storage.dart';
@@ -23,7 +25,7 @@ part 'logout_alert_anon.dart';
 class UserSettings extends StatelessWidget {
   const UserSettings({Key? key}) : super(key: key);
 
-  static final User user = AuthService().getUser()!;
+  static final User user = AuthService.getUser()!;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +128,7 @@ class UserSettings extends StatelessWidget {
               onPressed: () => showDialog(
                 context: context,
                 builder: (BuildContext _) =>
-                    (AuthService().getUser()!.isAnonymous)
+                    (AuthService.getUser()!.isAnonymous)
                         ? const _LogOutAnonAlert()
                         : const _LogOutAlert(),
               ),
@@ -150,21 +152,54 @@ class UserSettings extends StatelessWidget {
     );
 
     if (_path != null) {
-      final Uint8List? _cropped = await Navigator.of(context).push<Uint8List?>(
-        MaterialPageRoute<Uint8List?>(
-          builder: (BuildContext context) => _CropProfile(
-            imagePath: _path,
-          ),
-        ),
-      );
+      final dynamic _cropped = await _cropImage(context, _path);
 
       if (_cropped != null) {
-        final String? _url =
-            await CloudStorageService().uploadProfile(_cropped);
+        final String? _url = await CloudStorageService.uploadProfile(_cropped);
         if (_url != null) {
           user.updatePhotoURL(_url);
         }
       }
+    }
+  }
+
+  static Future<dynamic> _cropImage(BuildContext context, String path) async {
+    if (kIsWeb) {
+      return Navigator.of(context).push<Uint8List?>(
+        MaterialPageRoute<Uint8List?>(
+          builder: (BuildContext context) => _CropProfileWeb(
+            imagePath: path,
+          ),
+        ),
+      );
+    } else {
+      final ThemeData theme = Theme.of(context);
+      final ColorScheme colorScheme = theme.colorScheme;
+      return ImageCropper.cropImage(
+        sourcePath: path,
+        aspectRatioPresets: [CropAspectRatioPreset.square],
+        cropStyle: CropStyle.circle,
+        androidUiSettings: AndroidUiSettings(
+          toolbarTitle:
+              AppLocalizations.of(context)?.settings_userManagement_cropImage,
+          toolbarColor: theme.appBarTheme.backgroundColor ??
+              (colorScheme.brightness == Brightness.dark
+                  ? colorScheme.surface
+                  : colorScheme.primary),
+          toolbarWidgetColor: theme.appBarTheme.backgroundColor ??
+              (colorScheme.brightness == Brightness.dark
+                  ? colorScheme.onSurface
+                  : colorScheme.onPrimary),
+          backgroundColor: theme.scaffoldBackgroundColor,
+          activeControlsWidgetColor: theme.accentColor,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false,
+        ),
+        iosUiSettings: IOSUiSettings(
+          title:
+              AppLocalizations.of(context)?.settings_userManagement_cropImage,
+        ),
+      );
     }
   }
 

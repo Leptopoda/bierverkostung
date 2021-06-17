@@ -131,7 +131,7 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> _registerAnon() async {
-    final bool _result = await AuthService().registerAnon();
+    final bool _result = await AuthService.registerAnon();
     if (_result) {
     } else {
       Navigator.pushNamed(context, '/error',
@@ -141,7 +141,7 @@ class _LoginState extends State<Login> {
 
   Future<void> _signInWithEmailAndPassword() async {
     if (_formKey.currentState!.validate()) {
-      final bool _result = await AuthService().signInWithEmailAndPassword(
+      final bool _result = await AuthService.signInWithEmailAndPassword(
         _mailController.text,
         _passwordController.text,
       );
@@ -158,7 +158,7 @@ class _LoginState extends State<Login> {
     //if (isNewUser) TextField(ontroller: repeatNewPassword, autofillHints: [AutofillHints.newPassword]),
 
     if (_formKey.currentState!.validate()) {
-      final bool _result = await AuthService().registerWithEmailAndPassword(
+      final bool _result = await AuthService.registerWithEmailAndPassword(
         _mailController.text,
         _passwordController.text,
       );

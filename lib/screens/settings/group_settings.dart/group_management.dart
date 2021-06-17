@@ -2,42 +2,37 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:convert' show jsonEncode;
+import 'dart:convert';
+import 'dart:developer' as developer;
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/services.dart';
 import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:qr_flutter/qr_flutter.dart' show QrImage;
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import 'package:bierverkostung/services/firebase/cloud_functions.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
 
-class GroupScreen extends StatefulWidget {
+part 'qr_scan.dart';
+
+class GroupScreen extends StatelessWidget {
   const GroupScreen({Key? key}) : super(key: key);
 
-  @override
-  _GroupScreenState createState() => _GroupScreenState();
-}
-
-class _GroupScreenState extends State<GroupScreen> {
   static const TextStyle _text = TextStyle(
     fontSize: 18,
   );
 
-  final TextEditingController _uid = TextEditingController();
-  final TextEditingController _newUser = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  void dispose() {
-    _uid.dispose();
-    _newUser.dispose();
-    super.dispose();
-  }
+  static final TextEditingController _uid = TextEditingController();
+  static final TextEditingController _newUser = TextEditingController();
+  static final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final User _user = AuthService().getUser()!;
+    final User _user = AuthService.getUser()!;
     _uid.text = _user.uid;
 
     return Form(
@@ -58,7 +53,7 @@ class _GroupScreenState extends State<GroupScreen> {
           const SizedBox(height: 16),
           Center(
             child: ElevatedButton(
-              onPressed: () => _scanQR(),
+              onPressed: () => _scanQR(context),
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
               ),
@@ -100,7 +95,7 @@ class _GroupScreenState extends State<GroupScreen> {
                 .settings_groupManagement_addToGroup),
           ),
           ElevatedButton.icon(
-            onPressed: () => AuthService().refreshToken(),
+            onPressed: () => AuthService.refreshToken(),
             icon: const Icon(Icons.refresh_outlined),
             label: Text(AppLocalizations.of(context)!
                 .settings_groupManagement_refreshToken),
@@ -112,11 +107,10 @@ class _GroupScreenState extends State<GroupScreen> {
 
   Future<void> _submit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      final String? _groupID =
-          await AuthService().getClaim('group_id') as String?;
-      final HttpsCallableResult<dynamic> result = await CloudFunctionsService()
-          .setGroup(_newUser.value.text,
-              (_groupID != null) ? _groupID : AuthService().getUser()!.uid);
+      final String? _groupID = AuthService.claims?['group_id'] as String?;
+      final HttpsCallableResult<dynamic> result =
+          await CloudFunctionsService.setGroup(_newUser.value.text,
+              (_groupID != null) ? _groupID : AuthService.getUser()!.uid);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result.data.toString()),
@@ -125,7 +119,11 @@ class _GroupScreenState extends State<GroupScreen> {
     }
   }
 
-  void _scanQR() {
-    Navigator.pushNamed(context, '/Settings/Groups/ScanCode');
+  static void _scanQR(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => const _QRScanner(),
+      ),
+    );
   }
 }

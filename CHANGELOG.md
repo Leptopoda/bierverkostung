@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## Added:
 - GDPR screen
 - delete old users
+- better perfomance
 
 ## [0.12.0] - 2021-06-14
 - user setting

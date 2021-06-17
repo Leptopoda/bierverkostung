@@ -24,7 +24,7 @@ class _AboutUsSettingsState extends State<AboutUsSettings> {
     return Container();
   }
 
-  Future<void> _aboutUsDialog(BuildContext context) async {
+  static Future<void> _aboutUsDialog(BuildContext context) async {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     showAboutDialog(
       context: context,

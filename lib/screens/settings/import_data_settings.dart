@@ -38,7 +38,7 @@ class ImportDataSettings extends StatelessWidget {
     );
   }
 
-  Future _importData(BuildContext context) async {
+  static Future _importData(BuildContext context) async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['zip'],
@@ -47,7 +47,7 @@ class ImportDataSettings extends StatelessWidget {
     if (result != null) {
       final File _zipFile = File(result.files.single.path!);
 
-      ImportDataService().importData(_zipFile);
+      ImportDataService.importData(_zipFile);
     }
   }
 }

@@ -295,19 +295,19 @@ class _MeetingState extends State<Meeting> {
     );
   }
 
-  void _onConferenceWillJoin(message) {
+  static void _onConferenceWillJoin(message) {
     debugPrint("_onConferenceWillJoin broadcasted with message: $message");
   }
 
-  void _onConferenceJoined(message) {
+  static void _onConferenceJoined(message) {
     debugPrint("_onConferenceJoined broadcasted with message: $message");
   }
 
-  void _onConferenceTerminated(message) {
+  static void _onConferenceTerminated(message) {
     debugPrint("_onConferenceTerminated broadcasted with message: $message");
   }
 
-  void _onError(error) {
+  static void _onError(error) {
     debugPrint("_onError broadcasted: $error");
   }
 }
