@@ -8,11 +8,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/local_storage.dart';
 import 'package:bierverkostung/services/firebase/notifications.dart';
-import 'package:bierverkostung/shared/drink_safe.dart';
 
 import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
 import 'package:bierverkostung/screens/statistiken/disp_statistiken.dart';
+
+part 'package:bierverkostung/shared/drink_responsible.dart';
 
 class MyHome extends StatefulWidget {
   const MyHome({Key? key}) : super(key: key);
@@ -91,7 +92,15 @@ class _MyHomeState extends State<MyHome> {
         if (mounted) setState(() => _currentIndex = val);
 
         if (_currentIndex == 0) {
-          await drinkResponsible(context);
+          final bool? drinkResponsibleShown =
+              await LocalDatabaseService.getDrinkResponsible();
+          if (drinkResponsibleShown == true) {
+            return;
+          }
+          await showDialog(
+            context: context,
+            builder: (BuildContext _) => const _DrinkResponsibleAlert(),
+          );
         }
       },
       body: IndexedStack(

@@ -2,10 +2,10 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
+part of 'package:bierverkostung/screens/home.dart';
 
-class _DrinkSafeAlert extends StatelessWidget {
-  const _DrinkSafeAlert({
+class _DrinkResponsibleAlert extends StatelessWidget {
+  const _DrinkResponsibleAlert({
     Key? key,
   }) : super(key: key);
 
@@ -13,14 +13,13 @@ class _DrinkSafeAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(AppLocalizations.of(context)!.drinkSafe),
-      // TODO: change message
       content: SingleChildScrollView(
-        child: Text(AppLocalizations.of(context)!.drinkSafe_banner),
+        child: Text(AppLocalizations.of(context)!.drinkResponsible_banner),
       ),
       actions: <Widget>[
         TextButton(
           onPressed: () async {
-            await LocalDatabaseService.setDrinkSafe();
+            await LocalDatabaseService.setDrinkResponsible();
             Navigator.of(context).pop();
           },
           child: Text(AppLocalizations.of(context)!.alert_donotShowAgain),

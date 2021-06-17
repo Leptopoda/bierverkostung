@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
-import 'package:bierverkostung/shared/drink_safe.dart';
+import 'package:bierverkostung/services/local_storage.dart';
+
+part 'package:bierverkostung/shared/drink_safe.dart';
 
 class PromilleRechnerButton extends StatelessWidget {
   const PromilleRechnerButton({Key? key}) : super(key: key);
@@ -47,7 +49,16 @@ class _PromilleRechnerState extends State<PromilleRechner> {
 
   @override
   Future<void> didChangeDependencies() async {
-    await drinkSafe(context);
+    final bool? drinkResponsibleShown =
+        await LocalDatabaseService.getDrinkSafe();
+    if (drinkResponsibleShown == true) {
+      return;
+    }
+    await showDialog(
+      context: context,
+      builder: (BuildContext _) => const _DrinkSafeAlert(),
+    );
+
     super.didChangeDependencies();
   }
 
