@@ -8,7 +8,6 @@ import 'package:pattern_formatter/pattern_formatter.dart'
     show ThousandsFormatter;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/models/breweries.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/models/beers.dart';
@@ -172,8 +171,7 @@ class NewBeer extends StatelessWidget {
         beerNotes: _beerNotes.value.text,
       );
 
-      final String? _groupID = AuthService.claims?['group_id'] as String?;
-      await DatabaseService(groupID: _groupID).saveBeer(_bier1.toMap());
+      await DatabaseService.saveBeer(_bier1);
 
       Navigator.of(context).pop();
     }

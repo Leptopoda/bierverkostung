@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
@@ -372,8 +371,7 @@ class _NewTastingState extends State<NewTasting> {
         totalImpressionDesc: _totalImpressionDesc.value.text,
         totalImpressionRating: _totalImpressionRating,
       );
-      final String? _groupID = AuthService.claims?['group_id'] as String?;
-      await DatabaseService(groupID: _groupID).saveTasting(_tasting1.toMap());
+      await DatabaseService.saveTasting(_tasting1);
 
       Navigator.of(context).pop();
     }

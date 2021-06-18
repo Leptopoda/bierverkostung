@@ -102,13 +102,13 @@ class _MoneyAlertState extends State<MoneyAlert> {
   Future<void> _onSubmit() async {
     final DateTime _date = DateTime.now();
 
-    await const DatabaseService().saveMoneyCalc(
+    await DatabaseService.saveMoneyCalc(
       MoneyCalc(
         buyer: _buyer.value.text,
         amount: double.parse(_amount.value.text) * -1,
         timestamp: _date,
         // participants: participants,
-      ).toJson(),
+      ),
     );
 
     Navigator.of(context).pop();

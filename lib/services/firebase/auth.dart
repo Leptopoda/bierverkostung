@@ -6,6 +6,8 @@ import 'dart:convert' show jsonEncode;
 import 'dart:developer' as developer show log;
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:bierverkostung/services/firebase/database.dart';
+
 class AuthService {
   const AuthService();
 
@@ -93,7 +95,8 @@ class AuthService {
   // sign out
   static Future<void> signOut() async {
     try {
-      return await _auth.signOut();
+      await _auth.signOut();
+      await DatabaseService.clearLocalCache();
     } catch (error) {
       developer.log(
         'error on sign out',

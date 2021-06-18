@@ -6,11 +6,11 @@ import 'dart:convert';
 import 'dart:developer' as developer show log;
 import 'dart:io';
 
+import 'package:bierverkostung/models/beers.dart';
+import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
-
-import 'package:bierverkostung/services/firebase/auth.dart';
 
 class ImportDataService {
   const ImportDataService();
@@ -64,13 +64,11 @@ class ImportDataService {
       final String _contents = await file.readAsString();
       final Map _data = jsonDecode(_contents) as Map;
 
-      final String? _groupID = AuthService.claims?['group_id'] as String?;
-
       // TODO: validate json (maybe externalize to cloud function)
-      DatabaseService(groupID: _groupID)
-          .saveBeer(_data['beer'] as Map<String, dynamic>);
-      DatabaseService(groupID: _groupID)
-          .saveTasting(_data as Map<String, dynamic>);
+      DatabaseService.saveBeer(
+          Beer.fromMap(_data['beer'] as Map<String, dynamic>));
+      DatabaseService.saveTasting(
+          Tasting.fromMap(_data as Map<String, dynamic>));
     } catch (error) {
       developer.log(
         'error parsing json',

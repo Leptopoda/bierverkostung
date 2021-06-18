@@ -8,15 +8,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
-import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/money_calc.dart';
 
 class MoneyCalculator extends StatelessWidget {
   const MoneyCalculator({Key? key}) : super(key: key);
-
-  static final String? _groupID = AuthService.claims?['group_id'] as String?;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +38,7 @@ class MoneyCalculator extends StatelessWidget {
 
   Widget _moneyList() {
     return StreamBuilder<List<MoneyCalc>>(
-      stream: DatabaseService(groupID: _groupID).moneyCalc,
+      stream: DatabaseService.moneyCalc,
       builder: (BuildContext context, AsyncSnapshot<List<MoneyCalc>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
@@ -101,7 +98,7 @@ class MoneyCalculator extends StatelessWidget {
 
   Widget _calculatedList() {
     return StreamBuilder<List<MoneyCalc>>(
-      stream: DatabaseService(groupID: _groupID).moneyCalcComp,
+      stream: DatabaseService.moneyCalcComp,
       builder: (BuildContext context, AsyncSnapshot<List<MoneyCalc>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
