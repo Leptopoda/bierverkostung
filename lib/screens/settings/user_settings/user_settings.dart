@@ -143,6 +143,7 @@ class UserSettings extends StatelessWidget {
 
   static Future<void> _changeAvatar(BuildContext context) async {
     final String? _path = await showModalBottomSheet<String?>(
+      shape: PickImageModal.shape,
       context: context,
       builder: (BuildContext context) {
         return const PickImageModal(
