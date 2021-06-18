@@ -28,23 +28,32 @@ class ImportDataSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(16.0),
-      children: <Widget>[
-        Center(
-          child: Text(
-            AppLocalizations.of(context)!.settings_importData_desc,
-            style: _text,
+    if (!kIsWeb) {
+      return ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: <Widget>[
+          Center(
+            child: Text(
+              AppLocalizations.of(context)!.settings_importData_desc,
+              style: _text,
+            ),
           ),
+          const SizedBox(height: 16),
+          ElevatedButton.icon(
+            onPressed: () => _importData(context),
+            icon: const Icon(Icons.import_export_outlined),
+            label: Text(AppLocalizations.of(context)!.settings_importData),
+          ),
+        ],
+      );
+    } else {
+      return Center(
+        child: Text(
+          AppLocalizations.of(context)!.settings_importData_web,
+          style: _text,
         ),
-        const SizedBox(height: 16),
-        ElevatedButton.icon(
-          onPressed: () => _importData(context),
-          icon: const Icon(Icons.import_export_outlined),
-          label: Text(AppLocalizations.of(context)!.settings_importData),
-        ),
-      ],
-    );
+      );
+    }
   }
 
   static Future _importData(BuildContext context) async {
@@ -53,9 +62,14 @@ class ImportDataSettings extends StatelessWidget {
       allowedExtensions: ['zip'],
     );
 
-    if (result != null) {
-      final File _zipFile = File(result.files.single.path!);
+    if (result?.files.single.path != null) {
+      final File _zipFile = File(result!.files.single.path!);
       await compute(_ImportDataService.importData, _zipFile);
+    } else {
+      developer.log(
+        'error getting file',
+        name: 'leptopoda.bierverkostung.importDataSettings',
+      );
     }
   }
 }
