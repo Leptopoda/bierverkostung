@@ -17,11 +17,16 @@ class PickImageModal extends StatelessWidget {
     this.removeCallback,
   }) : super(key: key);
 
+  static const shape = RoundedRectangleBorder(
+    borderRadius: BorderRadius.vertical(
+      top: Radius.circular(20),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 200,
-      // color: Colors.amber,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
