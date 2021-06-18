@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/beers.dart';
@@ -17,12 +16,10 @@ class BeerList extends StatelessWidget {
 
   static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static final String? _groupID = AuthService.claims?['group_id'] as String?;
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Beer>>(
-      stream: DatabaseService(groupID: _groupID).beers,
+      stream: DatabaseService.beers,
       builder: (BuildContext context, AsyncSnapshot<List<Beer>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(

@@ -114,14 +114,14 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
       case _bier.klein:
         for (int i = 0; i < _menge; i++) {
           await DatabaseService.saveStat(
-            Stat(menge: 0.33, timestamp: date, beer: _bier1).toMap(),
+            Stat(menge: 0.33, timestamp: date, beer: _bier1),
           );
         }
         break;
       case _bier.gross:
         for (int i = 0; i < _menge; i++) {
           await DatabaseService.saveStat(
-            Stat(menge: 0.5, timestamp: date, beer: _bier1).toMap(),
+            Stat(menge: 0.5, timestamp: date, beer: _bier1),
           );
         }
         break;

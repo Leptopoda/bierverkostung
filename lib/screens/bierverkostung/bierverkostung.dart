@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/tastings.dart';
@@ -19,12 +18,10 @@ class Bierverkostung extends StatelessWidget {
 
   static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static final String? _groupID = AuthService.claims?['group_id'] as String?;
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Tasting>>(
-      stream: DatabaseService(groupID: _groupID).tastings,
+      stream: DatabaseService.tastings,
       builder: (BuildContext context, AsyncSnapshot<List<Tasting>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
