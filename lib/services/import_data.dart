@@ -2,18 +2,10 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:convert';
-import 'dart:developer' as developer show log;
-import 'dart:io';
+part of 'package:bierverkostung/screens/settings/import_data_settings.dart';
 
-import 'package:bierverkostung/models/beers.dart';
-import 'package:bierverkostung/models/tastings.dart';
-import 'package:bierverkostung/services/firebase/database.dart';
-import 'package:flutter_archive/flutter_archive.dart';
-import 'package:path_provider/path_provider.dart';
-
-class ImportDataService {
-  const ImportDataService();
+class _ImportDataService {
+  const _ImportDataService();
 
   static Future importData(File archive) async {
     try {

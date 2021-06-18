@@ -2,13 +2,22 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'dart:convert';
+import 'dart:developer' as developer show log;
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_archive/flutter_archive.dart';
+import 'package:path_provider/path_provider.dart';
 
-import 'package:bierverkostung/services/import_data.dart';
+import 'package:bierverkostung/services/firebase/database.dart';
+import 'package:bierverkostung/models/beers.dart';
+import 'package:bierverkostung/models/tastings.dart';
+
+part 'package:bierverkostung/services/import_data.dart';
 
 class ImportDataSettings extends StatelessWidget {
   const ImportDataSettings({Key? key}) : super(key: key);
@@ -46,8 +55,7 @@ class ImportDataSettings extends StatelessWidget {
 
     if (result != null) {
       final File _zipFile = File(result.files.single.path!);
-
-      ImportDataService.importData(_zipFile);
+      await compute(_ImportDataService.importData, _zipFile);
     }
   }
 }
