@@ -23,15 +23,21 @@
       ],
     },
     {
+      "name": "bierverkostung-attach",
+      "request": "attach",
+      "type": "dart",
+    },
+    {
       "name": "bierverkostung-profile",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
-    }
+    },
     {
-      "name": "bierverkostung-attach",
-      "request": "attach",
+      "name": "bierverkostung-release",
+      "request": "launch",
       "type": "dart",
+      "flutterMode": "release",
     }
     /* {
       "type": "node",
