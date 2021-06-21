@@ -7,7 +7,7 @@ part of 'package:bierverkostung/screens/settings/import_data_settings.dart';
 class _ImportDataService {
   const _ImportDataService();
 
-  static Future importData(File archive) async {
+  static Future<void> importData(File archive) async {
     try {
       final Directory _tempDir = await getTemporaryDirectory();
       final Directory _dataDir =
@@ -16,7 +16,8 @@ class _ImportDataService {
       await ZipFile.extractToDirectory(
         zipFile: archive,
         destinationDir: _dataDir,
-        /* onExtracting: (zipEntry, progress) {
+        /* 
+        onExtracting: (zipEntry, progress) {
               print('progress: ${progress.toStringAsFixed(1)}%');
               print('name: ${zipEntry.name}');
               print('isDirectory: ${zipEntry.isDirectory}');
@@ -27,8 +28,10 @@ class _ImportDataService {
               print('compressionMethod: ${zipEntry.compressionMethod}');
               print('crc: ${zipEntry.crc}');
               return ExtractOperation.extract;
-            }*/
+            }
+        */
       );
+
       await _dataDir.list().forEach((file) async {
         if (file is File) {
           await _parseJson(file);
