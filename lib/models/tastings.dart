@@ -3,8 +3,13 @@
 // found in the LICENSE file.
 
 import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
+import 'package:json_annotation/json_annotation.dart';
+
 import 'package:bierverkostung/models/beers.dart';
 
+part 'tastings.g.dart';
+
+@JsonSerializable()
 class Tasting {
   // final String id;
   // final int revision;
@@ -53,6 +58,10 @@ class Tasting {
     this.totalImpressionDesc,
     this.totalImpressionRating = 0,
   });
+
+  factory Tasting.fromJson(Map<String, dynamic> json) =>
+      _$TastingFromJson(json);
+  Map<String, dynamic> toJson() => _$TastingToJson(this);
 
   factory Tasting.fromMap(Map data) {
     return Tasting(
