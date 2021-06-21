@@ -10,6 +10,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/gen/assets.gen.dart';
 
+/// The about us dialog.
+///
+/// This screen shows the aboutDialog wich also
+/// links to a lincences page.
 class AboutUsSettings extends StatefulWidget {
   const AboutUsSettings({Key? key}) : super(key: key);
 
@@ -24,6 +28,7 @@ class _AboutUsSettingsState extends State<AboutUsSettings> {
     return Container();
   }
 
+  /// Shows the about us dialog. It requires the current [context].
   static Future<void> _aboutUsDialog(BuildContext context) async {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     showAboutDialog(
@@ -36,7 +41,7 @@ class _AboutUsSettingsState extends State<AboutUsSettings> {
           color: Colors.grey,
           shape: BoxShape.circle,
         ),
-        child: Assets.icon.icon.svg(),
+        child: Assets.icon.iconSvg.svg(),
       ),
       applicationName: packageInfo.appName,
       applicationVersion: packageInfo.version,
