@@ -64,7 +64,7 @@ class ImportDataSettings extends StatelessWidget {
 
     if (result?.files.single.path != null) {
       final File _zipFile = File(result!.files.single.path!);
-      await compute(_ImportDataService.importData, _zipFile);
+      await _ImportDataService.importData(_zipFile);
     } else {
       developer.log(
         'error getting file',

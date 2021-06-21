@@ -2,6 +2,11 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:json_annotation/json_annotation.dart';
+
+part 'breweries.g.dart';
+
+@JsonSerializable()
 class Brewery {
   // final String id;
   // final int revision;
@@ -14,6 +19,10 @@ class Brewery {
     this.breweryLocation,
     this.country,
   });
+
+  factory Brewery.fromJson(Map<String, dynamic> json) =>
+      _$BreweryFromJson(json);
+  Map<String, dynamic> toJson() => _$BreweryToJson(this);
 
   factory Brewery.fromMap(Map data) {
     return Brewery(

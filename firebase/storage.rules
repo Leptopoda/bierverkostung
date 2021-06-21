@@ -15,10 +15,12 @@ service firebase.storage {
 
     // Functions //
 
+    /// returns true if the current user matches the given [userID]
     function isOwner(userID) {
       return  request.auth.uid == userID;
     }
 
+    /// returns true if the current user matches the given [groupID]
     function isMember(groupID) {
       return  request.auth.token.group_id == groupID;
     }

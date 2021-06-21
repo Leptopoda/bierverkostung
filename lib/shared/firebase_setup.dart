@@ -4,26 +4,36 @@
 
 part of 'package:bierverkostung/main.dart';
 
+/// Sets up firebase components.
+/// When compiled for local testing it will set up for emulator usage.
 Future<void> _setupFirebase() async {
-  if (EnvironmentConfig.localFirebase ||
-      EnvironmentConfig.localFirebaseIP != 'localhost') {
-    const String _host = EnvironmentConfig.localFirebaseIP;
+  try {
+    if (EnvironmentConfig.localFirebase ||
+        EnvironmentConfig.localFirebaseIP != 'localhost') {
+      const String _host = EnvironmentConfig.localFirebaseIP;
 
-    if (!kIsWeb) {
-      await FirebaseAuth.instance.useEmulator('http://$_host:9099');
+      if (!kIsWeb) {
+        await FirebaseAuth.instance.useEmulator('http://$_host:9099');
+      }
+      FirebaseFunctions.instance
+          .useFunctionsEmulator(origin: 'http://$_host:5001');
+
+      FirebaseFirestore.instance.settings = const Settings(
+        host: '$_host:8080',
+        sslEnabled: false,
+        persistenceEnabled: false,
+      );
+
+      await FirebaseStorage.instance.useEmulator(host: _host, port: 9919);
+    } else {
+      FirebaseFirestore.instance.settings =
+          const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
     }
-    FirebaseFunctions.instance
-        .useFunctionsEmulator(origin: 'http://$_host:5001');
-
-    FirebaseFirestore.instance.settings = const Settings(
-      host: '$_host:8080',
-      sslEnabled: false,
-      persistenceEnabled: false,
+  } catch (error) {
+    developer.log(
+      'Firebase init error',
+      name: 'leptopoda.bierverkostung.initFirebas',
+      error: jsonEncode(error.toString()),
     );
-
-    await FirebaseStorage.instance.useEmulator(host: _host, port: 9919);
-  } else {
-    FirebaseFirestore.instance.settings =
-        const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   }
 }

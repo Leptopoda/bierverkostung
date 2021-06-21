@@ -2,8 +2,13 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:json_annotation/json_annotation.dart';
+
 import 'package:bierverkostung/models/breweries.dart';
 
+part 'beers.g.dart';
+
+@JsonSerializable()
 class Beer {
   // final String id;
   // final int revision;
@@ -16,6 +21,7 @@ class Beer {
   final String? ingredients;
   final String? specifics;
   final String? beerNotes;
+  final List<String>? images;
 
   Beer({
     required this.beerName,
@@ -27,7 +33,11 @@ class Beer {
     this.ingredients,
     this.specifics,
     this.beerNotes,
+    this.images,
   });
+
+  factory Beer.fromJson(Map<String, dynamic> json) => _$BeerFromJson(json);
+  Map<String, dynamic> toJson() => _$BeerToJson(this);
 
   factory Beer.fromMap(Map data) {
     return Beer(
@@ -36,11 +46,8 @@ class Beer {
           ? Brewery.fromMap(data['brewery'] as Map)
           : null,
       style: data['style']?['name'] as String?,
-      /* originalWort: double?.tryParse((data['originalWort'] != null)
-          ? data['originalWort'] as String
-          : ''),
-      alcohol: double?.tryParse(
-          (data['alcohol'] != null) ? data['alcohol'] as String : ''), */
+      originalWort: double.tryParse(data['originalWort'].toString()),
+      alcohol: double.tryParse(data['alcohol'].toString()),
       ibu: data['ibu'] as int?,
       ingredients: data['ingredients'] as String?,
       specifics: data['specifics'] as String?,

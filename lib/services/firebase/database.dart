@@ -28,8 +28,8 @@ class DatabaseService {
       .doc(_user.uid)
       .collection('stats')
       .withConverter(
-        fromFirestore: (snapshot, _) => Stat.fromMap(snapshot.data()!),
-        toFirestore: (Stat stat, _) => stat.toMap(),
+        fromFirestore: (snapshot, _) => Stat.fromJson(snapshot.data()!),
+        toFirestore: (Stat stat, _) => stat.toJson(),
       );
 
   // Stats
@@ -68,8 +68,8 @@ class DatabaseService {
       .doc(_groupID ?? _user.uid)
       .collection('tastings')
       .withConverter(
-        fromFirestore: (snapshot, _) => Tasting.fromMap(snapshot.data()!),
-        toFirestore: (Tasting stat, _) => stat.toMap(),
+        fromFirestore: (snapshot, _) => Tasting.fromJson(snapshot.data()!),
+        toFirestore: (Tasting stat, _) => stat.toJson(),
       );
 
   // Tasting
@@ -98,8 +98,8 @@ class DatabaseService {
       .doc(_groupID ?? _user.uid)
       .collection('beers')
       .withConverter(
-        fromFirestore: (snapshot, _) => Beer.fromMap(snapshot.data()!),
-        toFirestore: (Beer stat, _) => stat.toMap(),
+        fromFirestore: (snapshot, _) => Beer.fromJson(snapshot.data()!),
+        toFirestore: (Beer stat, _) => stat.toJson(),
       );
   // Beer
   /// save Beer
