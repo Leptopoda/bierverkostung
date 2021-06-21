@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/models/beers.dart';
 
+/// Display the given [beer]
 class DispBeer {
   final Beer beer;
 
@@ -21,8 +22,9 @@ class DispBeer {
     fontSize: 18,
   );
 
+  /// builds a List of widgets to display beer information
   List<Widget> dispBeer(BuildContext context) {
-    return <Widget>[
+    final List<Widget> _beerInfo = [
       TextFormField(
         style: _text,
         readOnly: true,
@@ -105,5 +107,47 @@ class DispBeer {
         ),
       ),
     ];
+    if (beer.images == null) {
+      return _beerInfo;
+    } else {
+      return _beerInfo
+        ..addAll([
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: 150,
+            width: 500,
+            child: _BeerImage(
+              imagePaths: beer.images!,
+            ),
+          ),
+        ]);
+    }
+  }
+}
+
+/// Widget to display Images of a beer
+class _BeerImage extends StatelessWidget {
+  final List<String> imagePaths;
+  const _BeerImage({
+    required this.imagePaths,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      // padding: const EdgeInsets.all(10),
+      itemExtent: 100,
+      itemCount: imagePaths.length,
+      itemBuilder: (BuildContext context, int i) {
+        return Card(
+          color: Colors.amber,
+          child: Image.network(imagePaths[i]),
+        );
+      },
+    );
   }
 }

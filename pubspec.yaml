@@ -114,6 +114,8 @@ dependencies:
   # url launcher
   url_launcher: any
 
+  uuid: ^3.0.0
+
 dev_dependencies:
   # Change launcher icon
   #flutter_launcher_icons: any

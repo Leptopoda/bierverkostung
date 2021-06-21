@@ -308,5 +308,8 @@
   "settings_groupManagement_flash" : "Toggle flash",
   "settings_groupManagement_orientation" : "Flip camera",
 
+  "beer_newImage" : "Add Image",
+  "beer_changeImage": "Change Image",
+
   "settings_importData_web" :"Importing data isn't availabe on web for now. Use an Android or iOS device to achieve this."
 }
