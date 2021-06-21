@@ -26,7 +26,7 @@ class _NewTastingState extends State<NewTasting> {
 
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _location = TextEditingController();
-  final TextEditingController _beer = TextEditingController();
+  final TextEditingController _beerName = TextEditingController();
   final TextEditingController _beerColour = TextEditingController();
   final TextEditingController _beerColourDesc = TextEditingController();
   final TextEditingController _clarity = TextEditingController();
@@ -37,6 +37,8 @@ class _NewTastingState extends State<NewTasting> {
   final TextEditingController _aftertasteDesc = TextEditingController();
   final TextEditingController _foodRecommendation = TextEditingController();
   final TextEditingController _totalImpressionDesc = TextEditingController();
+
+  Beer? _beer;
 
   static const TextStyle _heading = TextStyle(
     fontSize: 22,
@@ -83,7 +85,7 @@ class _NewTastingState extends State<NewTasting> {
   void dispose() {
     _dateController.dispose();
     _location.dispose();
-    _beer.dispose();
+    _beerName.dispose();
     _beerColour.dispose();
     _beerColourDesc.dispose();
     _clarity.dispose();
@@ -134,7 +136,7 @@ class _NewTastingState extends State<NewTasting> {
             TextFormField(
               style: _text,
               readOnly: true,
-              controller: _beer,
+              controller: _beerName,
               onTap: () => _selectBeer(context),
               decoration: InputDecoration(
                 labelText: AppLocalizations.of(context)!.beerOne,
@@ -344,12 +346,8 @@ class _NewTastingState extends State<NewTasting> {
       );
       _formKey.currentState!.save();
 
-      final Beer _bier1 = Beer(
-        beerName: _beer.value.text,
-      );
-
-      final Tasting _tasting1 = Tasting(
-        beer: _bier1,
+      final Tasting _tasting = Tasting(
+        beer: _beer!,
         date: _selectedDate,
         location: _location.value.text,
         beerColour: _beerColour.value.text,
@@ -371,18 +369,18 @@ class _NewTastingState extends State<NewTasting> {
         totalImpressionDesc: _totalImpressionDesc.value.text,
         totalImpressionRating: _totalImpressionRating,
       );
-      await DatabaseService.saveTasting(_tasting1);
+      await DatabaseService.saveTasting(_tasting);
 
       Navigator.of(context).pop();
     }
   }
 
   Future<void> _selectBeer(BuildContext context) async {
-    final Beer? _beer1 = await Navigator.pushNamed<Beer?>(context, '/BeerList');
+    _beer = await Navigator.pushNamed<Beer?>(context, '/BeerList');
 
-    if (_beer1 != null) {
+    if (_beer != null) {
       setState(() {
-        _beer.text = _beer1.beerName;
+        _beerName.text = _beer!.beerName;
       });
     }
   }

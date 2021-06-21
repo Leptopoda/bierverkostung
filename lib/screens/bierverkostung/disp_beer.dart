@@ -50,7 +50,7 @@ class DispBeer {
       TextFormField(
         style: _text,
         readOnly: true,
-        initialValue: beer.originalWort as String?,
+        initialValue: beer.originalWort.toString(),
         inputFormatters: <TextInputFormatter>[
           ThousandsFormatter(allowFraction: true),
         ],
@@ -61,7 +61,7 @@ class DispBeer {
       TextFormField(
         style: _text,
         readOnly: true,
-        initialValue: beer.alcohol as String?,
+        initialValue: beer.alcohol.toString(),
         inputFormatters: <TextInputFormatter>[
           ThousandsFormatter(allowFraction: true),
         ],
@@ -72,7 +72,7 @@ class DispBeer {
       TextFormField(
         style: _text,
         readOnly: true,
-        initialValue: beer.ibu as String?,
+        initialValue: beer.ibu.toString(),
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.digitsOnly,
         ],
