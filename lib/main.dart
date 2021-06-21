@@ -2,6 +2,9 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'dart:convert' show jsonEncode;
+import 'dart:developer' as developer show log;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,11 +28,16 @@ import 'package:bierverkostung/screens/login_controller.dart';
 part 'package:bierverkostung/shared/firebase_setup.dart';
 part 'shared/theme.dart';
 
+/// Runs the app.
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
+/// Root widget in the Widget tree.
+///
+/// This Widget only contains the Loading screen,
+/// firebase initialization logic and [User] stream.
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
