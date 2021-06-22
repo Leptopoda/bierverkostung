@@ -4,9 +4,13 @@
 
 part of 'package:bierverkostung/screens/settings/import_data_settings.dart';
 
+/// The backend servie for omporting
+///
+/// Responsible for extracting, parsing and saving the data
 class _ImportDataService {
   const _ImportDataService();
 
+  /// imports the data of the picked file
   static Future<void> importData(File archive) async {
     try {
       final Directory _tempDir = await getTemporaryDirectory();
@@ -34,17 +38,11 @@ class _ImportDataService {
 
       await _dataDir.list().forEach((file) async {
         if (file is File) {
-          await _parseJson(file);
-        } else {
-          developer.log(
-            'did not import some files',
-            name: 'leptopoda.bierverkostung.importDataService',
-            error: jsonEncode(file.toString()),
-          );
+          await _parseJson(file, _dataDir);
         }
       });
 
-      _dataDir.deleteSync(recursive: true);
+      // await _dataDir.delete(recursive: true);
     } catch (error) {
       developer.log(
         'error restoring backup',
@@ -54,15 +52,32 @@ class _ImportDataService {
     }
   }
 
-  static Future<void> _parseJson(File file) async {
+  /// parses the imported JSON data and saves it
+  static Future<void> _parseJson(File file, Directory dataDir) async {
     try {
       final String _contents = await file.readAsString();
+      // TODO: validate json (maybe externalize to cloud function)
       final Map _data = jsonDecode(_contents) as Map;
 
-      // TODO: validate json (maybe externalize to cloud function)
+      final List? _photos = _data['beer']['photos'] as List?;
+      final List<String> _imageUrls = [];
+      if (_photos != null) {
+        for (final element in _photos) {
+          final String? _url = await CloudStorageService.uploadBeerImage(
+              '${dataDir.path}/photos/beer/${element['photo_file']['name']}',
+              _data['beer']['name'] as String);
+          if (_url != null) {
+            _imageUrls.add(_url);
+          }
+        }
+        _data['imageUrls'] = _imageUrls;
+      }
+
       DatabaseService.saveBeer(
+          // ignore: deprecated_member_use_from_same_package
           Beer.fromMap(_data['beer'] as Map<String, dynamic>));
       DatabaseService.saveTasting(
+          // ignore: deprecated_member_use_from_same_package
           Tasting.fromMap(_data as Map<String, dynamic>));
     } catch (error) {
       developer.log(

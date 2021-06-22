@@ -61,6 +61,7 @@ class Beer {
       ingredients: data['ingredients'] as String?,
       specifics: data['specifics'] as String?,
       beerNotes: data['notes'] as String?,
+      images: data['imageUrls'] as List<String>?,
     );
   }
 

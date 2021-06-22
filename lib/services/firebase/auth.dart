@@ -19,7 +19,7 @@ class AuthService {
   /// gets the users groupID.
   /// If null it'll return the uid
   static String get groupID =>
-      (_claims?['group_id'] as String?) ?? AuthService.getUser!.uid;
+      (_claims?['group_id'] as String?) ?? _auth.currentUser!.uid;
 
   /// gets the current [User] object
   static User? get getUser => _auth.currentUser;
@@ -33,8 +33,7 @@ class AuthService {
 
   /// Stream containing the current user
   static Stream<User?> get user {
-    // TODO: maybe use idTokenChanges instead of user
-    return _auth.userChanges().asyncMap(_userFromFirebaseUser);
+    return _auth.idTokenChanges().asyncMap(_userFromFirebaseUser);
     //.map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
