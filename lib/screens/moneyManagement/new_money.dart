@@ -4,6 +4,9 @@
 
 part of 'money_management.dart';
 
+/// Money FAB fragment
+///
+/// Calls the [_MoneyAlert] fragment
 class _MoneyFab extends StatelessWidget {
   const _MoneyFab({Key? key}) : super(key: key);
 
@@ -21,6 +24,9 @@ class _MoneyFab extends StatelessWidget {
   }
 }
 
+/// Money Alert to add a new moneyCalc
+///
+/// Asks the user to add a new moneyCalc
 class _MoneyAlert extends StatefulWidget {
   const _MoneyAlert({Key? key}) : super(key: key);
 
@@ -34,7 +40,7 @@ class _MoneyAlertState extends State<_MoneyAlert> {
 
   @override
   void initState() {
-    _buyer.text = AuthService.getUser()!.uid;
+    _buyer.text = AuthService.getUser!.uid;
     super.initState();
   }
 
@@ -93,6 +99,7 @@ class _MoneyAlertState extends State<_MoneyAlert> {
     );
   }
 
+  /// saves the input to cloud firestore
   Future<void> _onSubmit() async {
     final DateTime _date = DateTime.now();
 

@@ -8,6 +8,6 @@
     "typescript",
   ],
   "eslint.workingDirectories": [
-    "firebase.local/functions/",
+    "firebase/functions/",
   ],
 }

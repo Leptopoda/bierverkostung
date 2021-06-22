@@ -16,12 +16,13 @@ import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/money_calc.dart';
 
+/// Helpers to save data to cloud firestore.
 class DatabaseService {
   const DatabaseService();
   // Firestore instance
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  static final User _user = AuthService.getUser()!;
-  static final String? _groupID = AuthService.claims?['group_id'] as String?;
+  static final User _user = AuthService.getUser!;
+  static final String _groupID = AuthService.groupID;
 
   static final _statRef = _firestore
       .collection('users')
@@ -65,7 +66,7 @@ class DatabaseService {
 
   static final _tastingRef = _firestore
       .collection('groups')
-      .doc(_groupID ?? _user.uid)
+      .doc(_groupID)
       .collection('tastings')
       .withConverter(
         fromFirestore: (snapshot, _) => Tasting.fromJson(snapshot.data()!),
@@ -95,7 +96,7 @@ class DatabaseService {
 
   static final _beerRef = _firestore
       .collection('groups')
-      .doc(_groupID ?? _user.uid)
+      .doc(_groupID)
       .collection('beers')
       .withConverter(
         fromFirestore: (snapshot, _) => Beer.fromJson(snapshot.data()!),
@@ -124,7 +125,7 @@ class DatabaseService {
 
   static final _moneyCalcRef = _firestore
       .collection('groups')
-      .doc(_groupID ?? _user.uid)
+      .doc(_groupID)
       .collection('money')
       .withConverter(
         fromFirestore: (snapshot, _) => MoneyCalc.fromJson(snapshot.data()!),
@@ -156,7 +157,7 @@ class DatabaseService {
   static Stream<List<MoneyCalc>> get moneyCalcComp {
     return _firestore
         .collection('groups')
-        .doc(_groupID ?? _user.uid)
+        .doc(_groupID)
         .collection('money-computed')
         .snapshots()
         .map((list) =>

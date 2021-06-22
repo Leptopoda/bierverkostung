@@ -4,6 +4,9 @@
 
 part of 'group_management.dart';
 
+/// QR scanner fragment
+///
+/// this screen implements a QR scanner used for adding users to your own group
 class _QRScanner extends StatefulWidget {
   const _QRScanner({Key? key}) : super(key: key);
 
@@ -75,6 +78,7 @@ class _QRScannerState extends State<_QRScanner> {
     );
   }
 
+  /// callback function needed by QRScanner
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
@@ -98,6 +102,8 @@ class _QRScannerState extends State<_QRScanner> {
     });
   }
 
+  /// displays an alert asking for confirmation to add the current user
+  /// it will also call [_addGroup()] to addd the displayed user
   static Future<Widget?> _showAlert(String userID, BuildContext context) {
     return showDialog(
       context: context,
@@ -120,23 +126,27 @@ class _QRScannerState extends State<_QRScanner> {
     );
   }
 
+  /// adds the user identified by [userID] to the callers current group
   static Future<void> _addGroup(String userID, BuildContext context) async {
-    final String? _groupID = AuthService.claims?['group_id'] as String?;
-    if (_groupID != null) {
-      final HttpsCallableResult<dynamic> result =
-          await CloudFunctionsService.setGroup(userID, _groupID);
-      // TODO: popAndPushNamed to avoid reloading of the camera
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(result.data.toString()),
-        ),
-      );
-    }
+    final String _groupID = AuthService.groupID;
+
+    final HttpsCallableResult<dynamic> result =
+        await CloudFunctionsService.setGroup(userID, _groupID);
+    // TODO: popAndPushNamed to avoid reloading of the camera
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(result.data.toString()),
+      ),
+    );
+
     Navigator.pop(context);
     Navigator.pop(context);
   }
 }
 
+/// Bottom bar widget
+///
+/// This widget contains the camera Controlls UI like flash settings or rotate camera.
 class _BottomBar extends StatelessWidget {
   final QRViewController? controller;
   const _BottomBar({
@@ -161,6 +171,7 @@ class _BottomBar extends StatelessWidget {
   }
 }
 
+/// Flash button
 class _FlashButton extends StatefulWidget {
   final QRViewController? controller;
   const _FlashButton({
@@ -193,6 +204,7 @@ class __FlashButtonState extends State<_FlashButton> {
   }
 }
 
+/// Rotate Camera button
 class _CameraButton extends StatelessWidget {
   final QRViewController? controller;
   const _CameraButton({

@@ -19,6 +19,9 @@ import 'package:bierverkostung/services/firebase/auth.dart';
 
 part 'qr_scan.dart';
 
+/// Group management fragment
+///
+/// This screen enables the user to add other useres to his current group
 class GroupScreen extends StatelessWidget {
   const GroupScreen({Key? key}) : super(key: key);
 
@@ -32,7 +35,7 @@ class GroupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User _user = AuthService.getUser()!;
+    final User _user = AuthService.getUser!;
     _uid.text = _user.uid;
 
     return Form(
@@ -105,12 +108,12 @@ class GroupScreen extends StatelessWidget {
     );
   }
 
+  /// validates the input and adds the user to the current group
   Future<void> _submit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      final String? _groupID = AuthService.claims?['group_id'] as String?;
+      final String _groupID = AuthService.groupID;
       final HttpsCallableResult<dynamic> result =
-          await CloudFunctionsService.setGroup(_newUser.value.text,
-              (_groupID != null) ? _groupID : AuthService.getUser()!.uid);
+          await CloudFunctionsService.setGroup(_newUser.value.text, _groupID);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result.data.toString()),
@@ -119,6 +122,7 @@ class GroupScreen extends StatelessWidget {
     }
   }
 
+  /// calls the [_QRScanner] fragment
   static void _scanQR(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(

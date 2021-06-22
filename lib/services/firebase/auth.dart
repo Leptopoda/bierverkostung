@@ -8,38 +8,44 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bierverkostung/services/firebase/database.dart';
 
+/// Helpers for creating and managing users on firebase auth.
 class AuthService {
   const AuthService();
 
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  static Map<String, dynamic>? claims;
+  static Map<String, dynamic>? _claims;
+
+  /// gets the users groupID.
+  /// If null it'll return the uid
+  static String get groupID =>
+      (_claims?['group_id'] as String?) ?? AuthService.getUser!.uid;
+
+  /// gets the current [User] object
+  static User? get getUser => _auth.currentUser;
 
   // create UserData obj based on firebase user
   static Future<User?> _userFromFirebaseUser(User? user) async {
     final IdTokenResult? token = await _auth.currentUser?.getIdTokenResult();
-    claims = token?.claims;
+    _claims = token?.claims;
     return user;
   }
 
-  // auth change user stream
+  /// Stream containing the current user
   static Stream<User?> get user {
     // TODO: maybe use idTokenChanges instead of user
     return _auth.userChanges().asyncMap(_userFromFirebaseUser);
     //.map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
+  /// gets the users customClaims
   @Deprecated('use the [AuthService.claims]')
   static Future<dynamic> getClaim(String value) async {
     final IdTokenResult? token = await _auth.currentUser?.getIdTokenResult();
     return token?.claims?[value];
   }
 
-  static User? getUser() {
-    return _auth.currentUser;
-  }
-
-  // register in anon
+  /// registers a new User Anonymously
   static Future<bool> registerAnon() async {
     try {
       await _auth.signInAnonymously();
@@ -54,7 +60,7 @@ class AuthService {
     }
   }
 
-  // sign in with email and password
+  /// signs in a User with email and password
   static Future<bool> signInWithEmailAndPassword(
       String email, String password) async {
     try {
@@ -70,7 +76,7 @@ class AuthService {
     }
   }
 
-  // register with email and password
+  /// registers a new User with email and password
   static Future<bool> registerWithEmailAndPassword(
       String email, String password) async {
     try {
@@ -87,12 +93,13 @@ class AuthService {
     }
   }
 
-  // refresh Token
+  /// refreshes the users token
+  /// used to load new claims
   static Future<void> refreshToken() async {
     await _auth.currentUser?.getIdToken(true);
   }
 
-  // sign out
+  /// signs out the user
   static Future<void> signOut() async {
     try {
       await _auth.signOut();
