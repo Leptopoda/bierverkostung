@@ -14,19 +14,24 @@ import 'package:bierverkostung/screens/settings/group_settings.dart/group_manage
 import 'package:bierverkostung/screens/settings/import_data_settings.dart';
 import 'package:bierverkostung/screens/settings/notification_settings.dart';
 
+/// Settings Page Scaffold
+///
+/// Master list view containing all setting items
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
 
   static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  /// List of detail names
   static const List<String> _names = [
-    'Log Out',
+    'Profile',
     'Group Management',
     'Notifications',
     'Import Data',
     'About this App',
   ];
 
+  /// List of screens to call when selected
   static const List<Widget> _actions = [
     UserSettings(),
     GroupScreen(),
@@ -106,6 +111,7 @@ class Settings extends StatelessWidget {
   }
 }
 
+/// Detail screen for the settings
 class SettingsDetail extends StatelessWidget {
   const SettingsDetail({
     Key? key,
