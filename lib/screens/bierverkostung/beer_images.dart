@@ -16,11 +16,16 @@ class _BeerImage extends StatefulWidget {
   _BeerImageState createState() => _BeerImageState();
 }
 
-class _BeerImageState extends State<_BeerImage> {
+class _BeerImageState extends State<_BeerImage>
+    with AutomaticKeepAliveClientMixin {
   final List<String> _imagePaths = [];
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       // padding: const EdgeInsets.all(10),
