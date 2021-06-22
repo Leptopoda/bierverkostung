@@ -8,6 +8,9 @@ import 'package:bierverkostung/models/breweries.dart';
 
 part 'beers.g.dart';
 
+/// Beer data model
+///
+/// holds the data needed for a beer
 @JsonSerializable()
 class Beer {
   // final String id;
@@ -36,13 +39,19 @@ class Beer {
     this.images,
   });
 
+  /// decodes a Json into a [Beer] obbject
   factory Beer.fromJson(Map<String, dynamic> json) => _$BeerFromJson(json);
+
+  /// encodes a Json from a [Beer] obbject
   Map<String, dynamic> toJson() => _$BeerToJson(this);
 
+  /// decodes a Json style map into a [Beer] obbject
+  @Deprecated('use from and to json for en/decode')
   factory Beer.fromMap(Map data) {
     return Beer(
       beerName: data['name'] as String,
       brewery: (data['brewery'] != null)
+          // ignore: deprecated_member_use_from_same_package
           ? Brewery.fromMap(data['brewery'] as Map)
           : null,
       style: data['style']?['name'] as String?,
@@ -52,9 +61,12 @@ class Beer {
       ingredients: data['ingredients'] as String?,
       specifics: data['specifics'] as String?,
       beerNotes: data['notes'] as String?,
+      images: data['imageUrls'] as List<String>?,
     );
   }
 
+  /// encodes a Json style map into a [Beer] obbject
+  @Deprecated('use from and to json for en/decode')
   Map<String, dynamic> toMap() {
     return {
       'name': beerName,

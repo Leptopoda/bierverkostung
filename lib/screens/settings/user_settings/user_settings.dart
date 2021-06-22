@@ -22,10 +22,13 @@ part 'crop_profile.dart';
 part 'logout_alert.dart';
 part 'logout_alert_anon.dart';
 
+/// Settings screen for managing the current User
+///
+/// This screen lets the user manipulate it's profile data or sign out
 class UserSettings extends StatelessWidget {
   const UserSettings({Key? key}) : super(key: key);
 
-  static final User user = AuthService.getUser()!;
+  static final User user = AuthService.getUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -127,10 +130,9 @@ class UserSettings extends StatelessWidget {
               ),
               onPressed: () => showDialog(
                 context: context,
-                builder: (BuildContext _) =>
-                    (AuthService.getUser()!.isAnonymous)
-                        ? const _LogOutAnonAlert()
-                        : const _LogOutAlert(),
+                builder: (BuildContext _) => (AuthService.getUser!.isAnonymous)
+                    ? const _LogOutAnonAlert()
+                    : const _LogOutAlert(),
               ),
               icon: const Icon(Icons.login_outlined),
               label: Text(AppLocalizations.of(context)!.settings_logOut),
@@ -141,6 +143,7 @@ class UserSettings extends StatelessWidget {
     );
   }
 
+  /// changes the current profile picture
   static Future<void> _changeAvatar(BuildContext context) async {
     final String? _path = await showModalBottomSheet<String?>(
       shape: PickImageModal.shape,
@@ -164,6 +167,7 @@ class UserSettings extends StatelessWidget {
     }
   }
 
+  /// crops the picture at [path] to a square
   static Future<dynamic> _cropImage(BuildContext context, String path) async {
     if (kIsWeb) {
       return Navigator.of(context).push<Uint8List?>(
@@ -204,6 +208,7 @@ class UserSettings extends StatelessWidget {
     }
   }
 
+  /// resets the profile picture to the standard one
   static Future<void> _deleteAvatar(BuildContext context) async {
     await user.updatePhotoURL(null);
     Navigator.pop(context);

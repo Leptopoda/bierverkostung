@@ -16,7 +16,7 @@ import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
 import 'package:bierverkostung/screens/conference/conference.dart';
 import 'package:bierverkostung/screens/settings/settings.dart';
 import 'package:bierverkostung/screens/settings/user_settings/user_settings.dart';
-import 'package:bierverkostung/screens/settings/group_settings.dart/group_management.dart';
+import 'package:bierverkostung/screens/settings/group_settings/group_management.dart';
 // import 'package:bierverkostung/screens/settings/about_us_settings.dart';
 import 'package:bierverkostung/screens/settings/import_data_settings.dart';
 import 'package:bierverkostung/screens/login/login.dart';

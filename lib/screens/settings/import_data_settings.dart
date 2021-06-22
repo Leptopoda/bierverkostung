@@ -13,12 +13,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'package:bierverkostung/services/firebase/cloud_storage.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
 
 part 'package:bierverkostung/services/import_data.dart';
 
+/// Settings screen for importing tastings from the onld app
+///
+/// This won't work on the web and display another message
 class ImportDataSettings extends StatelessWidget {
   const ImportDataSettings({Key? key}) : super(key: key);
 
@@ -56,6 +60,7 @@ class ImportDataSettings extends StatelessWidget {
     }
   }
 
+  /// Starts the import by asking to pick a file
   static Future _importData(BuildContext context) async {
     final FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,

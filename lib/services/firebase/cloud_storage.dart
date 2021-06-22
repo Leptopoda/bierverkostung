@@ -20,8 +20,8 @@ class CloudStorageService {
   const CloudStorageService();
   // CloudSotrage instance
   static final FirebaseStorage _storage = FirebaseStorage.instance;
-  static final User _user = AuthService.getUser()!;
-  static final String? _groupID = AuthService.claims?['group_id'] as String?;
+  static final User _user = AuthService.getUser!;
+  static final String _groupID = AuthService.groupID;
 
   /// Uploads the file [image] to FirebaseStorage.
   /// It returns a future containing a download url.
@@ -56,12 +56,14 @@ class CloudStorageService {
       final Reference _ref = _storage.ref('/groups/$_groupID/$beerName/$_uuid');
 
       if (kIsWeb) {
-        _ref.putData(await PickedFile(path).readAsBytes());
+        await _ref.putData(await PickedFile(path).readAsBytes());
       } else {
         await _ref.putFile(File(path));
       }
 
       final String _downloadURL = await _ref.getDownloadURL();
+      print('---------------');
+      print(_downloadURL);
       return _downloadURL;
     } on FirebaseException catch (e) {
       developer.log(

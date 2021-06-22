@@ -8,6 +8,9 @@ import 'package:bierverkostung/models/beers.dart';
 
 part 'stats.g.dart';
 
+/// Sats data model
+///
+/// Holds the data needed for a beer stat
 @JsonSerializable()
 class Stat {
   // final String? id;
@@ -23,9 +26,14 @@ class Stat {
     //this.id,
   });
 
+  /// decodes a Json into a [Stats] obbject
   factory Stat.fromJson(Map<String, dynamic> json) => _$StatFromJson(json);
+
+  /// encodes a Json style map from a [Stats] obbject
   Map<String, dynamic> toJson() => _$StatToJson(this);
 
+  /// decodes a Json style map into a [Stats] obbject
+  @Deprecated('use from and to json for en/decode')
   factory Stat.fromMap(Map data) {
     return Stat(
       // id: doc.data(),
@@ -37,6 +45,8 @@ class Stat {
     );
   }
 
+  /// encodes a Json style map into a [Stats] obbject
+  @Deprecated('use from and to json for en/decode')
   Map<String, dynamic> toMap() {
     return {
       'date': timestamp,

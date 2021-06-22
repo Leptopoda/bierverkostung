@@ -24,7 +24,7 @@ Future<void> _setupFirebase() async {
         persistenceEnabled: false,
       );
 
-      await FirebaseStorage.instance.useEmulator(host: _host, port: 9919);
+      await FirebaseStorage.instance.useEmulator(host: _host, port: 9199);
     } else {
       FirebaseFirestore.instance.settings =
           const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
