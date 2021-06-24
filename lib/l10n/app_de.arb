@@ -116,5 +116,11 @@
   "drinkingGames_burningRingOfFire_description_five": "Jungs - Alle Jungs trinken.",
   "@drinkingGames_burningRingOfFire_description_five": {},
   "drinkingGames_burningRingOfFire_description_six": "Mädchen - Alle Mädchen trinken.",
-  "@drinkingGames_burningRingOfFire_description_six": {}
+  "@drinkingGames_burningRingOfFire_description_six": {},
+  "drinkSafe": "Trink vernünftig!",
+  "@drinkSafe": {},
+  "beertasting_clarity": "Klarheit",
+  "@beertasting_clarity": {},
+  "beertasting_taste": "Geschmack",
+  "@beertasting_taste": {}
 }
