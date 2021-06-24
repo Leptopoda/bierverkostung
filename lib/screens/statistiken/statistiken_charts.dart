@@ -5,6 +5,10 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+/// Example LineChart
+///
+/// example view for displaing stats
+@Deprecated('Just a example')
 class LineChartSample2 extends StatefulWidget {
   const LineChartSample2({Key? key}) : super(key: key);
 
@@ -12,6 +16,7 @@ class LineChartSample2 extends StatefulWidget {
   _LineChartSample2State createState() => _LineChartSample2State();
 }
 
+@Deprecated('Just a example')
 class _LineChartSample2State extends State<LineChartSample2> {
   static const List<Color> gradientColors = [
     Color(0xff23b6e6),

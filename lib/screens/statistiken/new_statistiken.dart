@@ -9,6 +9,7 @@ import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/models/stats.dart';
 import 'package:bierverkostung/models/beers.dart';
 
+/// Add Stat Button
 class StatistikenFab extends StatelessWidget {
   const StatistikenFab({Key? key}) : super(key: key);
 
@@ -18,7 +19,7 @@ class StatistikenFab extends StatelessWidget {
       onPressed: () {
         showDialog(
           context: context,
-          builder: (context) => const StatistikenAlert(),
+          builder: (context) => const _StatistikenAlert(),
         );
       },
       child: const Icon(Icons.add),
@@ -29,14 +30,17 @@ class StatistikenFab extends StatelessWidget {
 enum _bier { klein, gross }
 // const _biggerFont = TextStyle(fontSize: 18.0);
 
-class StatistikenAlert extends StatefulWidget {
-  const StatistikenAlert({Key? key}) : super(key: key);
+/// New Stats Alert
+///
+/// Let's the user input a new stat
+class _StatistikenAlert extends StatefulWidget {
+  const _StatistikenAlert({Key? key}) : super(key: key);
 
   @override
-  State<StatistikenAlert> createState() => _StatistikenAlertState();
+  State<_StatistikenAlert> createState() => _StatistikenAlertState();
 }
 
-class _StatistikenAlertState extends State<StatistikenAlert> {
+class _StatistikenAlertState extends State<_StatistikenAlert> {
   _bier? _character = _bier.gross;
   static int _menge = 1;
   final TextEditingController _beer = TextEditingController();
@@ -102,6 +106,7 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
     );
   }
 
+  /// validates the input and saves it to FireStore
   Future<void> _onSubmit() async {
     final DateTime date = DateTime.now();
     final Beer? _bier1 = (_beer.value.text != '')
@@ -132,6 +137,7 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
     Navigator.of(context).pop();
   }
 
+  /// selects a new [Beer] from the [BeerList]
   Future<void> _selectBeer(BuildContext context) async {
     final Beer? _beer1 = await Navigator.pushNamed<Beer?>(context, '/BeerList');
 

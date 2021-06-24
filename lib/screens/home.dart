@@ -15,6 +15,9 @@ import 'package:bierverkostung/screens/statistiken/disp_statistiken.dart';
 
 part 'package:bierverkostung/shared/drink_responsible.dart';
 
+/// Home Screen
+///
+/// Contains the NavBar and sections for the App
 class MyHome extends StatefulWidget {
   const MyHome({Key? key}) : super(key: key);
 
@@ -24,6 +27,7 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   int _currentIndex = 1;
+  late List<String> _pageTitles;
 
   @override
   Future<void> didChangeDependencies() async {
@@ -35,16 +39,16 @@ class _MyHomeState extends State<MyHome> {
       LocalDatabaseService.setFirstLogin();
     }
     await NotificationService.initialise();
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    final List<String> _pageTitles = [
+    _pageTitles = [
       AppLocalizations.of(context)!.drinkingGames,
       AppLocalizations.of(context)!.beertasting,
       AppLocalizations.of(context)!.stats,
     ];
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return NavRail(
       /* drawerHeaderBuilder: (context) {
         return Column(

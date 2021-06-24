@@ -4,6 +4,9 @@
 
 part of 'user_settings.dart';
 
+/// Log out Alert anonymously
+///
+/// Alerts the user for a loss of acess to the data
 class _LogOutAnonAlert extends StatelessWidget {
   const _LogOutAnonAlert({Key? key}) : super(key: key);
 

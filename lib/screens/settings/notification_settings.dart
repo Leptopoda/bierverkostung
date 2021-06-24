@@ -7,6 +7,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/firebase/notifications.dart';
 
+/// Notification Settings
+///
+/// Users can ask for notification permission here
 class NotificationSettings extends StatelessWidget {
   const NotificationSettings({Key? key}) : super(key: key);
 

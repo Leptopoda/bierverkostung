@@ -4,6 +4,9 @@
 
 part of 'user_settings.dart';
 
+/// Log out Alert
+///
+/// greets the user on logout
 class _LogOutAlert extends StatelessWidget {
   const _LogOutAlert({Key? key}) : super(key: key);
 

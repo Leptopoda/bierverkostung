@@ -2,8 +2,6 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-//credits https://promilleberechnen.de/promille-berechnen-formel/
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -12,6 +10,8 @@ import 'package:bierverkostung/services/local_storage.dart';
 
 part 'package:bierverkostung/shared/drink_safe.dart';
 
+/// Button opening the screen for the [PromilleRechner]
+@Deprecated('we directly implemented it into the [Home] screen')
 class PromilleRechnerButton extends StatelessWidget {
   const PromilleRechnerButton({Key? key}) : super(key: key);
 
@@ -28,6 +28,9 @@ class PromilleRechnerButton extends StatelessWidget {
   }
 }
 
+/// Blod alcohol calculator
+///
+/// Formular is provided by https://promilleberechnen.de/promille-berechnen-formel/
 class PromilleRechner extends StatefulWidget {
   const PromilleRechner({Key? key}) : super(key: key);
 
@@ -177,6 +180,7 @@ class _PromilleRechnerState extends State<PromilleRechner> {
     );
   }
 
+  /// Calculates the blood alcohol
   double _calculate() {
     final double _alcAmount = (mengeDrink * alcohol) / 1.25;
     final double _redFaktor = (character == Gender.male)

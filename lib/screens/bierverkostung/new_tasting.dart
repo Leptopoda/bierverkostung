@@ -10,6 +10,9 @@ import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
 
+/// Screen to add a new Beer
+///
+/// It exposes the fields of a [Tasting] into a UI
 class NewTasting extends StatefulWidget {
   const NewTasting({
     Key? key,
@@ -334,6 +337,7 @@ class _NewTastingState extends State<NewTasting> {
     );
   }
 
+  /// validates the inputs and submits them to FireStore
   Future<void> _submit(BuildContext context) async {
     // Validate returns true if the form is valid, or false otherwise.
     if (_formKey.currentState!.validate()) {
@@ -375,6 +379,7 @@ class _NewTastingState extends State<NewTasting> {
     }
   }
 
+  /// Calls [DispBeer] to select a [Beer]
   Future<void> _selectBeer(BuildContext context) async {
     _beer = await Navigator.pushNamed<Beer?>(context, '/BeerList');
 
@@ -385,6 +390,7 @@ class _NewTastingState extends State<NewTasting> {
     }
   }
 
+  /// Selects a date from DatePicker
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? _picked = await showDatePicker(
       context: context,

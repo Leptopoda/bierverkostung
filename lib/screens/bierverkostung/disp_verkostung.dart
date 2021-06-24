@@ -11,6 +11,9 @@ import 'package:bierverkostung/screens/bierverkostung/disp_beer.dart';
 
 // TODO: Deduplicate this file with NewTasting
 
+/// Display Tasting
+///
+/// Displays a selectet [Tasting]
 class DispTasting extends StatelessWidget {
   final Tasting tasting;
   final bool tablet;
@@ -93,7 +96,7 @@ class DispTasting extends StatelessWidget {
             ),
           ),
           Text(AppLocalizations.of(context)!.beertasting_foamStability),
-          SliderIndicator(
+          _SliderIndicator(
             value: tasting.foamStability,
             min: 0,
             max: 3,
@@ -148,25 +151,25 @@ class DispTasting extends StatelessWidget {
             ),
           ),
           Text(AppLocalizations.of(context)!.beertasting_bitterness),
-          SliderIndicator(
+          _SliderIndicator(
             value: tasting.bitternessRating,
             min: 0,
             max: 3,
           ),
           Text(AppLocalizations.of(context)!.beertasting_sweetness),
-          SliderIndicator(
+          _SliderIndicator(
             value: tasting.sweetnessRating,
             min: 0,
             max: 3,
           ),
           Text(AppLocalizations.of(context)!.beertasting_acidity),
-          SliderIndicator(
+          _SliderIndicator(
             value: tasting.acidityRating,
             min: 0,
             max: 3,
           ),
           Text(AppLocalizations.of(context)!.beertasting_bodyFullness),
-          SliderIndicator(
+          _SliderIndicator(
             value: tasting.fullBodiedRating,
             min: 0,
             max: 3,
@@ -189,7 +192,7 @@ class DispTasting extends StatelessWidget {
             ),
           ),
           Text(AppLocalizations.of(context)!.beertasting_aftertasteRating),
-          SliderIndicator(
+          _SliderIndicator(
             value: tasting.aftertasteRating,
             min: 0,
             max: 3,
@@ -217,7 +220,7 @@ class DispTasting extends StatelessWidget {
             ),
           ),
           Text(AppLocalizations.of(context)!.beertasting_totalRating),
-          SliderIndicator(
+          _SliderIndicator(
             value: tasting.totalImpressionRating,
             min: 1,
             max: 3,
@@ -235,12 +238,15 @@ class DispTasting extends StatelessWidget {
   }
 }
 
-class SliderIndicator extends StatefulWidget {
+/// Slider Indicator
+///
+/// Basically a sattic slider
+class _SliderIndicator extends StatelessWidget {
   final int min;
   final int max;
   final int value;
 
-  const SliderIndicator({
+  const _SliderIndicator({
     Key? key,
     required this.min,
     required this.max,
@@ -248,18 +254,13 @@ class SliderIndicator extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SliderIndicatorState createState() => _SliderIndicatorState();
-}
-
-class _SliderIndicatorState extends State<SliderIndicator> {
-  @override
   Widget build(BuildContext context) {
     return Slider(
-      value: widget.value.toDouble(),
-      min: widget.min.toDouble(),
-      max: widget.max.toDouble(),
-      divisions: widget.max - widget.min,
-      label: '${widget.value}',
+      value: value.toDouble(),
+      min: min.toDouble(),
+      max: max.toDouble(),
+      divisions: max - min,
+      label: '$value',
       onChanged: (double value) {},
     );
   }

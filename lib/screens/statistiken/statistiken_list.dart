@@ -3,13 +3,23 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:intl/intl.dart';
+import 'package:random_color/random_color.dart';
+import 'package:provider/provider.dart';
 
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 
-import 'package:bierverkostung/screens/statistiken/beer_starts.dart';
+part 'beer_starts.dart';
+part 'graph_legend_item.dart';
+part 'pie_chart_notifier.dart';
 
+/// Stats List
+///
+/// Displays every [Stat] metric we currently expose to the user
 class StatistikenList extends StatelessWidget {
   const StatistikenList({Key? key}) : super(key: key);
 
@@ -41,7 +51,7 @@ class StatistikenList extends StatelessWidget {
                 child: Text(AppLocalizations.of(context)!.stats_noStats),
               );
             }
-            return StatistikenBeerChart(data: snapshot.data!);
+            return _StatistikenBeerChart(data: snapshot.data!);
           /*ListView(
           padding: const EdgeInsets.all(16.0),
           children: <Widget>[

@@ -13,6 +13,9 @@ import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
 import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
 
+/// Bieertasting widget
+///
+/// Scaffold regarding the Beertasting logic
 class Bierverkostung extends StatelessWidget {
   const Bierverkostung({Key? key}) : super(key: key);
 
@@ -46,7 +49,7 @@ class Bierverkostung extends StatelessWidget {
               scaffoldKey: _scaffoldKey,
               detailBuilder: (BuildContext context, int? index, bool tablet) {
                 return DetailsScreen(
-                  body: BierverkostungDetail(
+                  body: _BierverkostungDetail(
                     items: snapshot.data!,
                     row: index,
                     tablet: tablet,
@@ -76,8 +79,9 @@ class Bierverkostung extends StatelessWidget {
   }
 }
 
-class BierverkostungDetail extends StatelessWidget {
-  const BierverkostungDetail({
+/// Detail screen of [Beertasting]
+class _BierverkostungDetail extends StatelessWidget {
+  const _BierverkostungDetail({
     Key? key,
     required this.items,
     required this.row,

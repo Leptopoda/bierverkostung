@@ -10,14 +10,17 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 
-import 'package:bierverkostung/shared/constants.dart';
 import 'package:flutter/foundation.dart';
 
+/// Helpers for managing FCM Notifications.
 class NotificationService {
   const NotificationService();
 
   static final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+  static const String _vapidKey =
+      'BHzfRAVeY69M7uwBIzm8xiMaIZ0iDEbX9dgyvp87GKWWmlbXSt3arsWe9lQpjKF-OSM1RtOFTGnGrk-qnrYvF3s';
 
+  /// ask the user for permission to send notifications
   static Future<void> askPermission() async {
     await _fcm.requestPermission(
       announcement: true,
@@ -25,7 +28,7 @@ class NotificationService {
       criticalAlert: true,
     );
 
-    final String? _token = await _fcm.getToken(vapidKey: vapidKey);
+    final String? _token = await _fcm.getToken(vapidKey: _vapidKey);
     if (_token != null) {
       await DatabaseService.saveNotificationToken({
         'token': _token,
@@ -35,6 +38,7 @@ class NotificationService {
     }
   }
 
+  /// feches the the missed messages
   static Future initialise() async {
     // TODO: fix duplicate refreshing
 

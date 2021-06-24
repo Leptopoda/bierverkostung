@@ -5,11 +5,14 @@
 import 'package:flutter/material.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche.dart';
 
+/// New Toasts
+///
+/// displays one of the new toasts and gives the ability to navigate them7
+/// Source of the toasts: https://wein-verstehen.de/111-lustige-trinksprueche-die-dich-zum-lachen-bringen/
 class TrinkspruecheNeu extends StatelessWidget {
   const TrinkspruecheNeu({Key? key}) : super(key: key);
 
-  // Source: https://wein-verstehen.de/111-lustige-trinksprueche-die-dich-zum-lachen-bringen/
-  static final List<String> _sprueche = [
+  static const List<String> _sprueche = [
     "Lieber saufen bis zum abwinken, als winken bis zum Absaufen!",
     "Bist du nach dem Kotzen blind. War zu stark der Gegenwind!",
     "Wo früher meine Leber war, ist heute eine Minibar!",
@@ -144,7 +147,7 @@ class TrinkspruecheNeu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Trinksprueche(
+    return const Trinksprueche(
       sprueche: _sprueche,
     );
   }

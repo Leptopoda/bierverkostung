@@ -15,6 +15,10 @@ import 'package:bierverkostung/models/money_calc.dart';
 
 part 'new_money.dart';
 
+/// Group Money calculator
+///
+/// Enables groups to calculate their spendings
+/// both individually and together
 class MoneyCalculator extends StatelessWidget {
   const MoneyCalculator({Key? key}) : super(key: key);
 
@@ -40,6 +44,7 @@ class MoneyCalculator extends StatelessWidget {
   }
 }
 
+/// List of users and their budget
 class _CalculatedList extends StatelessWidget {
   const _CalculatedList({
     Key? key,
@@ -110,6 +115,7 @@ class _CalculatedList extends StatelessWidget {
   }
 }
 
+/// List of Spendings
 class _MoneyList extends StatelessWidget {
   const _MoneyList({
     Key? key,

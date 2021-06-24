@@ -2,42 +2,36 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:intl/intl.dart';
-import 'package:random_color/random_color.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+part of 'statistiken_list.dart';
 
-import 'graph_legend_item.dart';
-import 'pie_chart_notifier.dart';
-
-class StatistikenBeerChart extends StatefulWidget {
+/// Pie Cahrt stats
+///
+/// dispalys the overall distribution of [Beer]
+class _StatistikenBeerChart extends StatefulWidget {
   final List<Map> data;
-  const StatistikenBeerChart({Key? key, required this.data}) : super(key: key);
+  const _StatistikenBeerChart({Key? key, required this.data}) : super(key: key);
 
   @override
   _StatistikenBeerChartState createState() => _StatistikenBeerChartState();
 }
 
-class _StatistikenBeerChartState extends State<StatistikenBeerChart> {
-  late List<Color> colors;
-  int count = 0;
+class _StatistikenBeerChartState extends State<_StatistikenBeerChart> {
+  late List<Color> _colors;
+  int _count = 0;
 
   @override
   void initState() {
     super.initState();
-    colors = randomColors();
+    _colors = _randomColors();
+    for (final element in widget.data) {
+      _count += element['beerCount'] as int;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    for (final element in widget.data) {
-      count += element['beerCount'] as int;
-    }
-    return ChangeNotifierProvider<PieChartNotifier>(
-      create: (_) => PieChartNotifier(),
+    return ChangeNotifierProvider<_PieChartNotifier>(
+      create: (_) => _PieChartNotifier(),
       child: Row(
         children: <Widget>[
           Flexible(
@@ -52,22 +46,77 @@ class _StatistikenBeerChartState extends State<StatistikenBeerChart> {
                     style: const TextStyle(fontSize: 18),
                   ),
                 ),
-                ...legendItems(),
+                ..._legendItems(),
               ],
             ),
           ),
           const SizedBox(width: 8.0),
-          Flexible(flex: 3, child: chart()),
+          Flexible(
+              flex: 3,
+              child: _PieChartStat(
+                colors: _colors,
+                data: widget.data,
+                count: _count,
+              )),
         ],
       ),
     );
   }
 
-  Widget chart() {
-    const double kShowTitleThresholdPercentage = 5.0;
+  /// generates the legend items
+  List<Widget> _legendItems() {
+    return List.generate(
+      widget.data.length,
+      (i) {
+        final double value = (widget.data[i]['beerCount'] as int) / _count;
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: _GraphLegendItem(
+            index: i,
+            title: widget.data[i]['beerName'] as String,
+            subtitle: NumberFormat('#0.00%').format(value),
+            color: _colors[i],
+          ),
+        );
+      },
+    );
+  }
 
-    return Consumer<PieChartNotifier>(
-      builder: (BuildContext context, PieChartNotifier notifier, _) => PieChart(
+  /// generates a list of random colors
+  List<Color> _randomColors() {
+    return List.generate(widget.data.length, (i) {
+      return RandomColor().randomColor(colorHue: ColorHue.orange);
+    });
+  }
+}
+
+/// PieChart tile
+///
+/// the tile containing the actual stat
+class _PieChartStat extends StatefulWidget {
+  const _PieChartStat({
+    required this.colors,
+    required this.data,
+    required this.count,
+    Key? key,
+  }) : super(key: key);
+
+  final List<Color> colors;
+  final List<Map> data;
+  final int count;
+
+  @override
+  _PieChartStatState createState() => _PieChartStatState();
+}
+
+class _PieChartStatState extends State<_PieChartStat> {
+  static const double kShowTitleThresholdPercentage = 5.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<_PieChartNotifier>(
+      builder: (BuildContext context, _PieChartNotifier notifier, _) =>
+          PieChart(
         PieChartData(
           borderData: FlBorderData(
             show: false,
@@ -87,9 +136,10 @@ class _StatistikenBeerChartState extends State<StatistikenBeerChart> {
             }),
           ),
           sections: List.generate(widget.data.length, (i) {
-            final double value = (widget.data[i]['beerCount'] as int) / count;
+            final double value =
+                (widget.data[i]['beerCount'] as int) / widget.count;
             return PieChartSectionData(
-              color: colors[i],
+              color: widget.colors[i],
               value: value,
               title: NumberFormat('#0.0#%').format(value),
               radius: 60 + (notifier.selected == i ? 5.0 : 0.0),
@@ -103,26 +153,5 @@ class _StatistikenBeerChartState extends State<StatistikenBeerChart> {
         ),
       ),
     );
-  }
-
-  List<Widget> legendItems() {
-    return List.generate(widget.data.length, (i) {
-      final double value = (widget.data[i]['beerCount'] as int) / count;
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: GraphLegendItem(
-          index: i,
-          title: widget.data[i]['beerName'] as String,
-          subtitle: NumberFormat('#0.00%').format(value),
-          color: colors[i],
-        ),
-      );
-    });
-  }
-
-  List<Color> randomColors() {
-    return List.generate(widget.data.length, (i) {
-      return RandomColor().randomColor(colorHue: ColorHue.yellow);
-    });
   }
 }

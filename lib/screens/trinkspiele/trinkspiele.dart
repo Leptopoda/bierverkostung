@@ -12,6 +12,9 @@ import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
 import 'package:bierverkostung/screens/trinkspiele/burning_ring_of_fire.dart';
 
+/// Drinking Gmes
+///
+/// Displays a list of drinking games
 class Trinkspiele extends StatelessWidget {
   const Trinkspiele({Key? key}) : super(key: key);
 
@@ -34,7 +37,7 @@ class Trinkspiele extends StatelessWidget {
       scaffoldKey: _scaffoldKey,
       detailBuilder: (BuildContext context, int? index, bool tablet) {
         return DetailsScreen(
-          body: TrinkspieleDetail(
+          body: _TrinkspieleDetail(
             items: _spielePages,
             row: index,
             tablet: tablet,
@@ -59,8 +62,9 @@ class Trinkspiele extends StatelessWidget {
   }
 }
 
-class TrinkspieleDetail extends StatelessWidget {
-  const TrinkspieleDetail({
+/// Detail screen of [TrinkSpiele]
+class _TrinkspieleDetail extends StatelessWidget {
+  const _TrinkspieleDetail({
     Key? key,
     required this.items,
     required this.row,

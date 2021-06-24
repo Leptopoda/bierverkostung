@@ -5,36 +5,47 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Helpers to handle local KV storage
 class LocalDatabaseService {
   const LocalDatabaseService();
 
+  static const String _firstRun = 'first_run';
+  static const String _drinkResponsible = 'drink_responsible';
+  static const String _drinkSafe = 'drink_safe';
+
+  /// sets the FirstLogin parameter
   static Future<void> setFirstLogin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('first_run', true);
+    await prefs.setBool(_firstRun, true);
   }
 
+  /// gets the FirstLogin parameter
   static Future<bool?> getFirstLogin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('first_run');
+    return prefs.getBool(_firstRun);
   }
 
+  /// sets the DrinkResponsible parameter
   static Future<void> setDrinkResponsible() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('drink_responsible', true);
+    await prefs.setBool(_drinkResponsible, true);
   }
 
+  /// gets the DrinkResponsible parameter
   static Future<bool?> getDrinkResponsible() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('drink_responsible');
+    return prefs.getBool(_drinkResponsible);
   }
 
+  /// sets the DrinkSafe parameter
   static Future<void> setDrinkSafe() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('drink_safe', true);
+    await prefs.setBool(_drinkSafe, true);
   }
 
+  /// gets the DrinkSafe parameter
   static Future<bool?> getDrinkSafe() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('drink_safe');
+    return prefs.getBool(_drinkSafe);
   }
 }

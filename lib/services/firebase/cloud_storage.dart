@@ -62,10 +62,9 @@ class CloudStorageService {
       }
 
       final String _downloadURL = await _ref.getDownloadURL();
-      print('---------------');
-      print(_downloadURL);
+
       return _downloadURL;
-    } on FirebaseException catch (e) {
+    } catch (e) {
       developer.log(
         'uploading beer image',
         name: 'leptopoda.bierverkostung.storageService',

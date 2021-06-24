@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/services/firebase/auth.dart';
 
+/// Register User
+///
+/// Screen for registering new users
 class UserCredentialsAlert extends StatelessWidget {
   const UserCredentialsAlert({Key? key}) : super(key: key);
 

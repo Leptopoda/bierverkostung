@@ -20,22 +20,24 @@ import 'package:bierverkostung/screens/settings/group_settings/group_management.
 // import 'package:bierverkostung/screens/settings/about_us_settings.dart';
 import 'package:bierverkostung/screens/settings/import_data_settings.dart';
 import 'package:bierverkostung/screens/login/login.dart';
-import 'package:bierverkostung/screens/login_controller.dart';
+// import 'package:bierverkostung/screens/login_controller.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
 import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
 import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
 import 'package:bierverkostung/screens/moneyManagement/money_management.dart';
 
+/// Handles the routes used for navigating the app
 class RouteGenerator {
   const RouteGenerator();
 
+  /// generates the routes used for navigating the app
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
     final _args = settings.arguments;
 
     switch (settings.name) {
-      case '/':
-        return MaterialPageRoute(builder: (_) => const LoginController());
+      // case '/':
+      //   return MaterialPageRoute(builder: (_) => const LoginController());
 
       case '/Home':
         return MaterialPageRoute(builder: (_) => const MyHome());
@@ -112,6 +114,7 @@ class RouteGenerator {
     }
   }
 
+  /// builds the error route
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
       return const SomethingWentWrong(
