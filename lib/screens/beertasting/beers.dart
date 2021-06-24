@@ -11,6 +11,9 @@ import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
+/// Beer list Widget
+///
+/// Displays a list with every [Beer]
 class BeerList extends StatelessWidget {
   const BeerList({Key? key}) : super(key: key);
 
@@ -43,7 +46,7 @@ class BeerList extends StatelessWidget {
               scaffoldKey: _scaffoldKey,
               detailBuilder: (BuildContext context, int? index, bool tablet) {
                 return DetailsScreen(
-                  body: BeerListDetail(
+                  body: _BeerListDetail(
                     items: snapshot.data!,
                     row: index,
                     tablet: tablet,
@@ -79,8 +82,9 @@ class BeerList extends StatelessWidget {
   }
 }
 
-class BeerListDetail extends StatelessWidget {
-  const BeerListDetail({
+/// Displays a selected [Beer] out of [BeerList]
+class _BeerListDetail extends StatelessWidget {
+  const _BeerListDetail({
     Key? key,
     required this.items,
     required this.row,

@@ -8,9 +8,9 @@ part of 'package:bierverkostung/main.dart';
 /// When compiled for local testing it will set up for emulator usage.
 Future<void> _setupFirebase() async {
   try {
-    if (EnvironmentConfig.localFirebase ||
-        EnvironmentConfig.localFirebaseIP != 'localhost') {
-      const String _host = EnvironmentConfig.localFirebaseIP;
+    if (_EnvironmentConfig.localFirebase ||
+        _EnvironmentConfig.localFirebaseIP != 'localhost') {
+      const String _host = _EnvironmentConfig.localFirebaseIP;
 
       if (!kIsWeb) {
         await FirebaseAuth.instance.useEmulator('http://$_host:9099');

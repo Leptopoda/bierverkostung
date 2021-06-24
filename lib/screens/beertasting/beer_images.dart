@@ -4,7 +4,7 @@
 
 part of 'new_beer.dart';
 
-/// Widget to add new Images to a beer
+/// Widget to add new Images to a [Beer]
 class _BeerImage extends StatefulWidget {
   final ValueChanged<List<String>> onChanged;
   const _BeerImage({

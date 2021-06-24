@@ -11,10 +11,13 @@ import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
-import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
+import 'package:bierverkostung/screens/beertasting/disp_tasting.dart';
 
-class Bierverkostung extends StatelessWidget {
-  const Bierverkostung({Key? key}) : super(key: key);
+/// Bieertasting widget
+///
+/// Scaffold regarding the Beertasting logic
+class BeerTasting extends StatelessWidget {
+  const BeerTasting({Key? key}) : super(key: key);
 
   static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -46,7 +49,7 @@ class Bierverkostung extends StatelessWidget {
               scaffoldKey: _scaffoldKey,
               detailBuilder: (BuildContext context, int? index, bool tablet) {
                 return DetailsScreen(
-                  body: BierverkostungDetail(
+                  body: _BeerTastingDetail(
                     items: snapshot.data!,
                     row: index,
                     tablet: tablet,
@@ -76,8 +79,9 @@ class Bierverkostung extends StatelessWidget {
   }
 }
 
-class BierverkostungDetail extends StatelessWidget {
-  const BierverkostungDetail({
+/// Detail screen of [Beertasting]
+class _BeerTastingDetail extends StatelessWidget {
+  const _BeerTastingDetail({
     Key? key,
     required this.items,
     required this.row,

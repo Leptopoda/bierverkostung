@@ -8,6 +8,9 @@ import 'package:email_validator/email_validator.dart';
 
 import 'package:bierverkostung/services/firebase/auth.dart';
 
+/// Login Screen
+///
+/// Shows the login/registration UI
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -130,6 +133,7 @@ class _LoginState extends State<Login> {
     );
   }
 
+  /// signs in with a new annonymous [User]
   Future<void> _registerAnon() async {
     final bool _result = await AuthService.registerAnon();
     if (_result) {
@@ -139,6 +143,7 @@ class _LoginState extends State<Login> {
     }
   }
 
+  /// signs in with the specified email and password
   Future<void> _signInWithEmailAndPassword() async {
     if (_formKey.currentState!.validate()) {
       final bool _result = await AuthService.signInWithEmailAndPassword(
@@ -153,6 +158,7 @@ class _LoginState extends State<Login> {
     }
   }
 
+  /// registers anew user with the provided email and password
   Future<void> _registerWithEmailAndPassword() async {
     //if (isNewUser) TextField(controller: newPassword, autofillHints: [AutofillHints.newPassword]),
     //if (isNewUser) TextField(ontroller: repeatNewPassword, autofillHints: [AutofillHints.newPassword]),
@@ -170,8 +176,10 @@ class _LoginState extends State<Login> {
     }
   }
 
+  /// starts the forgotPassword flow to reset the password
   Future<void> _forgotPassword() async {}
 
+  /// validates the new password against our security criteria
   String? _validatePassword(String? pwd) {
     if (pwd == null) {
       return AppLocalizations.of(context)!.login_password_empty;

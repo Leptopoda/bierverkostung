@@ -2,10 +2,11 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart' show Consumer;
-import 'pie_chart_notifier.dart';
+part of 'stst_list.dart';
 
+/// Color indicator blob
+///
+/// small blob of color indicator used in the PieChart legend
 class _LegendIndicator extends StatefulWidget {
   const _LegendIndicator({
     Key? key,
@@ -35,7 +36,7 @@ class _LegendIndicatorState extends State<_LegendIndicator>
   @override
   Widget build(BuildContext context) {
     return Row(
-//      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         AnimatedSize(
           vsync: this,
@@ -65,8 +66,11 @@ class _LegendIndicatorState extends State<_LegendIndicator>
   }
 }
 
-class GraphLegendItem extends StatelessWidget {
-  const GraphLegendItem({
+/// Legend Item
+///
+/// defines legend entries
+class _GraphLegendItem extends StatelessWidget {
+  const _GraphLegendItem({
     Key? key,
     required this.title,
     required this.index,
@@ -80,8 +84,8 @@ class GraphLegendItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PieChartNotifier>(
-      builder: (BuildContext context, PieChartNotifier value, _) {
+    return Consumer<_PieChartNotifier>(
+      builder: (BuildContext context, _PieChartNotifier value, _) {
         return _LegendIndicator(
           selected: value.selected == index,
           title: Expanded(

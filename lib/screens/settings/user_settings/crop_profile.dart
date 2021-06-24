@@ -4,6 +4,7 @@
 
 part of 'user_settings.dart';
 
+/// Image cropper used on the Web
 class _CropProfileWeb extends StatelessWidget {
   final String imagePath;
 
@@ -47,30 +48,43 @@ class _CropProfileWeb extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar: _buildButtons(context),
+      bottomNavigationBar: _CropButtons(cropController: _cropController),
     );
   }
+}
 
-  static Widget _buildButtons(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          IconButton(
-            icon: const Icon(Icons.restore_outlined),
-            tooltip:
-                AppLocalizations.of(context)!.settings_userManagement_reset,
-            onPressed: () {
-              _cropController.aspectRatio = 1;
-            },
-          ),
-          TextButton(
-            onPressed: () {
-              _cropController.crop();
-            },
-            child: Text(AppLocalizations.of(context)!.alert_continue),
-          ),
-        ],
-      );
+/// UI Buttons used for [_CropProfileWeb]
+class _CropButtons extends StatelessWidget {
+  const _CropButtons({
+    Key? key,
+    required CropController cropController,
+  })  : _cropController = cropController,
+        super(key: key);
+
+  final CropController _cropController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      // crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        IconButton(
+          icon: const Icon(Icons.restore_outlined),
+          tooltip: AppLocalizations.of(context)!.settings_userManagement_reset,
+          onPressed: () {
+            _cropController.aspectRatio = 1;
+          },
+        ),
+        TextButton(
+          onPressed: () {
+            _cropController.crop();
+          },
+          child: Text(AppLocalizations.of(context)!.alert_continue),
+        ),
+      ],
+    );
+  }
 }
 
 /* class _CropProfile extends StatelessWidget {

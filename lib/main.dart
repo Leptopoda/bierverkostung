@@ -17,16 +17,18 @@ import 'package:cloud_functions/cloud_functions.dart' show FirebaseFunctions;
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, User;
 import 'package:firebase_storage/firebase_storage.dart' show FirebaseStorage;
 
-import 'package:bierverkostung/shared/enviornment_config.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/services/route_generator.dart';
 
-import 'package:bierverkostung/screens/login_controller.dart';
+import 'package:bierverkostung/screens/home.dart';
+import 'package:bierverkostung/screens/login/login.dart';
 
 part 'package:bierverkostung/shared/firebase_setup.dart';
 part 'shared/theme.dart';
+part 'screens/login_controller.dart';
+part 'shared/enviornment_config.dart';
 
 /// Runs the app.
 void main() {
@@ -82,7 +84,7 @@ class MyApp extends StatelessWidget {
                         ? AppLocalizations.of(context)!.beertasting
                         : 'Beertasting',
 
-                home: const LoginController(),
+                home: const _LoginController(),
                 //initialRoute: '/Login',
                 onGenerateRoute: RouteGenerator.generateRoute,
               ),

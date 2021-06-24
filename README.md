@@ -31,6 +31,9 @@ We'll switch to a more common versioning system once ready for production.
 
 ## Getting Started
 
+### Documentation
+A documentation of the Projects code can be found [here](https://saufen.rimikis.de/doc/api).
+
 ### Flutter
 
 This project is build using flutter.

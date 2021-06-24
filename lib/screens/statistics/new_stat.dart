@@ -9,8 +9,9 @@ import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/models/stats.dart';
 import 'package:bierverkostung/models/beers.dart';
 
-class StatistikenFab extends StatelessWidget {
-  const StatistikenFab({Key? key}) : super(key: key);
+/// Add Stat Button
+class StatisticsFab extends StatelessWidget {
+  const StatisticsFab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class StatistikenFab extends StatelessWidget {
       onPressed: () {
         showDialog(
           context: context,
-          builder: (context) => const StatistikenAlert(),
+          builder: (context) => const _StatisticsAlert(),
         );
       },
       child: const Icon(Icons.add),
@@ -26,18 +27,21 @@ class StatistikenFab extends StatelessWidget {
   }
 }
 
-enum _bier { klein, gross }
+enum _Beer { small, big }
 // const _biggerFont = TextStyle(fontSize: 18.0);
 
-class StatistikenAlert extends StatefulWidget {
-  const StatistikenAlert({Key? key}) : super(key: key);
+/// New Stats Alert
+///
+/// Let's the user input a new stat
+class _StatisticsAlert extends StatefulWidget {
+  const _StatisticsAlert({Key? key}) : super(key: key);
 
   @override
-  State<StatistikenAlert> createState() => _StatistikenAlertState();
+  State<_StatisticsAlert> createState() => _StatisticsAlertState();
 }
 
-class _StatistikenAlertState extends State<StatistikenAlert> {
-  _bier? _character = _bier.gross;
+class _StatisticsAlertState extends State<_StatisticsAlert> {
+  _Beer? _character = _Beer.big;
   static int _menge = 1;
   final TextEditingController _beer = TextEditingController();
 
@@ -48,17 +52,17 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
       content: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            RadioListTile<_bier>(
+            RadioListTile<_Beer>(
               title: Text(AppLocalizations.of(context)!.stats_smallBeer),
-              value: _bier.klein,
+              value: _Beer.small,
               groupValue: _character,
-              onChanged: (_bier? value) => setState(() => _character = value),
+              onChanged: (_Beer? value) => setState(() => _character = value),
             ),
-            RadioListTile<_bier>(
+            RadioListTile<_Beer>(
               title: Text(AppLocalizations.of(context)!.stats_bigBeer),
-              value: _bier.gross,
+              value: _Beer.big,
               groupValue: _character,
-              onChanged: (_bier? value) => setState(() => _character = value),
+              onChanged: (_Beer? value) => setState(() => _character = value),
             ),
             Slider(
               value: _menge.toDouble(),
@@ -102,26 +106,27 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
     );
   }
 
+  /// validates the input and saves it to FireStore
   Future<void> _onSubmit() async {
     final DateTime date = DateTime.now();
-    final Beer? _bier1 = (_beer.value.text != '')
+    final Beer? _beer1 = (_beer.value.text != '')
         ? Beer(
             beerName: _beer.value.text,
           )
         : null;
 
     switch (_character) {
-      case _bier.klein:
+      case _Beer.small:
         for (int i = 0; i < _menge; i++) {
           await DatabaseService.saveStat(
-            Stat(menge: 0.33, timestamp: date, beer: _bier1),
+            Stat(amount: 0.33, timestamp: date, beer: _beer1),
           );
         }
         break;
-      case _bier.gross:
+      case _Beer.big:
         for (int i = 0; i < _menge; i++) {
           await DatabaseService.saveStat(
-            Stat(menge: 0.5, timestamp: date, beer: _bier1),
+            Stat(amount: 0.5, timestamp: date, beer: _beer1),
           );
         }
         break;
@@ -132,6 +137,7 @@ class _StatistikenAlertState extends State<StatistikenAlert> {
     Navigator.of(context).pop();
   }
 
+  /// selects a new [Beer] from the [BeerList]
   Future<void> _selectBeer(BuildContext context) async {
     final Beer? _beer1 = await Navigator.pushNamed<Beer?>(context, '/BeerList');
 

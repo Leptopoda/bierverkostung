@@ -22,6 +22,7 @@ class Settings extends StatelessWidget {
 
   static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  //TODO: localize
   /// List of detail names
   static const List<String> _names = [
     'Profile',
@@ -89,7 +90,7 @@ class Settings extends StatelessWidget {
       scaffoldKey: _scaffoldKey,
       detailBuilder: (BuildContext context, int? index, bool tablet) {
         return DetailsScreen(
-          body: SettingsDetail(
+          body: _SettingsDetail(
             items: _actions,
             row: index,
             tablet: tablet,
@@ -112,8 +113,8 @@ class Settings extends StatelessWidget {
 }
 
 /// Detail screen for the settings
-class SettingsDetail extends StatelessWidget {
-  const SettingsDetail({
+class _SettingsDetail extends StatelessWidget {
+  const _SettingsDetail({
     Key? key,
     required this.items,
     required this.row,
