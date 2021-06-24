@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 ## Added:
 - GDPR screen
 - delete old users
+
+## [0.13.0] - 2021-06-24
 - better perfomance
 - beer images
 
