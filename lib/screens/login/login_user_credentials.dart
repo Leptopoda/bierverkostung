@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 
 import 'package:bierverkostung/services/firebase/auth.dart';
 
+/// Register User
+///
+/// Screen for registering new users
+@Deprecated('This is only a example screen')
 class UserCredentialsAlert extends StatelessWidget {
   const UserCredentialsAlert({Key? key}) : super(key: key);
 
@@ -32,7 +36,7 @@ class UserCredentialsAlert extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                final bool _result = await AuthService().registerAnon();
+                final bool _result = await AuthService.registerAnon();
                 if (_result) {
                 } else {
                   Navigator.pushNamed(context, '/error',

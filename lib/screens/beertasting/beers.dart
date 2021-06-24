@@ -6,36 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
-class BeerList extends StatefulWidget {
+/// Beer list Widget
+///
+/// Displays a list with every [Beer]
+class BeerList extends StatelessWidget {
   const BeerList({Key? key}) : super(key: key);
 
-  @override
-  _BeerListState createState() => _BeerListState();
-}
-
-class _BeerListState extends State<BeerList> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  String? _groupID;
-
-  @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
-
-    _groupID = await AuthService().getClaim('group_id') as String?;
-    setState(() {});
-  }
+  static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Beer>>(
-      stream: DatabaseService(groupID: _groupID).beers,
+      stream: DatabaseService.beers,
       builder: (BuildContext context, AsyncSnapshot<List<Beer>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
@@ -59,7 +46,7 @@ class _BeerListState extends State<BeerList> {
               scaffoldKey: _scaffoldKey,
               detailBuilder: (BuildContext context, int? index, bool tablet) {
                 return DetailsScreen(
-                  body: BeerListDetail(
+                  body: _BeerListDetail(
                     items: snapshot.data!,
                     row: index,
                     tablet: tablet,
@@ -95,8 +82,9 @@ class _BeerListState extends State<BeerList> {
   }
 }
 
-class BeerListDetail extends StatelessWidget {
-  const BeerListDetail({
+/// Displays a selected [Beer] out of [BeerList]
+class _BeerListDetail extends StatelessWidget {
+  const _BeerListDetail({
     Key? key,
     required this.items,
     required this.row,

@@ -8,33 +8,36 @@ import 'package:flutter/material.dart';
 import 'package:bierverkostung/models/beers.dart';
 
 import 'package:bierverkostung/shared/error_page.dart';
-import 'package:bierverkostung/screens/bierverkostung/beers.dart';
+import 'package:bierverkostung/screens/beertasting/beers.dart';
 // import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
 import 'package:bierverkostung/screens/home.dart';
-import 'package:bierverkostung/screens/bierverkostung/new_tasting.dart';
-import 'package:bierverkostung/screens/bierverkostung/new_beer.dart';
+import 'package:bierverkostung/screens/beertasting/new_tasting.dart';
+import 'package:bierverkostung/screens/beertasting/new_beer.dart';
 import 'package:bierverkostung/screens/conference/conference.dart';
 import 'package:bierverkostung/screens/settings/settings.dart';
-import 'package:bierverkostung/screens/settings/qr_scan.dart';
 import 'package:bierverkostung/screens/settings/user_settings/user_settings.dart';
-import 'package:bierverkostung/screens/settings/group_management.dart';
+import 'package:bierverkostung/screens/settings/group_settings/group_management.dart';
 // import 'package:bierverkostung/screens/settings/about_us_settings.dart';
 import 'package:bierverkostung/screens/settings/import_data_settings.dart';
 import 'package:bierverkostung/screens/login/login.dart';
-import 'package:bierverkostung/screens/login_controller.dart';
-import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
-import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
-import 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
+// import 'package:bierverkostung/screens/login_controller.dart';
+import 'package:bierverkostung/screens/drinking_games/toasts_old.dart';
+import 'package:bierverkostung/screens/drinking_games/toasts_new.dart';
+import 'package:bierverkostung/screens/alcohol_calculator/alcohol_calculator.dart';
 import 'package:bierverkostung/screens/moneyManagement/money_management.dart';
 
+/// Handles the routes used for navigating the app
 class RouteGenerator {
+  const RouteGenerator();
+
+  /// generates the routes used for navigating the app
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
     final _args = settings.arguments;
 
     switch (settings.name) {
-      case '/':
-        return MaterialPageRoute(builder: (_) => const LoginController());
+      // case '/':
+      //   return MaterialPageRoute(builder: (_) => const LoginController());
 
       case '/Home':
         return MaterialPageRoute(builder: (_) => const MyHome());
@@ -53,7 +56,7 @@ class RouteGenerator {
         return _errorRoute(); */
 
       case '/NewBeer':
-        return MaterialPageRoute(builder: (_) => NewBeer());
+        return MaterialPageRoute(builder: (_) => const NewBeer());
 
       case '/BeerList':
         return MaterialPageRoute<Beer?>(builder: (_) => const BeerList());
@@ -70,8 +73,8 @@ class RouteGenerator {
       case '/Settings/Groups':
         return MaterialPageRoute(builder: (_) => const GroupScreen());
 
-      case '/Settings/Groups/ScanCode':
-        return MaterialPageRoute(builder: (_) => const QRViewExample());
+      // case '/Settings/Groups/ScanCode':
+      //   return MaterialPageRoute(builder: (_) => const QRViewExample());
 
       case '/Settings/User':
         return MaterialPageRoute(builder: (_) => const UserSettings());
@@ -83,13 +86,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ImportDataSettings());
 
       case '/Trinkspiele/TrinkspruecheAlt':
-        return MaterialPageRoute(builder: (_) => const TrinkspruecheAlt());
+        return MaterialPageRoute(builder: (_) => const ToastsOld());
 
       case '/Trinkspiele/TrinkspruecheNeu':
-        return MaterialPageRoute(builder: (_) => const TrinkspruecheNeu());
+        return MaterialPageRoute(builder: (_) => const ToastsNew());
 
       case '/PromilleRechner':
-        return MaterialPageRoute(builder: (_) => const PromilleRechner());
+        return MaterialPageRoute(builder: (_) => const AlcoholCalculator());
 
       case '/MoneyCalculator':
         return MaterialPageRoute(builder: (_) => const MoneyCalculator());
@@ -111,6 +114,7 @@ class RouteGenerator {
     }
   }
 
+  /// builds the error route
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
       return const SomethingWentWrong(

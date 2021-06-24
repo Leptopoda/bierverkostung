@@ -2,18 +2,16 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:convert';
-import 'dart:developer' as developer show log;
-import 'dart:io';
+part of 'package:bierverkostung/screens/settings/import_data_settings.dart';
 
-import 'package:bierverkostung/services/firebase/database.dart';
-import 'package:flutter_archive/flutter_archive.dart';
-import 'package:path_provider/path_provider.dart';
+/// The backend servie for omporting
+///
+/// Responsible for extracting, parsing and saving the data
+class _ImportDataService {
+  const _ImportDataService();
 
-import 'package:bierverkostung/services/firebase/auth.dart';
-
-class ImportDataService {
-  Future importData(File archive) async {
+  /// imports the data of the picked file
+  static Future<void> importData(File archive) async {
     try {
       final Directory _tempDir = await getTemporaryDirectory();
       final Directory _dataDir =
@@ -22,7 +20,8 @@ class ImportDataService {
       await ZipFile.extractToDirectory(
         zipFile: archive,
         destinationDir: _dataDir,
-        /* onExtracting: (zipEntry, progress) {
+        /* 
+        onExtracting: (zipEntry, progress) {
               print('progress: ${progress.toStringAsFixed(1)}%');
               print('name: ${zipEntry.name}');
               print('isDirectory: ${zipEntry.isDirectory}');
@@ -33,21 +32,17 @@ class ImportDataService {
               print('compressionMethod: ${zipEntry.compressionMethod}');
               print('crc: ${zipEntry.crc}');
               return ExtractOperation.extract;
-            }*/
+            }
+        */
       );
+
       await _dataDir.list().forEach((file) async {
         if (file is File) {
-          await _parseJson(file);
-        } else {
-          developer.log(
-            'did not import some files',
-            name: 'leptopoda.bierverkostung.importDataService',
-            error: jsonEncode(file.toString()),
-          );
+          await _parseJson(file, _dataDir);
         }
       });
 
-      _dataDir.deleteSync(recursive: true);
+      // await _dataDir.delete(recursive: true);
     } catch (error) {
       developer.log(
         'error restoring backup',
@@ -57,19 +52,33 @@ class ImportDataService {
     }
   }
 
-  Future<void> _parseJson(File file) async {
+  /// parses the imported JSON data and saves it
+  static Future<void> _parseJson(File file, Directory dataDir) async {
     try {
       final String _contents = await file.readAsString();
+      // TODO: validate json (maybe externalize to cloud function)
       final Map _data = jsonDecode(_contents) as Map;
 
-      final String? _groupID =
-          await AuthService().getClaim('group_id') as String?;
+      final List? _photos = _data['beer']['photos'] as List?;
+      final List<String> _imageUrls = [];
+      if (_photos != null) {
+        for (final element in _photos) {
+          final String? _url = await CloudStorageService.uploadBeerImage(
+              '${dataDir.path}/photos/beer/${element['photo_file']['name']}',
+              _data['beer']['name'] as String);
+          if (_url != null) {
+            _imageUrls.add(_url);
+          }
+        }
+        _data['imageUrls'] = _imageUrls;
+      }
 
-      // TODO: validate json (maybe externalize to cloud function)
-      DatabaseService(groupID: _groupID)
-          .saveBeer(_data['beer'] as Map<String, dynamic>);
-      DatabaseService(groupID: _groupID)
-          .saveTasting(_data as Map<String, dynamic>);
+      DatabaseService.saveBeer(
+          // ignore: deprecated_member_use_from_same_package
+          Beer.fromMap(_data['beer'] as Map<String, dynamic>));
+      DatabaseService.saveTasting(
+          // ignore: deprecated_member_use_from_same_package
+          Tasting.fromMap(_data as Map<String, dynamic>));
     } catch (error) {
       developer.log(
         'error parsing json',

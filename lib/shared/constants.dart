@@ -4,16 +4,19 @@
 
 import 'package:flutter/material.dart';
 
+@Deprecated('Use master detail scaffold instead')
 const double kTabletBreakpoint = 720.0;
+@Deprecated('Use master detail scaffold instead')
 const double kDesktopBreakpoint = 1440.0;
+@Deprecated('Use master detail scaffold instead')
 const double kListViewWidth = 300.0;
+@Deprecated('Use master detail scaffold instead')
 const double kSideMenuWidth = 250.0;
 
-const String vapidKey =
-    'BHzfRAVeY69M7uwBIzm8xiMaIZ0iDEbX9dgyvp87GKWWmlbXSt3arsWe9lQpjKF-OSM1RtOFTGnGrk-qnrYvF3s';
-
+@Deprecated('Use master detail scaffold instead')
 double width(BuildContext context) => MediaQuery.of(context).size.width;
 
+@Deprecated('Use master detail scaffold instead')
 bool isMobile(BuildContext context) {
   if (MediaQuery.of(context).size.width >= kTabletBreakpoint) {
     return false;

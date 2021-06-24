@@ -4,6 +4,9 @@
 
 part of 'user_settings.dart';
 
+/// Log out Alert
+///
+/// greets the user on logout
 class _LogOutAlert extends StatelessWidget {
   const _LogOutAlert({Key? key}) : super(key: key);
 
@@ -21,7 +24,7 @@ class _LogOutAlert extends StatelessWidget {
         ),
         TextButton(
           onPressed: () async {
-            await AuthService().signOut();
+            await AuthService.signOut();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(

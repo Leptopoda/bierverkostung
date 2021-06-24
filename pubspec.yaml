@@ -19,7 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.12.0+1
+version: 0.13.0+1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -68,6 +68,7 @@ dependencies:
   flutter_svg: any
 
   #image: any
+  image_cropper: any
   image_picker: any
   intl: any
 
@@ -92,7 +93,10 @@ dependencies:
   provider: any
 
   # qr Codes
-  qr_code_scanner: any
+  qr_code_scanner:
+    git:
+      url: https://gitlab.rimikis.de/Leptopoda/qr-code-scanner.git
+      ref: master
   qr_flutter: any
 
   # random color
@@ -109,6 +113,8 @@ dependencies:
 
   # url launcher
   url_launcher: any
+
+  uuid: ^3.0.0
 
 dev_dependencies:
   # Change launcher icon

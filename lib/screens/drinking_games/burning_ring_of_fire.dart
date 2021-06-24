@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+/// Burning Ring Of Fire Game
+///
+/// Displays the rules, etc
 class BurningRingOfFire extends StatelessWidget {
   const BurningRingOfFire({Key? key}) : super(key: key);
 
@@ -113,7 +116,8 @@ class BurningRingOfFire extends StatelessWidget {
     );
   }
 
-  SvgPicture _getCard(int number, String? type) {
+  /// gets the selected asset
+  static SvgPicture _getCard(int number, String? type) {
     const List<String> _cards = [
       'Ace',
       '2',

@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jitsi_meet/jitsi_meet.dart';
 
+/// Button opening the screen for a new meeting
+@Deprecated('we directly implemented it into the [Home] screen')
 class MeetingButton extends StatelessWidget {
   const MeetingButton({Key? key}) : super(key: key);
 
@@ -20,6 +22,9 @@ class MeetingButton extends StatelessWidget {
   }
 }
 
+/// Meting View
+///
+/// Screen to start or join a Conference
 class Meeting extends StatefulWidget {
   const Meeting({Key? key}) : super(key: key);
 
@@ -101,6 +106,7 @@ class _MeetingState extends State<Meeting> {
     );
   }
 
+  /// returns the settings disloge for the meeting
   Widget meetConfig() {
     return SingleChildScrollView(
       child: Column(
@@ -214,24 +220,28 @@ class _MeetingState extends State<Meeting> {
     );
   }
 
+  /// sets the [audioOnly] parameter
   void _onAudioOnlyChanged(bool? value) {
     setState(() {
       isAudioOnly = value;
     });
   }
 
+  /// sets the [audioMuted] parameter
   void _onAudioMutedChanged(bool? value) {
     setState(() {
       isAudioMuted = value;
     });
   }
 
+  /// sets the [videoMuted] parameter
   void _onVideoMutedChanged(bool? value) {
     setState(() {
       isVideoMuted = value;
     });
   }
 
+  /// joins or starts the meeting
   Future<void> _joinMeeting() async {
     final String? serverUrl =
         serverText.text.trim().isEmpty ? null : serverText.text;
@@ -295,19 +305,23 @@ class _MeetingState extends State<Meeting> {
     );
   }
 
-  void _onConferenceWillJoin(message) {
+  /// logs the joining process
+  static void _onConferenceWillJoin(message) {
     debugPrint("_onConferenceWillJoin broadcasted with message: $message");
   }
 
-  void _onConferenceJoined(message) {
+  /// logs the joined state
+  static void _onConferenceJoined(message) {
     debugPrint("_onConferenceJoined broadcasted with message: $message");
   }
 
-  void _onConferenceTerminated(message) {
+  /// logs the terminated meeting status
+  static void _onConferenceTerminated(message) {
     debugPrint("_onConferenceTerminated broadcasted with message: $message");
   }
 
-  void _onError(error) {
+  /// logs generic errors
+  static void _onError(error) {
     debugPrint("_onError broadcasted: $error");
   }
 }

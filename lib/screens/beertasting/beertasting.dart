@@ -6,38 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
-import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
+import 'package:bierverkostung/screens/beertasting/disp_tasting.dart';
 
-class Bierverkostung extends StatefulWidget {
-  const Bierverkostung({Key? key}) : super(key: key);
+/// Bieertasting widget
+///
+/// Scaffold regarding the Beertasting logic
+class BeerTasting extends StatelessWidget {
+  const BeerTasting({Key? key}) : super(key: key);
 
-  @override
-  _BierverkostungState createState() => _BierverkostungState();
-}
-
-class _BierverkostungState extends State<Bierverkostung> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  String? _groupID;
-
-  @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
-
-    _groupID = await AuthService().getClaim('group_id') as String?;
-    setState(() {});
-  }
+  static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Tasting>>(
-      stream: DatabaseService(groupID: _groupID).tastings,
+      stream: DatabaseService.tastings,
       builder: (BuildContext context, AsyncSnapshot<List<Tasting>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
@@ -62,7 +49,7 @@ class _BierverkostungState extends State<Bierverkostung> {
               scaffoldKey: _scaffoldKey,
               detailBuilder: (BuildContext context, int? index, bool tablet) {
                 return DetailsScreen(
-                  body: BierverkostungDetail(
+                  body: _BeerTastingDetail(
                     items: snapshot.data!,
                     row: index,
                     tablet: tablet,
@@ -92,8 +79,9 @@ class _BierverkostungState extends State<Bierverkostung> {
   }
 }
 
-class BierverkostungDetail extends StatelessWidget {
-  const BierverkostungDetail({
+/// Detail screen of [Beertasting]
+class _BeerTastingDetail extends StatelessWidget {
+  const _BeerTastingDetail({
     Key? key,
     required this.items,
     required this.row,

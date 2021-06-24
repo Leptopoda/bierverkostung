@@ -3,8 +3,16 @@
 // found in the LICENSE file.
 
 import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
+import 'package:json_annotation/json_annotation.dart';
+
 import 'package:bierverkostung/models/beers.dart';
 
+part 'tastings.g.dart';
+
+/// Tasting data Model
+///
+/// This Class holds the data of a BeerTasting
+@JsonSerializable()
 class Tasting {
   // final String id;
   // final int revision;
@@ -54,11 +62,21 @@ class Tasting {
     this.totalImpressionRating = 0,
   });
 
+  /// encodes a Json style map into a [Tasting] obbject
+  factory Tasting.fromJson(Map<String, dynamic> json) =>
+      _$TastingFromJson(json);
+
+  /// decodes a Json from a [UserData] obbject
+  Map<String, dynamic> toJson() => _$TastingToJson(this);
+
+  /// decodes a Json style map into a [Tasting] obbject
+  @Deprecated('use from and to json for en/decode')
   factory Tasting.fromMap(Map data) {
     return Tasting(
       date: (data['date'] is Timestamp)
           ? data['date'].toDate() as DateTime
           : DateTime.parse(data['date'] as String),
+      // ignore: deprecated_member_use_from_same_package
       beer: Beer.fromMap(data['beer'] as Map),
       location: data['location'] as String?,
       beerColour: data['opticalAppearance']?['beerColour'] as String?,
@@ -96,6 +114,8 @@ class Tasting {
     );
   }
 
+  /// encodes a Json style map into a [Tasting] obbject
+  @Deprecated('use from and to json for en/decode')
   Map<String, dynamic> toMap() {
     return {
       'date': date,

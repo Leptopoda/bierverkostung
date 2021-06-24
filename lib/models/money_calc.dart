@@ -6,6 +6,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'money_calc.g.dart';
 
+/// MoneyCalc data model
+///
+/// holds the data used for a money calculation
 @JsonSerializable()
 class MoneyCalc {
   final String buyer;
@@ -20,7 +23,10 @@ class MoneyCalc {
     // required this.participants,
   });
 
+  /// decodes a Json into a [MoneyCalc] obbject
   factory MoneyCalc.fromJson(Map<String, dynamic> json) =>
       _$MoneyCalcFromJson(json);
+
+  /// encodes a Json from a [MoneyCalc] obbject
   Map<String, dynamic> toJson() => _$MoneyCalcToJson(this);
 }

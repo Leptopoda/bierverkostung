@@ -6,24 +6,29 @@ import 'dart:math' show Random;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class Trinksprueche extends StatefulWidget {
+/// Toasts Scaffold
+///
+/// Toasts navigation UI
+class Toasts extends StatefulWidget {
   final List<String> sprueche;
 
-  const Trinksprueche({Key? key, required this.sprueche}) : super(key: key);
+  const Toasts({Key? key, required this.sprueche}) : super(key: key);
 
   @override
-  State<Trinksprueche> createState() => _TrinkspruecheState();
+  State<Toasts> createState() => _ToastsState();
 }
 
-class _TrinkspruecheState extends State<Trinksprueche> {
+class _ToastsState extends State<Toasts> {
   static int _index = 1;
 
+  /// generates a random index
   void _randomIndex() {
     setState(() {
       _index = Random().nextInt(widget.sprueche.length) + 1;
     });
   }
 
+  /// decreases the index
   void _lastIndex() {
     if (_index > 1) {
       setState(() {
@@ -32,6 +37,7 @@ class _TrinkspruecheState extends State<Trinksprueche> {
     }
   }
 
+  /// increases the index
   void _nextIndex() {
     if (_index < widget.sprueche.length) {
       setState(() {

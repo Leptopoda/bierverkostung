@@ -10,28 +10,29 @@ import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
 import 'package:bierverkostung/screens/settings/user_settings/user_settings.dart';
 import 'package:bierverkostung/screens/settings/about_us_settings.dart';
-import 'package:bierverkostung/screens/settings/group_management.dart';
+import 'package:bierverkostung/screens/settings/group_settings/group_management.dart';
 import 'package:bierverkostung/screens/settings/import_data_settings.dart';
 import 'package:bierverkostung/screens/settings/notification_settings.dart';
 
-class Settings extends StatefulWidget {
+/// Settings Page Scaffold
+///
+/// Master list view containing all setting items
+class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
 
-  @override
-  _SettingsState createState() => _SettingsState();
-}
+  static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-class _SettingsState extends State<Settings> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  //TODO: localize
+  /// List of detail names
   static const List<String> _names = [
-    'Log Out',
+    'Profile',
     'Group Management',
     'Notifications',
     'Import Data',
     'About this App',
   ];
 
+  /// List of screens to call when selected
   static const List<Widget> _actions = [
     UserSettings(),
     GroupScreen(),
@@ -89,7 +90,7 @@ class _SettingsState extends State<Settings> {
       scaffoldKey: _scaffoldKey,
       detailBuilder: (BuildContext context, int? index, bool tablet) {
         return DetailsScreen(
-          body: SettingsDetail(
+          body: _SettingsDetail(
             items: _actions,
             row: index,
             tablet: tablet,
@@ -111,8 +112,9 @@ class _SettingsState extends State<Settings> {
   }
 }
 
-class SettingsDetail extends StatelessWidget {
-  const SettingsDetail({
+/// Detail screen for the settings
+class _SettingsDetail extends StatelessWidget {
+  const _SettingsDetail({
     Key? key,
     required this.items,
     required this.row,

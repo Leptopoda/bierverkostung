@@ -14,6 +14,10 @@
   },
   "hosting": {
     "public": "public",
+    "predeploy": [
+      "flutter build web --release",
+      "dartdoc --output build/web/doc/api"
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",

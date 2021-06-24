@@ -3,6 +3,9 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert' show jsonEncode;
+import 'dart:developer' as developer show log;
+
 import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
 import 'package:firebase_auth/firebase_auth.dart' show User;
 
@@ -13,124 +16,173 @@ import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/money_calc.dart';
 
+/// Helpers to save data to cloud firestore.
 class DatabaseService {
-  String? groupID;
-  DatabaseService({this.groupID});
+  const DatabaseService();
   // Firestore instance
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final User user2 = AuthService().getUser()!;
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final User _user = AuthService.getUser!;
+  static final String _groupID = AuthService.groupID;
+
+  static final _statRef = _firestore
+      .collection('users')
+      .doc(_user.uid)
+      .collection('stats')
+      .withConverter(
+        fromFirestore: (snapshot, _) => Stat.fromJson(snapshot.data()!),
+        toFirestore: (Stat stat, _) => stat.toJson(),
+      );
 
   // Stats
   /// save Stat
-  Future<void> saveStat(Map<String, dynamic> stat) async {
-    await _firestore
-        .collection('users')
-        .doc(user2.uid)
-        .collection('stats')
-        .add(stat);
+  static Future<void> saveStat(Stat stat) async {
+    try {
+      await _statRef.add(stat);
+    } catch (error) {
+      developer.log(
+        'error saving stat',
+        name: 'leptopoda.bierverkostung.DatabaseService',
+        error: jsonEncode(error.toString()),
+      );
+    }
   }
 
   /// get stats stream
-  Stream<List<Stat>> get stats {
-    return _firestore
-        .collection('users')
-        .doc(user2.uid)
-        .collection('stats')
+  static Stream<List<Stat>> get stats {
+    return _statRef
         .snapshots()
-        .map((list) =>
-            list.docs.map((doc) => Stat.fromMap(doc.data())).toList());
+        .map((list) => list.docs.map((doc) => doc.data()).toList());
   }
 
   /// get cumputed stats stream
-  Stream<List<Map<String, dynamic>>> get statsComputed {
+  static Stream<List<Map<String, dynamic>>> get statsComputed {
     return _firestore
         .collection('users')
-        .doc(user2.uid)
+        .doc(_user.uid)
         .collection('stats-computed')
         .snapshots()
         .map((list) => list.docs.map((doc) => doc.data()).toList());
   }
 
-  /// save NotificationToken
-  Future<void> saveNotificationToken(Map<String, dynamic> token) async {
-    await _firestore
-        .collection('users')
-        .doc(user2.uid)
-        .collection('notification-token')
-        .add(token);
-  }
+  static final _tastingRef = _firestore
+      .collection('groups')
+      .doc(_groupID)
+      .collection('tastings')
+      .withConverter(
+        fromFirestore: (snapshot, _) => Tasting.fromJson(snapshot.data()!),
+        toFirestore: (Tasting stat, _) => stat.toJson(),
+      );
 
   // Tasting
   /// save Tasting
-  Future<void> saveTasting(Map<String, dynamic> tasting) async {
-    await _firestore
-        .collection('groups')
-        .doc((groupID != null) ? groupID : user2.uid)
-        .collection('tastings')
-        .add(tasting);
+  static Future<void> saveTasting(Tasting tasting) async {
+    try {
+      await _tastingRef.add(tasting);
+    } catch (error) {
+      developer.log(
+        'error saving Tasting',
+        name: 'leptopoda.bierverkostung.DatabaseService',
+        error: jsonEncode(error.toString()),
+      );
+    }
   }
 
   /// get tasting stream
-  Stream<List<Tasting>> get tastings {
-    return _firestore
-        .collection('groups')
-        .doc((groupID != null) ? groupID : user2.uid)
-        .collection('tastings')
+  static Stream<List<Tasting>> get tastings {
+    return _tastingRef
         .snapshots()
-        .map((list) =>
-            list.docs.map((doc) => Tasting.fromMap(doc.data())).toList());
+        .map((list) => list.docs.map((doc) => doc.data()).toList());
   }
 
+  static final _beerRef = _firestore
+      .collection('groups')
+      .doc(_groupID)
+      .collection('beers')
+      .withConverter(
+        fromFirestore: (snapshot, _) => Beer.fromJson(snapshot.data()!),
+        toFirestore: (Beer stat, _) => stat.toJson(),
+      );
   // Beer
   /// save Beer
-  Future<void> saveBeer(Map<String, dynamic> beer) async {
-    await _firestore
-        .collection('groups')
-        .doc((groupID != null) ? groupID : user2.uid)
-        .collection('beers')
-        .add(beer);
+  static Future<void> saveBeer(Beer beer) async {
+    try {
+      await _beerRef.add(beer);
+    } catch (error) {
+      developer.log(
+        'error saving beer',
+        name: 'leptopoda.bierverkostung.DatabaseService',
+        error: jsonEncode(error.toString()),
+      );
+    }
   }
 
   /// get beers stream
-  Stream<List<Beer>> get beers {
-    return _firestore
-        .collection('groups')
-        .doc((groupID != null) ? groupID : user2.uid)
-        .collection('beers')
+  static Stream<List<Beer>> get beers {
+    return _beerRef
         .snapshots()
-        .map((list) =>
-            list.docs.map((doc) => Beer.fromMap(doc.data())).toList());
+        .map((list) => list.docs.map((doc) => doc.data()).toList());
   }
+
+  static final _moneyCalcRef = _firestore
+      .collection('groups')
+      .doc(_groupID)
+      .collection('money')
+      .withConverter(
+        fromFirestore: (snapshot, _) => MoneyCalc.fromJson(snapshot.data()!),
+        toFirestore: (MoneyCalc stat, _) => stat.toJson(),
+      );
 
   // Money Calculations
   /// save money stat
-  Future<void> saveMoneyCalc(Map<String, dynamic> money) async {
-    await _firestore
-        .collection('groups')
-        .doc((groupID != null) ? groupID : user2.uid)
-        .collection('money')
-        .add(money);
+  static Future<void> saveMoneyCalc(MoneyCalc money) async {
+    try {
+      await _moneyCalcRef.add(money);
+    } catch (error) {
+      developer.log(
+        'error saving moneyCalc',
+        name: 'leptopoda.bierverkostung.DatabaseService',
+        error: jsonEncode(error.toString()),
+      );
+    }
   }
 
   /// get money stat stream
-  Stream<List<MoneyCalc>> get moneyCalc {
-    return _firestore
-        .collection('groups')
-        .doc((groupID != null) ? groupID : user2.uid)
-        .collection('money')
+  static Stream<List<MoneyCalc>> get moneyCalc {
+    return _moneyCalcRef
         .snapshots()
-        .map((list) =>
-            list.docs.map((doc) => MoneyCalc.fromJson(doc.data())).toList());
+        .map((list) => list.docs.map((doc) => doc.data()).toList());
   }
 
   /// get computed money stat stream
-  Stream<List<MoneyCalc>> get moneyCalcComp {
+  static Stream<List<MoneyCalc>> get moneyCalcComp {
     return _firestore
         .collection('groups')
-        .doc((groupID != null) ? groupID : user2.uid)
+        .doc(_groupID)
         .collection('money-computed')
         .snapshots()
         .map((list) =>
             list.docs.map((doc) => MoneyCalc.fromJson(doc.data())).toList());
+  }
+
+  /// save NotificationToken
+  static Future<void> saveNotificationToken(Map<String, dynamic> token) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(_user.uid)
+          .collection('notification-token')
+          .add(token);
+    } catch (error) {
+      developer.log(
+        'error saving notification Tokenob',
+        name: 'leptopoda.bierverkostung.DatabaseService',
+        error: jsonEncode(error.toString()),
+      );
+    }
+  }
+
+  /// clears the locally cached data
+  static Future<void> clearLocalCache() async {
+    await _firestore.clearPersistence();
   }
 }

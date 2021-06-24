@@ -304,6 +304,12 @@
   "settings_userManagement_chooseGallery": "Choose from gallery",
   "settings_userManagement_removePhoto": "Reemove photo",
   "settings_userManagement_cropImage": "Crop Image",
-  "settings_userManagement_reset": "reset"
+  "settings_userManagement_reset": "reset",
+  "settings_groupManagement_flash" : "Toggle flash",
+  "settings_groupManagement_orientation" : "Flip camera",
 
+  "beer_newImage" : "Add Image",
+  "beer_changeImage": "Change Image",
+
+  "settings_importData_web" :"Importing data isn't availabe on web for now. Use an Android or iOS device to achieve this."
 }

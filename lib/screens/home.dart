@@ -8,12 +8,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/local_storage.dart';
 import 'package:bierverkostung/services/firebase/notifications.dart';
-import 'package:bierverkostung/shared/drink_safe.dart';
 
-import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
-import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
-import 'package:bierverkostung/screens/statistiken/disp_statistiken.dart';
+import 'package:bierverkostung/screens/beertasting/beertasting.dart';
+import 'package:bierverkostung/screens/drinking_games/drinking_games.dart';
+import 'package:bierverkostung/screens/statistics/disp_statistics.dart';
 
+part 'package:bierverkostung/shared/drink_responsible.dart';
+
+/// Home Screen
+///
+/// Contains the NavBar and sections for the App
 class MyHome extends StatefulWidget {
   const MyHome({Key? key}) : super(key: key);
 
@@ -23,27 +27,28 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   int _currentIndex = 1;
+  late List<String> _pageTitles;
 
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-    final bool? isFirstLogin = await LocalDatabaseService().getFirstLogin();
+    final bool? isFirstLogin = await LocalDatabaseService.getFirstLogin();
     if (isFirstLogin == false) {
-      NotificationService().askPermission();
-      LocalDatabaseService().setFirstLogin();
+      NotificationService.askPermission();
+      LocalDatabaseService.setFirstLogin();
     }
-    await NotificationService().initialise();
-  }
+    await NotificationService.initialise();
 
-  @override
-  Widget build(BuildContext context) {
-    final List<String> _pageTitles = [
+    _pageTitles = [
       AppLocalizations.of(context)!.drinkingGames,
       AppLocalizations.of(context)!.beertasting,
       AppLocalizations.of(context)!.stats,
     ];
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return NavRail(
       /* drawerHeaderBuilder: (context) {
         return Column(
@@ -91,15 +96,23 @@ class _MyHomeState extends State<MyHome> {
         if (mounted) setState(() => _currentIndex = val);
 
         if (_currentIndex == 0) {
-          await drinkResponsible(context);
+          final bool? drinkResponsibleShown =
+              await LocalDatabaseService.getDrinkResponsible();
+          if (drinkResponsibleShown == true) {
+            return;
+          }
+          await showDialog(
+            context: context,
+            builder: (BuildContext _) => const _DrinkResponsibleAlert(),
+          );
         }
       },
       body: IndexedStack(
         index: _currentIndex,
         children: const <Widget>[
           Trinkspiele(),
-          Bierverkostung(),
-          Statistiken(),
+          BeerTasting(),
+          Statistics(),
         ],
       ),
       tabs: <BottomNavigationBarItem>[

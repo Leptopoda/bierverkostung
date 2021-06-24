@@ -2,16 +2,13 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+part of 'money_management.dart';
 
-import 'package:bierverkostung/services/firebase/auth.dart';
-import 'package:bierverkostung/services/firebase/database.dart';
-import 'package:bierverkostung/models/money_calc.dart';
-
-class MoneyFab extends StatelessWidget {
-  const MoneyFab({Key? key}) : super(key: key);
+/// Money FAB fragment
+///
+/// Calls the [_MoneyAlert] fragment
+class _MoneyFab extends StatelessWidget {
+  const _MoneyFab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +16,7 @@ class MoneyFab extends StatelessWidget {
       onPressed: () {
         showDialog(
           context: context,
-          builder: (context) => const MoneyAlert(),
+          builder: (context) => const _MoneyAlert(),
         );
       },
       child: const Icon(Icons.add),
@@ -27,20 +24,23 @@ class MoneyFab extends StatelessWidget {
   }
 }
 
-class MoneyAlert extends StatefulWidget {
-  const MoneyAlert({Key? key}) : super(key: key);
+/// Money Alert to add a new moneyCalc
+///
+/// Asks the user to add a new moneyCalc
+class _MoneyAlert extends StatefulWidget {
+  const _MoneyAlert({Key? key}) : super(key: key);
 
   @override
-  State<MoneyAlert> createState() => _MoneyAlertState();
+  State<_MoneyAlert> createState() => _MoneyAlertState();
 }
 
-class _MoneyAlertState extends State<MoneyAlert> {
+class _MoneyAlertState extends State<_MoneyAlert> {
   final TextEditingController _buyer = TextEditingController();
   final TextEditingController _amount = TextEditingController();
 
   @override
   void initState() {
-    _buyer.text = AuthService().getUser()!.uid;
+    _buyer.text = AuthService.getUser!.uid;
     super.initState();
   }
 
@@ -99,16 +99,17 @@ class _MoneyAlertState extends State<MoneyAlert> {
     );
   }
 
+  /// saves the input to cloud firestore
   Future<void> _onSubmit() async {
     final DateTime _date = DateTime.now();
 
-    await DatabaseService().saveMoneyCalc(
+    await DatabaseService.saveMoneyCalc(
       MoneyCalc(
         buyer: _buyer.value.text,
         amount: double.parse(_amount.value.text) * -1,
         timestamp: _date,
         // participants: participants,
-      ).toJson(),
+      ),
     );
 
     Navigator.of(context).pop();

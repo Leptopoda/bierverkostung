@@ -6,33 +6,46 @@ import 'dart:convert' show jsonEncode;
 import 'dart:developer' as developer show log;
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:bierverkostung/services/firebase/database.dart';
+
+/// Helpers for creating and managing users on firebase auth.
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  const AuthService();
+
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  static Map<String, dynamic>? _claims;
+
+  /// gets the users groupID.
+  /// If null it'll return the uid
+  static String get groupID =>
+      (_claims?['group_id'] as String?) ?? _auth.currentUser!.uid;
+
+  /// gets the current [User] object
+  static User? get getUser => _auth.currentUser;
 
   // create UserData obj based on firebase user
-  /* Future<UserData?> _userFromFirebaseUser(User? user) async {
-    final IdTokenResult? token = await user?.getIdTokenResult();
-    return (token?.claims != null) ? UserData.fromMap(token!.claims!) : null;
-  } */
+  static Future<User?> _userFromFirebaseUser(User? user) async {
+    final IdTokenResult? token = await _auth.currentUser?.getIdTokenResult();
+    _claims = token?.claims;
+    return user;
+  }
 
-  // auth change user stream
-  Stream<User?> get user {
-    // TODO: maybe use idTokenChanges instead of user
-    return _auth.userChanges();
+  /// Stream containing the current user
+  static Stream<User?> get user {
+    return _auth.idTokenChanges().asyncMap(_userFromFirebaseUser);
     //.map((FirebaseUser user) => _userFromFirebaseUser(user));
   }
 
-  Future<dynamic> getClaim(String value) async {
+  /// gets the users customClaims
+  @Deprecated('use the [AuthService.claims]')
+  static Future<dynamic> getClaim(String value) async {
     final IdTokenResult? token = await _auth.currentUser?.getIdTokenResult();
     return token?.claims?[value];
   }
 
-  User? getUser() {
-    return _auth.currentUser;
-  }
-
-  // register in anon
-  Future<bool> registerAnon() async {
+  /// registers a new User Anonymously
+  static Future<bool> registerAnon() async {
     try {
       await _auth.signInAnonymously();
       return true;
@@ -46,8 +59,9 @@ class AuthService {
     }
   }
 
-  // sign in with email and password
-  Future<bool> signInWithEmailAndPassword(String email, String password) async {
+  /// signs in a User with email and password
+  static Future<bool> signInWithEmailAndPassword(
+      String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return true;
@@ -61,8 +75,8 @@ class AuthService {
     }
   }
 
-  // register with email and password
-  Future<bool> registerWithEmailAndPassword(
+  /// registers a new User with email and password
+  static Future<bool> registerWithEmailAndPassword(
       String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(
@@ -75,6 +89,26 @@ class AuthService {
         error: jsonEncode(error.toString()),
       );
       return false;
+    }
+  }
+
+  /// refreshes the users token
+  /// used to load new claims
+  static Future<void> refreshToken() async {
+    await _auth.currentUser?.getIdToken(true);
+  }
+
+  /// signs out the user
+  static Future<void> signOut() async {
+    try {
+      await _auth.signOut();
+      await DatabaseService.clearLocalCache();
+    } catch (error) {
+      developer.log(
+        'error on sign out',
+        name: 'leptopoda.bierverkostung.AuthService',
+        error: jsonEncode(error.toString()),
+      );
     }
   }
 
@@ -108,22 +142,4 @@ class AuthService {
     }
   } */
 
-  // refresh Token
-  Future refreshToken() async {
-    await _auth.currentUser?.getIdToken(true);
-  }
-
-  // sign out <void>??
-  Future signOut() async {
-    try {
-      return await _auth.signOut();
-    } catch (error) {
-      developer.log(
-        'error on sign out',
-        name: 'leptopoda.bierverkostung.AuthService',
-        error: jsonEncode(error.toString()),
-      );
-      return null;
-    }
-  }
 }

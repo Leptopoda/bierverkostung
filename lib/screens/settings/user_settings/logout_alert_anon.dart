@@ -4,6 +4,9 @@
 
 part of 'user_settings.dart';
 
+/// Log out Alert anonymously
+///
+/// Alerts the user for a loss of acess to the data
 class _LogOutAnonAlert extends StatelessWidget {
   const _LogOutAnonAlert({Key? key}) : super(key: key);
 
@@ -19,7 +22,7 @@ class _LogOutAnonAlert extends StatelessWidget {
         ),
         TextButton(
           onPressed: () async {
-            await AuthService().signOut();
+            await AuthService.signOut();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(

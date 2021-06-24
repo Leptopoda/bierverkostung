@@ -2,49 +2,19 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart';
-import 'package:bierverkostung/services/local_storage.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+part of 'package:bierverkostung/screens/alcohol_calculator/alcohol_calculator.dart';
 
-Future<void> drinkResponsible(BuildContext context) async {
-  final bool? drinkResponsibleShown =
-      await LocalDatabaseService().getDrinkResponsible();
-  if (drinkResponsibleShown == true) {
-    return;
-  }
-  return showDialog(
-    context: context,
-    builder: (BuildContext _) => AlertDialog(
-      title: Text(AppLocalizations.of(context)!.drinkSafe),
-      content: SingleChildScrollView(
-        child: Text(AppLocalizations.of(context)!.drinkResponsible_banner),
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            LocalDatabaseService().setDrinkResponsible();
-            Navigator.of(context).pop();
-          },
-          child: Text(AppLocalizations.of(context)!.alert_donotShowAgain),
-        ),
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(AppLocalizations.of(context)!.alert_continue),
-        ),
-      ],
-    ),
-  );
-}
+/// Drink safe Alert
+///
+/// Alerts the user to drink safe
+class _DrinkSafeAlert extends StatelessWidget {
+  const _DrinkSafeAlert({
+    Key? key,
+  }) : super(key: key);
 
-Future<void> drinkSafe(BuildContext context) async {
-  final bool? drinkResponsibleShown =
-      await LocalDatabaseService().getDrinkSafe();
-  if (drinkResponsibleShown == true) {
-    return;
-  }
-  return showDialog(
-    context: context,
-    builder: (BuildContext _) => AlertDialog(
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
       title: Text(AppLocalizations.of(context)!.drinkSafe),
       // TODO: change message
       content: SingleChildScrollView(
@@ -52,8 +22,8 @@ Future<void> drinkSafe(BuildContext context) async {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () {
-            LocalDatabaseService().setDrinkSafe();
+          onPressed: () async {
+            await LocalDatabaseService.setDrinkSafe();
             Navigator.of(context).pop();
           },
           child: Text(AppLocalizations.of(context)!.alert_donotShowAgain),
@@ -63,6 +33,6 @@ Future<void> drinkSafe(BuildContext context) async {
           child: Text(AppLocalizations.of(context)!.alert_continue),
         ),
       ],
-    ),
-  );
+    );
+  }
 }

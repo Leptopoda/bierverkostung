@@ -8,6 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:bierverkostung/gen/assets.gen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+/// Error Page
+///
+/// This page indicates something has gone wrong
+/// [error] is the error message to display
 class SomethingWentWrong extends StatelessWidget {
   final String error;
   const SomethingWentWrong({Key? key, required this.error}) : super(key: key);
