@@ -7,7 +7,7 @@ import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/models/tastings.dart';
-import 'package:bierverkostung/screens/bierverkostung/disp_beer.dart';
+import 'package:bierverkostung/screens/beertasting/disp_beer.dart';
 
 // TODO: Deduplicate this file with NewTasting
 

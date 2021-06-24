@@ -2,20 +2,20 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of 'statistiken_list.dart';
+part of 'stst_list.dart';
 
 /// Pie Cahrt stats
 ///
 /// dispalys the overall distribution of [Beer]
-class _StatistikenBeerChart extends StatefulWidget {
+class _StatisticsBeerChart extends StatefulWidget {
   final List<Map> data;
-  const _StatistikenBeerChart({Key? key, required this.data}) : super(key: key);
+  const _StatisticsBeerChart({Key? key, required this.data}) : super(key: key);
 
   @override
-  _StatistikenBeerChartState createState() => _StatistikenBeerChartState();
+  _StatisticsBeerChartState createState() => _StatisticsBeerChartState();
 }
 
-class _StatistikenBeerChartState extends State<_StatistikenBeerChart> {
+class _StatisticsBeerChartState extends State<_StatisticsBeerChart> {
   late List<Color> _colors;
   int _count = 0;
 

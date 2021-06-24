@@ -9,9 +9,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:bierverkostung/services/local_storage.dart';
 import 'package:bierverkostung/services/firebase/notifications.dart';
 
-import 'package:bierverkostung/screens/bierverkostung/bierverkostung.dart';
-import 'package:bierverkostung/screens/trinkspiele/trinkspiele.dart';
-import 'package:bierverkostung/screens/statistiken/disp_statistiken.dart';
+import 'package:bierverkostung/screens/beertasting/beertasting.dart';
+import 'package:bierverkostung/screens/drinking_games/drinking_games.dart';
+import 'package:bierverkostung/screens/statistics/disp_statistics.dart';
 
 part 'package:bierverkostung/shared/drink_responsible.dart';
 
@@ -111,8 +111,8 @@ class _MyHomeState extends State<MyHome> {
         index: _currentIndex,
         children: const <Widget>[
           Trinkspiele(),
-          Bierverkostung(),
-          Statistiken(),
+          BeerTasting(),
+          Statistics(),
         ],
       ),
       tabs: <BottomNavigationBarItem>[

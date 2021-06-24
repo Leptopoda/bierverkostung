@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of 'package:bierverkostung/screens/promille_rechner/promille_rechner.dart';
+part of 'package:bierverkostung/screens/alcohol_calculator/alcohol_calculator.dart';
 
 /// Drink safe Alert
 ///

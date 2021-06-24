@@ -22,6 +22,7 @@ class Settings extends StatelessWidget {
 
   static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  //TODO: localize
   /// List of detail names
   static const List<String> _names = [
     'Profile',

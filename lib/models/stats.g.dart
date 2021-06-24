@@ -8,7 +8,7 @@ part of 'stats.dart';
 
 Stat _$StatFromJson(Map<String, dynamic> json) {
   return Stat(
-    menge: (json['menge'] as num).toDouble(),
+    amount: (json['amount'] as num).toDouble(),
     timestamp: DateTime.parse(json['timestamp'] as String),
     beer: json['beer'] == null
         ? null
@@ -17,7 +17,7 @@ Stat _$StatFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$StatToJson(Stat instance) => <String, dynamic>{
-      'menge': instance.menge,
+      'amount': instance.amount,
       'timestamp': instance.timestamp.toIso8601String(),
       'beer': instance.beer,
     };

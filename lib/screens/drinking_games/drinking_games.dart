@@ -8,9 +8,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
 
-import 'package:bierverkostung/screens/trinkspiele/trinksprueche_alt.dart';
-import 'package:bierverkostung/screens/trinkspiele/trinksprueche_neu.dart';
-import 'package:bierverkostung/screens/trinkspiele/burning_ring_of_fire.dart';
+import 'package:bierverkostung/screens/drinking_games/toasts_old.dart';
+import 'package:bierverkostung/screens/drinking_games/toasts_new.dart';
+import 'package:bierverkostung/screens/drinking_games/burning_ring_of_fire.dart';
 
 /// Drinking Gmes
 ///
@@ -21,8 +21,8 @@ class Trinkspiele extends StatelessWidget {
   static final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   static const List<Widget> _spielePages = [
-    TrinkspruecheAlt(),
-    TrinkspruecheNeu(),
+    ToastsOld(),
+    ToastsNew(),
     BurningRingOfFire(),
   ];
 

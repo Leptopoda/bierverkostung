@@ -10,10 +10,10 @@ import 'package:bierverkostung/services/local_storage.dart';
 
 part 'package:bierverkostung/shared/drink_safe.dart';
 
-/// Button opening the screen for the [PromilleRechner]
+/// Button opening the screen for the [AlcoholCalculator]
 @Deprecated('we directly implemented it into the [Home] screen')
-class PromilleRechnerButton extends StatelessWidget {
-  const PromilleRechnerButton({Key? key}) : super(key: key);
+class AlcoholCalculatorButton extends StatelessWidget {
+  const AlcoholCalculatorButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class PromilleRechnerButton extends StatelessWidget {
       icon: const Icon(Icons.no_drinks_outlined),
       tooltip: AppLocalizations.of(context)!.alcoholCalculator,
       onPressed: () {
-        Navigator.pushNamed(context, '/PromilleRechner');
+        Navigator.pushNamed(context, '/AlcoholCalculator');
       },
     );
   }
@@ -31,24 +31,24 @@ class PromilleRechnerButton extends StatelessWidget {
 /// Blod alcohol calculator
 ///
 /// Formular is provided by https://promilleberechnen.de/promille-berechnen-formel/
-class PromilleRechner extends StatefulWidget {
-  const PromilleRechner({Key? key}) : super(key: key);
+class AlcoholCalculator extends StatefulWidget {
+  const AlcoholCalculator({Key? key}) : super(key: key);
 
   @override
-  _PromilleRechnerState createState() => _PromilleRechnerState();
+  _AlcoholCalculatorState createState() => _AlcoholCalculatorState();
 }
 
-enum Gender { male, female }
+enum _Gender { male, female }
 
-class _PromilleRechnerState extends State<PromilleRechner> {
-  Gender? character = Gender.male;
-  int age = 18;
-  int gewicht = 70;
-  int groesse = 175;
-  int magenFuelle = 10;
-  int mengeDrink = 500;
-  double alcohol = 0.049;
-  int time = 1;
+class _AlcoholCalculatorState extends State<AlcoholCalculator> {
+  _Gender? character = _Gender.male;
+  int _age = 18;
+  int _mass = 70;
+  int _height = 175;
+  int _stomachFill = 10;
+  int _amountDrink = 500;
+  double _alcohol = 0.049;
+  int _time = 1;
 
   @override
   Future<void> didChangeDependencies() async {
@@ -75,21 +75,21 @@ class _PromilleRechnerState extends State<PromilleRechner> {
         padding: const EdgeInsets.all(16.0),
         // reverse: true,
         children: <Widget>[
-          RadioListTile<Gender>(
+          RadioListTile<_Gender>(
             title: Text(AppLocalizations.of(context)!.alcoholCalculator_female),
-            value: Gender.female,
+            value: _Gender.female,
             groupValue: character,
-            onChanged: (Gender? value) {
+            onChanged: (_Gender? value) {
               setState(() {
                 character = value;
               });
             },
           ),
-          RadioListTile<Gender>(
+          RadioListTile<_Gender>(
             title: Text(AppLocalizations.of(context)!.alcoholCalculator_male),
-            value: Gender.male,
+            value: _Gender.male,
             groupValue: character,
-            onChanged: (Gender? value) {
+            onChanged: (_Gender? value) {
               setState(() {
                 character = value;
               });
@@ -97,70 +97,69 @@ class _PromilleRechnerState extends State<PromilleRechner> {
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_age),
           Slider(
-            value: age.toDouble(),
+            value: _age.toDouble(),
             // min: 0,
             max: 100,
-            onChanged: (double value) => setState(() => age = value.round()),
+            onChanged: (double value) => setState(() => _age = value.round()),
             divisions: 100,
-            label: age.toString(),
+            label: _age.toString(),
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_weight),
           Slider(
-            value: gewicht.toDouble(),
+            value: _mass.toDouble(),
             min: 10,
             max: 150,
-            onChanged: (double value) =>
-                setState(() => gewicht = value.round()),
+            onChanged: (double value) => setState(() => _mass = value.round()),
             divisions: 140,
-            label: gewicht.toString(),
+            label: _mass.toString(),
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_height),
           Slider(
-            value: groesse.toDouble(),
+            value: _height.toDouble(),
             min: 120,
             max: 220,
             onChanged: (double value) =>
-                setState(() => groesse = value.round()),
+                setState(() => _height = value.round()),
             divisions: 100,
-            label: groesse.toString(),
+            label: _height.toString(),
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_stomach),
           Slider(
-            value: magenFuelle.toDouble(),
+            value: _stomachFill.toDouble(),
             // min: 0,
             max: 100,
             onChanged: (double value) =>
-                setState(() => magenFuelle = value.round()),
+                setState(() => _stomachFill = value.round()),
             divisions: 10,
-            label: '$magenFuelle',
+            label: '$_stomachFill',
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_drinkAmount),
           Slider(
-            value: mengeDrink.toDouble(),
+            value: _amountDrink.toDouble(),
             // min: 0.0,
             max: 1000,
             onChanged: (double value) =>
-                setState(() => mengeDrink = value.round()),
+                setState(() => _amountDrink = value.round()),
             divisions: 100,
-            label: mengeDrink.toString(),
+            label: _amountDrink.toString(),
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_alcohol),
           Slider(
-            value: alcohol,
+            value: _alcohol,
             // min: 0.0,
             max: 0.1,
-            onChanged: (double value) => setState(() => alcohol = value),
+            onChanged: (double value) => setState(() => _alcohol = value),
             divisions: 100,
-            label: NumberFormat('#0.0#%').format(alcohol),
+            label: NumberFormat('#0.0#%').format(_alcohol),
           ),
           Text(AppLocalizations.of(context)!.alcoholCalculator_time),
           Slider(
-            value: time.toDouble(),
+            value: _time.toDouble(),
             // min: 0.0,
             max: 72,
-            onChanged: (double value) => setState(() => time = value.round()),
+            onChanged: (double value) => setState(() => _time = value.round()),
             divisions: 72,
-            label: time.toString(),
+            label: _time.toString(),
           ),
           Container(
             // color: Colors.orange[200],
@@ -182,17 +181,17 @@ class _PromilleRechnerState extends State<PromilleRechner> {
 
   /// Calculates the blood alcohol
   double _calculate() {
-    final double _alcAmount = (mengeDrink * alcohol) / 1.25;
-    final double _redFaktor = (character == Gender.male)
+    final double _alcAmount = (_amountDrink * _alcohol) / 1.25;
+    final double _redFaktor = (character == _Gender.male)
         ? (1.055 *
-                (2.447 - 0.09516 * age + 0.1074 * groesse + 0.3362 * gewicht)) /
-            (0.8 * gewicht)
-        : (1.055 * (-2.097 + 0.1069 * groesse + 0.2466 * gewicht)) /
-            (0.8 * gewicht);
+                (2.447 - 0.09516 * _age + 0.1074 * _height + 0.3362 * _mass)) /
+            (0.8 * _mass)
+        : (1.055 * (-2.097 + 0.1069 * _height + 0.2466 * _mass)) /
+            (0.8 * _mass);
 
-    double _theoAlc = _alcAmount / (gewicht * _redFaktor);
-    _theoAlc = _theoAlc - (_theoAlc * (0.2 * magenFuelle + 10)) / 100;
-    final double _alc = _theoAlc - time * 0.1;
+    double _theoAlc = _alcAmount / (_mass * _redFaktor);
+    _theoAlc = _theoAlc - (_theoAlc * (0.2 * _stomachFill + 10)) / 100;
+    final double _alc = _theoAlc - _time * 0.1;
 
     return _alc;
   }

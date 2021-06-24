@@ -3,13 +3,13 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bierverkostung/screens/trinkspiele/trinksprueche.dart';
+import 'package:bierverkostung/screens/drinking_games/toasts.dart';
 
 /// Old Toasts
 ///
 /// displays one of the old toasts and gives the ability to navigate them
-class TrinkspruecheAlt extends StatelessWidget {
-  const TrinkspruecheAlt({Key? key}) : super(key: key);
+class ToastsOld extends StatelessWidget {
+  const ToastsOld({Key? key}) : super(key: key);
 
   static const List<String> _sprueche = [
     'Ein jeder weckt den Nebenmann, der Letzte stößt sich selber an.',
@@ -88,7 +88,7 @@ class TrinkspruecheAlt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Trinksprueche(
+    return const Toasts(
       sprueche: _sprueche,
     );
   }

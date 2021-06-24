@@ -13,15 +13,15 @@ import 'package:provider/provider.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 
-part 'beer_starts.dart';
+part 'beer_stats.dart';
 part 'graph_legend_item.dart';
 part 'pie_chart_notifier.dart';
 
 /// Stats List
 ///
 /// Displays every [Stat] metric we currently expose to the user
-class StatistikenList extends StatelessWidget {
-  const StatistikenList({Key? key}) : super(key: key);
+class StatisticsList extends StatelessWidget {
+  const StatisticsList({Key? key}) : super(key: key);
 
   /* @override
   void didChangeDependencies() {
@@ -51,7 +51,7 @@ class StatistikenList extends StatelessWidget {
                 child: Text(AppLocalizations.of(context)!.stats_noStats),
               );
             }
-            return _StatistikenBeerChart(data: snapshot.data!);
+            return _StatisticsBeerChart(data: snapshot.data!);
           /*ListView(
           padding: const EdgeInsets.all(16.0),
           children: <Widget>[

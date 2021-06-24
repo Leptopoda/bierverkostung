@@ -9,16 +9,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 /// Toasts Scaffold
 ///
 /// Toasts navigation UI
-class Trinksprueche extends StatefulWidget {
+class Toasts extends StatefulWidget {
   final List<String> sprueche;
 
-  const Trinksprueche({Key? key, required this.sprueche}) : super(key: key);
+  const Toasts({Key? key, required this.sprueche}) : super(key: key);
 
   @override
-  State<Trinksprueche> createState() => _TrinkspruecheState();
+  State<Toasts> createState() => _ToastsState();
 }
 
-class _TrinkspruecheState extends State<Trinksprueche> {
+class _ToastsState extends State<Toasts> {
   static int _index = 1;
 
   /// generates a random index
