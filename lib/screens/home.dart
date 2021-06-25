@@ -39,16 +39,15 @@ class _MyHomeState extends State<MyHome> {
       LocalDatabaseService.setFirstLogin();
     }
     await NotificationService.initialise();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     _pageTitles = [
       AppLocalizations.of(context)!.drinkingGames,
       AppLocalizations.of(context)!.beertasting,
       AppLocalizations.of(context)!.stats,
     ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return NavRail(
       /* drawerHeaderBuilder: (context) {
         return Column(
