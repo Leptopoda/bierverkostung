@@ -32,20 +32,7 @@ We'll switch to a more common versioning system once ready for production.
 ## Getting Started
 
 ### Documentation
-A documentation of the Projects code can be found [here](https://saufen.rimikis.de/doc/api).
-
-### Flutter
-
-This project is build using flutter.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+A documentation for the project code can be found [here](https://saufen.rimikis.de/doc/api).
 
 ### Firebase
 
@@ -53,7 +40,7 @@ We encurage you to setup a local Firebase development enviornment.
 
 Enter the Firebase directory
 ```
-cd firebase.local
+cd firebase
 ```
 
 Download the necessary tools (npm needed)
@@ -84,8 +71,25 @@ flutter build web --release
 ```
 and in the output dir run
 ```
-python -m http.server 8000
+dhttpd --path=build/web
 ```
+to run the test
+```
+flutter test
+```
+
+### Flutter
+
+This project is build using flutter.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+
+For help getting started with Flutter, view the
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
 
 ## Credits 
 - This app is inspired by the app [Bierverkostung by Jürgen Fickel](https://bitbucket.org/jufickel/bierverkostung)
