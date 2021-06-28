@@ -14,9 +14,7 @@ import 'package:bierverkostung/models/tastings.dart';
 ///
 /// It exposes the fields of a [Tasting] into a UI
 class NewTasting extends StatefulWidget {
-  const NewTasting({
-    Key? key,
-  }) : super(key: key);
+  const NewTasting({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _NewTastingState();

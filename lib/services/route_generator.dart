@@ -24,7 +24,7 @@ import 'package:bierverkostung/screens/login/login.dart';
 import 'package:bierverkostung/screens/drinking_games/toasts_old.dart';
 import 'package:bierverkostung/screens/drinking_games/toasts_new.dart';
 import 'package:bierverkostung/screens/alcohol_calculator/alcohol_calculator.dart';
-import 'package:bierverkostung/screens/moneyManagement/money_management.dart';
+import 'package:bierverkostung/screens/money_management/money_management.dart';
 
 /// Handles the routes used for navigating the app
 class RouteGenerator {

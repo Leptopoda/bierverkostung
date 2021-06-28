@@ -13,9 +13,9 @@ import 'package:provider/provider.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 
-part 'beer_stats.dart';
-part 'graph_legend_item.dart';
-part 'pie_chart_notifier.dart';
+part 'package:bierverkostung/screens/statistics/beer_stats.dart';
+part 'package:bierverkostung/screens/statistics/graph_legend_item.dart';
+part 'package:bierverkostung/screens/statistics/pie_chart_notifier.dart';
 
 /// Stats List
 ///

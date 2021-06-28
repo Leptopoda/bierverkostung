@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of 'stst_list.dart';
+part of 'package:bierverkostung/screens/statistics/stst_list.dart';
 
 /// Pie Cahrt stats
 ///
@@ -95,10 +95,10 @@ class _StatisticsBeerChartState extends State<_StatisticsBeerChart> {
 /// the tile containing the actual stat
 class _PieChartStat extends StatefulWidget {
   const _PieChartStat({
+    Key? key,
     required this.colors,
     required this.data,
     required this.count,
-    Key? key,
   }) : super(key: key);
 
   final List<Color> colors;

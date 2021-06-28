@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of 'group_management.dart';
+part of 'package:bierverkostung/screens/settings/group_settings/group_management.dart';
 
 /// QR scanner fragment
 ///
@@ -150,8 +150,8 @@ class _QRScannerState extends State<_QRScanner> {
 class _BottomBar extends StatelessWidget {
   final QRViewController? controller;
   const _BottomBar({
-    required this.controller,
     Key? key,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -175,15 +175,15 @@ class _BottomBar extends StatelessWidget {
 class _FlashButton extends StatefulWidget {
   final QRViewController? controller;
   const _FlashButton({
-    required this.controller,
     Key? key,
+    required this.controller,
   }) : super(key: key);
 
   @override
-  __FlashButtonState createState() => __FlashButtonState();
+  _FlashButtonState createState() => _FlashButtonState();
 }
 
-class __FlashButtonState extends State<_FlashButton> {
+class _FlashButtonState extends State<_FlashButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -208,8 +208,8 @@ class __FlashButtonState extends State<_FlashButton> {
 class _CameraButton extends StatelessWidget {
   final QRViewController? controller;
   const _CameraButton({
-    required this.controller,
     Key? key,
+    required this.controller,
   }) : super(key: key);
 
   @override

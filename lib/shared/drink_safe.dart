@@ -8,9 +8,7 @@ part of 'package:bierverkostung/screens/alcohol_calculator/alcohol_calculator.da
 ///
 /// Alerts the user to drink safe
 class _DrinkSafeAlert extends StatelessWidget {
-  const _DrinkSafeAlert({
-    Key? key,
-  }) : super(key: key);
+  const _DrinkSafeAlert({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

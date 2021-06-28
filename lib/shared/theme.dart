@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of '../main.dart';
+part of 'package:bierverkostung/main.dart';
 
 /// Theme Data
 ///

@@ -18,9 +18,9 @@ import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/shared/image_provider_modal.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 
-part 'crop_profile.dart';
-part 'logout_alert.dart';
-part 'logout_alert_anon.dart';
+part 'package:bierverkostung/screens/settings/user_settings/crop_profile.dart';
+part 'package:bierverkostung/screens/settings/user_settings/logout_alert.dart';
+part 'package:bierverkostung/screens/settings/user_settings/logout_alert_anon.dart';
 
 /// Settings screen for managing the current User
 ///

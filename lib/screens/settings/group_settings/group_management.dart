@@ -17,7 +17,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:bierverkostung/services/firebase/cloud_functions.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
 
-part 'qr_scan.dart';
+part 'package:bierverkostung/screens/settings/group_settings/qr_scan.dart';
 
 /// Group management fragment
 ///
