@@ -13,12 +13,13 @@ import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
-import 'auth.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
 
 /// Helpers to upload files to the Firebase cloud storage.
 class CloudStorageService {
   const CloudStorageService();
-  // CloudSotrage instance
+
+  /// CloudSotrage instance
   static final FirebaseStorage _storage = FirebaseStorage.instance;
   static final User _user = AuthService.getUser!;
   static final String _groupID = AuthService.groupID;

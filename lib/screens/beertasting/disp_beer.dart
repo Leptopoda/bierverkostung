@@ -131,8 +131,8 @@ class DispBeer {
 class _BeerImage extends StatelessWidget {
   final List<String> imagePaths;
   const _BeerImage({
-    required this.imagePaths,
     Key? key,
+    required this.imagePaths,
   }) : super(key: key);
 
   @override

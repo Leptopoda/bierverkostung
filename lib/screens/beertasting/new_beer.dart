@@ -18,7 +18,7 @@ import 'package:bierverkostung/services/firebase/cloud_storage.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/image_provider_modal.dart';
 
-part 'beer_images.dart';
+part 'package:bierverkostung/screens/beertasting/beer_images.dart';
 
 /// Screen to add a new Beer
 ///
@@ -45,10 +45,10 @@ class _BeerInfoList extends StatefulWidget {
   );
 
   @override
-  __BeerInfoListState createState() => __BeerInfoListState();
+  _BeerInfoListState createState() => _BeerInfoListState();
 }
 
-class __BeerInfoListState extends State<_BeerInfoList> {
+class _BeerInfoListState extends State<_BeerInfoList> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _beerName = TextEditingController();

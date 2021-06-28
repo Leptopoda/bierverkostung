@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of 'user_settings.dart';
+part of 'package:bierverkostung/screens/settings/user_settings/user_settings.dart';
 
 /// Log out Alert
 ///

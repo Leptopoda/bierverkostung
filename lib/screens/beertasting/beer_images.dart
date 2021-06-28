@@ -2,14 +2,14 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of 'new_beer.dart';
+part of 'package:bierverkostung/screens/beertasting/new_beer.dart';
 
 /// Widget to add new Images to a [Beer]
 class _BeerImage extends StatefulWidget {
   final ValueChanged<List<String>> onChanged;
   const _BeerImage({
-    required this.onChanged,
     Key? key,
+    required this.onChanged,
   }) : super(key: key);
 
   @override

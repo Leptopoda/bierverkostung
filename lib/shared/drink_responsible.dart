@@ -8,9 +8,7 @@ part of 'package:bierverkostung/screens/home.dart';
 ///
 /// Alerts the user to drink responsible
 class _DrinkResponsibleAlert extends StatelessWidget {
-  const _DrinkResponsibleAlert({
-    Key? key,
-  }) : super(key: key);
+  const _DrinkResponsibleAlert({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
