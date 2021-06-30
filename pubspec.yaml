@@ -93,10 +93,7 @@ dependencies:
   provider: any
 
   # qr Codes
-  qr_code_scanner:
-    git:
-      url: https://gitlab.rimikis.de/Leptopoda/qr-code-scanner.git
-      ref: master
+  qr_code_scanner: any
   qr_flutter: any
 
   # random color

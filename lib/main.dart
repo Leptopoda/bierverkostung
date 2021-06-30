@@ -33,15 +33,15 @@ part 'package:bierverkostung/shared/enviornment_config.dart';
 /// Runs the app.
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(_MyApp());
 }
 
 /// Root widget in the Widget tree.
 ///
 /// This Widget only contains the Loading screen,
 /// firebase initialization logic and [User] stream.
-class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+class _MyApp extends StatelessWidget {
+  _MyApp({Key? key}) : super(key: key);
 
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
     return FutureBuilder(
       // Initialize FlutterFire:
       future: _initialization,
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot<FirebaseApp> snapshot) {
         // Check for errors
         if (snapshot.hasError) {
           return SomethingWentWrong(
