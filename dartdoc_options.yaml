@@ -3,7 +3,8 @@
 # found in the LICENSE file.
 
 dartdoc:
-  nodoc: ["*.g.dart", "lib/gen/*"]
+  nodoc: ["*.g.dart", "lib/gen/*", lib/generated_plugin_registrant.dart]
+  includeExternal: ["test/l10n/localization_helper.dart"]
   linkTo:
     url: "https://saufen.rimikis.de/dev/api"
   showUndocumentedCategories: true
