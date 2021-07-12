@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_rail/navigation_rail.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,6 +15,7 @@ import 'package:bierverkostung/screens/drinking_games/drinking_games.dart';
 import 'package:bierverkostung/screens/statistics/disp_statistics.dart';
 
 part 'package:bierverkostung/shared/drink_responsible.dart';
+part 'package:bierverkostung/shared/validate_email_unvalidated.dart';
 
 /// Home Screen
 ///
@@ -43,10 +45,20 @@ class _MyHomeState extends State<MyHome> {
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
 
-    final bool? isFirstLogin = await LocalDatabaseService.getFirstLogin();
-    if (isFirstLogin == false) {
+    final DateTime? _firstLoginTime =
+        await LocalDatabaseService.getFirstLogin();
+    if (_firstLoginTime == null) {
       NotificationService.askPermission();
       LocalDatabaseService.setFirstLogin();
+    } else if (!AuthService.hasValidatedEmail) {
+      AuthService.refreshToken();
+      if (_firstLoginTime.difference(DateTime.now()).inDays >= 7) {
+        await showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (_) => const _UnvalidatedEmailAlert(),
+        );
+      }
     }
     await NotificationService.initialise();
   }
@@ -83,7 +95,7 @@ class _MyHomeState extends State<MyHome> {
     }
     await showDialog(
       context: context,
-      builder: (BuildContext _) => const _DrinkResponsibleAlert(),
+      builder: (_) => const _DrinkResponsibleAlert(),
     );
   }
 
