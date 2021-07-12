@@ -170,9 +170,7 @@ class _LoginState extends State<Login> {
         _mailController.text,
         _passwordController.text,
       );
-      print('hallo $_result');
       if (_result) {
-        print('waiting');
         await showDialog(
             context: context, builder: (_) => const _ValidateEmailAlert());
       } else {
