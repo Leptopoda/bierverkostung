@@ -12,8 +12,10 @@ import 'package:bierverkostung/services/firebase/database.dart';
 class AuthService {
   const AuthService();
 
+  /// the current [FirebaseAuth] isntance
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  /// The custom claims of the current [User]
   static Map<String, dynamic>? _claims;
 
   /// gets the users groupID.
@@ -23,6 +25,16 @@ class AuthService {
 
   /// gets the current [User] object
   static User? get getUser => _auth.currentUser;
+
+  /// gets wether the current user has a validated email
+  static bool get hasValidatedEmail => _auth.currentUser!.emailVerified;
+
+  /// gets the email of the current user
+  static String? get userEmail => _auth.currentUser!.email;
+
+  /// validates the current user email
+  static Future<void> get validateMail =>
+      _auth.currentUser!.sendEmailVerification();
 
   // create UserData obj based on firebase user
   static Future<User?> _userFromFirebaseUser(User? user) async {
@@ -81,6 +93,7 @@ class AuthService {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      await AuthService.validateMail;
       return true;
     } catch (error) {
       developer.log(
@@ -95,7 +108,7 @@ class AuthService {
   /// refreshes the users token
   /// used to load new claims
   static Future<void> refreshToken() async {
-    await _auth.currentUser?.getIdToken(true);
+    await _auth.currentUser?.reload();
   }
 
   /// signs out the user

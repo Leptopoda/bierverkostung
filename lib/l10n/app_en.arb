@@ -1,3 +1,4 @@
+
 {
   "@@locale": "en",
   "login": "Login",
@@ -311,5 +312,22 @@
   "beer_newImage" : "Add Image",
   "beer_changeImage": "Change Image",
 
-  "settings_importData_web" :"Importing data isn't availabe on web for now. Use an Android or iOS device to achieve this."
+  "settings_importData_web" :"Importing data isn't availabe on web for now. Use an Android or iOS device to achieve this.",
+
+  "validate_email": "Validate email",
+  "validate_email_banner": "Please make shure to validate your email within the next 7 days. Otherwise you’ll be locked out of the app.",
+  "validate_email_unvalidated": "Unvalidated Email!",
+  "validate_email_unvalidated_banner": "You haven't validated your email Adress yet. To make shure you are the owner of $email please go to the link weve sent you via e-mail. If you don't have the verification mail anymore you can just request a new one. You'll need to validate your mail in order to continue using the Appearance.",
+  "@validate_email_unvalidated_banner": {
+    "placeholders": {
+      "email": {
+        "description": "the users email adress",
+        "example": "test@example.com"
+      }
+    }
+  },
+  "validate_email_resend": "Resend Email",
+  "validate_email_refresh": "Check validation",
+  "validate_email_notValidated": "The email is still not validated!"
+
 }
