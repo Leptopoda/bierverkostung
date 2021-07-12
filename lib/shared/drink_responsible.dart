@@ -13,10 +13,9 @@ class _DrinkResponsibleAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      scrollable: true,
       title: Text(AppLocalizations.of(context)!.drinkSafe),
-      content: SingleChildScrollView(
-        child: Text(AppLocalizations.of(context)!.drinkResponsible_banner),
-      ),
+      content: Text(AppLocalizations.of(context)!.drinkResponsible_banner),
       actions: <Widget>[
         TextButton(
           onPressed: () async {
