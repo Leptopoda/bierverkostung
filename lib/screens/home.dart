@@ -26,8 +26,18 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
+  /// currently selected screen
   int _currentIndex = 1;
+
+  /// Internationalized Titles for the shown screens
   late List<String> _pageTitles;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _currentIndex);
+  }
 
   @override
   Future<void> didChangeDependencies() async {
@@ -39,6 +49,42 @@ class _MyHomeState extends State<MyHome> {
       LocalDatabaseService.setFirstLogin();
     }
     await NotificationService.initialise();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  /// Changes to the next seen screen
+  void _onPageChanged(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  /// Animates to the next selected screen.
+  void _onItemSelected(int index) {
+    _onPageChanged(index);
+    _pageController.animateToPage(
+      index,
+      duration: kThemeAnimationDuration,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  /// checks wether to show the [_DrinkResponsibleAlert] and displays it when necessary
+  Future<void> _showDrinkResponsible() async {
+    final bool? drinkResponsibleShown =
+        await LocalDatabaseService.getDrinkResponsible();
+    if (drinkResponsibleShown == true) {
+      return;
+    }
+    await showDialog(
+      context: context,
+      builder: (BuildContext _) => const _DrinkResponsibleAlert(),
+    );
   }
 
   @override
@@ -92,22 +138,12 @@ class _MyHomeState extends State<MyHome> {
       title: Text(_pageTitles[_currentIndex]),
       currentIndex: _currentIndex,
       onTap: (val) async {
-        if (mounted) setState(() => _currentIndex = val);
-
-        if (_currentIndex == 0) {
-          final bool? drinkResponsibleShown =
-              await LocalDatabaseService.getDrinkResponsible();
-          if (drinkResponsibleShown == true) {
-            return;
-          }
-          await showDialog(
-            context: context,
-            builder: (BuildContext _) => const _DrinkResponsibleAlert(),
-          );
-        }
+        if (mounted) _onItemSelected(val);
+        if (_currentIndex == 0) await _showDrinkResponsible();
       },
-      body: IndexedStack(
-        index: _currentIndex,
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
         children: const <Widget>[
           Trinkspiele(),
           BeerTasting(),
