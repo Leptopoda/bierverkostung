@@ -21,9 +21,7 @@ class _UnvalidatedEmailAlert extends StatelessWidget {
           .validate_email_unvalidated_banner(AuthService.userEmail!)),
       actions: <Widget>[
         TextButton(
-          onPressed: () {
-            AuthService.validateMail;
-          },
+          onPressed: () => AuthService.validateMail,
           child: Text(AppLocalizations.of(context)!.validate_email_resend),
         ),
         TextButton(

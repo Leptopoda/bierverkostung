@@ -16,7 +16,7 @@ class _MoneyFab extends StatelessWidget {
       onPressed: () {
         showDialog(
           context: context,
-          builder: (context) => const _MoneyAlert(),
+          builder: (_) => const _MoneyAlert(),
         );
       },
       child: const Icon(Icons.add),
@@ -57,8 +57,8 @@ class _MoneyAlertState extends State<_MoneyAlert> {
               ),
               controller: _buyer,
               decoration: InputDecoration(
-                labelText:
-                    AppLocalizations.of(context)!.settings_groupManagement_uid,
+                labelText: AppLocalizations.of(context)!
+                    .settings_groupManagement_addUser_uid,
               ),
               validator: (value) {
                 if (value is! String) {

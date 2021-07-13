@@ -134,7 +134,7 @@ class UserSettings extends StatelessWidget {
                     ? const _LogOutAnonAlert()
                     : const _LogOutAlert(),
               ),
-              icon: const Icon(Icons.login_outlined),
+              icon: const Icon(Icons.logout_outlined),
               label: Text(AppLocalizations.of(context)!.settings_logOut),
             ),
           ],
