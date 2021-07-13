@@ -53,7 +53,7 @@ class Settings extends StatelessWidget {
         trailing: const Icon(Icons.keyboard_arrow_right),
       ),
       ListTile(
-        leading: const Icon(Icons.group_add_outlined),
+        leading: const Icon(Icons.group_outlined),
         title: Text(
           AppLocalizations.of(context)!.settings_groupManagement,
           style: const TextStyle(fontSize: 18),

@@ -108,8 +108,8 @@ class _QRScannerState extends State<_QRScanner> {
     return showDialog(
       context: context,
       builder: (BuildContext _) => AlertDialog(
-        title: Text(
-            AppLocalizations.of(context)!.settings_groupManagement_addToGroup),
+        title: Text(AppLocalizations.of(context)!
+            .settings_groupManagement_addUser_addToGroup),
         content:
             Text(AppLocalizations.of(context)!.settings_qrScan_alert(userID)),
         actions: <Widget>[
@@ -131,7 +131,7 @@ class _QRScannerState extends State<_QRScanner> {
     final String _groupID = AuthService.groupID;
 
     final HttpsCallableResult<dynamic> result =
-        await CloudFunctionsService.setGroup(userID, _groupID);
+        await CloudFunctionsService.setGroup(uid: userID, guid: _groupID);
     // TODO: popAndPushNamed to avoid reloading of the camera
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -187,7 +187,8 @@ class _FlashButtonState extends State<_FlashButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: AppLocalizations.of(context)?.settings_groupManagement_flash,
+      tooltip:
+          AppLocalizations.of(context)?.settings_groupManagement_addUser_flash,
       icon: FutureBuilder(
         future: widget.controller?.getFlashStatus(),
         builder: (context, AsyncSnapshot<bool?> snapshot) {
@@ -215,8 +216,8 @@ class _CameraButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip:
-          AppLocalizations.of(context)?.settings_groupManagement_orientation,
+      tooltip: AppLocalizations.of(context)
+          ?.settings_groupManagement_addUser_orientation,
       icon: const Icon(Icons.flip_camera_android_outlined, size: 40),
       onPressed: () => controller?.flipCamera(),
     );
