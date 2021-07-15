@@ -13,7 +13,7 @@ import 'package:bierverkostung/screens/beertasting/beers.dart';
 import 'package:bierverkostung/screens/home.dart';
 import 'package:bierverkostung/screens/beertasting/new_tasting.dart';
 import 'package:bierverkostung/screens/beertasting/new_beer.dart';
-import 'package:bierverkostung/screens/conference/conference.dart';
+// import 'package:bierverkostung/screens/conference/conference.dart';
 import 'package:bierverkostung/screens/settings/settings.dart';
 import 'package:bierverkostung/screens/settings/user_settings/user_settings.dart';
 import 'package:bierverkostung/screens/settings/group_settings/group_management.dart';
@@ -61,8 +61,8 @@ class RouteGenerator {
       case '/BeerList':
         return MaterialPageRoute<Beer?>(builder: (_) => const BeerList());
 
-      case '/Conference':
-        return MaterialPageRoute<Beer?>(builder: (_) => const Meeting());
+      // case '/Conference':
+      //   return MaterialPageRoute<Beer?>(builder: (_) => const Meeting());
 
       case '/Login':
         return MaterialPageRoute(builder: (_) => const Login());

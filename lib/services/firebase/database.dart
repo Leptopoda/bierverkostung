@@ -211,7 +211,7 @@ class DatabaseService {
   }
 
   /// get group data stream
-  static Stream<Group> get group {
-    return _groupRef.snapshots().map((list) => list.data()!);
+  static Future<Group> get group {
+    return _groupRef.get().then((value) => value.data()!);
   }
 }

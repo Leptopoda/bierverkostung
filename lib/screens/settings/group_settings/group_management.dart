@@ -34,8 +34,8 @@ class GroupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Group>(
-      stream: DatabaseService.group,
+    return FutureBuilder(
+      future: DatabaseService.group,
       builder: (BuildContext context, AsyncSnapshot<Group> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
