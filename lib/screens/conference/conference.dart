@@ -2,17 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'dart:io';
-
-import 'package:bierverkostung/models/group.dart';
-import 'package:bierverkostung/services/firebase/database.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:jitsi_meet/jitsi_meet.dart';
-
-import 'package:bierverkostung/services/firebase/auth.dart';
+part of 'package:bierverkostung/services/conference_service.dart';
 
 /// Button opening the screen for a new meeting
 @Deprecated('we directly implemented it into the [Home] screen')
@@ -33,107 +23,80 @@ class MeetingButton extends StatelessWidget {
 
 /// Meting View
 ///
-/// Screen to start or join a Conference
-class MeetingJoinAlert extends StatefulWidget {
-  const MeetingJoinAlert({Key? key}) : super(key: key);
+/// Screen to start or join a Conference.
+/// It pops with the selected [JitsiMeetingOptions]
+class _MeetingJoinAlert extends StatefulWidget {
+  const _MeetingJoinAlert({Key? key}) : super(key: key);
 
   @override
   _MeetingJoinAlertState createState() => _MeetingJoinAlertState();
 }
 
-class _MeetingJoinAlertState extends State<MeetingJoinAlert> {
+class _MeetingJoinAlertState extends State<_MeetingJoinAlert> {
   bool? _isAudioOnly = false;
   bool? _isAudioMuted = true;
   bool? _isVideoMuted = false;
-
-  //@override
-  //void initState() {
-  //  super.initState();
-  //  JitsiMeet.addListener(
-  //    JitsiMeetingListener(
-  //      onConferenceWillJoin: _onConferenceWillJoin,
-  //      onConferenceJoined: _onConferenceJoined,
-  //      onConferenceTerminated: _onConferenceTerminated,
-  //      onError: _onError,
-  //    ),
-  //  );
-  //}
-  //
-  //@override
-  //void dispose() {
-  //  super.dispose();
-  //  JitsiMeet.removeAllListeners();
-  //}
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Join Conference'),
-      content: meetConfig(),
-    );
-  }
-
-  /// returns the settings disloge for the meeting
-  Widget meetConfig() {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          const SizedBox(
-            height: 16.0,
-          ),
-          CheckboxListTile(
-            title: const Text("Audio Only"),
-            value: _isAudioOnly,
-            onChanged: _onAudioOnlyChanged,
-          ),
-          const SizedBox(
-            height: 14.0,
-          ),
-          CheckboxListTile(
-            title: const Text("Audio Muted"),
-            value: _isAudioMuted,
-            onChanged: _onAudioMutedChanged,
-          ),
-          const SizedBox(
-            height: 14.0,
-          ),
-          CheckboxListTile(
-            title: const Text("Video Muted"),
-            value: _isVideoMuted,
-            onChanged: _onVideoMutedChanged,
-          ),
-          const Divider(
-            height: 48.0,
-            thickness: 2.0,
-          ),
-          SizedBox(
-            height: 64.0,
-            width: double.maxFinite,
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(200, 40),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              onPressed: () async {
-                final JitsiMeetingOptions options = await _configureMeeting();
-                //if (kIsWeb) {
-                // await _joinMeeting(options);
-                Navigator.pop(context, options);
-                //} else {
-                //  await _joinMeeting(options);
-                //}
-              },
-              icon: const Icon(Icons.call_outlined),
-              label: Text(AppLocalizations.of(context)!
-                  .settings_groupManagement_leaveGroup),
+      content: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            const SizedBox(
+              height: 16.0,
             ),
-          ),
-          const SizedBox(
-            height: 48.0,
-          ),
-        ],
+            CheckboxListTile(
+              title: const Text("Audio Only"),
+              value: _isAudioOnly,
+              onChanged: _onAudioOnlyChanged,
+            ),
+            const SizedBox(
+              height: 14.0,
+            ),
+            CheckboxListTile(
+              title: const Text("Audio Muted"),
+              value: _isAudioMuted,
+              onChanged: _onAudioMutedChanged,
+            ),
+            const SizedBox(
+              height: 14.0,
+            ),
+            CheckboxListTile(
+              title: const Text("Video Muted"),
+              value: _isVideoMuted,
+              onChanged: _onVideoMutedChanged,
+            ),
+            const Divider(
+              height: 48.0,
+              thickness: 2.0,
+            ),
+            SizedBox(
+              height: 64.0,
+              width: double.maxFinite,
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(200, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onPressed: () async {
+                  final JitsiMeetingOptions options = await _configureMeeting();
+
+                  Navigator.pop(context, options);
+                },
+                icon: const Icon(Icons.call_outlined),
+                label: Text(AppLocalizations.of(context)!
+                    .settings_groupManagement_leaveGroup),
+              ),
+            ),
+            const SizedBox(
+              height: 48.0,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -159,7 +122,7 @@ class _MeetingJoinAlertState extends State<MeetingJoinAlert> {
     });
   }
 
-  /// joins or starts the meeting
+  /// configures the meeting by setting the [JitsiMeetingOptions]
   Future<JitsiMeetingOptions> _configureMeeting() async {
     // final Group _groupData = await DatabaseService.group;
     final String _roomText = "beertasting_${AuthService.groupID}";
@@ -216,88 +179,23 @@ class _MeetingJoinAlertState extends State<MeetingJoinAlert> {
 
     return options;
   }
-
-  /// joins or starts the meeting
-  static Future<JitsiMeetingResponse> _joinMeeting(
-      JitsiMeetingOptions options) async {
-    return JitsiMeet.joinMeeting(
-      options,
-      listener: JitsiMeetingListener(
-        onConferenceWillJoin: (message) {
-          debugPrint("${options.room} will join with message: $message");
-        },
-        onConferenceJoined: (message) {
-          debugPrint("${options.room} joined with message: $message");
-        },
-        onConferenceTerminated: (message) {
-          debugPrint("${options.room} terminated with message: $message");
-        },
-        genericListeners: [
-          JitsiGenericListener(
-            eventName: 'readyToClose',
-            callback: (dynamic message) {
-              debugPrint("readyToClose callback");
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  ///// logs the joining process
-  //static void _onConferenceWillJoin(message) {
-  //  debugPrint("_onConferenceWillJoin broadcasted with message: $message");
-  //}
-  //
-  ///// logs the joined state
-  //static void _onConferenceJoined(message) {
-  //  debugPrint("_onConferenceJoined broadcasted with message: $message");
-  //}
-  //
-  ///// logs the terminated meeting status
-  //static void _onConferenceTerminated(message) {
-  //  debugPrint("_onConferenceTerminated broadcasted with message: $message");
-  //}
-  //
-  ///// logs generic errors
-  //static void _onError(error) {
-  //  debugPrint("_onError broadcasted: $error");
-  //}
 }
 
-/// Meting View
+/// Meting Web View
 ///
-/// Screen to start or join a Conference
-class WebMeeting extends StatefulWidget {
-  //final JitsiMeetingOptions options;
-  const WebMeeting({
-    //  required this.options,
-    Key? key,
-  }) : super(key: key);
+/// Screen showing the conference on the Web
+class _WebMeeting extends StatefulWidget {
+  const _WebMeeting({Key? key}) : super(key: key);
 
   @override
   _WebMeetingState createState() => _WebMeetingState();
 }
 
-class _WebMeetingState extends State<WebMeeting> {
+class _WebMeetingState extends State<_WebMeeting> {
   @override
   void initState() {
     super.initState();
-    JitsiMeet.addListener(
-      JitsiMeetingListener(
-        onConferenceWillJoin: _onConferenceWillJoin,
-        onConferenceJoined: _onConferenceJoined,
-        onConferenceTerminated: _onConferenceTerminated,
-        onError: _onError,
-      ),
-    );
-    // WidgetsBinding.instance
-    //     ?.addPostFrameCallback((_) => _joinMeeting(widget.options));
-  }
-
-  @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
+    ConferenceService.addListener();
   }
 
   @override
@@ -308,19 +206,9 @@ class _WebMeetingState extends State<WebMeeting> {
 
   @override
   Widget build(BuildContext context) {
-    /* return FutureBuilder(
-        future: ,
-        builder: (BuildContext context,
-            AsyncSnapshot<JitsiMeetingOptions?> snapshot) { */
     return Scaffold(
       appBar: AppBar(
         title: const Text('Conference (Alpha)'),
-        actions: [
-          IconButton(
-            onPressed: () => {/* _joinMeeting(widget.options) */},
-            icon: const Icon(Icons.call),
-          ),
-        ],
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(
@@ -341,52 +229,5 @@ class _WebMeetingState extends State<WebMeeting> {
         ),
       ),
     );
-    /* }); */
-  }
-
-  static Future<JitsiMeetingResponse> _joinMeeting(
-      JitsiMeetingOptions options) async {
-    return JitsiMeet.joinMeeting(
-      options,
-      listener: JitsiMeetingListener(
-        onConferenceWillJoin: (message) {
-          debugPrint("${options.room} will join with message: $message");
-        },
-        onConferenceJoined: (message) {
-          debugPrint("${options.room} joined with message: $message");
-        },
-        onConferenceTerminated: (message) {
-          debugPrint("${options.room} terminated with message: $message");
-        },
-        genericListeners: [
-          JitsiGenericListener(
-            eventName: 'readyToClose',
-            callback: (dynamic message) {
-              debugPrint("readyToClose callback");
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// logs the joining process
-  static void _onConferenceWillJoin(message) {
-    debugPrint("_onConferenceWillJoin broadcasted with message: $message");
-  }
-
-  /// logs the joined state
-  static void _onConferenceJoined(message) {
-    debugPrint("_onConferenceJoined broadcasted with message: $message");
-  }
-
-  /// logs the terminated meeting status
-  static void _onConferenceTerminated(message) {
-    debugPrint("_onConferenceTerminated broadcasted with message: $message");
-  }
-
-  /// logs generic errors
-  static void _onError(error) {
-    debugPrint("_onError broadcasted: $error");
   }
 }

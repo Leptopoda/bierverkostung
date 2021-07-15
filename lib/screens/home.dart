@@ -2,8 +2,6 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:bierverkostung/screens/conference/conference.dart';
-import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_rail/navigation_rail.dart';
@@ -11,6 +9,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/local_storage.dart';
 import 'package:bierverkostung/services/firebase/notifications.dart';
+import 'package:bierverkostung/services/conference_service.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
 
 import 'package:bierverkostung/screens/beertasting/beertasting.dart';
 import 'package:bierverkostung/screens/drinking_games/drinking_games.dart';
@@ -135,20 +135,7 @@ class _MyHomeState extends State<MyHome> {
             ListTile(
               leading: const Icon(Icons.call_outlined),
               title: Text(AppLocalizations.of(context)!.conference),
-              onTap: () async {
-                if (kIsWeb) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const WebMeeting(),
-                    ),
-                  );
-                }
-                final hallo = await showDialog(
-                  context: context,
-                  builder: (_) => const MeetingJoinAlert(),
-                );
-              },
+              onTap: () => ConferenceService.startMeeting(context),
             ),
             ListTile(
               leading: const Icon(Icons.settings_outlined),
