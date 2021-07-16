@@ -124,10 +124,10 @@ class _MeetingJoinAlertState extends State<_MeetingJoinAlert> {
 
   /// configures the meeting by setting the [JitsiMeetingOptions]
   Future<JitsiMeetingOptions> _configureMeeting() async {
-    // final Group _groupData = await DatabaseService.group;
+    final Group _groupData = await DatabaseService.group;
     final String _roomText = "beertasting_${AuthService.groupID}";
     final String _subjectText =
-        "Beertasting "; // ${_groupData.name ?? AuthService.getUser!.displayName ?? ''}
+        "Beertasting ${_groupData.name ?? AuthService.getUser!.displayName ?? ''}";
     final String? _nameText = AuthService.getUser?.displayName;
     final String? _emailText = AuthService.userEmail;
 
@@ -192,12 +192,6 @@ class _WebMeeting extends StatefulWidget {
 }
 
 class _WebMeetingState extends State<_WebMeeting> {
-  @override
-  void initState() {
-    super.initState();
-    ConferenceService.addListener();
-  }
-
   @override
   void dispose() {
     super.dispose();
