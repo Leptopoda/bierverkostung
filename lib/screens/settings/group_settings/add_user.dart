@@ -7,16 +7,37 @@ part of 'package:bierverkostung/screens/settings/group_settings/group_management
 /// Group management fragment
 ///
 /// This screen enables the user to add other useres to his current group
-class _AddUser extends StatelessWidget {
+class _AddUser extends StatefulWidget {
   const _AddUser({Key? key}) : super(key: key);
+
+  @override
+  _AddUserState createState() => _AddUserState();
+}
+
+class _AddUserState extends State<_AddUser> {
+  final TextEditingController _uid = TextEditingController();
+  final TextEditingController _newUser = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   static const TextStyle _text = TextStyle(
     fontSize: 18,
   );
 
-  static final TextEditingController _uid = TextEditingController();
-  static final TextEditingController _newUser = TextEditingController();
-  static final _formKey = GlobalKey<FormState>();
+  @override
+  void dispose() {
+    super.dispose();
+    _uid.dispose();
+    _newUser.dispose();
+  }
+
+  /// calls the [_QRScanner] fragment
+  static void _scanQR(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => const _QRScanner(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,14 +133,5 @@ class _AddUser extends StatelessWidget {
         ),
       );
     }
-  }
-
-  /// calls the [_QRScanner] fragment
-  static void _scanQR(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) => const _QRScanner(),
-      ),
-    );
   }
 }

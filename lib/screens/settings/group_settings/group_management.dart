@@ -62,7 +62,7 @@ class GroupScreen extends StatelessWidget {
                   children: <Widget>[
                     const SizedBox(height: 25),
                     SizedBox(
-                      width: 200,
+                      width: 250,
                       child: TextFormField(
                         style: Theme.of(context).textTheme.subtitle2,
                         initialValue: _groupData.name ?? _groupID,
@@ -126,39 +126,31 @@ class GroupScreen extends StatelessWidget {
                           .settings_groupManagement_addUser),
                     ),
                     _GroupMemberList(members: _groupData.members),
+                    /* const SizedBox(height: 15),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(250, 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => _ManageUsers(
+                            groupData: _groupData,
+                          ),
+                        ),
+                      ),
+                      icon: const Icon(Icons.group_add_outlined),
+                      label: Text(AppLocalizations.of(context)!
+                          .settings_groupManagement_manageMembers),
+                    ), */
                   ],
                 ),
               ),
             );
         }
       },
-    );
-  }
-}
-
-class _LeaveGroupDialog extends StatelessWidget {
-  const _LeaveGroupDialog({Key? key}) : super(key: key);
-
-  @override
-  AlertDialog build(BuildContext context) {
-    return AlertDialog(
-      scrollable: true,
-      title: Text(
-          AppLocalizations.of(context)!.settings_groupManagement_leaveGroup),
-      content: Text(
-        AppLocalizations.of(context)!
-            .settings_groupManagement_leaveGroup_description,
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
-          child: Text(AppLocalizations.of(context)!.alert_escape),
-        ),
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(true),
-          child: Text(AppLocalizations.of(context)!.alert_continue),
-        ),
-      ],
     );
   }
 }

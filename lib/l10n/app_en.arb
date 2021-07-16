@@ -299,6 +299,8 @@
     }
   },
   "settings_groupManagement_groupName": "Group Name",
+  "settings_groupManagement_callServer": "Conference Server Url",
+  "settings_groupManagement_manageMembers": "Manage members",
   "settings_groupManagement_leaveGroup": "Leave group",
   "settings_groupManagement_leaveGroup_description": "Are you shure you want to leave this group? You'll have to ask a member of the group to join again at a later time. All acess to stored information like beers or tastings will be lost.",
   "settings_groupManagement_addUser": "Add User",

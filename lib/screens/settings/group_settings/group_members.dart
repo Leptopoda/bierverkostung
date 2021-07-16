@@ -4,6 +4,110 @@
 
 part of 'package:bierverkostung/screens/settings/group_settings/group_management.dart';
 
+/// Screen to manage users
+///
+/// this screen displays a list of users and lets them kick others
+@Deprecated("We've included this into the [GroupScreen]")
+// ignore: unused_element
+class _ManageUsers extends StatelessWidget {
+  final Group groupData;
+  const _ManageUsers({
+    required this.groupData,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!
+            .settings_groupManagement_manageMembers),
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(child: _GroupMemberList(members: groupData.members)),
+          SizedBox(
+            height: 120,
+            child: Column(
+              children: <Widget>[
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(250, 40),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onPressed: () async {
+                    final bool? _confirmation = await showDialog<bool?>(
+                      context: context,
+                      builder: (_) => const _LeaveGroupDialog(),
+                    );
+                    if (_confirmation ?? false) {
+                      await CloudFunctionsService.removeGroup(
+                        AuthService.getUser!.uid,
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.logout_outlined),
+                  label: Text(AppLocalizations.of(context)!
+                      .settings_groupManagement_leaveGroup),
+                ),
+                const SizedBox(height: 5),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(250, 40),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const _AddUser(),
+                    ),
+                  ),
+                  icon: const Icon(Icons.group_add_outlined),
+                  label: Text(AppLocalizations.of(context)!
+                      .settings_groupManagement_addUser),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Leave Group Dialog
+///
+/// ensures the deleate action is wanted
+class _LeaveGroupDialog extends StatelessWidget {
+  const _LeaveGroupDialog({Key? key}) : super(key: key);
+
+  @override
+  AlertDialog build(BuildContext context) {
+    return AlertDialog(
+      scrollable: true,
+      title: Text(
+          AppLocalizations.of(context)!.settings_groupManagement_leaveGroup),
+      content: Text(
+        AppLocalizations.of(context)!
+            .settings_groupManagement_leaveGroup_description,
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text(AppLocalizations.of(context)!.alert_escape),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(true),
+          child: Text(AppLocalizations.of(context)!.alert_continue),
+        ),
+      ],
+    );
+  }
+}
+
 /// Group member list Widget
 ///
 /// This Widget displays a list of group members with
@@ -28,6 +132,10 @@ class _GroupMemberList extends StatelessWidget {
   }
 }
 
+/// Group Member Item Widget
+///
+/// Card that displays the given [member].
+/// Members are dismissible via swipes.
 class _GroupMemberItem extends StatelessWidget {
   const _GroupMemberItem({
     Key? key,
@@ -61,6 +169,9 @@ class _GroupMemberItem extends StatelessWidget {
   }
 }
 
+/// Group Member Delete Dialog
+///
+/// ensures the deleate action is wanted
 class _GroupMemberDeleteDialog extends StatelessWidget {
   final String member;
 
