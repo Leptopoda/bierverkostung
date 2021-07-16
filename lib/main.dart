@@ -20,7 +20,7 @@ import 'package:firebase_storage/firebase_storage.dart' show FirebaseStorage;
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
-import 'package:bierverkostung/services/route_generator.dart';
+import 'package:bierverkostung/services/navigation/navigation.dart';
 
 import 'package:bierverkostung/screens/home.dart';
 import 'package:bierverkostung/screens/login/login.dart';
@@ -80,13 +80,12 @@ class _MyApp extends StatelessWidget {
                 theme: _AppTheme.lightTheme,
                 darkTheme: _AppTheme.darkTheme,
                 onGenerateTitle: (BuildContext context) =>
-                    (AppLocalizations.of(context) != null)
-                        ? AppLocalizations.of(context)!.beertasting
-                        : 'Beertasting',
+                    AppLocalizations.of(context)?.beertasting ?? 'Beertasting',
 
                 home: const _LoginController(),
                 //initialRoute: '/Login',
                 onGenerateRoute: RouteGenerator.generateRoute,
+                navigatorKey: NavigationService.navigatorKey,
               ),
             ),
           );

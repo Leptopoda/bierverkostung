@@ -235,6 +235,28 @@
   "@alcoholCalculator_alcohol": {},
   "alcoholCalculator_time": "Time",
   "@alcoholCalculator_time": {},
+  "conference_joinCall": "Join Conference",
+  "conference_audioOnly": "Audio Only",
+  "conference_audioMuted": "Audio Muted",
+  "conference_videoMuted": "Video Muted",
+  "conference_roomNamePrefix": "beertasting_{groupName}",
+  "@conference_roomNamePrefix": {    
+    "placeholders": {
+      "groupName": {
+        "description": "Group Name or GroupID",
+        "example": "Y7e2uBFRBidqz0DQkYb6k0a7MYl2"
+      }
+    }
+  },
+  "conference_callNamePrefix": "Beertasting {groupName}",
+  "@conference_callNamePrefix": {    
+    "placeholders": {
+      "groupName": {
+        "description": "Group Name or GroupID",
+        "example": "Y7e2uBFRBidqz0DQkYb6k0a7MYl2"
+      }
+    }
+  },
   "conference": "Conference",
   "@conference": {},
   "settings": "Settings",
