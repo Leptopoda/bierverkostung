@@ -18,7 +18,7 @@ import 'package:bierverkostung/services/firebase/cloud_storage.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/image_provider_modal.dart';
 
-part 'package:bierverkostung/screens/beertasting/beer_images.dart';
+part 'package:bierverkostung/screens/beer/beer_images.dart';
 
 /// Screen to add a new Beer
 ///
@@ -48,21 +48,13 @@ class _BeerInfoListState extends State<_BeerInfoList> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _beerName = TextEditingController();
-
   final TextEditingController _brewery = TextEditingController();
-
   final TextEditingController _style = TextEditingController();
-
   final TextEditingController _originalWort = TextEditingController();
-
   final TextEditingController _alcohol = TextEditingController();
-
   final TextEditingController _ibu = TextEditingController();
-
   final TextEditingController _ingredients = TextEditingController();
-
   final TextEditingController _specifics = TextEditingController();
-
   final TextEditingController _beerNotes = TextEditingController();
 
   List<String> _images = [];

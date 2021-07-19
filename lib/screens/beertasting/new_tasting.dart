@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:bierverkostung/screens/beertasting/color_to_ebc.dart';
+
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
@@ -41,7 +43,7 @@ class _NewTastingState extends State<NewTasting> {
 
   Beer? _beer;
 
-  int _colourEbc = 4;
+  int? _colourEbc;
   int _foamStability = 1;
   int _bitternessRating = 1;
   int _sweetnessRating = 1;
@@ -138,10 +140,9 @@ class _NewTastingState extends State<NewTasting> {
                 labelText: AppLocalizations.of(context)!.beerOne,
               ),
               validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return AppLocalizations.of(context)!.form_required;
-                }
-                return null;
+                return (value == null || value.isEmpty)
+                    ? AppLocalizations.of(context)!.form_required
+                    : null;
               },
             ),
             Text(
@@ -180,17 +181,27 @@ class _NewTastingState extends State<NewTasting> {
                 (int? val) {
                   return DropdownMenuItem(
                     value: val,
-                    child: Text('$val'),
+                    child: Row(
+                      children: [
+                        Text('$val'),
+                        Icon(
+                          Icons.circle,
+                          color: EbcColor.toColor(val),
+                        ),
+                      ],
+                    ),
                   );
                 },
               ).toList(),
-              onChanged: (int? val) => setState(() => _colourEbc = val!),
+              onChanged: (int? val) => setState(() => _colourEbc = val),
               decoration: InputDecoration(
                 labelText: 'EBC',
-                suffixIcon: Icon(
-                  Icons.circle,
-                  color: Colors.yellow[800],
-                ),
+                suffixIcon: (_colourEbc != null)
+                    ? Icon(
+                        Icons.circle,
+                        color: EbcColor.toColor(_colourEbc),
+                      )
+                    : null,
               ),
             ),
             TextFormField(
@@ -377,9 +388,7 @@ class _NewTastingState extends State<NewTasting> {
     _beer = await Navigator.pushNamed<Beer?>(context, '/BeerList');
 
     if (_beer != null) {
-      setState(() {
-        _beerName.text = _beer!.beerName;
-      });
+      setState(() => _beerName.text = _beer!.beerName);
     }
   }
 
@@ -392,11 +401,9 @@ class _NewTastingState extends State<NewTasting> {
       lastDate: DateTime(2100),
     );
     if (_picked != null) {
+      _selectedDate = _picked;
       setState(
-        () {
-          _selectedDate = _picked;
-          _dateController.text = DateFormat.yMMMMd().format(_selectedDate);
-        },
+        () => _dateController.text = DateFormat.yMMMMd().format(_selectedDate),
       );
     }
   }

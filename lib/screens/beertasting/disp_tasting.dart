@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:bierverkostung/screens/beertasting/color_to_ebc.dart';
+import 'package:bierverkostung/screens/beer/disp_beer.dart';
+
 import 'package:bierverkostung/models/tastings.dart';
-import 'package:bierverkostung/screens/beertasting/disp_beer.dart';
 
 // TODO: Deduplicate this file with NewTasting
 
@@ -104,7 +106,7 @@ class DispTasting extends StatelessWidget {
               labelText: AppLocalizations.of(context)!.beertasting_ebc,
               suffixIcon: Icon(
                 Icons.circle,
-                color: Colors.yellow[800],
+                color: EbcColor.toColor(tasting.colourEbc),
               ),
             ),
           ),
