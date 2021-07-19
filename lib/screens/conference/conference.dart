@@ -199,24 +199,7 @@ class _WebMeetingState extends State<_WebMeeting> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.conference),
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
-            color: Colors.white54,
-            child: JitsiMeetConferencing(
-              extraJS: const [
-                // extraJs setup example
-                // '<script>function echo(){console.log("echo!!!")};</script>',
-                '<script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>'
-              ],
-            ),
-          ),
-        ),
-      ),
+      body: JitsiMeetConferencing(),
     );
   }
 }
