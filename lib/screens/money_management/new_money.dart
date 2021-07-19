@@ -84,7 +84,7 @@ class _MoneyAlertState extends State<_MoneyAlert> {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.pop(context),
           child: Text(AppLocalizations.of(context)!.alert_escape),
         ),
         TextButton(
@@ -108,6 +108,6 @@ class _MoneyAlertState extends State<_MoneyAlert> {
       ),
     );
 
-    Navigator.of(context).pop();
+    Navigator.pop(context);
   }
 }

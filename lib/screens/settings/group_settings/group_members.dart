@@ -54,7 +54,8 @@ class _ManageUsers extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(250, 40),
                   ),
-                  onPressed: () => Navigator.of(context).push(
+                  onPressed: () => Navigator.push(
+                    context,
                     MaterialPageRoute(
                       builder: (_) => const _AddUser(),
                     ),
@@ -90,11 +91,11 @@ class _LeaveGroupDialog extends StatelessWidget {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
+          onPressed: () => Navigator.pop(context, false),
           child: Text(AppLocalizations.of(context)!.alert_escape),
         ),
         TextButton(
-          onPressed: () => Navigator.of(context).pop(true),
+          onPressed: () => Navigator.pop(context, true),
           child: Text(AppLocalizations.of(context)!.alert_continue),
         ),
       ],
@@ -186,11 +187,11 @@ class _GroupMemberDeleteDialog extends StatelessWidget {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
+          onPressed: () => Navigator.pop(context, false),
           child: Text(AppLocalizations.of(context)!.alert_escape),
         ),
         TextButton(
-          onPressed: () => Navigator.of(context).pop(true),
+          onPressed: () => Navigator.pop(context, true),
           child: Text(AppLocalizations.of(context)!.alert_continue),
         ),
       ],

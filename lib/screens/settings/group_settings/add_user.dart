@@ -28,7 +28,8 @@ class _AddUserState extends State<_AddUser> {
 
   /// calls the [_QRScanner] fragment
   static void _scanQR(BuildContext context) {
-    Navigator.of(context).push(
+    Navigator.push(
+      context,
       MaterialPageRoute(
         builder: (BuildContext context) => const _QRScanner(),
       ),

@@ -92,7 +92,7 @@ class _StatisticsAlertState extends State<_StatisticsAlert> {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.pop(context),
           child: Text(AppLocalizations.of(context)!.alert_escape),
         ),
         TextButton(
@@ -131,7 +131,7 @@ class _StatisticsAlertState extends State<_StatisticsAlert> {
         Navigator.pushNamed(context, '/error', arguments: 'invalid response');
     }
 
-    Navigator.of(context).pop();
+    Navigator.pop(context);
   }
 
   /// selects a new [Beer] from the [BeerList]

@@ -69,7 +69,7 @@ class BeerTasting extends StatelessWidget {
                 );
               },
               floatingActionButton: FloatingActionButton(
-                onPressed: () => Navigator.of(context).pushNamed('/NewTasting'),
+                onPressed: () => Navigator.pushNamed(context, '/NewTasting'),
                 child: const Icon(Icons.add),
               ),
             );

@@ -27,7 +27,7 @@ class _UnvalidatedEmailAlert extends StatelessWidget {
         TextButton(
           onPressed: () {
             AuthService.refreshToken();
-            if (AuthService.hasValidatedEmail) Navigator.of(context).pop();
+            if (AuthService.hasValidatedEmail) Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(

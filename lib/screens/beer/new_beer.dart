@@ -219,7 +219,7 @@ class _BeerInfoListState extends State<_BeerInfoList> {
 
       await DatabaseService.saveBeer(_bier1);
 
-      Navigator.of(context).pop();
+      Navigator.pop(context);
     }
   }
 }

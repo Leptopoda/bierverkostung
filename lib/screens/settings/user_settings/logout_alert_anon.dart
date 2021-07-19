@@ -17,7 +17,7 @@ class _LogOutAnonAlert extends StatelessWidget {
       content: Text(AppLocalizations.of(context)!.settings_logOut_cautionAlert),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.pop(context),
           child: Text(AppLocalizations.of(context)!.alert_escape),
         ),
         TextButton(
@@ -29,7 +29,7 @@ class _LogOutAnonAlert extends StatelessWidget {
                     AppLocalizations.of(context)!.settings_logOut_logedOut),
               ),
             );
-            Navigator.of(context).popUntil(ModalRoute.withName('/'));
+            Navigator.popUntil(context, ModalRoute.withName('/'));
           },
           child: Text(AppLocalizations.of(context)!.alert_continue),
         ),

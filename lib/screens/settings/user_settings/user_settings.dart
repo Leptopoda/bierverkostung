@@ -162,7 +162,8 @@ class UserSettings extends StatelessWidget {
   /// crops the picture at [path] to a square
   static Future<dynamic> _cropImage(BuildContext context, String path) async {
     if (kIsWeb) {
-      return Navigator.of(context).push<Uint8List?>(
+      return Navigator.push<Uint8List?>(
+        context,
         MaterialPageRoute<Uint8List?>(
           builder: (BuildContext context) => _CropProfileWeb(
             imagePath: path,

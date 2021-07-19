@@ -21,12 +21,12 @@ class _DrinkSafeAlert extends StatelessWidget {
         TextButton(
           onPressed: () async {
             await LocalDatabaseService.setDrinkSafe();
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
           child: Text(AppLocalizations.of(context)!.alert_donotShowAgain),
         ),
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.pop(context),
           child: Text(AppLocalizations.of(context)!.alert_continue),
         ),
       ],

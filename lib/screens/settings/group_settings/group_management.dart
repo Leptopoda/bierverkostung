@@ -111,7 +111,8 @@ class GroupScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(200, 40),
                       ),
-                      onPressed: () => Navigator.of(context).push(
+                      onPressed: () => Navigator.push(
+                        context,
                         MaterialPageRoute(
                           builder: (_) => const _AddUser(),
                         ),
@@ -126,7 +127,7 @@ class GroupScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(250, 40),
                       ),
-                      onPressed: () => Navigator.of(context).push(
+                      onPressed: () => Navigator.push(context)
                         MaterialPageRoute(
                           builder: (_) => _ManageUsers(
                             groupData: _groupData,

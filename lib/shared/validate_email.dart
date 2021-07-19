@@ -18,7 +18,7 @@ class _ValidateEmailAlert extends StatelessWidget {
       content: Text(AppLocalizations.of(context)!.validate_email_banner),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.pop(context),
           child: Text(AppLocalizations.of(context)!.alert_continue),
         ),
       ],

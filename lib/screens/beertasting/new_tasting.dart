@@ -379,7 +379,7 @@ class _NewTastingState extends State<NewTasting> {
       );
       await DatabaseService.saveTasting(_tasting);
 
-      Navigator.of(context).pop();
+      Navigator.pop(context);
     }
   }
 
