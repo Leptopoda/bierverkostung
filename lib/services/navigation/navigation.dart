@@ -32,7 +32,7 @@ part 'package:bierverkostung/services/navigation/route_generator.dart';
 ///
 /// handling the navigation of the app with a [GlobalKey<NavigatorState>]
 class NavigationService {
-  const NavigationService();
+  const NavigationService._();
 
   /// navigation key for navigating the app
   static final GlobalKey<NavigatorState> _navigatorKey =

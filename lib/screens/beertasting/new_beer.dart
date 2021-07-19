@@ -40,10 +40,6 @@ class NewBeer extends StatelessWidget {
 class _BeerInfoList extends StatefulWidget {
   const _BeerInfoList({Key? key}) : super(key: key);
 
-  static const TextStyle _text = TextStyle(
-    fontSize: 18,
-  );
-
   @override
   _BeerInfoListState createState() => _BeerInfoListState();
 }
@@ -87,34 +83,36 @@ class _BeerInfoListState extends State<_BeerInfoList> {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
+
     return Form(
       key: _formKey,
       child: ListView(
         padding: const EdgeInsets.all(30.0),
         children: <Widget>[
           TextFormField(
-            style: _BeerInfoList._text,
+            style: _text,
             controller: _beerName,
             decoration: InputDecoration(
               labelText: AppLocalizations.of(context)!.beer_name,
             ),
           ),
           TextFormField(
-            style: _BeerInfoList._text,
+            style: _text,
             controller: _brewery,
             decoration: InputDecoration(
               labelText: AppLocalizations.of(context)!.beer_brewery,
             ),
           ),
           TextFormField(
-            style: _BeerInfoList._text,
+            style: _text,
             controller: _style,
             decoration: InputDecoration(
               labelText: AppLocalizations.of(context)!.beer_style,
             ),
           ),
           TextFormField(
-            style: _BeerInfoList._text,
+            style: _text,
             controller: _originalWort,
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
@@ -125,7 +123,7 @@ class _BeerInfoListState extends State<_BeerInfoList> {
             ),
           ),
           TextFormField(
-            style: _BeerInfoList._text,
+            style: _text,
             controller: _alcohol,
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
@@ -136,7 +134,7 @@ class _BeerInfoListState extends State<_BeerInfoList> {
             ),
           ),
           TextFormField(
-            style: _BeerInfoList._text,
+            style: _text,
             controller: _ibu,
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
@@ -147,21 +145,21 @@ class _BeerInfoListState extends State<_BeerInfoList> {
             ),
           ),
           TextFormField(
-            style: _BeerInfoList._text,
+            style: _text,
             controller: _ingredients,
             decoration: InputDecoration(
               labelText: AppLocalizations.of(context)!.beer_ingredients,
             ),
           ),
           TextFormField(
-            style: _BeerInfoList._text,
+            style: _text,
             controller: _specifics,
             decoration: InputDecoration(
               labelText: AppLocalizations.of(context)!.beer_specifics,
             ),
           ),
           TextFormField(
-            style: _BeerInfoList._text,
+            style: _text,
             controller: _beerNotes,
             decoration: InputDecoration(
               labelText: AppLocalizations.of(context)!.beer_notes,

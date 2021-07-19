@@ -33,9 +33,6 @@ class _ManageUsers extends StatelessWidget {
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(250, 40),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
                   ),
                   onPressed: () async {
                     final bool? _confirmation = await showDialog<bool?>(
@@ -56,9 +53,6 @@ class _ManageUsers extends StatelessWidget {
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(250, 40),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
                   ),
                   onPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(

@@ -102,7 +102,7 @@ class _ToastsState extends State<Toasts> {
         const SizedBox(height: 30),
         Text(
           widget.sprueche[_index - 1],
-          style: const TextStyle(fontSize: 18),
+          style: Theme.of(context).textTheme.bodyText2,
         ),
       ],
     );

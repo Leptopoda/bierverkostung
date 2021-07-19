@@ -19,7 +19,7 @@ import 'package:bierverkostung/models/money_calc.dart';
 
 /// Helpers to save data to cloud firestore.
 class DatabaseService {
-  const DatabaseService();
+  const DatabaseService._();
   // Firestore instance
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final User _user = AuthService.getUser!;

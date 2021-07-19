@@ -6,7 +6,7 @@ part of 'package:bierverkostung/services/navigation/navigation.dart';
 
 /// Handles the routes used for navigating the app
 class RouteGenerator {
-  const RouteGenerator();
+  const RouteGenerator._();
 
   /// generates the routes used for navigating the app
   static Route<dynamic> generateRoute(RouteSettings settings) {

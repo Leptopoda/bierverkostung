@@ -64,7 +64,7 @@ class BeerTasting extends StatelessWidget {
                 return ListTile(
                   title: Text(
                     'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date}',
-                    style: const TextStyle(fontSize: 18),
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                 );
               },

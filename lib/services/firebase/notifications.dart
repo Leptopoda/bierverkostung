@@ -14,7 +14,7 @@ import 'package:flutter/foundation.dart';
 
 /// Helpers for managing FCM Notifications.
 class NotificationService {
-  const NotificationService();
+  const NotificationService._();
 
   static final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   static const String _vapidKey =

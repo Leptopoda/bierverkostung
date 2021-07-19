@@ -40,7 +40,7 @@ class SomethingWentWrong extends StatelessWidget {
               const SizedBox(height: 35),
               Text(
                 '${AppLocalizations.of(context)!.errorMessage} $error',
-                style: const TextStyle(fontSize: 18.0),
+                style: Theme.of(context).textTheme.bodyText2,
               ),
             ],
           ),

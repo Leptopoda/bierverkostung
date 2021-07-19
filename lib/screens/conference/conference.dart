@@ -76,12 +76,6 @@ class _MeetingJoinAlertState extends State<_MeetingJoinAlert> {
               height: 64.0,
               width: double.maxFinite,
               child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(200, 40),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
                 onPressed: () async {
                   final JitsiMeetingOptions options = await _configureMeeting();
 

@@ -19,10 +19,6 @@ class _AddUserState extends State<_AddUser> {
   final TextEditingController _newUser = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  static const TextStyle _text = TextStyle(
-    fontSize: 18,
-  );
-
   @override
   void dispose() {
     super.dispose();
@@ -41,6 +37,7 @@ class _AddUserState extends State<_AddUser> {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
     final User _user = AuthService.getUser!;
     _uid.text = _user.uid;
 

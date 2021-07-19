@@ -64,7 +64,7 @@ class BeerList extends StatelessWidget {
                 return ListTile(
                   title: Text(
                     'Bier: ${snapshot.data![index].beerName}',
-                    style: const TextStyle(fontSize: 18),
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                   onTap: () {
                     Navigator.pop(context, snapshot.data![index]);

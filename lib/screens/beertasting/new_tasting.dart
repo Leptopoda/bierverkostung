@@ -45,9 +45,6 @@ class _NewTastingState extends State<NewTasting> {
     fontSize: 22,
     color: Colors.yellow,
   );
-  static const TextStyle _text = TextStyle(
-    fontSize: 18,
-  );
 
   int _colourEbc = 4;
   int _foamStability = 1;
@@ -102,6 +99,8 @@ class _NewTastingState extends State<NewTasting> {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.beertasting_newTasting),

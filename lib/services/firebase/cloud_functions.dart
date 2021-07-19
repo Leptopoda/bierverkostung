@@ -6,7 +6,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 
 /// Helpers for handling CloudFunctions.
 class CloudFunctionsService {
-  const CloudFunctionsService();
+  const CloudFunctionsService._();
 
   /// FirebaseFunctions reference
   static final FirebaseFunctions _functions =

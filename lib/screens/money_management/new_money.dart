@@ -52,9 +52,7 @@ class _MoneyAlertState extends State<_MoneyAlert> {
         child: Column(
           children: <Widget>[
             TextFormField(
-              style: const TextStyle(
-                fontSize: 18,
-              ),
+              style: Theme.of(context).textTheme.bodyText2,
               controller: _buyer,
               decoration: InputDecoration(
                 labelText: AppLocalizations.of(context)!
@@ -68,9 +66,7 @@ class _MoneyAlertState extends State<_MoneyAlert> {
               },
             ),
             TextFormField(
-              style: const TextStyle(
-                fontSize: 18,
-              ),
+              style: Theme.of(context).textTheme.bodyText2,
               controller: _amount,
               decoration: InputDecoration(
                 labelText: AppLocalizations.of(context)!.moneyCalculator_amount,

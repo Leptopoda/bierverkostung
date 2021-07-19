@@ -78,7 +78,7 @@ class _CalculatedList extends StatelessWidget {
                   child: ListTile(
                     title: Text(
                       'Buyer: ${snapshot.data![index].buyer}',
-                      style: const TextStyle(fontSize: 18),
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                     subtitle: RichText(
                       text: TextSpan(
@@ -147,7 +147,7 @@ class _MoneyList extends StatelessWidget {
                   child: ListTile(
                     title: Text(
                       'Date: ${snapshot.data![index].timestamp}',
-                      style: const TextStyle(fontSize: 18),
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                     subtitle: RichText(
                       text: TextSpan(

@@ -12,13 +12,31 @@ class _AppTheme {
   const _AppTheme._();
   static const _primarySwatch = Colors.yellow;
   static const _accentColor = Color(0xFFFF8F00); //Colors.orange[800]
+  static final _buttonTheme = ButtonThemeData(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(30),
+    ),
+  );
+  static final _elevatedButtonTheme = ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+    ),
+  );
+  static const _textTheme = TextTheme(
+    bodyText2: TextStyle(fontSize: 18),
+  );
 
   /// returns the light theme
-  static ThemeData lightTheme = ThemeData(
+  static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     primarySwatch: _primarySwatch,
     accentColor: _accentColor,
     toggleableActiveColor: _primarySwatch,
+    buttonTheme: _buttonTheme,
+    elevatedButtonTheme: _elevatedButtonTheme,
+    textTheme: _textTheme,
   );
 
   /// returns the dark theme
@@ -27,5 +45,8 @@ class _AppTheme {
     primarySwatch: _primarySwatch,
     accentColor: _accentColor,
     toggleableActiveColor: _primarySwatch,
+    buttonTheme: _buttonTheme,
+    elevatedButtonTheme: _elevatedButtonTheme,
+    textTheme: _textTheme,
   );
 }

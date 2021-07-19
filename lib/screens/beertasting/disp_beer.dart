@@ -18,12 +18,10 @@ class DispBeer {
     required this.beer,
   });
 
-  static const TextStyle _text = TextStyle(
-    fontSize: 18,
-  );
-
   /// builds a List of widgets to display beer information
   List<Widget> dispBeer(BuildContext context) {
+    final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
+
     final List<Widget> _beerInfo = [
       TextFormField(
         style: _text,

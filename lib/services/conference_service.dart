@@ -20,7 +20,7 @@ part 'package:bierverkostung/screens/conference/conference.dart';
 
 /// Helpers for managing [JitsiMeet] Conferences
 class ConferenceService {
-  const ConferenceService();
+  const ConferenceService._();
 
   /// starts a new [JitsiMeet] conference
   /// on mobile this will start jitsi with its 'native' implementation
