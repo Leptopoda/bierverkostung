@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 
 /// This class converts EBC values to approximately resembling RGB colour values.
+///
 /// The values as well as the conversion algorithm are taken from the original project who took it from:
 /// <a href="https://github.com/Gremmel/kleiner-brauhelfer/blob/22c95099d6302f3319a1e9799f1e2199f3547895/source/src/berechnungen.cpp#L968">Kleiner Brauhelfer</a>.
 @immutable
@@ -318,6 +319,7 @@ class EbcColor {
     Color.fromRGBO(8, 3, 2, 1),
   ];
 
+  /// converts the given [ebcValue] into an [Color], returns transparent when the input is null
   static Color? toColor(final num? ebcValue) {
     if (ebcValue != null) {
       final double _srmValue = ebcValue / 1.97;
