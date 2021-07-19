@@ -48,7 +48,7 @@ class _BeerImageState extends State<_BeerImage>
       child: InkWell(
         onTap: () => _changeImage(path),
         child: Card(
-          color: Colors.amber,
+          color: Theme.of(context).accentColor,
           child: kIsWeb ? Image.network(path) : Image.file(File(path)),
         ),
       ),
@@ -58,7 +58,7 @@ class _BeerImageState extends State<_BeerImage>
   /// Creates the standard add image Card
   Widget _beerImageSelectorCard() {
     return Card(
-      color: Colors.amber,
+      color: Theme.of(context).accentColor,
       child: IconButton(
         tooltip: AppLocalizations.of(context)!.beer_newImage,
         icon: const Icon(
@@ -117,7 +117,7 @@ class _BeerImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.amber,
+      color: Theme.of(context).accentColor,
       child: IconButton(
         tooltip: AppLocalizations.of(context)!.beer_newImage,
         icon: const Icon(

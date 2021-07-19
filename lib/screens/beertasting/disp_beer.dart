@@ -142,7 +142,7 @@ class _BeerImage extends StatelessWidget {
       itemCount: imagePaths.length,
       itemBuilder: (BuildContext context, int i) {
         return Card(
-          color: Colors.amber,
+          color: Theme.of(context).accentColor,
           child: Image.network(imagePaths[i]),
         );
       },

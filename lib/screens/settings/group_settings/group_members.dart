@@ -142,7 +142,7 @@ class _GroupMemberItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       background: const Card(
-        color: Colors.red,
+        color: ColorName.red,
         child: ListTile(
           trailing: Icon(Icons.delete_outline),
         ),

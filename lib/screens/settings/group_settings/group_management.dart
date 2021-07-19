@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:io' show Platform;
+import 'package:bierverkostung/gen/colors.gen.dart';
 import 'package:bierverkostung/models/group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
