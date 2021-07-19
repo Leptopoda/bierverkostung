@@ -66,6 +66,14 @@ class _MyApp extends StatelessWidget {
               StreamProvider<User?>.value(
                 value: AuthService.user,
                 initialData: null,
+                catchError: (context, err) {
+                  if ((_EnvironmentConfig.localFirebase ||
+                          _EnvironmentConfig.localFirebaseIP != 'localhost') &&
+                      err.toString().contains('[ INVALID_REFRESH_TOKEN ]')) {
+                    AuthService.signOut();
+                    debugPrint('User has been auto singed out because of $err');
+                  }
+                },
               ),
             ],
             child: Shortcuts(
