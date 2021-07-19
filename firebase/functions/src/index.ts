@@ -7,6 +7,7 @@ initializeApp();
 
 export {authOnCreate} from "./groupManagement/authOnCreate";
 export {addGroup} from "./groupManagement/addGroup";
+export {removeGroup} from "./groupManagement/removeFromGroup";
 export {beerStats} from "./statCounter";
-export {exportData, clearData} from "./gdprData/index";
+// export {exportData, clearData} from "./gdprData/index";
 export {moneyCalc} from "./moneyCalc";

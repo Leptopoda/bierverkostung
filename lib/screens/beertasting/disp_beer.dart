@@ -18,12 +18,10 @@ class DispBeer {
     required this.beer,
   });
 
-  static const TextStyle _text = TextStyle(
-    fontSize: 18,
-  );
-
   /// builds a List of widgets to display beer information
   List<Widget> dispBeer(BuildContext context) {
+    final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
+
     final List<Widget> _beerInfo = [
       TextFormField(
         style: _text,
@@ -144,7 +142,7 @@ class _BeerImage extends StatelessWidget {
       itemCount: imagePaths.length,
       itemBuilder: (BuildContext context, int i) {
         return Card(
-          color: Colors.amber,
+          color: Theme.of(context).accentColor,
           child: Image.network(imagePaths[i]),
         );
       },

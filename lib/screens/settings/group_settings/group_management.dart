@@ -5,129 +5,144 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:io' show Platform;
+import 'package:bierverkostung/gen/colors.gen.dart';
+import 'package:bierverkostung/models/group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
-import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
-import 'package:qr_flutter/qr_flutter.dart' show QrImage;
-import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
+import 'package:firebase_auth/firebase_auth.dart' show User;
+import 'package:qr_flutter/qr_flutter.dart' show QrImage;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-import 'package:bierverkostung/services/firebase/cloud_functions.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
+import 'package:bierverkostung/services/firebase/cloud_functions.dart';
+import 'package:bierverkostung/services/firebase/database.dart';
+import 'package:bierverkostung/shared/error_page.dart';
 
+part 'package:bierverkostung/screens/settings/group_settings/add_user.dart';
+part 'package:bierverkostung/screens/settings/group_settings/group_members.dart';
 part 'package:bierverkostung/screens/settings/group_settings/qr_scan.dart';
 
-/// Group management fragment
+/// Settings screen for managing the current User
 ///
-/// This screen enables the user to add other useres to his current group
+/// This screen lets the user manipulate it's profile data or sign out
 class GroupScreen extends StatelessWidget {
   const GroupScreen({Key? key}) : super(key: key);
 
-  static const TextStyle _text = TextStyle(
-    fontSize: 18,
-  );
-
-  static final TextEditingController _uid = TextEditingController();
-  static final TextEditingController _newUser = TextEditingController();
-  static final _formKey = GlobalKey<FormState>();
+  static final String _groupID = AuthService.groupID;
 
   @override
   Widget build(BuildContext context) {
-    final User _user = AuthService.getUser!;
-    _uid.text = _user.uid;
+    return FutureBuilder(
+      future: DatabaseService.group,
+      builder: (BuildContext context, AsyncSnapshot<Group> snapshot) {
+        if (snapshot.hasError) {
+          return SomethingWentWrong(
+            error: snapshot.error.toString(),
+          );
+        }
 
-    return Form(
-      key: _formKey,
-      child: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: <Widget>[
-          TextFormField(
-            style: _text,
-            readOnly: true,
-            controller: _uid,
-            decoration: InputDecoration(
-              labelText:
-                  AppLocalizations.of(context)!.settings_groupManagement_yourID,
-              suffixIcon: const Icon(Icons.group_outlined),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Center(
-            child: ElevatedButton(
-              onPressed: () => _scanQR(context),
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
-              ),
-              child: Container(
-                height: 230,
-                padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-                alignment: Alignment.center,
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          default:
+            if (!snapshot.hasData) {
+              return Center(
+                child: Text(AppLocalizations.of(context)!.beer_noBeers),
+              );
+            }
+
+            final Group _groupData = snapshot.data!;
+            return SingleChildScrollView(
+              child: Center(
                 child: Column(
                   children: <Widget>[
-                    QrImage(
-                      data: jsonEncode({'user': _user.uid}),
-                      size: 175.0,
+                    const SizedBox(height: 25),
+                    SizedBox(
+                      width: 250,
+                      child: TextFormField(
+                        style: Theme.of(context).textTheme.subtitle2,
+                        initialValue: _groupData.name ?? _groupID,
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!
+                              .settings_groupManagement_groupName,
+                          suffixIcon: const Icon(Icons.edit_outlined),
+                          border: InputBorder.none,
+                        ),
+                        onFieldSubmitted: (String? value) {
+                          _groupData.name = value;
+                          DatabaseService.saveGroup(_groupData);
+                        },
+                      ),
                     ),
-                    Text(AppLocalizations.of(context)!
-                        .settings_groupManagement_scanCode),
+                    const SizedBox(height: 5),
+                    Text(
+                      AppLocalizations.of(context)!
+                          .settings_groupManagement_memberCount(
+                              _groupData.count),
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                    const SizedBox(height: 25),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 40),
+                      ),
+                      onPressed: () async {
+                        final bool? _confirmation = await showDialog<bool?>(
+                          context: context,
+                          builder: (_) => const _LeaveGroupDialog(),
+                        );
+                        if (_confirmation ?? false) {
+                          await CloudFunctionsService.removeGroup(
+                            AuthService.getUser!.uid,
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.logout_outlined),
+                      label: Text(AppLocalizations.of(context)!
+                          .settings_groupManagement_leaveGroup),
+                    ),
+                    const SizedBox(height: 5),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 40),
+                      ),
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const _AddUser(),
+                        ),
+                      ),
+                      icon: const Icon(Icons.group_add_outlined),
+                      label: Text(AppLocalizations.of(context)!
+                          .settings_groupManagement_addUser),
+                    ),
+                    _GroupMemberList(members: _groupData.members),
+                    /* const SizedBox(height: 15),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(250, 40),
+                      ),
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => _ManageUsers(
+                            groupData: _groupData,
+                          ),
+                        ),
+                      ),
+                      icon: const Icon(Icons.group_add_outlined),
+                      label: Text(AppLocalizations.of(context)!
+                          .settings_groupManagement_manageMembers),
+                    ), */
                   ],
                 ),
               ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            style: _text,
-            controller: _newUser,
-            decoration: InputDecoration(
-              labelText:
-                  AppLocalizations.of(context)!.settings_groupManagement_uid,
-              suffixIcon: const Icon(Icons.person_outline),
-            ),
-            validator: (value) => (value == null || value.length != 28)
-                ? AppLocalizations.of(context)!
-                    .settings_groupManagement_invalidUid
-                : null,
-          ),
-          ElevatedButton.icon(
-            onPressed: () => _submit(context),
-            icon: const Icon(Icons.group_add_outlined),
-            label: Text(AppLocalizations.of(context)!
-                .settings_groupManagement_addToGroup),
-          ),
-          ElevatedButton.icon(
-            onPressed: () => AuthService.refreshToken(),
-            icon: const Icon(Icons.refresh_outlined),
-            label: Text(AppLocalizations.of(context)!
-                .settings_groupManagement_refreshToken),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// validates the input and adds the user to the current group
-  Future<void> _submit(BuildContext context) async {
-    if (_formKey.currentState!.validate()) {
-      final String _groupID = AuthService.groupID;
-      final HttpsCallableResult<dynamic> result =
-          await CloudFunctionsService.setGroup(_newUser.value.text, _groupID);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(result.data.toString()),
-        ),
-      );
-    }
-  }
-
-  /// calls the [_QRScanner] fragment
-  static void _scanQR(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) => const _QRScanner(),
-      ),
+            );
+        }
+      },
     );
   }
 }

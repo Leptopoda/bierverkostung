@@ -8,8 +8,7 @@ part of 'package:bierverkostung/main.dart';
 /// When compiled for local testing it will set up for emulator usage.
 Future<void> _setupFirebase() async {
   try {
-    if (_EnvironmentConfig.localFirebase ||
-        _EnvironmentConfig.localFirebaseIP != 'localhost') {
+    if (_EnvironmentConfig.isLocal) {
       const String _host = _EnvironmentConfig.localFirebaseIP;
 
       if (!kIsWeb) {

@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Helpers to handle local KV storage
 class LocalDatabaseService {
-  const LocalDatabaseService();
+  const LocalDatabaseService._();
 
   /// key for the firstRun parameter
   static const String _firstRun = 'first_run';

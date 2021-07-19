@@ -11,7 +11,7 @@ class _DrinkSafeAlert extends StatelessWidget {
   const _DrinkSafeAlert({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  AlertDialog build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
       title: Text(AppLocalizations.of(context)!.drinkSafe),

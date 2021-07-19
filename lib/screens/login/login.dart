@@ -21,10 +21,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  static const TextStyle _text = TextStyle(
-    fontSize: 18,
-  );
-
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _mailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -38,6 +34,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.login),
@@ -52,11 +50,7 @@ class _LoginState extends State<Login> {
                 alignment: Alignment.center,
                 child: Text(
                   AppLocalizations.of(context)!.beertasting,
-                  style: const TextStyle(
-                    color: Colors.yellow,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 30,
-                  ),
+                  style: Theme.of(context).textTheme.headline5,
                 ),
               ),
               const SizedBox(height: 20),
@@ -110,7 +104,7 @@ class _LoginState extends State<Login> {
                     onPressed: () => _registerWithEmailAndPassword(),
                     child: Text(
                       AppLocalizations.of(context)!.login_register,
-                      style: _text,
+                      // style: _text,
                     ),
                   ),
                 ],
@@ -123,7 +117,7 @@ class _LoginState extends State<Login> {
                     onPressed: () => _registerAnon(),
                     child: Text(
                       AppLocalizations.of(context)!.login_anonymous,
-                      style: _text,
+                      // style: _text,
                     ),
                   ),
                 ],

@@ -28,7 +28,6 @@ class StatisticsFab extends StatelessWidget {
 }
 
 enum _Beer { small, big }
-// const _biggerFont = TextStyle(fontSize: 18.0);
 
 /// New Stats Alert
 ///
@@ -74,9 +73,7 @@ class _StatisticsAlertState extends State<_StatisticsAlert> {
               label: "$_menge",
             ),
             TextFormField(
-              style: const TextStyle(
-                fontSize: 18,
-              ),
+              style: Theme.of(context).textTheme.bodyText2,
               readOnly: true,
               controller: _beer,
               onTap: () => _selectBeer(context),

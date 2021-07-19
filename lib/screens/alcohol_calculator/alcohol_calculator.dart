@@ -162,7 +162,6 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
             label: _time.toString(),
           ),
           Container(
-            // color: Colors.orange[200],
             padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
             decoration: BoxDecoration(
               border: Border(
@@ -171,7 +170,7 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
             ),
             child: Text(
               NumberFormat().format(_calculate()),
-              style: const TextStyle(fontSize: 18),
+              style: Theme.of(context).textTheme.bodyText2,
             ),
           ),
         ],

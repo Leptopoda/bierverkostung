@@ -20,7 +20,7 @@ import 'package:firebase_storage/firebase_storage.dart' show FirebaseStorage;
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
-import 'package:bierverkostung/services/route_generator.dart';
+import 'package:bierverkostung/services/navigation/navigation.dart';
 
 import 'package:bierverkostung/screens/home.dart';
 import 'package:bierverkostung/screens/login/login.dart';
@@ -66,6 +66,14 @@ class _MyApp extends StatelessWidget {
               StreamProvider<User?>.value(
                 value: AuthService.user,
                 initialData: null,
+                catchError: (context, err) {
+                  if ((_EnvironmentConfig.localFirebase ||
+                          _EnvironmentConfig.localFirebaseIP != 'localhost') &&
+                      err.toString().contains('[ INVALID_REFRESH_TOKEN ]')) {
+                    AuthService.signOut();
+                    debugPrint('User has been auto singed out because of $err');
+                  }
+                },
               ),
             ],
             child: Shortcuts(
@@ -80,13 +88,12 @@ class _MyApp extends StatelessWidget {
                 theme: _AppTheme.lightTheme,
                 darkTheme: _AppTheme.darkTheme,
                 onGenerateTitle: (BuildContext context) =>
-                    (AppLocalizations.of(context) != null)
-                        ? AppLocalizations.of(context)!.beertasting
-                        : 'Beertasting',
+                    AppLocalizations.of(context)?.beertasting ?? 'Beertasting',
 
                 home: const _LoginController(),
                 //initialRoute: '/Login',
                 onGenerateRoute: RouteGenerator.generateRoute,
+                navigatorKey: NavigationService.navigatorKey,
               ),
             ),
           );

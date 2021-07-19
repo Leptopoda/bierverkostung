@@ -26,12 +26,10 @@ part 'package:bierverkostung/services/import_data.dart';
 class ImportDataSettings extends StatelessWidget {
   const ImportDataSettings({Key? key}) : super(key: key);
 
-  static const TextStyle _text = TextStyle(
-    fontSize: 18,
-  );
-
   @override
   Widget build(BuildContext context) {
+    final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
+
     if (!kIsWeb) {
       return ListView(
         padding: const EdgeInsets.all(16.0),

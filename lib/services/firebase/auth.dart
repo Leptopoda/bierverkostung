@@ -10,7 +10,7 @@ import 'package:bierverkostung/services/firebase/database.dart';
 
 /// Helpers for creating and managing users on firebase auth.
 class AuthService {
-  const AuthService();
+  const AuthService._();
 
   /// the current [FirebaseAuth] isntance
   static final FirebaseAuth _auth = FirebaseAuth.instance;

@@ -50,8 +50,6 @@ class UserSettings extends StatelessWidget {
                     backgroundImage: (user.photoURL != null)
                         ? NetworkImage(user.photoURL!)
                         : null,
-                    // backgroundColor: Colors.black,
-                    // foregroundColor: Colors.white,
                     child: (user.photoURL == null)
                         ? const Icon(
                             Icons.person_outline,
@@ -111,9 +109,6 @@ class UserSettings extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(200, 40),
                 primary: Theme.of(context).accentColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
               ),
               onPressed: () => {},
               child: const Text('Upgrade to Pro'),
@@ -124,9 +119,6 @@ class UserSettings extends StatelessWidget {
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(200, 40),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
               ),
               onPressed: () => showDialog(
                 context: context,

@@ -10,32 +10,30 @@ import {dataCenter} from "../comon";
 import {addGroupUpdate, removeGroupUpdate} from "./updateGroupData";
 
 
-export const addGroup = region(dataCenter)
+export const removeGroup = region(dataCenter)
     .https.onCall(async (data, context) => {
-      // check request is made by a group member or new user
-      if (context?.auth?.token["group_id"] !== data.guid &&
-          context?.auth?.token["user_id"] !== data.guid) {
-        console.log(`${context?.auth?.token["user_id"]} 
-        insufficient permission`);
-        return {error: "Only members of the group can add other members"};
-      }
-
       // get user and add admin custom claim
       try {
         const user = await auth().getUser(data.uid);
 
-        if (user.customClaims?.["group_id"] == data.guid) {
-          return {message: "User is already in the group"};
+        // check request is made by a group member or new user
+        if (context?.auth?.token["group_id"] !== user
+            .customClaims?.["group_id"] &&
+            context?.auth?.token["user_id"] !== user
+                .customClaims?.["group_id"]) {
+          console.log(`${context?.auth?.token["user_id"]} 
+          insufficient permission`);
+          return {error: "Only members of the group can remove other members"};
         }
 
         await removeGroupUpdate(user.uid, user.customClaims?.["group_id"]);
-        await setGroupClaims(user.uid, data.guid);
-        await addGroupUpdate(user.uid, data.guid);
+        await setGroupClaims(user.uid, user.uid);
+        await addGroupUpdate(user.uid, user.uid);
 
         const payload: messaging.MessagingPayload = {
           notification: {
             title: "New Group!",
-            body: `you have been added to the group ${data.guid}`,
+            body: `you have been added to the group ${user.uid}`,
             // icon: "your-icon-url",
             click_action: "FLUTTER_NOTIFICATION_CLICK",
             auth_refresh: "true",
@@ -44,15 +42,13 @@ export const addGroup = region(dataCenter)
         await notifyUser(user.uid, payload);
 
         console.log(`${user.uid}
-    has been added to the group ${data.guid} 
-    by ${context?.auth?.token["user_id"]}`);
+        has been removed from their group 
+        by ${context?.auth?.token["user_id"]}`);
 
-        return {message:
-      `Success! ${user.uid}
-      has been added to the group ${data.guid}.`,
-        };
+        return {
+          message: `Success! ${user.uid} has been removedfrom the group.`};
       } catch (err) {
         console.log(err);
-        return err;
+        return {message: err};
       }
     });

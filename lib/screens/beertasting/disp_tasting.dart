@@ -24,16 +24,11 @@ class DispTasting extends StatelessWidget {
     required this.tablet,
   }) : super(key: key);
 
-  static const TextStyle _heading = TextStyle(
-    fontSize: 22,
-    color: Colors.yellow,
-  );
-  static const TextStyle _text = TextStyle(
-    fontSize: 18,
-  );
-
   @override
   Widget build(BuildContext context) {
+    final TextStyle? _heading = Theme.of(context).textTheme.headline5;
+    final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
+
     return Scaffold(
       appBar: !tablet
           ? AppBar(

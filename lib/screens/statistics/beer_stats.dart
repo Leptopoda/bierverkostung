@@ -43,7 +43,7 @@ class _StatisticsBeerChartState extends State<_StatisticsBeerChart> {
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Text(
                     AppLocalizations.of(context)!.beerOther,
-                    style: const TextStyle(fontSize: 18),
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ),
                 ..._legendItems(),

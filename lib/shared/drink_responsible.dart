@@ -11,7 +11,7 @@ class _DrinkResponsibleAlert extends StatelessWidget {
   const _DrinkResponsibleAlert({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  AlertDialog build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
       title: Text(AppLocalizations.of(context)!.drinkSafe),

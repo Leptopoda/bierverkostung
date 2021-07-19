@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:convert' show jsonEncode;
 import 'dart:developer' as developer show log;
 
+import 'package:bierverkostung/models/group.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
 import 'package:firebase_auth/firebase_auth.dart' show User;
 
@@ -18,7 +19,7 @@ import 'package:bierverkostung/models/money_calc.dart';
 
 /// Helpers to save data to cloud firestore.
 class DatabaseService {
-  const DatabaseService();
+  const DatabaseService._();
   // Firestore instance
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final User _user = AuthService.getUser!;
@@ -184,5 +185,33 @@ class DatabaseService {
   /// clears the locally cached data
   static Future<void> clearLocalCache() async {
     await _firestore.clearPersistence();
+  }
+
+  static final _groupRef = _firestore
+      .collection('groups')
+      .doc(_groupID)
+      .collection('group-info')
+      .doc(_groupID)
+      .withConverter(
+        fromFirestore: (snapshot, _) => Group.fromJson(snapshot.data()!),
+        toFirestore: (Group group, _) => group.toJson(),
+      );
+  // Group
+  /// save Group
+  static Future<void> saveGroup(Group group) async {
+    try {
+      await _groupRef.set(group);
+    } catch (error) {
+      developer.log(
+        'error saving beer',
+        name: 'leptopoda.bierverkostung.DatabaseService',
+        error: jsonEncode(error.toString()),
+      );
+    }
+  }
+
+  /// get group data stream
+  static Future<Group> get group {
+    return _groupRef.get().then((value) => value.data()!);
   }
 }

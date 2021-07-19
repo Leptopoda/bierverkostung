@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bierverkostung/gen/colors.gen.dart';
 import 'package:intl/intl.dart';
 
 import 'package:bierverkostung/services/firebase/database.dart';
@@ -78,11 +79,11 @@ class _CalculatedList extends StatelessWidget {
                   child: ListTile(
                     title: Text(
                       'Buyer: ${snapshot.data![index].buyer}',
-                      style: const TextStyle(fontSize: 18),
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                     subtitle: RichText(
                       text: TextSpan(
-                        style: const TextStyle(fontSize: 14),
+                        style: Theme.of(context).textTheme.subtitle2,
                         children: <TextSpan>[
                           TextSpan(
                               text:
@@ -94,8 +95,8 @@ class _CalculatedList extends StatelessWidget {
                             text: NumberFormat('#0.0#')
                                 .format(snapshot.data![index].amount),
                             style: (snapshot.data![index].amount >= 0)
-                                ? const TextStyle(color: Colors.green)
-                                : const TextStyle(color: Colors.red),
+                                ? const TextStyle(color: ColorName.green)
+                                : const TextStyle(color: ColorName.red),
                           ),
                         ],
                       ),
@@ -147,11 +148,11 @@ class _MoneyList extends StatelessWidget {
                   child: ListTile(
                     title: Text(
                       'Date: ${snapshot.data![index].timestamp}',
-                      style: const TextStyle(fontSize: 18),
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                     subtitle: RichText(
                       text: TextSpan(
-                        style: const TextStyle(fontSize: 14),
+                        style: Theme.of(context).textTheme.subtitle2,
                         children: <TextSpan>[
                           TextSpan(
                               text: 'Buyer: ${snapshot.data![index].buyer}\n'),
@@ -162,8 +163,8 @@ class _MoneyList extends StatelessWidget {
                             text: NumberFormat('#0.0#')
                                 .format(snapshot.data![index].amount),
                             style: (snapshot.data![index].amount >= 0)
-                                ? const TextStyle(color: Colors.green)
-                                : const TextStyle(color: Colors.red),
+                                ? const TextStyle(color: ColorName.green)
+                                : const TextStyle(color: ColorName.red),
                           ),
                         ],
                       ),

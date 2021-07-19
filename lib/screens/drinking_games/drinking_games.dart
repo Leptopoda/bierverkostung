@@ -53,7 +53,7 @@ class Trinkspiele extends StatelessWidget {
           leading: const Icon(Icons.message_outlined),
           title: Text(
             _spiele[index],
-            style: const TextStyle(fontSize: 18),
+            style: Theme.of(context).textTheme.bodyText2,
           ),
           trailing: const Icon(Icons.keyboard_arrow_right),
         );

@@ -17,7 +17,7 @@ import 'package:bierverkostung/services/firebase/auth.dart';
 
 /// Helpers to upload files to the Firebase cloud storage.
 class CloudStorageService {
-  const CloudStorageService();
+  const CloudStorageService._();
 
   /// CloudSotrage instance
   static final FirebaseStorage _storage = FirebaseStorage.instance;
