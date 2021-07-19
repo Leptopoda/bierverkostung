@@ -28,7 +28,6 @@ class StatisticsFab extends StatelessWidget {
 }
 
 enum _Beer { small, big }
-// const _biggerFont = TextStyle(fontSize: 18.0);
 
 /// New Stats Alert
 ///

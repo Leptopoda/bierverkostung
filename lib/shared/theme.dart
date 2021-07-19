@@ -25,7 +25,13 @@ class _AppTheme {
     ),
   );
   static const _textTheme = TextTheme(
+    headline5: TextStyle(
+      fontSize: 22,
+      color: _primarySwatch,
+      fontWeight: FontWeight.w500,
+    ),
     bodyText2: TextStyle(fontSize: 18),
+    subtitle2: TextStyle(fontSize: 14),
   );
 
   /// returns the light theme

@@ -82,7 +82,7 @@ class _CalculatedList extends StatelessWidget {
                     ),
                     subtitle: RichText(
                       text: TextSpan(
-                        style: const TextStyle(fontSize: 14),
+                        style: Theme.of(context).textTheme.subtitle2,
                         children: <TextSpan>[
                           TextSpan(
                               text:
@@ -151,7 +151,7 @@ class _MoneyList extends StatelessWidget {
                     ),
                     subtitle: RichText(
                       text: TextSpan(
-                        style: const TextStyle(fontSize: 14),
+                        style: Theme.of(context).textTheme.subtitle2,
                         children: <TextSpan>[
                           TextSpan(
                               text: 'Buyer: ${snapshot.data![index].buyer}\n'),

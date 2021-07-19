@@ -41,11 +41,6 @@ class _NewTastingState extends State<NewTasting> {
 
   Beer? _beer;
 
-  static const TextStyle _heading = TextStyle(
-    fontSize: 22,
-    color: Colors.yellow,
-  );
-
   int _colourEbc = 4;
   int _foamStability = 1;
   int _bitternessRating = 1;
@@ -99,6 +94,7 @@ class _NewTastingState extends State<NewTasting> {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle? _heading = Theme.of(context).textTheme.headline5;
     final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
 
     return Scaffold(

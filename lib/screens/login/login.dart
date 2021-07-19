@@ -50,11 +50,7 @@ class _LoginState extends State<Login> {
                 alignment: Alignment.center,
                 child: Text(
                   AppLocalizations.of(context)!.beertasting,
-                  style: const TextStyle(
-                    color: Colors.yellow,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 30,
-                  ),
+                  style: Theme.of(context).textTheme.headline5,
                 ),
               ),
               const SizedBox(height: 20),

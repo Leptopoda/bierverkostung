@@ -31,7 +31,7 @@ class SomethingWentWrong extends StatelessWidget {
             children: <Widget>[
               Text(
                 AppLocalizations.of(context)!.somethingWentWrong,
-                style: const TextStyle(fontSize: 22.0),
+                style: Theme.of(context).textTheme.headline5,
               ),
               const SizedBox(height: 18),
               Expanded(
