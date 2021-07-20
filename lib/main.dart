@@ -20,28 +20,28 @@ import 'package:firebase_storage/firebase_storage.dart' show FirebaseStorage;
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/shared/loading.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
-import 'package:bierverkostung/services/route_generator.dart';
+import 'package:bierverkostung/services/navigation/navigation.dart';
 
 import 'package:bierverkostung/screens/home.dart';
 import 'package:bierverkostung/screens/login/login.dart';
 
 part 'package:bierverkostung/shared/firebase_setup.dart';
-part 'shared/theme.dart';
-part 'screens/login_controller.dart';
-part 'shared/enviornment_config.dart';
+part 'package:bierverkostung/shared/theme.dart';
+part 'package:bierverkostung/screens/login_controller.dart';
+part 'package:bierverkostung/shared/enviornment_config.dart';
 
 /// Runs the app.
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(_MyApp());
 }
 
 /// Root widget in the Widget tree.
 ///
 /// This Widget only contains the Loading screen,
 /// firebase initialization logic and [User] stream.
-class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+class _MyApp extends StatelessWidget {
+  _MyApp({Key? key}) : super(key: key);
 
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
     return FutureBuilder(
       // Initialize FlutterFire:
       future: _initialization,
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot<FirebaseApp> snapshot) {
         // Check for errors
         if (snapshot.hasError) {
           return SomethingWentWrong(
@@ -66,6 +66,14 @@ class MyApp extends StatelessWidget {
               StreamProvider<User?>.value(
                 value: AuthService.user,
                 initialData: null,
+                catchError: (context, err) {
+                  if ((_EnvironmentConfig.localFirebase ||
+                          _EnvironmentConfig.localFirebaseIP != 'localhost') &&
+                      err.toString().contains('[ INVALID_REFRESH_TOKEN ]')) {
+                    AuthService.signOut();
+                    debugPrint('User has been auto singed out because of $err');
+                  }
+                },
               ),
             ],
             child: Shortcuts(
@@ -80,13 +88,12 @@ class MyApp extends StatelessWidget {
                 theme: _AppTheme.lightTheme,
                 darkTheme: _AppTheme.darkTheme,
                 onGenerateTitle: (BuildContext context) =>
-                    (AppLocalizations.of(context) != null)
-                        ? AppLocalizations.of(context)!.beertasting
-                        : 'Beertasting',
+                    AppLocalizations.of(context).beertasting,
 
                 home: const _LoginController(),
                 //initialRoute: '/Login',
                 onGenerateRoute: RouteGenerator.generateRoute,
+                navigatorKey: NavigationService.navigatorKey,
               ),
             ),
           );

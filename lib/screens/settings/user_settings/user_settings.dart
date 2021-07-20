@@ -18,9 +18,9 @@ import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/shared/image_provider_modal.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 
-part 'crop_profile.dart';
-part 'logout_alert.dart';
-part 'logout_alert_anon.dart';
+part 'package:bierverkostung/screens/settings/user_settings/crop_profile.dart';
+part 'package:bierverkostung/screens/settings/user_settings/logout_alert.dart';
+part 'package:bierverkostung/screens/settings/user_settings/logout_alert_anon.dart';
 
 /// Settings screen for managing the current User
 ///
@@ -50,8 +50,6 @@ class UserSettings extends StatelessWidget {
                     backgroundImage: (user.photoURL != null)
                         ? NetworkImage(user.photoURL!)
                         : null,
-                    // backgroundColor: Colors.black,
-                    // foregroundColor: Colors.white,
                     child: (user.photoURL == null)
                         ? const Icon(
                             Icons.person_outline,
@@ -72,7 +70,7 @@ class UserSettings extends StatelessWidget {
                         iconSize: 15,
                         padding: EdgeInsets.zero,
                         splashRadius: 18,
-                        tooltip: AppLocalizations.of(context)!
+                        tooltip: AppLocalizations.of(context)
                             .settings_userManagement_changeProfile,
                         onPressed: () => _changeAvatar(context),
                         icon: const Icon(
@@ -91,7 +89,7 @@ class UserSettings extends StatelessWidget {
                 style: Theme.of(context).textTheme.subtitle2,
                 initialValue: user.displayName ?? user.uid,
                 decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!
+                  labelText: AppLocalizations.of(context)
                       .settings_userManagement_username,
                   suffixIcon: const Icon(Icons.edit_outlined),
                   border: InputBorder.none,
@@ -103,7 +101,7 @@ class UserSettings extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              user.email ?? AppLocalizations.of(context)!.login_anonymous,
+              user.email ?? AppLocalizations.of(context).login_anonymous,
               style: Theme.of(context).textTheme.caption,
             ),
             /* const SizedBox(height: 10),
@@ -111,9 +109,6 @@ class UserSettings extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(200, 40),
                 primary: Theme.of(context).accentColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
               ),
               onPressed: () => {},
               child: const Text('Upgrade to Pro'),
@@ -124,9 +119,6 @@ class UserSettings extends StatelessWidget {
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(200, 40),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
               ),
               onPressed: () => showDialog(
                 context: context,
@@ -134,8 +126,8 @@ class UserSettings extends StatelessWidget {
                     ? const _LogOutAnonAlert()
                     : const _LogOutAlert(),
               ),
-              icon: const Icon(Icons.login_outlined),
-              label: Text(AppLocalizations.of(context)!.settings_logOut),
+              icon: const Icon(Icons.logout_outlined),
+              label: Text(AppLocalizations.of(context).settings_logOut),
             ),
           ],
         ),
@@ -170,7 +162,8 @@ class UserSettings extends StatelessWidget {
   /// crops the picture at [path] to a square
   static Future<dynamic> _cropImage(BuildContext context, String path) async {
     if (kIsWeb) {
-      return Navigator.of(context).push<Uint8List?>(
+      return Navigator.push<Uint8List?>(
+        context,
         MaterialPageRoute<Uint8List?>(
           builder: (BuildContext context) => _CropProfileWeb(
             imagePath: path,
@@ -186,7 +179,7 @@ class UserSettings extends StatelessWidget {
         cropStyle: CropStyle.circle,
         androidUiSettings: AndroidUiSettings(
           toolbarTitle:
-              AppLocalizations.of(context)?.settings_userManagement_cropImage,
+              AppLocalizations.of(context).settings_userManagement_cropImage,
           toolbarColor: theme.appBarTheme.backgroundColor ??
               (colorScheme.brightness == Brightness.dark
                   ? colorScheme.surface
@@ -201,8 +194,7 @@ class UserSettings extends StatelessWidget {
           lockAspectRatio: false,
         ),
         iosUiSettings: IOSUiSettings(
-          title:
-              AppLocalizations.of(context)?.settings_userManagement_cropImage,
+          title: AppLocalizations.of(context).settings_userManagement_cropImage,
         ),
       );
     }

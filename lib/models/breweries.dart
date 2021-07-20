@@ -23,14 +23,14 @@ class Brewery {
     this.country,
   });
 
-  /// decodes a Json into a [Brewerie] obbject
+  /// decodes a Json into a [Brewery] obbject
   factory Brewery.fromJson(Map<String, dynamic> json) =>
       _$BreweryFromJson(json);
 
-  /// encodes a Json from a [Brewerie] obbject
+  /// encodes a Json from a [Brewery] obbject
   Map<String, dynamic> toJson() => _$BreweryToJson(this);
 
-  /// decodes a Json style map into a [Brewerie] obbject
+  /// decodes a Json style map into a [Brewery] obbject
   @Deprecated('use from and to json for en/decode')
   factory Brewery.fromMap(Map data) {
     return Brewery(
@@ -40,7 +40,7 @@ class Brewery {
     );
   }
 
-  /// encodes a Json style map into a [Brewerie] obbject
+  /// encodes a Json style map into a [Brewery] obbject
   @Deprecated('use from and to json for en/decode')
   Map<String, dynamic> toMap() {
     return {

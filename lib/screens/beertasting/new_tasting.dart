@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:bierverkostung/screens/beertasting/color_to_ebc.dart';
+
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
@@ -14,9 +16,7 @@ import 'package:bierverkostung/models/tastings.dart';
 ///
 /// It exposes the fields of a [Tasting] into a UI
 class NewTasting extends StatefulWidget {
-  const NewTasting({
-    Key? key,
-  }) : super(key: key);
+  const NewTasting({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _NewTastingState();
@@ -43,15 +43,7 @@ class _NewTastingState extends State<NewTasting> {
 
   Beer? _beer;
 
-  static const TextStyle _heading = TextStyle(
-    fontSize: 22,
-    color: Colors.yellow,
-  );
-  static const TextStyle _text = TextStyle(
-    fontSize: 18,
-  );
-
-  int _colourEbc = 4;
+  int? _colourEbc;
   int _foamStability = 1;
   int _bitternessRating = 1;
   int _sweetnessRating = 1;
@@ -104,9 +96,12 @@ class _NewTastingState extends State<NewTasting> {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle? _heading = Theme.of(context).textTheme.headline5;
+    final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.beertasting_newTasting),
+        title: Text(AppLocalizations.of(context).beertasting_newTasting),
       ),
       body: Form(
         key: _formKey,
@@ -114,7 +109,7 @@ class _NewTastingState extends State<NewTasting> {
           padding: const EdgeInsets.all(30.0),
           children: <Widget>[
             Text(
-              AppLocalizations.of(context)!.beertasting_general,
+              AppLocalizations.of(context).beertasting_general,
               style: _heading,
             ),
             // InputDatePickerFormField(firstDate: DateTime(2015), lastDate: DateTime(2100)),
@@ -124,7 +119,7 @@ class _NewTastingState extends State<NewTasting> {
               controller: _dateController,
               onTap: () => _selectDate(context),
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.beertasting_date,
+                labelText: AppLocalizations.of(context).beertasting_date,
                 suffixIcon: const Icon(Icons.calendar_today_outlined),
               ),
             ),
@@ -132,7 +127,7 @@ class _NewTastingState extends State<NewTasting> {
               style: _text,
               controller: _location,
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.beertasting_location,
+                labelText: AppLocalizations.of(context).beertasting_location,
                 suffixIcon: const Icon(Icons.location_on_outlined),
               ),
             ),
@@ -142,24 +137,23 @@ class _NewTastingState extends State<NewTasting> {
               controller: _beerName,
               onTap: () => _selectBeer(context),
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.beerOne,
+                labelText: AppLocalizations.of(context).beerOne,
               ),
               validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return AppLocalizations.of(context)!.form_required;
-                }
-                return null;
+                return (value == null || value.isEmpty)
+                    ? AppLocalizations.of(context).form_required
+                    : null;
               },
             ),
             Text(
-              AppLocalizations.of(context)!.beertasting_opticalAppearence,
+              AppLocalizations.of(context).beertasting_opticalAppearence,
               style: _heading,
             ),
             TextFormField(
               style: _text,
               controller: _foamColour,
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.beertasting_foamColour,
+                labelText: AppLocalizations.of(context).beertasting_foamColour,
                 suffixIcon: const Icon(Icons.color_lens_outlined),
               ),
             ),
@@ -168,10 +162,10 @@ class _NewTastingState extends State<NewTasting> {
               controller: _foamStructure,
               decoration: InputDecoration(
                 labelText:
-                    AppLocalizations.of(context)!.beertasting_foamStructure,
+                    AppLocalizations.of(context).beertasting_foamStructure,
               ),
             ),
-            Text(AppLocalizations.of(context)!.beertasting_foamStability),
+            Text(AppLocalizations.of(context).beertasting_foamStability),
             Slider(
               value: _foamStability.toDouble(),
               // min: 0,
@@ -187,24 +181,34 @@ class _NewTastingState extends State<NewTasting> {
                 (int? val) {
                   return DropdownMenuItem(
                     value: val,
-                    child: Text('$val'),
+                    child: Row(
+                      children: [
+                        Text('$val'),
+                        Icon(
+                          Icons.circle,
+                          color: EbcColor.toColor(val),
+                        ),
+                      ],
+                    ),
                   );
                 },
               ).toList(),
-              onChanged: (int? val) => setState(() => _colourEbc = val!),
+              onChanged: (int? val) => setState(() => _colourEbc = val),
               decoration: InputDecoration(
                 labelText: 'EBC',
-                suffixIcon: Icon(
-                  Icons.circle,
-                  color: Colors.yellow[800],
-                ),
+                suffixIcon: (_colourEbc != null)
+                    ? Icon(
+                        Icons.circle,
+                        color: EbcColor.toColor(_colourEbc),
+                      )
+                    : null,
               ),
             ),
             TextFormField(
               style: _text,
               controller: _beerColour,
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.beertasting_beerColour,
+                labelText: AppLocalizations.of(context).beertasting_beerColour,
               ),
             ),
             TextFormField(
@@ -212,28 +216,28 @@ class _NewTastingState extends State<NewTasting> {
               controller: _beerColourDesc,
               decoration: InputDecoration(
                 labelText:
-                    AppLocalizations.of(context)!.beertasting_colorDescription,
+                    AppLocalizations.of(context).beertasting_colorDescription,
               ),
             ),
             TextFormField(
               style: _text,
               controller: _clarity,
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.beertasting_clarity,
+                labelText: AppLocalizations.of(context).beertasting_clarity,
               ),
             ),
             Text(
-              AppLocalizations.of(context)!.beertasting_taste,
+              AppLocalizations.of(context).beertasting_taste,
               style: _heading,
             ),
             TextFormField(
               style: _text,
               controller: _mouthFeelDesc,
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.beertasting_mmouthFeel,
+                labelText: AppLocalizations.of(context).beertasting_mmouthFeel,
               ),
             ),
-            Text(AppLocalizations.of(context)!.beertasting_bitterness),
+            Text(AppLocalizations.of(context).beertasting_bitterness),
             Slider(
               value: _bitternessRating.toDouble(),
               // min: 0,
@@ -243,7 +247,7 @@ class _NewTastingState extends State<NewTasting> {
               onChanged: (double value) =>
                   setState(() => _bitternessRating = value.round()),
             ),
-            Text(AppLocalizations.of(context)!.beertasting_sweetness),
+            Text(AppLocalizations.of(context).beertasting_sweetness),
             Slider(
               value: _sweetnessRating.toDouble(),
               // min: 0,
@@ -253,7 +257,7 @@ class _NewTastingState extends State<NewTasting> {
               onChanged: (double value) =>
                   setState(() => _sweetnessRating = value.round()),
             ),
-            Text(AppLocalizations.of(context)!.beertasting_acidity),
+            Text(AppLocalizations.of(context).beertasting_acidity),
             Slider(
               value: _acidityRating.toDouble(),
               // min: 0,
@@ -263,7 +267,7 @@ class _NewTastingState extends State<NewTasting> {
               onChanged: (double value) =>
                   setState(() => _acidityRating = value.round()),
             ),
-            Text(AppLocalizations.of(context)!.beertasting_bodyFullness),
+            Text(AppLocalizations.of(context).beertasting_bodyFullness),
             Slider(
               value: _fullBodiedRating.toDouble(),
               // min: 0,
@@ -278,17 +282,17 @@ class _NewTastingState extends State<NewTasting> {
               controller: _bodyDesc,
               decoration: InputDecoration(
                 labelText:
-                    AppLocalizations.of(context)!.beertasting_bodyDescription,
+                    AppLocalizations.of(context).beertasting_bodyDescription,
               ),
             ),
             TextFormField(
               style: _text,
               controller: _aftertasteDesc,
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.beertasting_aftertaste,
+                labelText: AppLocalizations.of(context).beertasting_aftertaste,
               ),
             ),
-            Text(AppLocalizations.of(context)!.beertasting_aftertasteRating),
+            Text(AppLocalizations.of(context).beertasting_aftertasteRating),
             Slider(
               value: _aftertasteRating.toDouble(),
               // min: 0,
@@ -303,21 +307,21 @@ class _NewTastingState extends State<NewTasting> {
               controller: _foodRecommendation,
               decoration: InputDecoration(
                 labelText:
-                    AppLocalizations.of(context)!.beertasting_foodRecomendation,
+                    AppLocalizations.of(context).beertasting_foodRecomendation,
               ),
             ),
             Text(
-              AppLocalizations.of(context)!.beertasting_conclusion,
+              AppLocalizations.of(context).beertasting_conclusion,
               style: _heading,
             ),
             TextFormField(
               style: _text,
               controller: _totalImpressionDesc,
               decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!
-                      .beertasting_totalImpression),
+                  labelText:
+                      AppLocalizations.of(context).beertasting_totalImpression),
             ),
-            Text(AppLocalizations.of(context)!.beertasting_totalRating),
+            Text(AppLocalizations.of(context).beertasting_totalRating),
             Slider(
               value: _totalImpressionRating.toDouble(),
               min: 1,
@@ -329,7 +333,7 @@ class _NewTastingState extends State<NewTasting> {
             ),
             ElevatedButton(
               onPressed: () => _submit(context),
-              child: Text(AppLocalizations.of(context)!.form_submit),
+              child: Text(AppLocalizations.of(context).form_submit),
             ),
           ],
         ),
@@ -345,7 +349,7 @@ class _NewTastingState extends State<NewTasting> {
       // you'd often call a server or save the information in a database.
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.loading_processingData),
+          content: Text(AppLocalizations.of(context).loading_processingData),
         ),
       );
       _formKey.currentState!.save();
@@ -375,7 +379,7 @@ class _NewTastingState extends State<NewTasting> {
       );
       await DatabaseService.saveTasting(_tasting);
 
-      Navigator.of(context).pop();
+      Navigator.pop(context);
     }
   }
 
@@ -384,9 +388,7 @@ class _NewTastingState extends State<NewTasting> {
     _beer = await Navigator.pushNamed<Beer?>(context, '/BeerList');
 
     if (_beer != null) {
-      setState(() {
-        _beerName.text = _beer!.beerName;
-      });
+      setState(() => _beerName.text = _beer!.beerName);
     }
   }
 
@@ -399,11 +401,9 @@ class _NewTastingState extends State<NewTasting> {
       lastDate: DateTime(2100),
     );
     if (_picked != null) {
+      _selectedDate = _picked;
       setState(
-        () {
-          _selectedDate = _picked;
-          _dateController.text = DateFormat.yMMMMd().format(_selectedDate);
-        },
+        () => _dateController.text = DateFormat.yMMMMd().format(_selectedDate),
       );
     }
   }

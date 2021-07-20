@@ -8,7 +8,7 @@ part of 'package:bierverkostung/screens/settings/import_data_settings.dart';
 ///
 /// Responsible for extracting, parsing and saving the data
 class _ImportDataService {
-  const _ImportDataService();
+  const _ImportDataService._();
 
   /// imports the data of the picked file
   static Future<void> importData(File archive) async {

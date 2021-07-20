@@ -8,6 +8,11 @@ part of 'package:bierverkostung/main.dart';
 ///
 /// Enables devs to start the app with compile time options
 class _EnvironmentConfig {
+  const _EnvironmentConfig._();
+
+  /// gets wather we currently are in an emulator
+  static bool get isLocal => localFirebase || localFirebaseIP != 'localhost';
+
   /// defines the usage of the firebase emulator on [localhost]
   static const localFirebase = bool.fromEnvironment(
     'local_firebase',

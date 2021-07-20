@@ -40,8 +40,7 @@ class BeerTasting extends StatelessWidget {
           default:
             if (!snapshot.hasData) {
               return Center(
-                child:
-                    Text(AppLocalizations.of(context)!.beertasting_noTasting),
+                child: Text(AppLocalizations.of(context).beertasting_noTasting),
               );
             }
 
@@ -64,12 +63,12 @@ class BeerTasting extends StatelessWidget {
                 return ListTile(
                   title: Text(
                     'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date}',
-                    style: const TextStyle(fontSize: 18),
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                 );
               },
               floatingActionButton: FloatingActionButton(
-                onPressed: () => Navigator.of(context).pushNamed('/NewTasting'),
+                onPressed: () => Navigator.pushNamed(context, '/NewTasting'),
                 child: const Icon(Icons.add),
               ),
             );

@@ -24,73 +24,73 @@ class BurningRingOfFire extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> _description = [
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_ace,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_two,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_three,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_four,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_five,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_six,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_seven,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_eight,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_nine,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_ten,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_jack,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_queen,
-      AppLocalizations.of(context)!
+      AppLocalizations.of(context)
           .drinkingGames_burningRingOfFire_description_king,
     ];
 
     final List<Widget> _gameDescription = [
       ListTile(
-        title: Text(AppLocalizations.of(context)!.drinkingGames_generalRules),
+        title: Text(AppLocalizations.of(context).drinkingGames_generalRules),
       ),
       ListTile(
         leading: const Text('1'),
-        title: Text(AppLocalizations.of(context)!
+        title: Text(AppLocalizations.of(context)
             .drinkingGames_burningRingOfFire_rules_1),
       ),
       ListTile(
         leading: const Text('2'),
-        title: Text(AppLocalizations.of(context)!
+        title: Text(AppLocalizations.of(context)
             .drinkingGames_burningRingOfFire_rules_2),
       ),
       ListTile(
         leading: const Text('3'),
-        title: Text(AppLocalizations.of(context)!
+        title: Text(AppLocalizations.of(context)
             .drinkingGames_burningRingOfFire_rules_3),
       ),
       ListTile(
         leading: const Text('4'),
-        title: Text(AppLocalizations.of(context)!
+        title: Text(AppLocalizations.of(context)
             .drinkingGames_burningRingOfFire_rules_4),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context)!
+        title: Text(AppLocalizations.of(context)
             .drinkingGames_burningRingOfFire_rules_extra),
       ),
       ListTile(
-        title: Text(AppLocalizations.of(context)!.drinkingGames_materials),
+        title: Text(AppLocalizations.of(context).drinkingGames_materials),
       ),
       ListTile(
         leading: const Text('1'),
-        title: Text(AppLocalizations.of(context)!
+        title: Text(AppLocalizations.of(context)
             .drinkingGames_burningRingOfFire_materials_1),
       ),
       ListTile(
         leading: const Text('2'),
-        title: Text(AppLocalizations.of(context)!
+        title: Text(AppLocalizations.of(context)
             .drinkingGames_burningRingOfFire_materials_2),
       ),
     ];

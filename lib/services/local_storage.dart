@@ -7,10 +7,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Helpers to handle local KV storage
 class LocalDatabaseService {
-  const LocalDatabaseService();
+  const LocalDatabaseService._();
 
+  /// key for the firstRun parameter
   static const String _firstRun = 'first_run';
+
+  /// key for the drinkResponsible parameter
   static const String _drinkResponsible = 'drink_responsible';
+
+  /// key for the drinkSafe parameter
   static const String _drinkSafe = 'drink_safe';
 
   /// sets the FirstLogin parameter
@@ -20,9 +25,9 @@ class LocalDatabaseService {
   }
 
   /// gets the FirstLogin parameter
-  static Future<bool?> getFirstLogin() async {
+  static Future<bool> getFirstLogin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_firstRun);
+    return prefs.getBool(_firstRun) ?? false;
   }
 
   /// sets the DrinkResponsible parameter

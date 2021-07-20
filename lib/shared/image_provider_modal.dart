@@ -40,26 +40,26 @@ class PickImageModal extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              AppLocalizations.of(context)!.settings_userManagement_choosePhoto,
+              AppLocalizations.of(context).settings_userManagement_choosePhoto,
               style: Theme.of(context).textTheme.headline6,
             ),
             if (!kIsWeb)
               ListTile(
                 leading: const Icon(Icons.camera_alt_outlined),
-                title: Text(AppLocalizations.of(context)!
+                title: Text(AppLocalizations.of(context)
                     .settings_userManagement_takePhoto),
                 onTap: () => _getCameraImage(context),
               ),
             ListTile(
               leading: const Icon(Icons.photo_library_outlined),
-              title: Text(AppLocalizations.of(context)!
+              title: Text(AppLocalizations.of(context)
                   .settings_userManagement_chooseGallery),
               onTap: () => _getGalleryImage(context),
             ),
             if (removeCallback != null)
               ListTile(
                 leading: const Icon(Icons.delete_outline_rounded),
-                title: Text(AppLocalizations.of(context)!
+                title: Text(AppLocalizations.of(context)
                     .settings_userManagement_removePhoto),
                 onTap: () {
                   Navigator.pop(context);

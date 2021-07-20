@@ -20,7 +20,7 @@ class AlcoholCalculatorButton extends StatelessWidget {
     return IconButton(
       // TODO: chane icon
       icon: const Icon(Icons.no_drinks_outlined),
-      tooltip: AppLocalizations.of(context)!.alcoholCalculator,
+      tooltip: AppLocalizations.of(context).alcoholCalculator,
       onPressed: () {
         Navigator.pushNamed(context, '/AlcoholCalculator');
       },
@@ -69,14 +69,14 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.alcoholCalculator),
+        title: Text(AppLocalizations.of(context).alcoholCalculator),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         // reverse: true,
         children: <Widget>[
           RadioListTile<_Gender>(
-            title: Text(AppLocalizations.of(context)!.alcoholCalculator_female),
+            title: Text(AppLocalizations.of(context).alcoholCalculator_female),
             value: _Gender.female,
             groupValue: character,
             onChanged: (_Gender? value) {
@@ -86,7 +86,7 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
             },
           ),
           RadioListTile<_Gender>(
-            title: Text(AppLocalizations.of(context)!.alcoholCalculator_male),
+            title: Text(AppLocalizations.of(context).alcoholCalculator_male),
             value: _Gender.male,
             groupValue: character,
             onChanged: (_Gender? value) {
@@ -95,7 +95,7 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
               });
             },
           ),
-          Text(AppLocalizations.of(context)!.alcoholCalculator_age),
+          Text(AppLocalizations.of(context).alcoholCalculator_age),
           Slider(
             value: _age.toDouble(),
             // min: 0,
@@ -104,7 +104,7 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
             divisions: 100,
             label: _age.toString(),
           ),
-          Text(AppLocalizations.of(context)!.alcoholCalculator_weight),
+          Text(AppLocalizations.of(context).alcoholCalculator_weight),
           Slider(
             value: _mass.toDouble(),
             min: 10,
@@ -113,7 +113,7 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
             divisions: 140,
             label: _mass.toString(),
           ),
-          Text(AppLocalizations.of(context)!.alcoholCalculator_height),
+          Text(AppLocalizations.of(context).alcoholCalculator_height),
           Slider(
             value: _height.toDouble(),
             min: 120,
@@ -123,7 +123,7 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
             divisions: 100,
             label: _height.toString(),
           ),
-          Text(AppLocalizations.of(context)!.alcoholCalculator_stomach),
+          Text(AppLocalizations.of(context).alcoholCalculator_stomach),
           Slider(
             value: _stomachFill.toDouble(),
             // min: 0,
@@ -133,7 +133,7 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
             divisions: 10,
             label: '$_stomachFill',
           ),
-          Text(AppLocalizations.of(context)!.alcoholCalculator_drinkAmount),
+          Text(AppLocalizations.of(context).alcoholCalculator_drinkAmount),
           Slider(
             value: _amountDrink.toDouble(),
             // min: 0.0,
@@ -143,7 +143,7 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
             divisions: 100,
             label: _amountDrink.toString(),
           ),
-          Text(AppLocalizations.of(context)!.alcoholCalculator_alcohol),
+          Text(AppLocalizations.of(context).alcoholCalculator_alcohol),
           Slider(
             value: _alcohol,
             // min: 0.0,
@@ -152,7 +152,7 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
             divisions: 100,
             label: NumberFormat('#0.0#%').format(_alcohol),
           ),
-          Text(AppLocalizations.of(context)!.alcoholCalculator_time),
+          Text(AppLocalizations.of(context).alcoholCalculator_time),
           Slider(
             value: _time.toDouble(),
             // min: 0.0,
@@ -162,7 +162,6 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
             label: _time.toString(),
           ),
           Container(
-            // color: Colors.orange[200],
             padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
             decoration: BoxDecoration(
               border: Border(
@@ -171,7 +170,7 @@ class _AlcoholCalculatorState extends State<AlcoholCalculator> {
             ),
             child: Text(
               NumberFormat().format(_calculate()),
-              style: const TextStyle(fontSize: 18),
+              style: Theme.of(context).textTheme.bodyText2,
             ),
           ),
         ],

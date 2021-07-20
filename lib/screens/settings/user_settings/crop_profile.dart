@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of 'user_settings.dart';
+part of 'package:bierverkostung/screens/settings/user_settings/user_settings.dart';
 
 /// Image cropper used on the Web
 class _CropProfileWeb extends StatelessWidget {
@@ -20,7 +20,7 @@ class _CropProfileWeb extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context)!.settings_userManagement_cropImage,
+          AppLocalizations.of(context).settings_userManagement_cropImage,
         ),
       ),
       body: FutureBuilder<Uint8List>(
@@ -71,7 +71,7 @@ class _CropButtons extends StatelessWidget {
       children: [
         IconButton(
           icon: const Icon(Icons.restore_outlined),
-          tooltip: AppLocalizations.of(context)!.settings_userManagement_reset,
+          tooltip: AppLocalizations.of(context).settings_userManagement_reset,
           onPressed: () {
             _cropController.aspectRatio = 1;
           },
@@ -80,7 +80,7 @@ class _CropButtons extends StatelessWidget {
           onPressed: () {
             _cropController.crop();
           },
-          child: Text(AppLocalizations.of(context)!.alert_continue),
+          child: Text(AppLocalizations.of(context).alert_continue),
         ),
       ],
     );
@@ -110,7 +110,7 @@ class _CropButtons extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(
-              AppLocalizations.of(context)!.settings_userManagement_cropImage),
+              AppLocalizations.of(context).settings_userManagement_cropImage),
         ),
         body: Center(
           child: Padding(
@@ -131,7 +131,7 @@ class _CropButtons extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.restore_outlined),
             tooltip:
-                AppLocalizations.of(context)!.settings_userManagement_reset,
+                AppLocalizations.of(context).settings_userManagement_reset,
             onPressed: () {
               controller.aspectRatio = 1.0;
               controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
@@ -139,7 +139,7 @@ class _CropButtons extends StatelessWidget {
           ),
           TextButton(
             onPressed: () => _finished(context),
-            child: Text(AppLocalizations.of(context)!.alert_continue),
+            child: Text(AppLocalizations.of(context).alert_continue),
           ),
         ],
       );

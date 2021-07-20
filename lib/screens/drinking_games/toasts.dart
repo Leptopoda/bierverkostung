@@ -60,13 +60,12 @@ class _ToastsState extends State<Toasts> {
       children: <Widget>[
         ElevatedButton(
           onPressed: () => _randomIndex(),
-          child:
-              Text(AppLocalizations.of(context)!.drinkingGames_toasts_random),
+          child: Text(AppLocalizations.of(context).drinkingGames_toasts_random),
         ),
         const SizedBox(height: 16),
         Center(
           child: Text(
-              AppLocalizations.of(context)!.drinkingGames_toasts_random_desc),
+              AppLocalizations.of(context).drinkingGames_toasts_random_desc),
         ),
         const SizedBox(height: 16),
         Slider(
@@ -80,7 +79,7 @@ class _ToastsState extends State<Toasts> {
         const SizedBox(height: 16),
         Center(
           child:
-              Text(AppLocalizations.of(context)!.drinkingGames_toasts_specific),
+              Text(AppLocalizations.of(context).drinkingGames_toasts_specific),
         ),
         const SizedBox(height: 16),
         Row(
@@ -89,20 +88,20 @@ class _ToastsState extends State<Toasts> {
             ElevatedButton(
               onPressed: () => _lastIndex(),
               child:
-                  Text(AppLocalizations.of(context)!.drinkingGames_toasts_back),
+                  Text(AppLocalizations.of(context).drinkingGames_toasts_back),
             ),
             const SizedBox(width: 16),
             ElevatedButton(
               onPressed: () => _nextIndex(),
               child:
-                  Text(AppLocalizations.of(context)!.drinkingGames_toasts_next),
+                  Text(AppLocalizations.of(context).drinkingGames_toasts_next),
             ),
           ],
         ),
         const SizedBox(height: 30),
         Text(
           widget.sprueche[_index - 1],
-          style: const TextStyle(fontSize: 18),
+          style: Theme.of(context).textTheme.bodyText2,
         ),
       ],
     );

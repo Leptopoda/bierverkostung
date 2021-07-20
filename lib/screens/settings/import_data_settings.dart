@@ -26,19 +26,17 @@ part 'package:bierverkostung/services/import_data.dart';
 class ImportDataSettings extends StatelessWidget {
   const ImportDataSettings({Key? key}) : super(key: key);
 
-  static const TextStyle _text = TextStyle(
-    fontSize: 18,
-  );
-
   @override
   Widget build(BuildContext context) {
+    final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
+
     if (!kIsWeb) {
       return ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           Center(
             child: Text(
-              AppLocalizations.of(context)!.settings_importData_desc,
+              AppLocalizations.of(context).settings_importData_desc,
               style: _text,
             ),
           ),
@@ -46,14 +44,14 @@ class ImportDataSettings extends StatelessWidget {
           ElevatedButton.icon(
             onPressed: () => _importData(context),
             icon: const Icon(Icons.import_export_outlined),
-            label: Text(AppLocalizations.of(context)!.settings_importData),
+            label: Text(AppLocalizations.of(context).settings_importData),
           ),
         ],
       );
     } else {
       return Center(
         child: Text(
-          AppLocalizations.of(context)!.settings_importData_web,
+          AppLocalizations.of(context).settings_importData_web,
           style: _text,
         ),
       );

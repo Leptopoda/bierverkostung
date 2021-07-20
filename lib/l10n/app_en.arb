@@ -1,3 +1,4 @@
+
 {
   "@@locale": "en",
   "login": "Login",
@@ -234,6 +235,28 @@
   "@alcoholCalculator_alcohol": {},
   "alcoholCalculator_time": "Time",
   "@alcoholCalculator_time": {},
+  "conference_joinCall": "Join Conference",
+  "conference_audioOnly": "Audio Only",
+  "conference_audioMuted": "Audio Muted",
+  "conference_videoMuted": "Video Muted",
+  "conference_roomNamePrefix": "beertasting_{groupName}",
+  "@conference_roomNamePrefix": {    
+    "placeholders": {
+      "groupName": {
+        "description": "Group Name or GroupID",
+        "example": "Y7e2uBFRBidqz0DQkYb6k0a7MYl2"
+      }
+    }
+  },
+  "conference_callNamePrefix": "Beertasting {groupName}",
+  "@conference_callNamePrefix": {    
+    "placeholders": {
+      "groupName": {
+        "description": "Group Name or GroupID",
+        "example": "Y7e2uBFRBidqz0DQkYb6k0a7MYl2"
+      }
+    }
+  },
   "conference": "Conference",
   "@conference": {},
   "settings": "Settings",
@@ -256,20 +279,45 @@
   "@settings_aboutUs_copyright": {},
   "settings_groupManagement": "Group Management",
   "@settings_groupManagement": {},
-  "settings_groupManagement_yourID": "Your ID",
-  "@settings_groupManagement_yourID": {},
-  "settings_groupManagement_scanCode": "press to scan",
-  "@settings_groupManagement_scanCode": {},
-  "settings_groupManagement_uid": "User ID",
-  "@settings_groupManagement_uid": {},
-  "settings_groupManagement_invalidUid": "Not a valid User",
-  "@settings_groupManagement_invalidUid": {},
-  "settings_groupManagement_addToGroup": "Add user to group",
-  "@settings_groupManagement_addToGroup": {},
-  "settings_groupManagement_refreshToken": "Reload Status",
-  "@settings_groupManagement_refreshToken": {},
-  "settings_groupManagement_scanErrorWeb": "Only IOS and Android are currently supported for scanning QR codes",
-  "@settings_groupManagement_scanErrorWeb": {},
+  "settings_groupManagement_memberCount": "{count,plural, =1{{count} member}other{{count} members}}",
+  "@settings_groupManagement_memberCount": {
+    "placeholders": {
+      "count": {
+        "description": "Count of group Members",
+        "example": "3"
+      }
+    }
+  },
+  "settings_groupManagement_deleteUser": "Remove User",
+  "settings_groupManagement_deleteUser_description": "Do you want to remove {user} from your group?",
+    "@settings_groupManagement_deleteUser_description": {
+    "placeholders": {
+      "user": {
+        "description": "UserID to delete from the group",
+        "example": "Y7e2uBFRBidqz0DQkYb6k0a7MYl2"
+      }
+    }
+  },
+  "settings_groupManagement_groupName": "Group Name",
+  "settings_groupManagement_callServer": "Conference Server Url",
+  "settings_groupManagement_manageMembers": "Manage members",
+  "settings_groupManagement_leaveGroup": "Leave group",
+  "settings_groupManagement_leaveGroup_description": "Are you shure you want to leave this group? You'll have to ask a member of the group to join again at a later time. All acess to stored information like beers or tastings will be lost.",
+  "settings_groupManagement_addUser": "Add User",
+  "settings_groupManagement_addUser_yourID": "Your ID",
+  "@settings_groupManagement_addUser_yourID": {},
+  "settings_groupManagement_addUser_scanCode": "press to scan",
+  "@settings_groupManagement_addUser_scanCode": {},
+  "settings_groupManagement_addUser_uid": "User ID",
+  "@settings_groupManagement_addUser_uid": {},
+  "settings_groupManagement_addUser_invalidUid": "Not a valid User",
+  "@settings_groupManagement_addUser_invalidUid": {},
+  "settings_groupManagement_addUser_addToGroup": "Add user to group",
+  "@settings_groupManagement_addUser_addToGroup": {},
+  "settings_groupManagement_addUser_refreshToken": "Reload Status",
+  "@settings_groupManagement_addUser_refreshToken": {},
+  "settings_groupManagement_addUser_scanErrorWeb": "Only IOS and Android are currently supported for scanning QR codes",
+  "@settings_groupManagement_addUser_scanErrorWeb": {},
   "settings_importData": "Import Data",
   "@settings_importData": {},
   "settings_importData_desc": "This feature allows you to import data from the old Bierverkostung app. Please note that we currently do'nt support scent. We'll also interpret null values on sliders as a 0 as that is how we used the app",
@@ -280,7 +328,7 @@
   "@settings_notification_enable": {},
   "settings_qrScan_scan": "Scan a code",
   "@settings_qrScan_scan": {},
-  "settings_qrScan_alert": "Soll der gescante Nutzer $userID der Gruppe hinzugefügt werden?",
+  "settings_qrScan_alert": "Soll der gescante Nutzer {userID} der Gruppe hinzugefügt werden?",
   "@settings_qrScan_alert": {
     "placeholders": {
       "userID": {
@@ -305,11 +353,28 @@
   "settings_userManagement_removePhoto": "Reemove photo",
   "settings_userManagement_cropImage": "Crop Image",
   "settings_userManagement_reset": "reset",
-  "settings_groupManagement_flash" : "Toggle flash",
-  "settings_groupManagement_orientation" : "Flip camera",
+  "settings_groupManagement_addUser_flash" : "Toggle flash",
+  "settings_groupManagement_addUser_orientation" : "Flip camera",
 
   "beer_newImage" : "Add Image",
   "beer_changeImage": "Change Image",
 
-  "settings_importData_web" :"Importing data isn't availabe on web for now. Use an Android or iOS device to achieve this."
+  "settings_importData_web" :"Importing data isn't availabe on web for now. Use an Android or iOS device to achieve this.",
+
+  "validate_email": "Validate email",
+  "validate_email_banner": "Please make shure to validate your email within the next 7 days. Otherwise you’ll be locked out of the app.",
+  "validate_email_unvalidated": "Unvalidated Email!",
+  "validate_email_unvalidated_banner": "You haven't validated your email Adress yet. To make shure you are the owner of {email} please go to the link weve sent you via e-mail. If you don't have the verification mail anymore you can just request a new one. You'll need to validate your mail in order to continue using the Appearance.",
+  "@validate_email_unvalidated_banner": {
+    "placeholders": {
+      "email": {
+        "description": "the users email adress",
+        "example": "test@example.com"
+      }
+    }
+  },
+  "validate_email_resend": "Resend Email",
+  "validate_email_refresh": "Check validation",
+  "validate_email_notValidated": "The email is still not validated!"
+
 }

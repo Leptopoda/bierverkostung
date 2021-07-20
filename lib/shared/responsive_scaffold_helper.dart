@@ -12,7 +12,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ResponsiveScaffoldNoItemSelected extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text(AppLocalizations.of(context)!.noItemSelected));
+    return Center(child: Text(AppLocalizations.of(context).noItemSelected));
   }
 }
 
@@ -34,6 +34,6 @@ class ResponsiveScaffoldNullItems extends StatelessWidget {
 class ResponsiveScaffoldEmptyItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text(AppLocalizations.of(context)!.noItemsFound));
+    return Center(child: Text(AppLocalizations.of(context).noItemsFound));
   }
 }

@@ -16,7 +16,7 @@
     "public": "public",
     "predeploy": [
       "flutter build web --release",
-      "dartdoc --output build/web/doc/api"
+      "cd ../ && dartdoc --output build/web/doc/api"
     ],
     "ignore": [
       "firebase.json",

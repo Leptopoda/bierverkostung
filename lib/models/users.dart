@@ -5,7 +5,7 @@
 /// User data model
 ///
 /// we used to store user information in here but
-/// fully migrated to the [FirebaseUser] object
+/// fully migrated to the [User] object
 @Deprecated(
     'Well start transition to the firebase user as we do not need extra info ')
 class UserData {

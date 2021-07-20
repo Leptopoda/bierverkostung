@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of 'group_management.dart';
+part of 'package:bierverkostung/screens/settings/group_settings/group_management.dart';
 
 /// QR scanner fragment
 ///
@@ -61,7 +61,7 @@ class _QRScannerState extends State<_QRScanner> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settings_qrScan_scan),
+        title: Text(AppLocalizations.of(context).settings_qrScan_scan),
       ),
       body: QRView(
         key: qrKey,
@@ -108,18 +108,18 @@ class _QRScannerState extends State<_QRScanner> {
     return showDialog(
       context: context,
       builder: (BuildContext _) => AlertDialog(
-        title: Text(
-            AppLocalizations.of(context)!.settings_groupManagement_addToGroup),
+        title: Text(AppLocalizations.of(context)
+            .settings_groupManagement_addUser_addToGroup),
         content:
-            Text(AppLocalizations.of(context)!.settings_qrScan_alert(userID)),
+            Text(AppLocalizations.of(context).settings_qrScan_alert(userID)),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.alert_escape),
+            child: Text(AppLocalizations.of(context).alert_escape),
           ),
           TextButton(
             onPressed: () => _addGroup(userID, context),
-            child: Text(AppLocalizations.of(context)!.alert_continue),
+            child: Text(AppLocalizations.of(context).alert_continue),
           ),
         ],
       ),
@@ -131,7 +131,7 @@ class _QRScannerState extends State<_QRScanner> {
     final String _groupID = AuthService.groupID;
 
     final HttpsCallableResult<dynamic> result =
-        await CloudFunctionsService.setGroup(userID, _groupID);
+        await CloudFunctionsService.setGroup(uid: userID, guid: _groupID);
     // TODO: popAndPushNamed to avoid reloading of the camera
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -150,8 +150,8 @@ class _QRScannerState extends State<_QRScanner> {
 class _BottomBar extends StatelessWidget {
   final QRViewController? controller;
   const _BottomBar({
-    required this.controller,
     Key? key,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -175,19 +175,20 @@ class _BottomBar extends StatelessWidget {
 class _FlashButton extends StatefulWidget {
   final QRViewController? controller;
   const _FlashButton({
-    required this.controller,
     Key? key,
+    required this.controller,
   }) : super(key: key);
 
   @override
-  __FlashButtonState createState() => __FlashButtonState();
+  _FlashButtonState createState() => _FlashButtonState();
 }
 
-class __FlashButtonState extends State<_FlashButton> {
+class _FlashButtonState extends State<_FlashButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: AppLocalizations.of(context)?.settings_groupManagement_flash,
+      tooltip:
+          AppLocalizations.of(context).settings_groupManagement_addUser_flash,
       icon: FutureBuilder(
         future: widget.controller?.getFlashStatus(),
         builder: (context, AsyncSnapshot<bool?> snapshot) {
@@ -208,15 +209,15 @@ class __FlashButtonState extends State<_FlashButton> {
 class _CameraButton extends StatelessWidget {
   final QRViewController? controller;
   const _CameraButton({
-    required this.controller,
     Key? key,
+    required this.controller,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip:
-          AppLocalizations.of(context)?.settings_groupManagement_orientation,
+      tooltip: AppLocalizations.of(context)
+          .settings_groupManagement_addUser_orientation,
       icon: const Icon(Icons.flip_camera_android_outlined, size: 40),
       onPressed: () => controller?.flipCamera(),
     );

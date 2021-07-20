@@ -2,18 +2,24 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_rail/navigation_rail.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/local_storage.dart';
 import 'package:bierverkostung/services/firebase/notifications.dart';
+import 'package:bierverkostung/services/conference_service.dart';
+import 'package:bierverkostung/services/firebase/auth.dart';
 
 import 'package:bierverkostung/screens/beertasting/beertasting.dart';
 import 'package:bierverkostung/screens/drinking_games/drinking_games.dart';
 import 'package:bierverkostung/screens/statistics/disp_statistics.dart';
 
+part 'package:bierverkostung/screens/welcome_screen/welcome_screen.dart';
 part 'package:bierverkostung/shared/drink_responsible.dart';
+part 'package:bierverkostung/shared/validate_email_unvalidated.dart';
+part 'package:bierverkostung/shared/validate_email.dart';
 
 /// Home Screen
 ///
@@ -26,29 +32,70 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
+  /// currently selected screen
   int _currentIndex = 1;
+
+  /// Internationalized Titles for the shown screens
   late List<String> _pageTitles;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _currentIndex);
+  }
 
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
+    await _WelcomeScreen.showWelcomeScreen(context);
 
-    final bool? isFirstLogin = await LocalDatabaseService.getFirstLogin();
-    if (isFirstLogin == false) {
-      NotificationService.askPermission();
-      LocalDatabaseService.setFirstLogin();
-    }
     await NotificationService.initialise();
+  }
 
-    _pageTitles = [
-      AppLocalizations.of(context)!.drinkingGames,
-      AppLocalizations.of(context)!.beertasting,
-      AppLocalizations.of(context)!.stats,
-    ];
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  /// Changes to the next seen screen
+  void _onPageChanged(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  /// Animates to the next selected screen.
+  void _onItemSelected(int index) {
+    _onPageChanged(index);
+    _pageController.animateToPage(
+      index,
+      duration: kThemeAnimationDuration,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  /// checks wether to show the [_DrinkResponsibleAlert] and displays it when necessary
+  Future<void> _showDrinkResponsible() async {
+    final bool? drinkResponsibleShown =
+        await LocalDatabaseService.getDrinkResponsible();
+    if (drinkResponsibleShown == true) {
+      return;
+    }
+    await showDialog(
+      context: context,
+      builder: (_) => const _DrinkResponsibleAlert(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    _pageTitles = [
+      AppLocalizations.of(context).drinkingGames,
+      AppLocalizations.of(context).beertasting,
+      AppLocalizations.of(context).stats,
+    ];
     return NavRail(
       /* drawerHeaderBuilder: (context) {
         return Column(
@@ -65,22 +112,22 @@ class _MyHomeState extends State<MyHome> {
           children: <Widget>[
             ListTile(
               leading: const Icon(Icons.money_outlined),
-              title: Text(AppLocalizations.of(context)!.moneyCalculator),
+              title: Text(AppLocalizations.of(context).moneyCalculator),
               onTap: () => Navigator.pushNamed(context, '/MoneyCalculator'),
             ),
             ListTile(
               leading: const Icon(Icons.no_drinks_outlined),
-              title: Text(AppLocalizations.of(context)!.alcoholCalculator),
+              title: Text(AppLocalizations.of(context).alcoholCalculator),
               onTap: () => Navigator.pushNamed(context, '/PromilleRechner'),
             ),
             ListTile(
               leading: const Icon(Icons.call_outlined),
-              title: Text(AppLocalizations.of(context)!.conference),
-              onTap: () => Navigator.pushNamed(context, '/Conference'),
+              title: Text(AppLocalizations.of(context).conference),
+              onTap: () => ConferenceService.startMeeting(context),
             ),
             ListTile(
               leading: const Icon(Icons.settings_outlined),
-              title: Text(AppLocalizations.of(context)!.settings),
+              title: Text(AppLocalizations.of(context).settings),
               onTap: () => Navigator.pushNamed(context, '/Settings'),
             ),
             /* ListTile(
@@ -93,22 +140,12 @@ class _MyHomeState extends State<MyHome> {
       title: Text(_pageTitles[_currentIndex]),
       currentIndex: _currentIndex,
       onTap: (val) async {
-        if (mounted) setState(() => _currentIndex = val);
-
-        if (_currentIndex == 0) {
-          final bool? drinkResponsibleShown =
-              await LocalDatabaseService.getDrinkResponsible();
-          if (drinkResponsibleShown == true) {
-            return;
-          }
-          await showDialog(
-            context: context,
-            builder: (BuildContext _) => const _DrinkResponsibleAlert(),
-          );
-        }
+        if (mounted) _onItemSelected(val);
+        if (_currentIndex == 0) await _showDrinkResponsible();
       },
-      body: IndexedStack(
-        index: _currentIndex,
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
         children: const <Widget>[
           Trinkspiele(),
           BeerTasting(),

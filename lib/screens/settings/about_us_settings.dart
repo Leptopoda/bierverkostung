@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -38,7 +39,7 @@ class _AboutUsSettingsState extends State<AboutUsSettings> {
         width: 50,
         padding: const EdgeInsets.all(5),
         decoration: const BoxDecoration(
-          color: Colors.grey,
+          color: ColorName.iconBackground,
           shape: BoxShape.circle,
         ),
         child: Assets.icon.iconSvg.svg(),
@@ -46,7 +47,7 @@ class _AboutUsSettingsState extends State<AboutUsSettings> {
       applicationName: packageInfo.appName,
       applicationVersion: packageInfo.version,
       applicationLegalese:
-          AppLocalizations.of(context)!.settings_aboutUs_copyright,
+          AppLocalizations.of(context).settings_aboutUs_copyright,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 15),
@@ -59,7 +60,7 @@ class _AboutUsSettingsState extends State<AboutUsSettings> {
               }
             },
             text:
-                '${AppLocalizations.of(context)!.settings_aboutUs_desc}https://gitlab.rimikis.de/Leptopoda/bierverkostung',
+                '${AppLocalizations.of(context).settings_aboutUs_desc}https://gitlab.rimikis.de/Leptopoda/bierverkostung',
           ),
         ),
       ],

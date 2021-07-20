@@ -9,7 +9,7 @@ import 'package:bierverkostung/screens/statistics/new_stat.dart';
 
 /// Stats Screen
 ///
-/// Screen containing the [Stats]
+/// Screen containing the [Stat]
 class Statistics extends StatelessWidget {
   const Statistics({Key? key}) : super(key: key);
 

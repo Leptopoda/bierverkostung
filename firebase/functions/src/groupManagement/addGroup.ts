@@ -13,7 +13,7 @@ import {addGroupUpdate, removeGroupUpdate} from "./updateGroupData";
 export const addGroup = region(dataCenter)
     .https.onCall(async (data, context) => {
       // check request is made by a group member or new user
-      if (context?.auth?.token["group_ID"] !== data.guid &&
+      if (context?.auth?.token["group_id"] !== data.guid &&
           context?.auth?.token["user_id"] !== data.guid) {
         console.log(`${context?.auth?.token["user_id"]} 
         insufficient permission`);

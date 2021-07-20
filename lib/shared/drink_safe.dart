@@ -8,29 +8,26 @@ part of 'package:bierverkostung/screens/alcohol_calculator/alcohol_calculator.da
 ///
 /// Alerts the user to drink safe
 class _DrinkSafeAlert extends StatelessWidget {
-  const _DrinkSafeAlert({
-    Key? key,
-  }) : super(key: key);
+  const _DrinkSafeAlert({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  AlertDialog build(BuildContext context) {
     return AlertDialog(
-      title: Text(AppLocalizations.of(context)!.drinkSafe),
+      scrollable: true,
+      title: Text(AppLocalizations.of(context).drinkSafe),
       // TODO: change message
-      content: SingleChildScrollView(
-        child: Text(AppLocalizations.of(context)!.drinkSafe_banner),
-      ),
+      content: Text(AppLocalizations.of(context).drinkSafe_banner),
       actions: <Widget>[
         TextButton(
           onPressed: () async {
             await LocalDatabaseService.setDrinkSafe();
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
-          child: Text(AppLocalizations.of(context)!.alert_donotShowAgain),
+          child: Text(AppLocalizations.of(context).alert_donotShowAgain),
         ),
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(AppLocalizations.of(context)!.alert_continue),
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppLocalizations.of(context).alert_continue),
         ),
       ],
     );

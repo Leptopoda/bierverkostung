@@ -8,28 +8,25 @@ part of 'package:bierverkostung/screens/home.dart';
 ///
 /// Alerts the user to drink responsible
 class _DrinkResponsibleAlert extends StatelessWidget {
-  const _DrinkResponsibleAlert({
-    Key? key,
-  }) : super(key: key);
+  const _DrinkResponsibleAlert({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  AlertDialog build(BuildContext context) {
     return AlertDialog(
-      title: Text(AppLocalizations.of(context)!.drinkSafe),
-      content: SingleChildScrollView(
-        child: Text(AppLocalizations.of(context)!.drinkResponsible_banner),
-      ),
+      scrollable: true,
+      title: Text(AppLocalizations.of(context).drinkSafe),
+      content: Text(AppLocalizations.of(context).drinkResponsible_banner),
       actions: <Widget>[
         TextButton(
           onPressed: () async {
             await LocalDatabaseService.setDrinkResponsible();
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
-          child: Text(AppLocalizations.of(context)!.alert_donotShowAgain),
+          child: Text(AppLocalizations.of(context).alert_donotShowAgain),
         ),
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(AppLocalizations.of(context)!.alert_continue),
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppLocalizations.of(context).alert_continue),
         ),
       ],
     );

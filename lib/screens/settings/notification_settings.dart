@@ -18,7 +18,7 @@ class NotificationSettings extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () => NotificationService.askPermission(),
-        child: Text(AppLocalizations.of(context)!.settings_notification_enable),
+        child: Text(AppLocalizations.of(context).settings_notification_enable),
       ),
     );
   }

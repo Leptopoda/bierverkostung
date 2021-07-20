@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Loading Pge
 ///
@@ -17,9 +17,7 @@ class Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text((AppLocalizations.of(context) != null)
-            ? AppLocalizations.of(context)!.loading
-            : 'loading'),
+        title: const Text('loading'),
       ),
       body: const Center(
         child: CircularProgressIndicator(),
