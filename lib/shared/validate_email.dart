@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of 'package:bierverkostung/screens/login/login.dart';
+part of 'package:bierverkostung/screens/home.dart';
 
 /// Validate Email Alert
 ///
@@ -11,7 +11,7 @@ class _ValidateEmailAlert extends StatelessWidget {
   const _ValidateEmailAlert({Key? key}) : super(key: key);
 
   @override
-  AlertDialog build(BuildContext context) {
+  Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
       title: Text(AppLocalizations.of(context).validate_email),

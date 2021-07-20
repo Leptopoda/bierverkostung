@@ -3,7 +3,10 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert' show jsonEncode;
+import 'dart:developer' as developer show log;
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart' show FieldValue;
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -22,19 +25,27 @@ class NotificationService {
 
   /// ask the user for permission to send notifications
   static Future<void> askPermission() async {
-    await _fcm.requestPermission(
-      announcement: true,
-      carPlay: true,
-      criticalAlert: true,
-    );
+    try {
+      await _fcm.requestPermission(
+        announcement: true,
+        carPlay: true,
+        criticalAlert: true,
+      );
 
-    final String? _token = await _fcm.getToken(vapidKey: _vapidKey);
-    if (_token != null) {
-      await DatabaseService.saveNotificationToken({
-        'token': _token,
-        'createdAt': FieldValue.serverTimestamp(),
-        'platform': kIsWeb ? 'Web' : Platform.operatingSystem,
-      });
+      final String? _token = await _fcm.getToken(vapidKey: _vapidKey);
+      if (_token != null) {
+        await DatabaseService.saveNotificationToken({
+          'token': _token,
+          'createdAt': FieldValue.serverTimestamp(),
+          'platform': kIsWeb ? 'Web' : Platform.operatingSystem,
+        });
+      }
+    } catch (err) {
+      developer.log(
+        'error setting up notification',
+        name: 'leptopoda.bierverkostung.NotificationService',
+        error: jsonEncode(err.toString()),
+      );
     }
   }
 

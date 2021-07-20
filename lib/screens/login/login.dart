@@ -8,8 +8,6 @@ import 'package:email_validator/email_validator.dart';
 
 import 'package:bierverkostung/services/firebase/auth.dart';
 
-part 'package:bierverkostung/shared/validate_email.dart';
-
 /// Login Screen
 ///
 /// Shows the login/registration UI
@@ -163,10 +161,7 @@ class _LoginState extends State<Login> {
         _mailController.text,
         _passwordController.text,
       );
-      if (_result) {
-        await showDialog(
-            context: context, builder: (_) => const _ValidateEmailAlert());
-      } else {
+      if (!_result) {
         Navigator.pushNamed(context, '/error',
             arguments: AppLocalizations.of(context).login_error);
       }

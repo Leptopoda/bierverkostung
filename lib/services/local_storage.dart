@@ -18,17 +18,16 @@ class LocalDatabaseService {
   /// key for the drinkSafe parameter
   static const String _drinkSafe = 'drink_safe';
 
-  /// sets the FirstLogin parameter to
+  /// sets the FirstLogin parameter
   static Future<void> setFirstLogin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_firstRun, DateTime.now().toString());
+    await prefs.setBool(_firstRun, true);
   }
 
   /// gets the FirstLogin parameter
-  static Future<DateTime?> getFirstLogin() async {
+  static Future<bool> getFirstLogin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? _firstRunTime = prefs.getString(_firstRun);
-    return _firstRunTime != null ? DateTime.tryParse(_firstRunTime) : null;
+    return prefs.getBool(_firstRun) ?? false;
   }
 
   /// sets the DrinkResponsible parameter

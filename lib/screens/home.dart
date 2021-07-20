@@ -16,8 +16,10 @@ import 'package:bierverkostung/screens/beertasting/beertasting.dart';
 import 'package:bierverkostung/screens/drinking_games/drinking_games.dart';
 import 'package:bierverkostung/screens/statistics/disp_statistics.dart';
 
+part 'package:bierverkostung/screens/welcome_screen/welcome_screen.dart';
 part 'package:bierverkostung/shared/drink_responsible.dart';
 part 'package:bierverkostung/shared/validate_email_unvalidated.dart';
+part 'package:bierverkostung/shared/validate_email.dart';
 
 /// Home Screen
 ///
@@ -46,22 +48,8 @@ class _MyHomeState extends State<MyHome> {
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
+    await _WelcomeScreen.showWelcomeScreen(context);
 
-    final DateTime? _firstLoginTime =
-        await LocalDatabaseService.getFirstLogin();
-    if (_firstLoginTime == null) {
-      NotificationService.askPermission();
-      LocalDatabaseService.setFirstLogin();
-    } else if (!AuthService.hasValidatedEmail) {
-      AuthService.refreshToken();
-      if (_firstLoginTime.difference(DateTime.now()).inDays >= 7) {
-        await showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (_) => const _UnvalidatedEmailAlert(),
-        );
-      }
-    }
     await NotificationService.initialise();
   }
 
