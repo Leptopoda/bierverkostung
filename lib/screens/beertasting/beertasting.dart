@@ -40,8 +40,7 @@ class BeerTasting extends StatelessWidget {
           default:
             if (!snapshot.hasData) {
               return Center(
-                child:
-                    Text(AppLocalizations.of(context)!.beertasting_noTasting),
+                child: Text(AppLocalizations.of(context).beertasting_noTasting),
               );
             }
 

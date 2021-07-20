@@ -70,7 +70,7 @@ class UserSettings extends StatelessWidget {
                         iconSize: 15,
                         padding: EdgeInsets.zero,
                         splashRadius: 18,
-                        tooltip: AppLocalizations.of(context)!
+                        tooltip: AppLocalizations.of(context)
                             .settings_userManagement_changeProfile,
                         onPressed: () => _changeAvatar(context),
                         icon: const Icon(
@@ -89,7 +89,7 @@ class UserSettings extends StatelessWidget {
                 style: Theme.of(context).textTheme.subtitle2,
                 initialValue: user.displayName ?? user.uid,
                 decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!
+                  labelText: AppLocalizations.of(context)
                       .settings_userManagement_username,
                   suffixIcon: const Icon(Icons.edit_outlined),
                   border: InputBorder.none,
@@ -101,7 +101,7 @@ class UserSettings extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              user.email ?? AppLocalizations.of(context)!.login_anonymous,
+              user.email ?? AppLocalizations.of(context).login_anonymous,
               style: Theme.of(context).textTheme.caption,
             ),
             /* const SizedBox(height: 10),
@@ -127,7 +127,7 @@ class UserSettings extends StatelessWidget {
                     : const _LogOutAlert(),
               ),
               icon: const Icon(Icons.logout_outlined),
-              label: Text(AppLocalizations.of(context)!.settings_logOut),
+              label: Text(AppLocalizations.of(context).settings_logOut),
             ),
           ],
         ),
@@ -179,7 +179,7 @@ class UserSettings extends StatelessWidget {
         cropStyle: CropStyle.circle,
         androidUiSettings: AndroidUiSettings(
           toolbarTitle:
-              AppLocalizations.of(context)?.settings_userManagement_cropImage,
+              AppLocalizations.of(context).settings_userManagement_cropImage,
           toolbarColor: theme.appBarTheme.backgroundColor ??
               (colorScheme.brightness == Brightness.dark
                   ? colorScheme.surface
@@ -194,8 +194,7 @@ class UserSettings extends StatelessWidget {
           lockAspectRatio: false,
         ),
         iosUiSettings: IOSUiSettings(
-          title:
-              AppLocalizations.of(context)?.settings_userManagement_cropImage,
+          title: AppLocalizations.of(context).settings_userManagement_cropImage,
         ),
       );
     }

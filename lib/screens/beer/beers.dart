@@ -38,7 +38,7 @@ class BeerList extends StatelessWidget {
           default:
             if (!snapshot.hasData) {
               return Center(
-                child: Text(AppLocalizations.of(context)!.beer_noBeers),
+                child: Text(AppLocalizations.of(context).beer_noBeers),
               );
             }
 
@@ -57,7 +57,7 @@ class BeerList extends StatelessWidget {
               emptyItems: ResponsiveScaffoldEmptyItems(),
               tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
               appBar: AppBar(
-                title: Text(AppLocalizations.of(context)!.beerOther),
+                title: Text(AppLocalizations.of(context).beerOther),
               ),
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
@@ -100,7 +100,7 @@ class _BeerListDetail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: !tablet,
-        title: Text(AppLocalizations.of(context)!.beer_newBeer),
+        title: Text(AppLocalizations.of(context).beer_newBeer),
         // actions: tablet ? actionBarItems : null,
       ),
       body: Center(

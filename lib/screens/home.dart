@@ -104,9 +104,9 @@ class _MyHomeState extends State<MyHome> {
   @override
   Widget build(BuildContext context) {
     _pageTitles = [
-      AppLocalizations.of(context)!.drinkingGames,
-      AppLocalizations.of(context)!.beertasting,
-      AppLocalizations.of(context)!.stats,
+      AppLocalizations.of(context).drinkingGames,
+      AppLocalizations.of(context).beertasting,
+      AppLocalizations.of(context).stats,
     ];
     return NavRail(
       /* drawerHeaderBuilder: (context) {
@@ -124,22 +124,22 @@ class _MyHomeState extends State<MyHome> {
           children: <Widget>[
             ListTile(
               leading: const Icon(Icons.money_outlined),
-              title: Text(AppLocalizations.of(context)!.moneyCalculator),
+              title: Text(AppLocalizations.of(context).moneyCalculator),
               onTap: () => Navigator.pushNamed(context, '/MoneyCalculator'),
             ),
             ListTile(
               leading: const Icon(Icons.no_drinks_outlined),
-              title: Text(AppLocalizations.of(context)!.alcoholCalculator),
+              title: Text(AppLocalizations.of(context).alcoholCalculator),
               onTap: () => Navigator.pushNamed(context, '/PromilleRechner'),
             ),
             ListTile(
               leading: const Icon(Icons.call_outlined),
-              title: Text(AppLocalizations.of(context)!.conference),
+              title: Text(AppLocalizations.of(context).conference),
               onTap: () => ConferenceService.startMeeting(context),
             ),
             ListTile(
               leading: const Icon(Icons.settings_outlined),
-              title: Text(AppLocalizations.of(context)!.settings),
+              title: Text(AppLocalizations.of(context).settings),
               onTap: () => Navigator.pushNamed(context, '/Settings'),
             ),
             /* ListTile(

@@ -40,7 +40,7 @@ class _MeetingJoinAlertState extends State<_MeetingJoinAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(AppLocalizations.of(context)!.conference_joinCall),
+      title: Text(AppLocalizations.of(context).conference_joinCall),
       content: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -48,7 +48,7 @@ class _MeetingJoinAlertState extends State<_MeetingJoinAlert> {
               height: 16.0,
             ),
             CheckboxListTile(
-              title: Text(AppLocalizations.of(context)!.conference_audioOnly),
+              title: Text(AppLocalizations.of(context).conference_audioOnly),
               value: _isAudioOnly,
               onChanged: _onAudioOnlyChanged,
             ),
@@ -56,7 +56,7 @@ class _MeetingJoinAlertState extends State<_MeetingJoinAlert> {
               height: 14.0,
             ),
             CheckboxListTile(
-              title: Text(AppLocalizations.of(context)!.conference_audioMuted),
+              title: Text(AppLocalizations.of(context).conference_audioMuted),
               value: _isAudioMuted,
               onChanged: _onAudioMutedChanged,
             ),
@@ -64,7 +64,7 @@ class _MeetingJoinAlertState extends State<_MeetingJoinAlert> {
               height: 14.0,
             ),
             CheckboxListTile(
-              title: Text(AppLocalizations.of(context)!.conference_videoMuted),
+              title: Text(AppLocalizations.of(context).conference_videoMuted),
               value: _isVideoMuted,
               onChanged: _onVideoMutedChanged,
             ),
@@ -82,7 +82,7 @@ class _MeetingJoinAlertState extends State<_MeetingJoinAlert> {
                   Navigator.pop(context, options);
                 },
                 icon: const Icon(Icons.call_outlined),
-                label: Text(AppLocalizations.of(context)!.conference_joinCall),
+                label: Text(AppLocalizations.of(context).conference_joinCall),
               ),
             ),
             const SizedBox(
@@ -118,9 +118,9 @@ class _MeetingJoinAlertState extends State<_MeetingJoinAlert> {
   /// configures the meeting by setting the [JitsiMeetingOptions]
   Future<JitsiMeetingOptions> _configureMeeting() async {
     final Group _groupData = await DatabaseService.group;
-    final String _roomText = AppLocalizations.of(context)!
+    final String _roomText = AppLocalizations.of(context)
         .conference_roomNamePrefix(AuthService.groupID);
-    final String _subjectText = AppLocalizations.of(context)!
+    final String _subjectText = AppLocalizations.of(context)
         .conference_callNamePrefix(
             _groupData.name ?? AuthService.getUser!.displayName ?? '');
     final String? _nameText = AuthService.getUser?.displayName;
@@ -197,7 +197,7 @@ class _WebMeetingState extends State<_WebMeeting> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.conference),
+        title: Text(AppLocalizations.of(context).conference),
       ),
       body: JitsiMeetConferencing(),
     );

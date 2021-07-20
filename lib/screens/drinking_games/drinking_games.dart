@@ -29,9 +29,9 @@ class Trinkspiele extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> _spiele = [
-      AppLocalizations.of(context)!.drinkingGames_toasts_old,
-      AppLocalizations.of(context)!.drinkingGames_toasts_new,
-      AppLocalizations.of(context)!.drinkingGames_burningRingOfFire,
+      AppLocalizations.of(context).drinkingGames_toasts_old,
+      AppLocalizations.of(context).drinkingGames_toasts_new,
+      AppLocalizations.of(context).drinkingGames_burningRingOfFire,
     ];
     return ResponsiveListScaffold.builder(
       scaffoldKey: _scaffoldKey,
@@ -81,7 +81,7 @@ class _TrinkspieleDetail extends StatelessWidget {
       appBar: !tablet
           ? AppBar(
               automaticallyImplyLeading: !tablet,
-              title: Text(AppLocalizations.of(context)!.details),
+              title: Text(AppLocalizations.of(context).details),
             )
           : null,
       body: (row != null) ? items[row!] : null,

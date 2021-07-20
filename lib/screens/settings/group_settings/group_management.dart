@@ -52,7 +52,7 @@ class GroupScreen extends StatelessWidget {
           default:
             if (!snapshot.hasData) {
               return Center(
-                child: Text(AppLocalizations.of(context)!.beer_noBeers),
+                child: Text(AppLocalizations.of(context).beer_noBeers),
               );
             }
 
@@ -68,7 +68,7 @@ class GroupScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle2,
                         initialValue: _groupData.name ?? _groupID,
                         decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!
+                          labelText: AppLocalizations.of(context)
                               .settings_groupManagement_groupName,
                           suffixIcon: const Icon(Icons.edit_outlined),
                           border: InputBorder.none,
@@ -81,7 +81,7 @@ class GroupScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      AppLocalizations.of(context)!
+                      AppLocalizations.of(context)
                           .settings_groupManagement_memberCount(
                               _groupData.count),
                       style: Theme.of(context).textTheme.caption,
@@ -103,7 +103,7 @@ class GroupScreen extends StatelessWidget {
                         }
                       },
                       icon: const Icon(Icons.logout_outlined),
-                      label: Text(AppLocalizations.of(context)!
+                      label: Text(AppLocalizations.of(context)
                           .settings_groupManagement_leaveGroup),
                     ),
                     const SizedBox(height: 5),
@@ -118,7 +118,7 @@ class GroupScreen extends StatelessWidget {
                         ),
                       ),
                       icon: const Icon(Icons.group_add_outlined),
-                      label: Text(AppLocalizations.of(context)!
+                      label: Text(AppLocalizations.of(context)
                           .settings_groupManagement_addUser),
                     ),
                     _GroupMemberList(members: _groupData.members),
@@ -135,7 +135,7 @@ class GroupScreen extends StatelessWidget {
                         ),
                       ),
                       icon: const Icon(Icons.group_add_outlined),
-                      label: Text(AppLocalizations.of(context)!
+                      label: Text(AppLocalizations.of(context)
                           .settings_groupManagement_manageMembers),
                     ), */
                   ],

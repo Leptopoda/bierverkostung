@@ -14,12 +14,12 @@ class _ValidateEmailAlert extends StatelessWidget {
   AlertDialog build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: Text(AppLocalizations.of(context)!.validate_email),
-      content: Text(AppLocalizations.of(context)!.validate_email_banner),
+      title: Text(AppLocalizations.of(context).validate_email),
+      content: Text(AppLocalizations.of(context).validate_email_banner),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.alert_continue),
+          child: Text(AppLocalizations.of(context).alert_continue),
         ),
       ],
     );

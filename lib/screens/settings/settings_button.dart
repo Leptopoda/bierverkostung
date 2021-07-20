@@ -14,7 +14,7 @@ class SettingsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.settings_outlined),
-      tooltip: AppLocalizations.of(context)!.settings,
+      tooltip: AppLocalizations.of(context).settings,
       onPressed: () => Navigator.pushNamed(context, '/Settings'),
     );
   }

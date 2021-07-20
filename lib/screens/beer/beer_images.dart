@@ -44,7 +44,7 @@ class _BeerImageState extends State<_BeerImage>
   /// Creates a new Card displaying the Image at [path]
   Widget _beerImageCard(String path) {
     return Tooltip(
-      message: AppLocalizations.of(context)!.beer_changeImage,
+      message: AppLocalizations.of(context).beer_changeImage,
       child: InkWell(
         onTap: () => _changeImage(path),
         child: Card(
@@ -60,7 +60,7 @@ class _BeerImageState extends State<_BeerImage>
     return Card(
       color: Theme.of(context).accentColor,
       child: IconButton(
-        tooltip: AppLocalizations.of(context)!.beer_newImage,
+        tooltip: AppLocalizations.of(context).beer_newImage,
         icon: const Icon(
           Icons.add,
           size: 50,
@@ -119,7 +119,7 @@ class _BeerImageCard extends StatelessWidget {
     return Card(
       color: Theme.of(context).accentColor,
       child: IconButton(
-        tooltip: AppLocalizations.of(context)!.beer_newImage,
+        tooltip: AppLocalizations.of(context).beer_newImage,
         icon: const Icon(
           Icons.add,
           size: 50,

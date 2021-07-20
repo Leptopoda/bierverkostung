@@ -30,7 +30,7 @@ class SomethingWentWrong extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                AppLocalizations.of(context)!.somethingWentWrong,
+                AppLocalizations.of(context).somethingWentWrong,
                 style: Theme.of(context).textTheme.headline5,
               ),
               const SizedBox(height: 18),
@@ -39,7 +39,7 @@ class SomethingWentWrong extends StatelessWidget {
               ),
               const SizedBox(height: 35),
               Text(
-                '${AppLocalizations.of(context)!.errorMessage} $error',
+                '${AppLocalizations.of(context).errorMessage} $error',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ],

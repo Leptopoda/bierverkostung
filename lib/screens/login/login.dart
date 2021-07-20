@@ -38,7 +38,7 @@ class _LoginState extends State<Login> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.login),
+        title: Text(AppLocalizations.of(context).login),
       ),
       body: Form(
         key: _formKey,
@@ -49,14 +49,14 @@ class _LoginState extends State<Login> {
               Container(
                 alignment: Alignment.center,
                 child: Text(
-                  AppLocalizations.of(context)!.beertasting,
+                  AppLocalizations.of(context).beertasting,
                   style: Theme.of(context).textTheme.headline5,
                 ),
               ),
               const SizedBox(height: 20),
               Center(
                 child: Text(
-                  AppLocalizations.of(context)!.login_signIn,
+                  AppLocalizations.of(context).login_signIn,
                   style: _text,
                 ),
               ),
@@ -68,11 +68,11 @@ class _LoginState extends State<Login> {
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.login_eMail,
+                  labelText: AppLocalizations.of(context).login_eMail,
                 ),
                 validator: (email) =>
                     (email != null && !EmailValidator.validate(email))
-                        ? AppLocalizations.of(context)!.login_eMail_invalid
+                        ? AppLocalizations.of(context).login_eMail_invalid
                         : null,
               ),
               const SizedBox(height: 10),
@@ -83,27 +83,26 @@ class _LoginState extends State<Login> {
                 autofillHints: const [AutofillHints.password],
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.login_password,
+                  labelText: AppLocalizations.of(context).login_password,
                 ),
                 validator: (String? pwd) => _validatePassword(pwd),
               ),
               TextButton(
                 onPressed: () => _forgotPassword(),
-                child:
-                    Text(AppLocalizations.of(context)!.login_password_forgot),
+                child: Text(AppLocalizations.of(context).login_password_forgot),
               ),
               ElevatedButton(
                 onPressed: () => _signInWithEmailAndPassword(),
-                child: Text(AppLocalizations.of(context)!.login),
+                child: Text(AppLocalizations.of(context).login),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(AppLocalizations.of(context)!.login_newAccount),
+                  Text(AppLocalizations.of(context).login_newAccount),
                   TextButton(
                     onPressed: () => _registerWithEmailAndPassword(),
                     child: Text(
-                      AppLocalizations.of(context)!.login_register,
+                      AppLocalizations.of(context).login_register,
                       // style: _text,
                     ),
                   ),
@@ -112,11 +111,11 @@ class _LoginState extends State<Login> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(AppLocalizations.of(context)!.login_anonymously),
+                  Text(AppLocalizations.of(context).login_anonymously),
                   TextButton(
                     onPressed: () => _registerAnon(),
                     child: Text(
-                      AppLocalizations.of(context)!.login_anonymous,
+                      AppLocalizations.of(context).login_anonymous,
                       // style: _text,
                     ),
                   ),
@@ -135,7 +134,7 @@ class _LoginState extends State<Login> {
     if (_result) {
     } else {
       Navigator.pushNamed(context, '/error',
-          arguments: AppLocalizations.of(context)!.login_error);
+          arguments: AppLocalizations.of(context).login_error);
     }
   }
 
@@ -149,7 +148,7 @@ class _LoginState extends State<Login> {
       if (_result) {
       } else {
         Navigator.pushNamed(context, '/error',
-            arguments: AppLocalizations.of(context)!.login_error);
+            arguments: AppLocalizations.of(context).login_error);
       }
     }
   }
@@ -169,7 +168,7 @@ class _LoginState extends State<Login> {
             context: context, builder: (_) => const _ValidateEmailAlert());
       } else {
         Navigator.pushNamed(context, '/error',
-            arguments: AppLocalizations.of(context)!.login_error);
+            arguments: AppLocalizations.of(context).login_error);
       }
     }
   }
@@ -180,19 +179,19 @@ class _LoginState extends State<Login> {
   /// validates the new password against our security criteria
   String? _validatePassword(String? pwd) {
     if (pwd == null) {
-      return AppLocalizations.of(context)!.login_password_empty;
+      return AppLocalizations.of(context).login_password_empty;
     }
 
     if (!RegExp('(?=.*[A-Z])').hasMatch(pwd)) {
-      return AppLocalizations.of(context)!.login_password_upperCase;
+      return AppLocalizations.of(context).login_password_upperCase;
     }
 
     if (!RegExp('(?=.*[a-z])').hasMatch(pwd)) {
-      return AppLocalizations.of(context)!.login_password_lowerCase;
+      return AppLocalizations.of(context).login_password_lowerCase;
     }
 
     if (!RegExp('(?=.*?[0-9])').hasMatch(pwd)) {
-      return AppLocalizations.of(context)!.login_password_digit;
+      return AppLocalizations.of(context).login_password_digit;
     }
 
     /* if (!RegExp(r'(?=.*?[!@#\$&*~])').hasMatch(pwd)) {
@@ -200,7 +199,7 @@ class _LoginState extends State<Login> {
     } */
 
     if (!RegExp(r'.{8,}$').hasMatch(pwd)) {
-      return AppLocalizations.of(context)!.login_password_length;
+      return AppLocalizations.of(context).login_password_length;
     }
 
     return null;

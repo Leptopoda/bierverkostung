@@ -47,7 +47,7 @@ class _AboutUsSettingsState extends State<AboutUsSettings> {
       applicationName: packageInfo.appName,
       applicationVersion: packageInfo.version,
       applicationLegalese:
-          AppLocalizations.of(context)!.settings_aboutUs_copyright,
+          AppLocalizations.of(context).settings_aboutUs_copyright,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 15),
@@ -60,7 +60,7 @@ class _AboutUsSettingsState extends State<AboutUsSettings> {
               }
             },
             text:
-                '${AppLocalizations.of(context)!.settings_aboutUs_desc}https://gitlab.rimikis.de/Leptopoda/bierverkostung',
+                '${AppLocalizations.of(context).settings_aboutUs_desc}https://gitlab.rimikis.de/Leptopoda/bierverkostung',
           ),
         ),
       ],

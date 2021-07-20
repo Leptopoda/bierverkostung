@@ -16,13 +16,13 @@ class _UnvalidatedEmailAlert extends StatelessWidget {
   AlertDialog build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: Text(AppLocalizations.of(context)!.validate_email_unvalidated),
-      content: Text(AppLocalizations.of(context)!
+      title: Text(AppLocalizations.of(context).validate_email_unvalidated),
+      content: Text(AppLocalizations.of(context)
           .validate_email_unvalidated_banner(AuthService.userEmail!)),
       actions: <Widget>[
         TextButton(
           onPressed: () => AuthService.validateMail,
-          child: Text(AppLocalizations.of(context)!.validate_email_resend),
+          child: Text(AppLocalizations.of(context).validate_email_resend),
         ),
         TextButton(
           onPressed: () {
@@ -31,11 +31,11 @@ class _UnvalidatedEmailAlert extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                    AppLocalizations.of(context)!.validate_email_notValidated),
+                    AppLocalizations.of(context).validate_email_notValidated),
               ),
             );
           },
-          child: Text(AppLocalizations.of(context)!.validate_email_refresh),
+          child: Text(AppLocalizations.of(context).validate_email_refresh),
         ),
       ],
     );

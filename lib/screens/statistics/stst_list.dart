@@ -48,7 +48,7 @@ class StatisticsList extends StatelessWidget {
           default:
             if (!snapshot.hasData) {
               return Center(
-                child: Text(AppLocalizations.of(context)!.stats_noStats),
+                child: Text(AppLocalizations.of(context).stats_noStats),
               );
             }
             return _StatisticsBeerChart(data: snapshot.data!);

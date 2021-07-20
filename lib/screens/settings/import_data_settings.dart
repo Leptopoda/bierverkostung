@@ -36,7 +36,7 @@ class ImportDataSettings extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Text(
-              AppLocalizations.of(context)!.settings_importData_desc,
+              AppLocalizations.of(context).settings_importData_desc,
               style: _text,
             ),
           ),
@@ -44,14 +44,14 @@ class ImportDataSettings extends StatelessWidget {
           ElevatedButton.icon(
             onPressed: () => _importData(context),
             icon: const Icon(Icons.import_export_outlined),
-            label: Text(AppLocalizations.of(context)!.settings_importData),
+            label: Text(AppLocalizations.of(context).settings_importData),
           ),
         ],
       );
     } else {
       return Center(
         child: Text(
-          AppLocalizations.of(context)!.settings_importData_web,
+          AppLocalizations.of(context).settings_importData_web,
           style: _text,
         ),
       );

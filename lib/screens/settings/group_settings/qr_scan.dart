@@ -61,7 +61,7 @@ class _QRScannerState extends State<_QRScanner> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settings_qrScan_scan),
+        title: Text(AppLocalizations.of(context).settings_qrScan_scan),
       ),
       body: QRView(
         key: qrKey,
@@ -108,18 +108,18 @@ class _QRScannerState extends State<_QRScanner> {
     return showDialog(
       context: context,
       builder: (BuildContext _) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!
+        title: Text(AppLocalizations.of(context)
             .settings_groupManagement_addUser_addToGroup),
         content:
-            Text(AppLocalizations.of(context)!.settings_qrScan_alert(userID)),
+            Text(AppLocalizations.of(context).settings_qrScan_alert(userID)),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.alert_escape),
+            child: Text(AppLocalizations.of(context).alert_escape),
           ),
           TextButton(
             onPressed: () => _addGroup(userID, context),
-            child: Text(AppLocalizations.of(context)!.alert_continue),
+            child: Text(AppLocalizations.of(context).alert_continue),
           ),
         ],
       ),
@@ -188,7 +188,7 @@ class _FlashButtonState extends State<_FlashButton> {
   Widget build(BuildContext context) {
     return IconButton(
       tooltip:
-          AppLocalizations.of(context)?.settings_groupManagement_addUser_flash,
+          AppLocalizations.of(context).settings_groupManagement_addUser_flash,
       icon: FutureBuilder(
         future: widget.controller?.getFlashStatus(),
         builder: (context, AsyncSnapshot<bool?> snapshot) {
@@ -217,7 +217,7 @@ class _CameraButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: AppLocalizations.of(context)
-          ?.settings_groupManagement_addUser_orientation,
+          .settings_groupManagement_addUser_orientation,
       icon: const Icon(Icons.flip_camera_android_outlined, size: 40),
       onPressed: () => controller?.flipCamera(),
     );

@@ -47,18 +47,18 @@ class _StatisticsAlertState extends State<_StatisticsAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(AppLocalizations.of(context)!.stats_anotherBeer),
+      title: Text(AppLocalizations.of(context).stats_anotherBeer),
       content: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             RadioListTile<_Beer>(
-              title: Text(AppLocalizations.of(context)!.stats_smallBeer),
+              title: Text(AppLocalizations.of(context).stats_smallBeer),
               value: _Beer.small,
               groupValue: _character,
               onChanged: (_Beer? value) => setState(() => _character = value),
             ),
             RadioListTile<_Beer>(
-              title: Text(AppLocalizations.of(context)!.stats_bigBeer),
+              title: Text(AppLocalizations.of(context).stats_bigBeer),
               value: _Beer.big,
               groupValue: _character,
               onChanged: (_Beer? value) => setState(() => _character = value),
@@ -78,11 +78,11 @@ class _StatisticsAlertState extends State<_StatisticsAlert> {
               controller: _beer,
               onTap: () => _selectBeer(context),
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.beerOne,
+                labelText: AppLocalizations.of(context).beerOne,
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return AppLocalizations.of(context)!.form_required;
+                  return AppLocalizations.of(context).form_required;
                 }
                 return null;
               },
@@ -93,11 +93,11 @@ class _StatisticsAlertState extends State<_StatisticsAlert> {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.alert_escape),
+          child: Text(AppLocalizations.of(context).alert_escape),
         ),
         TextButton(
           onPressed: () => _onSubmit(),
-          child: Text(AppLocalizations.of(context)!.form_submit),
+          child: Text(AppLocalizations.of(context).form_submit),
         ),
       ],
     );

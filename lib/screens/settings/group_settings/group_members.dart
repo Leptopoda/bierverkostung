@@ -20,7 +20,7 @@ class _ManageUsers extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!
+        title: Text(AppLocalizations.of(context)
             .settings_groupManagement_manageMembers),
       ),
       body: Column(
@@ -46,7 +46,7 @@ class _ManageUsers extends StatelessWidget {
                     }
                   },
                   icon: const Icon(Icons.logout_outlined),
-                  label: Text(AppLocalizations.of(context)!
+                  label: Text(AppLocalizations.of(context)
                       .settings_groupManagement_leaveGroup),
                 ),
                 const SizedBox(height: 5),
@@ -61,7 +61,7 @@ class _ManageUsers extends StatelessWidget {
                     ),
                   ),
                   icon: const Icon(Icons.group_add_outlined),
-                  label: Text(AppLocalizations.of(context)!
+                  label: Text(AppLocalizations.of(context)
                       .settings_groupManagement_addUser),
                 ),
               ],
@@ -84,19 +84,19 @@ class _LeaveGroupDialog extends StatelessWidget {
     return AlertDialog(
       scrollable: true,
       title: Text(
-          AppLocalizations.of(context)!.settings_groupManagement_leaveGroup),
+          AppLocalizations.of(context).settings_groupManagement_leaveGroup),
       content: Text(
-        AppLocalizations.of(context)!
+        AppLocalizations.of(context)
             .settings_groupManagement_leaveGroup_description,
       ),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, false),
-          child: Text(AppLocalizations.of(context)!.alert_escape),
+          child: Text(AppLocalizations.of(context).alert_escape),
         ),
         TextButton(
           onPressed: () => Navigator.pop(context, true),
-          child: Text(AppLocalizations.of(context)!.alert_continue),
+          child: Text(AppLocalizations.of(context).alert_continue),
         ),
       ],
     );
@@ -180,19 +180,19 @@ class _GroupMemberDeleteDialog extends StatelessWidget {
     return AlertDialog(
       scrollable: true,
       title: Text(
-          AppLocalizations.of(context)!.settings_groupManagement_deleteUser),
+          AppLocalizations.of(context).settings_groupManagement_deleteUser),
       content: Text(
-        AppLocalizations.of(context)!
+        AppLocalizations.of(context)
             .settings_groupManagement_deleteUser_description(member),
       ),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, false),
-          child: Text(AppLocalizations.of(context)!.alert_escape),
+          child: Text(AppLocalizations.of(context).alert_escape),
         ),
         TextButton(
           onPressed: () => Navigator.pop(context, true),
-          child: Text(AppLocalizations.of(context)!.alert_continue),
+          child: Text(AppLocalizations.of(context).alert_continue),
         ),
       ],
     );

@@ -47,7 +47,7 @@ class _MoneyAlertState extends State<_MoneyAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(AppLocalizations.of(context)!.stats_anotherBeer),
+      title: Text(AppLocalizations.of(context).stats_anotherBeer),
       content: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -55,7 +55,7 @@ class _MoneyAlertState extends State<_MoneyAlert> {
               style: Theme.of(context).textTheme.bodyText2,
               controller: _buyer,
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!
+                labelText: AppLocalizations.of(context)
                     .settings_groupManagement_addUser_uid,
               ),
               validator: (value) {
@@ -69,7 +69,7 @@ class _MoneyAlertState extends State<_MoneyAlert> {
               style: Theme.of(context).textTheme.bodyText2,
               controller: _amount,
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.moneyCalculator_amount,
+                labelText: AppLocalizations.of(context).moneyCalculator_amount,
               ),
               keyboardType: TextInputType.number,
               validator: (String? value) {
@@ -85,11 +85,11 @@ class _MoneyAlertState extends State<_MoneyAlert> {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.alert_escape),
+          child: Text(AppLocalizations.of(context).alert_escape),
         ),
         TextButton(
           onPressed: () => _onSubmit(),
-          child: Text(AppLocalizations.of(context)!.form_submit),
+          child: Text(AppLocalizations.of(context).form_submit),
         ),
       ],
     );

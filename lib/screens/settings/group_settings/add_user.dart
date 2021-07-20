@@ -44,8 +44,8 @@ class _AddUserState extends State<_AddUser> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            AppLocalizations.of(context)!.settings_groupManagement_addUser),
+        title:
+            Text(AppLocalizations.of(context).settings_groupManagement_addUser),
       ),
       body: Form(
         key: _formKey,
@@ -57,7 +57,7 @@ class _AddUserState extends State<_AddUser> {
               readOnly: true,
               controller: _uid,
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!
+                labelText: AppLocalizations.of(context)
                     .settings_groupManagement_addUser_yourID,
                 suffixIcon: const Icon(Icons.group_outlined),
               ),
@@ -79,7 +79,7 @@ class _AddUserState extends State<_AddUser> {
                         data: jsonEncode({'user': _user.uid}),
                         size: 175.0,
                       ),
-                      Text(AppLocalizations.of(context)!
+                      Text(AppLocalizations.of(context)
                           .settings_groupManagement_addUser_scanCode),
                     ],
                   ),
@@ -91,25 +91,25 @@ class _AddUserState extends State<_AddUser> {
               style: _text,
               controller: _newUser,
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!
+                labelText: AppLocalizations.of(context)
                     .settings_groupManagement_addUser_uid,
                 suffixIcon: const Icon(Icons.person_outline),
               ),
               validator: (value) => (value == null || value.length != 28)
-                  ? AppLocalizations.of(context)!
+                  ? AppLocalizations.of(context)
                       .settings_groupManagement_addUser_invalidUid
                   : null,
             ),
             ElevatedButton.icon(
               onPressed: () => _submit(context),
               icon: const Icon(Icons.group_add_outlined),
-              label: Text(AppLocalizations.of(context)!
+              label: Text(AppLocalizations.of(context)
                   .settings_groupManagement_addUser_addToGroup),
             ),
             ElevatedButton.icon(
               onPressed: () => AuthService.refreshToken(),
               icon: const Icon(Icons.refresh_outlined),
-              label: Text(AppLocalizations.of(context)!
+              label: Text(AppLocalizations.of(context)
                   .settings_groupManagement_addUser_refreshToken),
             ),
           ],

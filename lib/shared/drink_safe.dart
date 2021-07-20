@@ -14,20 +14,20 @@ class _DrinkSafeAlert extends StatelessWidget {
   AlertDialog build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: Text(AppLocalizations.of(context)!.drinkSafe),
+      title: Text(AppLocalizations.of(context).drinkSafe),
       // TODO: change message
-      content: Text(AppLocalizations.of(context)!.drinkSafe_banner),
+      content: Text(AppLocalizations.of(context).drinkSafe_banner),
       actions: <Widget>[
         TextButton(
           onPressed: () async {
             await LocalDatabaseService.setDrinkSafe();
             Navigator.pop(context);
           },
-          child: Text(AppLocalizations.of(context)!.alert_donotShowAgain),
+          child: Text(AppLocalizations.of(context).alert_donotShowAgain),
         ),
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.alert_continue),
+          child: Text(AppLocalizations.of(context).alert_continue),
         ),
       ],
     );

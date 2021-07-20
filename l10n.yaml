@@ -2,6 +2,20 @@
 # Use of this source code is governed by an APACHE-style license that can be
 # found in the LICENSE file.
 
+# see https://flutter.dev/go/i18n-user-guide
+# https://docs.google.com/document/d/10e0saTfAv32OZLRmONy866vnaw0I2jwL8zukykpgWBc/edit#
+#
+# WARNING: DO NOT translate app_XX.arb files directly here. For translations please see:
+# https://weblate.rimikis.de/projects/bierverkostung/
+# (only the source language, app_en.arb is edited manually here).
+#
+# We are now using synthetic packages, so to use `AppLocalizations` inside the code
+# you have to add the following import:
+# import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 arb-dir: lib/l10n
 template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart
+#preferred-supported-locales: '["en"]'
+synthetic-package: true
+nullable-getter: false

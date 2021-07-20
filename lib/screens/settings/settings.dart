@@ -47,7 +47,7 @@ class Settings extends StatelessWidget {
       ListTile(
         leading: const Icon(Icons.person_outline),
         title: Text(
-          AppLocalizations.of(context)!.settings_userManagement,
+          AppLocalizations.of(context).settings_userManagement,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         trailing: const Icon(Icons.keyboard_arrow_right),
@@ -55,7 +55,7 @@ class Settings extends StatelessWidget {
       ListTile(
         leading: const Icon(Icons.group_outlined),
         title: Text(
-          AppLocalizations.of(context)!.settings_groupManagement,
+          AppLocalizations.of(context).settings_groupManagement,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         trailing: const Icon(Icons.keyboard_arrow_right),
@@ -63,7 +63,7 @@ class Settings extends StatelessWidget {
       ListTile(
         leading: const Icon(Icons.notifications_active_outlined),
         title: Text(
-          AppLocalizations.of(context)!.settings_notification,
+          AppLocalizations.of(context).settings_notification,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         trailing: const Icon(Icons.keyboard_arrow_right),
@@ -71,7 +71,7 @@ class Settings extends StatelessWidget {
       ListTile(
         leading: const Icon(Icons.import_export_outlined),
         title: Text(
-          AppLocalizations.of(context)!.settings_importData,
+          AppLocalizations.of(context).settings_importData,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         trailing: const Icon(Icons.keyboard_arrow_right),
@@ -79,7 +79,7 @@ class Settings extends StatelessWidget {
       ListTile(
         leading: const Icon(Icons.info_outline),
         title: Text(
-          AppLocalizations.of(context)!.settings_aboutUs,
+          AppLocalizations.of(context).settings_aboutUs,
           style: Theme.of(context).textTheme.bodyText2,
         ),
         trailing: const Icon(Icons.keyboard_arrow_right),
@@ -102,7 +102,7 @@ class Settings extends StatelessWidget {
       emptyItems: ResponsiveScaffoldEmptyItems(),
       tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settings),
+        title: Text(AppLocalizations.of(context).settings),
       ),
       itemCount: _items.length,
       itemBuilder: (BuildContext context, int index) {

@@ -30,7 +30,7 @@ class NewBeer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.beer_newBeer),
+        title: Text(AppLocalizations.of(context).beer_newBeer),
       ),
       body: const _BeerInfoList(),
     );
@@ -86,21 +86,21 @@ class _BeerInfoListState extends State<_BeerInfoList> {
             style: _text,
             controller: _beerName,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.beer_name,
+              labelText: AppLocalizations.of(context).beer_name,
             ),
           ),
           TextFormField(
             style: _text,
             controller: _brewery,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.beer_brewery,
+              labelText: AppLocalizations.of(context).beer_brewery,
             ),
           ),
           TextFormField(
             style: _text,
             controller: _style,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.beer_style,
+              labelText: AppLocalizations.of(context).beer_style,
             ),
           ),
           TextFormField(
@@ -111,7 +111,7 @@ class _BeerInfoListState extends State<_BeerInfoList> {
               ThousandsFormatter(allowFraction: true),
             ],
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.beer_originalWort,
+              labelText: AppLocalizations.of(context).beer_originalWort,
             ),
           ),
           TextFormField(
@@ -122,7 +122,7 @@ class _BeerInfoListState extends State<_BeerInfoList> {
               ThousandsFormatter(allowFraction: true),
             ],
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.beer_alcohol,
+              labelText: AppLocalizations.of(context).beer_alcohol,
             ),
           ),
           TextFormField(
@@ -133,28 +133,28 @@ class _BeerInfoListState extends State<_BeerInfoList> {
               FilteringTextInputFormatter.digitsOnly,
             ],
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.beer_ibu,
+              labelText: AppLocalizations.of(context).beer_ibu,
             ),
           ),
           TextFormField(
             style: _text,
             controller: _ingredients,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.beer_ingredients,
+              labelText: AppLocalizations.of(context).beer_ingredients,
             ),
           ),
           TextFormField(
             style: _text,
             controller: _specifics,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.beer_specifics,
+              labelText: AppLocalizations.of(context).beer_specifics,
             ),
           ),
           TextFormField(
             style: _text,
             controller: _beerNotes,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.beer_notes,
+              labelText: AppLocalizations.of(context).beer_notes,
             ),
           ),
           const SizedBox(
@@ -172,7 +172,7 @@ class _BeerInfoListState extends State<_BeerInfoList> {
           ),
           ElevatedButton(
             onPressed: () => _submit(),
-            child: Text(AppLocalizations.of(context)!.form_submit),
+            child: Text(AppLocalizations.of(context).form_submit),
           ),
         ],
       ),
@@ -187,7 +187,7 @@ class _BeerInfoListState extends State<_BeerInfoList> {
       // you'd often call a server or save the information in a database.
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.loading_processingData),
+          content: Text(AppLocalizations.of(context).loading_processingData),
         ),
       );
       _formKey.currentState!.save();

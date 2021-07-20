@@ -27,7 +27,7 @@ class MoneyCalculator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.moneyCalculator),
+        title: Text(AppLocalizations.of(context).moneyCalculator),
       ),
       body: Column(
         children: const <Widget>[
@@ -69,7 +69,7 @@ class _CalculatedList extends StatelessWidget {
             if (!snapshot.hasData) {
               return Center(
                 child:
-                    Text(AppLocalizations.of(context)!.moneyCalculator_noData),
+                    Text(AppLocalizations.of(context).moneyCalculator_noData),
               );
             }
 
@@ -138,7 +138,7 @@ class _MoneyList extends StatelessWidget {
             if (!snapshot.hasData) {
               return Center(
                 child:
-                    Text(AppLocalizations.of(context)!.moneyCalculator_noData),
+                    Text(AppLocalizations.of(context).moneyCalculator_noData),
               );
             }
 

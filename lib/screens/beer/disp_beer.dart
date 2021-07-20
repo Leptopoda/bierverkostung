@@ -28,7 +28,7 @@ class DispBeer {
         readOnly: true,
         initialValue: beer.beerName,
         decoration: InputDecoration(
-          labelText: AppLocalizations.of(context)!.beer_name,
+          labelText: AppLocalizations.of(context).beer_name,
         ),
       ),
       TextFormField(
@@ -36,7 +36,7 @@ class DispBeer {
         readOnly: true,
         initialValue: beer.brewery?.breweryName,
         decoration: InputDecoration(
-          labelText: AppLocalizations.of(context)!.beer_brewery,
+          labelText: AppLocalizations.of(context).beer_brewery,
         ),
       ),
       TextFormField(
@@ -44,7 +44,7 @@ class DispBeer {
         readOnly: true,
         initialValue: beer.style,
         decoration: InputDecoration(
-          labelText: AppLocalizations.of(context)!.beer_style,
+          labelText: AppLocalizations.of(context).beer_style,
         ),
       ),
       TextFormField(
@@ -55,7 +55,7 @@ class DispBeer {
           ThousandsFormatter(allowFraction: true),
         ],
         decoration: InputDecoration(
-          labelText: AppLocalizations.of(context)!.beer_originalWort,
+          labelText: AppLocalizations.of(context).beer_originalWort,
         ),
       ),
       TextFormField(
@@ -66,7 +66,7 @@ class DispBeer {
           ThousandsFormatter(allowFraction: true),
         ],
         decoration: InputDecoration(
-          labelText: AppLocalizations.of(context)!.beer_alcohol,
+          labelText: AppLocalizations.of(context).beer_alcohol,
         ),
       ),
       TextFormField(
@@ -77,7 +77,7 @@ class DispBeer {
           FilteringTextInputFormatter.digitsOnly,
         ],
         decoration: InputDecoration(
-          labelText: AppLocalizations.of(context)!.beer_ibu,
+          labelText: AppLocalizations.of(context).beer_ibu,
         ),
       ),
       TextFormField(
@@ -85,7 +85,7 @@ class DispBeer {
         readOnly: true,
         initialValue: beer.ingredients,
         decoration: InputDecoration(
-          labelText: AppLocalizations.of(context)!.beer_ingredients,
+          labelText: AppLocalizations.of(context).beer_ingredients,
         ),
       ),
       TextFormField(
@@ -93,7 +93,7 @@ class DispBeer {
         readOnly: true,
         initialValue: beer.specifics,
         decoration: InputDecoration(
-          labelText: AppLocalizations.of(context)!.beer_specifics,
+          labelText: AppLocalizations.of(context).beer_specifics,
         ),
       ),
       TextFormField(
@@ -101,7 +101,7 @@ class DispBeer {
         readOnly: true,
         initialValue: beer.beerNotes,
         decoration: InputDecoration(
-          labelText: AppLocalizations.of(context)!.beer_notes,
+          labelText: AppLocalizations.of(context).beer_notes,
         ),
       ),
     ];
