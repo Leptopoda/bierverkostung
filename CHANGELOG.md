@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file.
 - GDPR screen
 - delete old users
 
+## [0.14.0] - 2021-07-20
+- validate user emails
+- deeper jitsi integration
+- group management screen
+- ui cleanup
+
 ## [0.13.0] - 2021-06-24
 - better perfomance
 - beer images
