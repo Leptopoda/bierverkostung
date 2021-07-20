@@ -199,7 +199,7 @@ class _WebMeetingState extends State<_WebMeeting> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).conference),
       ),
-      body: JitsiMeetConferencing(),
+      body: JitsiMeetConferencing(extraJS: const []),
     );
   }
 }
