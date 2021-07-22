@@ -95,7 +95,7 @@ class UserSettings extends StatelessWidget {
                   border: InputBorder.none,
                 ),
                 onFieldSubmitted: (String? value) {
-                  user.updateDisplayName(value);
+                  AuthService.displayName(value);
                 },
               ),
             ),
@@ -153,7 +153,7 @@ class UserSettings extends StatelessWidget {
       if (_cropped != null) {
         final String? _url = await CloudStorageService.uploadProfile(_cropped);
         if (_url != null) {
-          user.updatePhotoURL(_url);
+          AuthService.photoURL(_url);
         }
       }
     }
@@ -202,7 +202,7 @@ class UserSettings extends StatelessWidget {
 
   /// resets the profile picture to the standard one
   static Future<void> _deleteAvatar(BuildContext context) async {
-    await user.updatePhotoURL(null);
+    await AuthService.photoURL(null);
     Navigator.pop(context);
   }
 }

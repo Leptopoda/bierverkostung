@@ -7,7 +7,7 @@ import 'dart:convert' show jsonEncode;
 import 'dart:developer' as developer show log;
 
 import 'package:bierverkostung/models/group.dart';
-import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' show User;
 
 import 'package:bierverkostung/services/firebase/auth.dart';
@@ -16,6 +16,7 @@ import 'package:bierverkostung/models/stats.dart';
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/money_calc.dart';
+import 'package:bierverkostung/models/user.dart';
 
 /// Helpers to save data to cloud firestore.
 class DatabaseService {
@@ -175,7 +176,7 @@ class DatabaseService {
           .add(token);
     } catch (error) {
       developer.log(
-        'error saving notification Tokenob',
+        'error saving notification Tokeno',
         name: 'leptopoda.bierverkostung.DatabaseService',
         error: jsonEncode(error.toString()),
       );
@@ -203,7 +204,7 @@ class DatabaseService {
       await _groupRef.set(group);
     } catch (error) {
       developer.log(
-        'error saving beer',
+        'error saving Group Data',
         name: 'leptopoda.bierverkostung.DatabaseService',
         error: jsonEncode(error.toString()),
       );
@@ -213,5 +214,29 @@ class DatabaseService {
   /// get group data stream
   static Future<Group> get group {
     return _groupRef.get().then((value) => value.data()!);
+  }
+
+  static DocumentReference<Map<String, Object?>> _userDataRef(String uid) =>
+      _firestore.collection('users').doc(uid).collection('user_data').doc(uid);
+
+  // UserData
+  /// saves UserData
+  static Future<void> saveUserData(Map<String, Object?> userData) async {
+    try {
+      await _userDataRef(_user.uid).set(userData, SetOptions(merge: true));
+    } catch (error) {
+      developer.log(
+        'error saving UserData',
+        name: 'leptopoda.bierverkostung.DatabaseService',
+        error: jsonEncode(error.toString()),
+      );
+    }
+  }
+
+  /// get UserData
+  static Future<UserData> userData(String userID) {
+    return _userDataRef(userID).get().then(
+          (value) => UserData.fromJson(value.data()!),
+        );
   }
 }

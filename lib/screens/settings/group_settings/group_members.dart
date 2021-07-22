@@ -148,17 +148,18 @@ class _GroupMemberItem extends StatelessWidget {
           trailing: Icon(Icons.delete_outline),
         ),
       ),
-      confirmDismiss: (direction) => showDialog<bool?>(
-        context: context,
-        builder: (_) => _GroupMemberDeleteDialog(member: member),
-      ),
+      confirmDismiss: (direction) async {
+        final UserData _userData = await DatabaseService.userData(member);
+        await showDialog<bool?>(
+          context: context,
+          builder: (_) => _GroupMemberDeleteDialog(member: _userData.nameToDisplay),
+        );
+      },
       direction: DismissDirection.endToStart,
       key: ValueKey<String>(member),
       onDismissed: (direction) => CloudFunctionsService.removeGroup(member),
       child: Card(
-        child: ListTile(
-          title: Text(member),
-        ),
+        child: _UserListTile(uid: member),
       ),
     );
   }
