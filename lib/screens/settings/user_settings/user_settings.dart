@@ -100,9 +100,31 @@ class UserSettings extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 5),
-            Text(
-              user.email ?? AppLocalizations.of(context).login_anonymous,
-              style: Theme.of(context).textTheme.caption,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  user.email ?? AppLocalizations.of(context).login_anonymous,
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                const SizedBox(width: 8),
+                if (AuthService.hasValidatedEmail)
+                  Icon(
+                    Icons.check_circle,
+                    color: Colors.green,
+                    size: Theme.of(context).textTheme.caption!.fontSize! + 5.0,
+                    semanticLabel: AppLocalizations.of(context)
+                        .settings_userManagement_emailValid,
+                  ),
+                if (!AuthService.hasValidatedEmail)
+                  Icon(
+                    Icons.unpublished_rounded,
+                    color: Colors.red,
+                    size: Theme.of(context).textTheme.caption!.fontSize! + 5.0,
+                    semanticLabel: AppLocalizations.of(context)
+                        .settings_userManagement_emailInvalid,
+                  ),
+              ],
             ),
             /* const SizedBox(height: 10),
             ElevatedButton(
