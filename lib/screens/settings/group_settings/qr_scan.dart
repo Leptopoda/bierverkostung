@@ -89,7 +89,10 @@ class _QRScannerState extends State<_QRScanner> {
         final String? _userID = _userScanned['user'] as String?;
         if (_userID != null && _userID.length == 28) {
           await controller.pauseCamera();
-          await _showAlert(_userID, context);
+          await showDialog(
+            context: context,
+            builder: (BuildContext _) => _AddUserAlert(userID: _userID),
+          );
           await controller.resumeCamera();
         }
       } catch (error) {
@@ -101,28 +104,62 @@ class _QRScannerState extends State<_QRScanner> {
       }
     });
   }
+}
 
-  /// displays an alert asking for confirmation to add the current user
-  /// it will also call [_addGroup()] to addd the displayed user
-  static Future<Widget?> _showAlert(String userID, BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext _) => AlertDialog(
-        title: Text(AppLocalizations.of(context)
-            .settings_groupManagement_addUser_addToGroup),
-        content:
-            Text(AppLocalizations.of(context).settings_qrScan_alert(userID)),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context).alert_escape),
-          ),
-          TextButton(
-            onPressed: () => _addGroup(userID, context),
-            child: Text(AppLocalizations.of(context).alert_continue),
-          ),
-        ],
+/// Alert DIalog asking to add the given user
+///
+/// displays an alert asking for confirmation to add the current user
+///  it will also call [_addGroup()] to addd the displayed user
+class _AddUserAlert extends StatelessWidget {
+  final String userID;
+  const _AddUserAlert({
+    required this.userID,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(AppLocalizations.of(context)
+          .settings_groupManagement_addUser_addToGroup),
+      content: FutureBuilder(
+        future: DatabaseService.userData(userID),
+        builder: (BuildContext context, AsyncSnapshot<UserData> snapshot) {
+          if (snapshot.hasError) {
+            return SomethingWentWrong(
+              error: snapshot.error.toString(),
+            );
+          }
+
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            default:
+              if (!snapshot.hasData) {
+                return Center(
+                  child: Text(AppLocalizations.of(context).noItemsFound),
+                );
+              }
+              final UserData _userData = snapshot.data!;
+              return Text(
+                AppLocalizations.of(context)
+                    .settings_qrScan_alert(_userData.nameToDisplay),
+              );
+          }
+        },
       ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppLocalizations.of(context).alert_escape),
+        ),
+        TextButton(
+          onPressed: () => _addGroup(userID, context),
+          child: Text(AppLocalizations.of(context).alert_continue),
+        ),
+      ],
     );
   }
 

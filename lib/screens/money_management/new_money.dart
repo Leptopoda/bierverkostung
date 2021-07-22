@@ -13,12 +13,14 @@ class _MoneyFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (_) => const _MoneyAlert(),
-        );
-      },
+      onPressed: () => showModalBottomSheet(
+        isScrollControlled: true,
+        shape: _MoneyAlert.shape,
+        context: context,
+        builder: (BuildContext context) {
+          return const _MoneyAlert();
+        },
+      ),
       child: const Icon(Icons.add),
     );
   }
@@ -32,37 +34,80 @@ class _MoneyAlert extends StatefulWidget {
 
   @override
   State<_MoneyAlert> createState() => _MoneyAlertState();
+
+  /// The used theme providing rounded corners
+  static const shape = RoundedRectangleBorder(
+    borderRadius: BorderRadius.vertical(
+      top: Radius.circular(20),
+    ),
+  );
 }
 
 class _MoneyAlertState extends State<_MoneyAlert> {
-  final TextEditingController _buyer = TextEditingController();
+  late String _buyer;
   final TextEditingController _amount = TextEditingController();
 
   @override
   void initState() {
-    _buyer.text = AuthService.getUser!.uid;
+    _buyer = AuthService.getUser!.uid;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(AppLocalizations.of(context).stats_anotherBeer),
-      content: SingleChildScrollView(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            TextFormField(
-              style: Theme.of(context).textTheme.bodyText2,
-              controller: _buyer,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)
-                    .settings_groupManagement_addUser_uid,
-              ),
-              validator: (value) {
-                if (value is! String) {
-                  return 'not a Number';
+            Text(AppLocalizations.of(context).stats_anotherBeer),
+            FutureBuilder(
+              future: DatabaseService.group,
+              builder: (BuildContext context, AsyncSnapshot<Group> snapshot) {
+                if (snapshot.hasError) {
+                  return SomethingWentWrong(
+                    error: snapshot.error.toString(),
+                  );
                 }
-                return null;
+
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  default:
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Text(AppLocalizations.of(context).noItemsFound),
+                      );
+                    }
+
+                    final Group _groupData = snapshot.data!;
+                    return DropdownButtonFormField(
+                      onTap: () =>
+                          FocusScope.of(context).requestFocus(FocusNode()),
+                      style: Theme.of(context).textTheme.bodyText2,
+                      value: _buyer,
+                      items: _groupData.members.map<DropdownMenuItem<String>>(
+                        (String val) {
+                          return DropdownMenuItem(
+                            value: val,
+                            child: _UserProfileInformation(uid: val),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (String? val) => setState(() => _buyer = val!),
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)
+                            .settings_groupManagement_addUser_uid,
+                      ),
+                    );
+                }
               },
             ),
             TextFormField(
@@ -76,22 +121,32 @@ class _MoneyAlertState extends State<_MoneyAlert> {
                 if (value != null && !RegExp('(?=.*[A-Z])').hasMatch(value)) {
                   return 'not a number';
                 }
-                return null;
               },
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(150, 40),
+                  ),
+                  onPressed: () => _onSubmit(),
+                  child: const Text('enter'),
+                ),
+                const SizedBox(width: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(150, 40),
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('exit'),
+                ),
+              ],
             ),
           ],
         ),
       ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context).alert_escape),
-        ),
-        TextButton(
-          onPressed: () => _onSubmit(),
-          child: Text(AppLocalizations.of(context).form_submit),
-        ),
-      ],
     );
   }
 
@@ -101,7 +156,7 @@ class _MoneyAlertState extends State<_MoneyAlert> {
 
     await DatabaseService.saveMoneyCalc(
       MoneyCalc(
-        buyer: _buyer.value.text,
+        buyer: _buyer,
         amount: double.parse(_amount.value.text) * -1,
         timestamp: _date,
         // participants: participants,

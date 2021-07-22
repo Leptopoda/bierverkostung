@@ -7,6 +7,7 @@ import 'dart:developer' as developer show log;
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bierverkostung/services/firebase/database.dart';
+import 'package:bierverkostung/models/user.dart';
 
 /// Helpers for creating and managing users on firebase auth.
 class AuthService {
@@ -22,6 +23,18 @@ class AuthService {
   /// If null it'll return the uid
   static String get groupID =>
       (_claims?['group_id'] as String?) ?? _auth.currentUser!.uid;
+
+  /// updates the profile picture url
+  static Future<void> photoURL(String? url) async {
+    await _auth.currentUser!.updatePhotoURL(url);
+    await DatabaseService.saveUserData({"photoURL": url});
+  }
+
+  /// updates the display name
+  static Future<void> displayName(String? name) async {
+    await _auth.currentUser!.updateDisplayName(name);
+    await DatabaseService.saveUserData({"displayName": name});
+  }
 
   /// gets the current [User] object
   static User? get getUser => _auth.currentUser;
@@ -52,14 +65,20 @@ class AuthService {
   /// gets the users customClaims
   @Deprecated('use the [AuthService.claims]')
   static Future<dynamic> getClaim(String value) async {
-    final IdTokenResult? token = await _auth.currentUser?.getIdTokenResult();
-    return token?.claims?[value];
+    final IdTokenResult? _token = await _auth.currentUser?.getIdTokenResult();
+    return _token?.claims?[value];
   }
 
   /// registers a new User Anonymously
   static Future<bool> registerAnon() async {
     try {
       await _auth.signInAnonymously();
+      await DatabaseService.saveUserData(
+        UserData(
+          uid: getUser!.uid,
+          isAnon: true,
+        ).toJson(),
+      );
       return true;
     } catch (error) {
       developer.log(
@@ -76,6 +95,7 @@ class AuthService {
       String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+
       return true;
     } catch (error) {
       developer.log(
@@ -93,6 +113,13 @@ class AuthService {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      await DatabaseService.saveUserData(
+        UserData(
+          uid: getUser!.uid,
+          email: email,
+          isAnon: false,
+        ).toJson(),
+      );
       await AuthService.validateMail;
       return true;
     } catch (error) {

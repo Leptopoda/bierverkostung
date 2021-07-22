@@ -328,7 +328,7 @@
   "@settings_notification_enable": {},
   "settings_qrScan_scan": "Scan a code",
   "@settings_qrScan_scan": {},
-  "settings_qrScan_alert": "Soll der gescante Nutzer {userID} der Gruppe hinzugefügt werden?",
+  "settings_qrScan_alert": "Should the scanned user {userID} be added to your group?",
   "@settings_qrScan_alert": {
     "placeholders": {
       "userID": {

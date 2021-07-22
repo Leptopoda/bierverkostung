@@ -13,8 +13,11 @@ import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/money_calc.dart';
+import 'package:bierverkostung/models/group.dart';
+import 'package:bierverkostung/models/user.dart';
 
 part 'package:bierverkostung/screens/money_management/new_money.dart';
+part 'package:bierverkostung/screens/money_management/user_profile_information.dart';
 
 /// Group Money calculator
 ///
@@ -75,34 +78,7 @@ class _CalculatedList extends StatelessWidget {
 
             return ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: ListTile(
-                    title: Text(
-                      'Buyer: ${snapshot.data![index].buyer}',
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                    subtitle: RichText(
-                      text: TextSpan(
-                        style: Theme.of(context).textTheme.subtitle2,
-                        children: <TextSpan>[
-                          TextSpan(
-                              text:
-                                  'Date: ${snapshot.data![index].timestamp}\n'),
-                          const TextSpan(
-                            text: 'Amount: ',
-                          ),
-                          TextSpan(
-                            text: NumberFormat('#0.0#')
-                                .format(snapshot.data![index].amount),
-                            style: (snapshot.data![index].amount >= 0)
-                                ? const TextStyle(color: ColorName.green)
-                                : const TextStyle(color: ColorName.red),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+                return _MoneyCalcCard(moneyCalc: snapshot.data![index]);
               },
               itemExtent: 500,
               scrollDirection: Axis.horizontal,
@@ -144,38 +120,54 @@ class _MoneyList extends StatelessWidget {
 
             return ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: ListTile(
-                    title: Text(
-                      'Date: ${snapshot.data![index].timestamp}',
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                    subtitle: RichText(
-                      text: TextSpan(
-                        style: Theme.of(context).textTheme.subtitle2,
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: 'Buyer: ${snapshot.data![index].buyer}\n'),
-                          const TextSpan(
-                            text: 'Amount: ',
-                          ),
-                          TextSpan(
-                            text: NumberFormat('#0.0#')
-                                .format(snapshot.data![index].amount),
-                            style: (snapshot.data![index].amount >= 0)
-                                ? const TextStyle(color: ColorName.green)
-                                : const TextStyle(color: ColorName.red),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+                return _MoneyCalcCard(moneyCalc: snapshot.data![index]);
               },
               itemCount: snapshot.data!.length,
             );
         }
       },
+    );
+  }
+}
+
+class _MoneyCalcCard extends StatelessWidget {
+  final MoneyCalc moneyCalc;
+  const _MoneyCalcCard({
+    required this.moneyCalc,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        title: Row(
+          children: [
+            Text(
+              'Buyer: ',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            _UserProfileInformation(uid: moneyCalc.buyer),
+          ],
+        ),
+        subtitle: RichText(
+          text: TextSpan(
+            style: Theme.of(context).textTheme.subtitle2,
+            children: <TextSpan>[
+              TextSpan(text: 'Date: ${moneyCalc.timestamp}\n'),
+              const TextSpan(
+                text: 'Amount: ',
+              ),
+              TextSpan(
+                text: NumberFormat('#0.0#').format(moneyCalc.amount),
+                style: (moneyCalc.amount >= 0)
+                    ? const TextStyle(color: ColorName.green)
+                    : const TextStyle(color: ColorName.red),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
