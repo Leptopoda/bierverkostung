@@ -65,7 +65,7 @@ class _MoneyAlertState extends State<_MoneyAlert> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(AppLocalizations.of(context).stats_anotherBeer),
+            Text(AppLocalizations.of(context).moneyCalculator_newCalculation),
             FutureBuilder(
               future: DatabaseService.group,
               builder: (BuildContext context, AsyncSnapshot<Group> snapshot) {
@@ -119,7 +119,8 @@ class _MoneyAlertState extends State<_MoneyAlert> {
               keyboardType: TextInputType.number,
               validator: (String? value) {
                 if (value != null && !RegExp('(?=.*[A-Z])').hasMatch(value)) {
-                  return 'not a number';
+                  return AppLocalizations.of(context)
+                      .moneyCalculator_notANumber;
                 }
               },
             ),
@@ -131,16 +132,16 @@ class _MoneyAlertState extends State<_MoneyAlert> {
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(150, 40),
                   ),
-                  onPressed: () => _onSubmit(),
-                  child: const Text('enter'),
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(AppLocalizations.of(context).alert_escape),
                 ),
                 const SizedBox(width: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(150, 40),
                   ),
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('exit'),
+                  onPressed: () => _onSubmit(),
+                  child: Text(AppLocalizations.of(context).alert_continue),
                 ),
               ],
             ),

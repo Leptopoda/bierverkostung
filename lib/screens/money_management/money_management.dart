@@ -144,7 +144,7 @@ class _MoneyCalcCard extends StatelessWidget {
         title: Row(
           children: [
             Text(
-              'Buyer: ',
+              AppLocalizations.of(context).moneyCalculator_buyer,
               style: Theme.of(context).textTheme.bodyText2,
             ),
             _UserProfileInformation(uid: moneyCalc.buyer),
@@ -154,9 +154,14 @@ class _MoneyCalcCard extends StatelessWidget {
           text: TextSpan(
             style: Theme.of(context).textTheme.subtitle2,
             children: <TextSpan>[
-              TextSpan(text: 'Date: ${moneyCalc.timestamp}\n'),
-              const TextSpan(
-                text: 'Amount: ',
+              TextSpan(
+                text: AppLocalizations.of(context)
+                    .moneyCalculator_date(moneyCalc.timestamp),
+              ),
+              const TextSpan(text: '\n'),
+              TextSpan(
+                text:
+                    '${AppLocalizations.of(context).moneyCalculator_amount}: ',
               ),
               TextSpan(
                 text: NumberFormat('#0.0#').format(moneyCalc.amount),

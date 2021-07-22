@@ -341,7 +341,7 @@
   "@moneyCalculator": {},
   "moneyCalculator_noData": "No etries available",
   "@moneyCalculator_noData": {},
-  "moneyCalculator_amount": "amount",
+  "moneyCalculator_amount": "Amount",
   "@moneyCalculator_amount": {},
 
   "settings_userManagement": "Profile",
@@ -375,6 +375,19 @@
   },
   "validate_email_resend": "Resend Email",
   "validate_email_refresh": "Check validation",
-  "validate_email_notValidated": "The email is still not validated!"
+  "validate_email_notValidated": "The email is still not validated!",
+  "moneyCalculator_notANumber": "Not a valid Number",
+  "moneyCalculator_newCalculation": "New money Calculation",
+  "moneyCalculator_buyer": "Buyer: ",
+  "@moneyCalculator_buyer": {},
+  "moneyCalculator_date": "Date: {Date}",
+  "@moneyCalculator_date": {
+    "placeholders": {
+      "Date": {
+        "description": "the date of the displayed calculation",
+        "example": "2020-04-09"
+      }
+    }
+  }
 
 }
