@@ -144,6 +144,7 @@ class _MyHomeState extends State<MyHome> {
         if (_currentIndex == 0) await _showDrinkResponsible();
       },
       body: PageView(
+        physics: kIsWeb ? const NeverScrollableScrollPhysics() : null,
         controller: _pageController,
         onPageChanged: _onPageChanged,
         children: const <Widget>[

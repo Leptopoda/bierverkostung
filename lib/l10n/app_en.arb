@@ -355,6 +355,8 @@
   "settings_userManagement_reset": "reset",
   "settings_groupManagement_addUser_flash" : "Toggle flash",
   "settings_groupManagement_addUser_orientation" : "Flip camera",
+  "settings_userManagement_emailValid" : "Email validated",
+  "settings_userManagement_emailInvalid" : "Email not validated",
 
   "beer_newImage" : "Add Image",
   "beer_changeImage": "Change Image",

@@ -17,7 +17,11 @@ class _WelcomeScreen {
 
   static Future<void> _checkEmailValidation(BuildContext context) async {
     debugPrint('Checking Email Validation');
-    if (!AuthService.hasValidatedEmail) {
+
+    final bool _hasValidatedMail = AuthService.hasValidatedEmail;
+    final bool _isAnon = AuthService.getUser!.isAnonymous;
+
+    if (!_hasValidatedMail && !_isAnon) {
       AuthService.refreshToken();
       final int _days = AuthService.getUser?.metadata.creationTime
               ?.difference(DateTime.now())
@@ -36,10 +40,14 @@ class _WelcomeScreen {
   static Future<void> _runWelcomeScreen(BuildContext context) async {
     debugPrint('running welcome Screen');
     await NotificationService.askPermission();
-    await showDialog(
-      context: context,
-      builder: (_) => const _ValidateEmailAlert(),
-    );
+
+    final bool _isAnon = AuthService.getUser!.isAnonymous;
+    if (!_isAnon) {
+      await showDialog(
+        context: context,
+        builder: (_) => const _ValidateEmailAlert(),
+      );
+    }
 
     await LocalDatabaseService.setFirstLogin();
   }
