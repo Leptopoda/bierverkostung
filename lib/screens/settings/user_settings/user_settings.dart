@@ -108,7 +108,7 @@ class UserSettings extends StatelessWidget {
                   style: Theme.of(context).textTheme.caption,
                 ),
                 const SizedBox(width: 8),
-                if (AuthService.hasValidatedEmail)
+                if (user.email!= null && AuthService.hasValidatedEmail)
                   Icon(
                     Icons.check_circle,
                     color: Colors.green,
@@ -116,7 +116,7 @@ class UserSettings extends StatelessWidget {
                     semanticLabel: AppLocalizations.of(context)
                         .settings_userManagement_emailValid,
                   ),
-                if (!AuthService.hasValidatedEmail)
+                if (user.email!= null && !AuthService.hasValidatedEmail)
                   Icon(
                     Icons.unpublished_rounded,
                     color: Colors.red,
