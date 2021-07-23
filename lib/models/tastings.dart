@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/material.dart' show immutable;
 import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:json_annotation/json_annotation.dart';
 
@@ -13,32 +14,33 @@ part 'tastings.g.dart';
 ///
 /// This Class holds the data of a BeerTasting
 @JsonSerializable()
+@immutable
 class Tasting {
   // final String id;
   // final int revision;
-  DateTime date;
-  String? location;
-  Beer beer;
-  String? beerColour;
-  String? beerColourDesc;
-  int? colourEbc;
-  String? clarity;
-  String? foamColour;
-  String? foamStructure;
-  int foamStability;
-  int bitternessRating;
-  int sweetnessRating;
-  int acidityRating;
-  String? mouthFeelDesc;
-  int fullBodiedRating;
-  String? bodyDesc;
-  String? aftertasteDesc;
-  int aftertasteRating;
-  String? foodRecommendation;
-  String? totalImpressionDesc;
-  int totalImpressionRating;
+  final DateTime date;
+  final String? location;
+  final Beer beer;
+  final String? beerColour;
+  final String? beerColourDesc;
+  final int? colourEbc;
+  final String? clarity;
+  final String? foamColour;
+  final String? foamStructure;
+  final int foamStability;
+  final int bitternessRating;
+  final int sweetnessRating;
+  final int acidityRating;
+  final String? mouthFeelDesc;
+  final int fullBodiedRating;
+  final String? bodyDesc;
+  final String? aftertasteDesc;
+  final int aftertasteRating;
+  final String? foodRecommendation;
+  final String? totalImpressionDesc;
+  final int totalImpressionRating;
 
-  Tasting({
+  const Tasting({
     required this.date,
     required this.beer,
     this.location,

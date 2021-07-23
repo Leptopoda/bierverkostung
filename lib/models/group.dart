@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/material.dart' show immutable;
 import 'package:json_annotation/json_annotation.dart';
 
 part 'group.g.dart';
@@ -10,12 +11,13 @@ part 'group.g.dart';
 ///
 /// holds the data describing a group
 @JsonSerializable()
+@immutable
 class Group {
   final List<String> members;
   final int count;
-  String? name;
+  final String? name;
 
-  Group({
+  const Group({
     required this.count,
     required this.members,
     this.name,
@@ -26,4 +28,17 @@ class Group {
 
   /// encodes a Json from a [Group] obbject
   Map<String, dynamic> toJson() => _$GroupToJson(this);
+
+  /// returns a modifies group object
+  Group copyWith({
+    List<String>? members,
+    int? count,
+    String? name,
+  }) {
+    return Group(
+      members: members ?? this.members,
+      count: count ?? this.count,
+      name: name ?? this.name,
+    );
+  }
 }
