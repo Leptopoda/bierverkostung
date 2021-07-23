@@ -8,6 +8,7 @@ import {setGroupClaims} from "./setGroupClaims";
 import {notifyUser} from "../notification";
 import {dataCenter} from "../comon";
 import {addGroupUpdate, removeGroupUpdate} from "./updateGroupData";
+import {userGroupUpdate} from "./updateUserData";
 
 
 export const addGroup = region(dataCenter)
@@ -31,6 +32,7 @@ export const addGroup = region(dataCenter)
         await removeGroupUpdate(user.uid, user.customClaims?.["group_id"]);
         await setGroupClaims(user.uid, data.guid);
         await addGroupUpdate(user.uid, data.guid);
+        await userGroupUpdate(user.uid, data.guid);
 
         const payload: messaging.MessagingPayload = {
           notification: {
