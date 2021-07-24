@@ -32,14 +32,14 @@ class NewBeer extends StatelessWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).beer_newBeer),
       ),
-      body: const _BeerInfoList(),
+      body: const SingleChildScrollView(child: BeerInfoList()),
     );
   }
 }
 
-class _BeerInfoList extends StatefulWidget {
+class BeerInfoList extends StatefulWidget {
   final Beer? beer;
-  const _BeerInfoList({
+  const BeerInfoList({
     this.beer,
     Key? key,
   }) : super(key: key);
@@ -48,18 +48,18 @@ class _BeerInfoList extends StatefulWidget {
   _BeerInfoListState createState() => _BeerInfoListState();
 }
 
-class _BeerInfoListState extends State<_BeerInfoList> {
+class _BeerInfoListState extends State<BeerInfoList> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _beerName = TextEditingController();
-  final TextEditingController _brewery = TextEditingController();
-  final TextEditingController _style = TextEditingController();
-  final TextEditingController _originalWort = TextEditingController();
-  final TextEditingController _alcohol = TextEditingController();
-  final TextEditingController _ibu = TextEditingController();
-  final TextEditingController _ingredients = TextEditingController();
-  final TextEditingController _specifics = TextEditingController();
-  final TextEditingController _beerNotes = TextEditingController();
+  late TextEditingController _beerName;
+  late TextEditingController _brewery;
+  late TextEditingController _style;
+  late TextEditingController _originalWort;
+  late TextEditingController _alcohol;
+  late TextEditingController _ibu;
+  late TextEditingController _ingredients;
+  late TextEditingController _specifics;
+  late TextEditingController _beerNotes;
 
   List<String> _images = [];
 
@@ -68,6 +68,17 @@ class _BeerInfoListState extends State<_BeerInfoList> {
   @override
   void initState() {
     super.initState();
+
+    _beerName = TextEditingController(text: widget.beer?.beerName);
+    _brewery = TextEditingController(text: widget.beer?.brewery?.breweryName);
+    _style = TextEditingController(text: widget.beer?.style);
+    _originalWort =
+        TextEditingController(text: widget.beer?.originalWort.toString());
+    _alcohol = TextEditingController(text: widget.beer?.alcohol.toString());
+    _ibu = TextEditingController(text: widget.beer?.ibu.toString());
+    _ingredients = TextEditingController(text: widget.beer?.ingredients);
+    _specifics = TextEditingController(text: widget.beer?.specifics);
+    _beerNotes = TextEditingController(text: widget.beer?.beerNotes);
     setState(() => readOnly = widget.beer != null);
   }
 
@@ -92,7 +103,6 @@ class _BeerInfoListState extends State<_BeerInfoList> {
     final List<Widget> _widgets = <Widget>[
       TextFormField(
         readOnly: readOnly,
-        initialValue: widget.beer?.beerName,
         style: _text,
         controller: _beerName,
         decoration: InputDecoration(
@@ -101,7 +111,6 @@ class _BeerInfoListState extends State<_BeerInfoList> {
       ),
       TextFormField(
         readOnly: readOnly,
-        initialValue: widget.beer?.brewery?.breweryName,
         style: _text,
         controller: _brewery,
         decoration: InputDecoration(
@@ -110,7 +119,6 @@ class _BeerInfoListState extends State<_BeerInfoList> {
       ),
       TextFormField(
         readOnly: readOnly,
-        initialValue: widget.beer?.style,
         style: _text,
         controller: _style,
         decoration: InputDecoration(
@@ -119,7 +127,6 @@ class _BeerInfoListState extends State<_BeerInfoList> {
       ),
       TextFormField(
         readOnly: readOnly,
-        initialValue: widget.beer?.originalWort.toString(),
         style: _text,
         controller: _originalWort,
         keyboardType: TextInputType.number,
@@ -132,7 +139,6 @@ class _BeerInfoListState extends State<_BeerInfoList> {
       ),
       TextFormField(
         readOnly: readOnly,
-        initialValue: widget.beer?.alcohol.toString(),
         style: _text,
         controller: _alcohol,
         keyboardType: TextInputType.number,
@@ -145,7 +151,6 @@ class _BeerInfoListState extends State<_BeerInfoList> {
       ),
       TextFormField(
         readOnly: readOnly,
-        initialValue: widget.beer?.ibu.toString(),
         style: _text,
         controller: _ibu,
         keyboardType: TextInputType.number,
@@ -158,7 +163,6 @@ class _BeerInfoListState extends State<_BeerInfoList> {
       ),
       TextFormField(
         readOnly: readOnly,
-        initialValue: widget.beer?.ingredients,
         style: _text,
         controller: _ingredients,
         decoration: InputDecoration(
@@ -167,7 +171,6 @@ class _BeerInfoListState extends State<_BeerInfoList> {
       ),
       TextFormField(
         readOnly: readOnly,
-        initialValue: widget.beer?.specifics,
         style: _text,
         controller: _specifics,
         decoration: InputDecoration(
@@ -176,7 +179,6 @@ class _BeerInfoListState extends State<_BeerInfoList> {
       ),
       TextFormField(
         readOnly: readOnly,
-        initialValue: widget.beer?.beerNotes,
         style: _text,
         controller: _beerNotes,
         decoration: InputDecoration(
@@ -224,8 +226,7 @@ class _BeerInfoListState extends State<_BeerInfoList> {
 
     return Form(
       key: _formKey,
-      child: ListView(
-        padding: const EdgeInsets.all(30.0),
+      child: _BeerCard(
         children: _widgets,
       ),
     );
@@ -297,6 +298,24 @@ class _BeerImageView extends StatelessWidget {
           child: Image.network(imagePaths[i]),
         );
       },
+    );
+  }
+}
+
+class _BeerCard extends StatelessWidget {
+  final List<Widget> children;
+  const _BeerCard({
+    required this.children,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.all(16.0),
+      child: Column(
+        children: children,
+      ),
     );
   }
 }

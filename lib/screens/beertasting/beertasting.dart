@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/screens/beer/beer_data.dart';
 import 'package:bierverkostung/screens/beertasting/tasting.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
@@ -94,9 +95,25 @@ class _BeerTastingDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NewTasting(
-      tasting: items[row!],
-      // tablet: tablet,
+    return Scaffold(
+      appBar: !tablet
+          ? AppBar(
+              title: Text(AppLocalizations.of(context).beertasting),
+            )
+          : null,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            TastingInfoList(
+              tasting: items[row!],
+              // tablet: tablet,
+            ),
+            BeerInfoList(
+              beer: items[row!].beer,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
