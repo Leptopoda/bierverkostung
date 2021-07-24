@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/screens/beertasting/tasting.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,8 +11,6 @@ import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
-
-import 'package:bierverkostung/screens/beertasting/disp_tasting.dart';
 
 /// Bieertasting widget
 ///
@@ -93,9 +92,9 @@ class _BeerTastingDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DispTasting(
+    return NewTasting(
       tasting: items[row!],
-      tablet: tablet,
+      // tablet: tablet,
     );
   }
 }

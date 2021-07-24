@@ -2,8 +2,8 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-// TODO: implement slider, dropdownmenu and format date.
-//
+// TODO: fix assertion controller OR initial value == null,
+// probably set the initial value via the controller
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
@@ -48,17 +48,6 @@ class _NewTastingState extends State<NewTasting> {
   final TextEditingController _foodRecommendation = TextEditingController();
   final TextEditingController _totalImpressionDesc = TextEditingController();
 
-  Beer? _beer;
-
-  int? _colourEbc;
-  int _foamStability = 1;
-  int _bitternessRating = 1;
-  int _sweetnessRating = 1;
-  int _acidityRating = 1;
-  int _fullBodiedRating = 1;
-  int _aftertasteRating = 1;
-  int _totalImpressionRating = 1;
-
   static const List<int?> _ebc = [
     null,
     4,
@@ -77,6 +66,17 @@ class _NewTastingState extends State<NewTasting> {
   ];
 
   late bool readOnly;
+
+  Beer? _beer;
+
+  int? _colourEbc;
+  int _foamStability = 1;
+  int _bitternessRating = 1;
+  int _sweetnessRating = 1;
+  int _acidityRating = 1;
+  int _fullBodiedRating = 1;
+  int _aftertasteRating = 1;
+  int _totalImpressionRating = 1;
 
   @override
   void initState() {
@@ -126,7 +126,7 @@ class _NewTastingState extends State<NewTasting> {
               style: _heading,
             ),
             // InputDatePickerFormField(firstDate: DateTime(2015), lastDate: DateTime(2100)),
-            if (widget.tasting == null)
+            if (!readOnly)
               TextFormField(
                 style: _text,
                 readOnly: true,
@@ -137,7 +137,7 @@ class _NewTastingState extends State<NewTasting> {
                   suffixIcon: const Icon(Icons.calendar_today_outlined),
                 ),
               ),
-            if (widget.tasting != null)
+            if (readOnly)
               TextFormField(
                 style: _text,
                 readOnly: true,
@@ -160,9 +160,11 @@ class _NewTastingState extends State<NewTasting> {
             TextFormField(
               style: _text,
               readOnly: true,
-              initialValue: _beer?.beerName,
+              initialValue: widget.tasting?.beer.beerName,
               controller: _beerName,
-              onTap: () => _selectBeer(context),
+              onTap: () {
+                if (!readOnly) _selectBeer(context);
+              },
               decoration: InputDecoration(
                 labelText: AppLocalizations.of(context).beerOne,
               ),
@@ -208,7 +210,7 @@ class _NewTastingState extends State<NewTasting> {
                 if (!readOnly) setState(() => _foamStability = value.round());
               },
             ),
-            if (widget.tasting == null)
+            if (!readOnly)
               DropdownButtonFormField(
                 value: _colourEbc,
                 items: _ebc.map<DropdownMenuItem<int>>(
@@ -238,7 +240,7 @@ class _NewTastingState extends State<NewTasting> {
                       : null,
                 ),
               ),
-            if (widget.tasting != null)
+            if (readOnly)
               TextFormField(
                 style: _text,
                 readOnly: true,

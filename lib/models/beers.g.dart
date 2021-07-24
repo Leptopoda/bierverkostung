@@ -26,7 +26,7 @@ Beer _$BeerFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$BeerToJson(Beer instance) => <String, dynamic>{
       'beerName': instance.beerName,
-      'brewery': instance.brewery,
+      'brewery': instance.brewery?.toJson(),
       'style': instance.style,
       'originalWort': instance.originalWort,
       'alcohol': instance.alcohol,

@@ -35,7 +35,7 @@ Tasting _$TastingFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$TastingToJson(Tasting instance) => <String, dynamic>{
       'date': instance.date.toIso8601String(),
       'location': instance.location,
-      'beer': instance.beer,
+      'beer': instance.beer.toJson(),
       'beerColour': instance.beerColour,
       'beerColourDesc': instance.beerColourDesc,
       'colourEbc': instance.colourEbc,

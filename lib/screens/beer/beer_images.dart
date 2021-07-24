@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-part of 'package:bierverkostung/screens/beer/new_beer.dart';
+part of 'package:bierverkostung/screens/beer/beer_data.dart';
 
 /// Widget to add new Images to a [Beer]
 class _BeerImage extends StatefulWidget {
