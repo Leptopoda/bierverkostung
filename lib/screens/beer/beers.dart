@@ -61,14 +61,16 @@ class BeerList extends StatelessWidget {
               ),
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(
-                    'Bier: ${snapshot.data![index].beerName}',
-                    style: Theme.of(context).textTheme.bodyText2,
+                return Card(
+                  child: ListTile(
+                    title: Text(
+                      'Bier: ${snapshot.data![index].beerName}',
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    onTap: () {
+                      Navigator.pop(context, snapshot.data![index]);
+                    },
                   ),
-                  onTap: () {
-                    Navigator.pop(context, snapshot.data![index]);
-                  },
                 );
               },
               floatingActionButton: FloatingActionButton(

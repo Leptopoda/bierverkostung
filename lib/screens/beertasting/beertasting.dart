@@ -59,10 +59,12 @@ class BeerTasting extends StatelessWidget {
               tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(
-                    'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date}',
-                    style: Theme.of(context).textTheme.bodyText2,
+                return Card(
+                  child: ListTile(
+                    title: Text(
+                      'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date}',
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
                   ),
                 );
               },
