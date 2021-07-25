@@ -21,7 +21,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const MyHome());
 
       case '/NewTasting':
-        return MaterialPageRoute(builder: (_) => const NewTasting());
+        return MaterialPageRoute(builder: (_) => const TastingInfoList());
 
       /* case '/DispTasting':
         if (_args is Tasting) {

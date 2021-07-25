@@ -311,11 +311,25 @@ class _BeerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16.0),
-      child: Column(
-        children: children,
+    return GestureDetector(
+      // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)) => _EditBeerCard()),
+      child: Card(
+        margin: const EdgeInsets.all(16.0),
+        child: Column(
+          children: children,
+        ),
       ),
     );
+  }
+}
+
+@Deprecated('well see how to use that thingy')
+// ignore: unused_element
+class _EditBeerCard extends StatelessWidget {
+  const _EditBeerCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

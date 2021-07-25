@@ -45,13 +45,11 @@ class BeerTasting extends StatelessWidget {
             }
 
             return ResponsiveListScaffold.builder(
-              scaffoldKey: _scaffoldKey,
+              scaffoldKey: BeerTasting._scaffoldKey,
               detailBuilder: (BuildContext context, int? index, bool tablet) {
                 return DetailsScreen(
-                  body: _BeerTastingDetail(
-                    items: snapshot.data!,
-                    row: index,
-                    tablet: tablet,
+                  body: TastingInfoList(
+                    tasting: snapshot.data![index!],
                   ),
                 );
               },
@@ -81,7 +79,9 @@ class BeerTasting extends StatelessWidget {
 }
 
 /// Detail screen of [Beertasting]
-class _BeerTastingDetail extends StatelessWidget {
+@Deprecated(
+    'we only use [TastingInfoList] for now.. we might change that though to be able to also diyplay the beer data')
+class _BeerTastingDetail extends StatefulWidget {
   const _BeerTastingDetail({
     Key? key,
     required this.items,
@@ -94,22 +94,40 @@ class _BeerTastingDetail extends StatelessWidget {
   final bool tablet;
 
   @override
+  _BeerTastingDetailState createState() => _BeerTastingDetailState();
+}
+
+// ignore: deprecated_member_use_from_same_package
+class _BeerTastingDetailState extends State<_BeerTastingDetail> {
+  bool onEdit = false;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: !tablet
+      appBar: widget.tablet
           ? AppBar(
               title: Text(AppLocalizations.of(context).beertasting),
+              actions: [
+                IconButton(
+                  tooltip: 'Edit Tasting',
+                  onPressed: () {
+                    setState(() => onEdit = true);
+                  },
+                  icon: const Icon(Icons.edit_outlined),
+                ),
+              ],
             )
           : null,
       body: SingleChildScrollView(
         child: Column(
           children: [
             TastingInfoList(
-              tasting: items[row!],
+              tasting: widget.items[widget.row!],
+              // onEdit: onEdit,
               // tablet: tablet,
             ),
             BeerInfoList(
-              beer: items[row!].beer,
+              beer: widget.items[widget.row!].beer,
             ),
           ],
         ),

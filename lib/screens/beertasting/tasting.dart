@@ -18,6 +18,7 @@ import 'package:bierverkostung/models/tastings.dart';
 /// Screen to add a new Beer
 ///
 /// It exposes the fields of a [Tasting] into a UI
+@Deprecated('we only use [TastingInfoList]')
 class NewTasting extends StatelessWidget {
   const NewTasting({Key? key}) : super(key: key);
 
@@ -40,27 +41,11 @@ class TastingInfoList extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _TastingInfoListState();
+  _TastingInfoListState createState() => _TastingInfoListState();
 }
 
 class _TastingInfoListState extends State<TastingInfoList> {
-  late DateTime _selectedDate;
-
   final _formKey = GlobalKey<FormState>();
-
-  late TextEditingController _dateController;
-  late TextEditingController _location;
-  late TextEditingController _beerName;
-  late TextEditingController _beerColour;
-  late TextEditingController _beerColourDesc;
-  late TextEditingController _clarity;
-  late TextEditingController _foamColour;
-  late TextEditingController _foamStructure;
-  late TextEditingController _mouthFeelDesc;
-  late TextEditingController _bodyDesc;
-  late TextEditingController _aftertasteDesc;
-  late TextEditingController _foodRecommendation;
-  late TextEditingController _totalImpressionDesc;
 
   static const List<int?> _ebc = [
     null,
@@ -79,18 +64,32 @@ class _TastingInfoListState extends State<TastingInfoList> {
     79,
   ];
 
+  late Beer _beer;
   late bool readOnly;
+  late DateTime _selectedDate;
 
-  Beer? _beer;
+  late TextEditingController _dateController;
+  late TextEditingController _location;
+  late TextEditingController _beerName;
+  late TextEditingController _beerColour;
+  late TextEditingController _beerColourDesc;
+  late TextEditingController _clarity;
+  late TextEditingController _foamColour;
+  late TextEditingController _foamStructure;
+  late TextEditingController _mouthFeelDesc;
+  late TextEditingController _bodyDesc;
+  late TextEditingController _aftertasteDesc;
+  late TextEditingController _foodRecommendation;
+  late TextEditingController _totalImpressionDesc;
 
-  int? _colourEbc;
-  int _foamStability = 1;
-  int _bitternessRating = 1;
-  int _sweetnessRating = 1;
-  int _acidityRating = 1;
-  int _fullBodiedRating = 1;
-  int _aftertasteRating = 1;
-  int _totalImpressionRating = 1;
+  int? colourEbc;
+  late int foamStability;
+  late int bitternessRating;
+  late int sweetnessRating;
+  late int acidityRating;
+  late int fullBodiedRating;
+  late int aftertasteRating;
+  late int totalImpressionRating;
 
   @override
   void initState() {
@@ -114,7 +113,32 @@ class _TastingInfoListState extends State<TastingInfoList> {
     _totalImpressionDesc =
         TextEditingController(text: widget.tasting?.totalImpressionDesc);
 
-    setState(() => readOnly = widget.tasting != null);
+    if (widget.tasting != null) {
+      colourEbc = widget.tasting!.colourEbc;
+      foamStability = widget.tasting!.foamStability;
+      bitternessRating = widget.tasting!.bitternessRating;
+      sweetnessRating = widget.tasting!.sweetnessRating;
+      acidityRating = widget.tasting!.acidityRating;
+      fullBodiedRating = widget.tasting!.fullBodiedRating;
+      aftertasteRating = widget.tasting!.aftertasteRating;
+      totalImpressionRating = widget.tasting!.totalImpressionRating;
+
+      _beer = widget.tasting!.beer;
+    } else {
+      foamStability = 1;
+      bitternessRating = 1;
+      sweetnessRating = 1;
+      acidityRating = 1;
+      fullBodiedRating = 1;
+      aftertasteRating = 1;
+      totalImpressionRating = 1;
+    }
+
+    if (widget.tasting == null) {
+      setState(() => readOnly = false);
+    } else {
+      setState(() => readOnly = true);
+    }
 
     super.initState();
   }
@@ -142,326 +166,339 @@ class _TastingInfoListState extends State<TastingInfoList> {
     final TextStyle? _heading = Theme.of(context).textTheme.headline5;
     final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
 
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: <Widget>[
-          _TastingCard(
-            children: [
-              Text(
-                AppLocalizations.of(context).beertasting_general,
-                style: _heading,
-              ),
-              // InputDatePickerFormField(firstDate: DateTime(2015), lastDate: DateTime(2100)),
-              if (!readOnly)
-                TextFormField(
-                  style: _text,
-                  readOnly: true,
-                  controller: _dateController,
-                  onTap: () => _selectDate(context),
-                  decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context).beertasting_date,
-                    suffixIcon: const Icon(Icons.calendar_today_outlined),
-                  ),
-                ),
-              if (readOnly)
-                TextFormField(
-                  style: _text,
-                  readOnly: true,
-                  initialValue:
-                      DateFormat.yMMMMd().format(widget.tasting!.date),
-                  decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context).beertasting_date,
-                    suffixIcon: const Icon(Icons.calendar_today_outlined),
-                  ),
-                ),
-              TextFormField(
-                style: _text,
-                readOnly: readOnly,
-                controller: _location,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).beertasting_location,
-                  suffixIcon: const Icon(Icons.location_on_outlined),
-                ),
-              ),
-              TextFormField(
-                style: _text,
-                readOnly: true,
-                controller: _beerName,
-                onTap: () {
-                  if (!readOnly) _selectBeer(context);
-                },
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).beerOne,
-                ),
-                validator: (value) {
-                  return (value == null || value.isEmpty)
-                      ? AppLocalizations.of(context).form_required
-                      : null;
-                },
-              ),
-            ],
-          ),
-          _TastingCard(
-            children: [
-              Text(
-                AppLocalizations.of(context).beertasting_opticalAppearence,
-                style: _heading,
-              ),
-              TextFormField(
-                style: _text,
-                readOnly: readOnly,
-                controller: _foamColour,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).beertasting_foamColour,
-                  suffixIcon: const Icon(Icons.color_lens_outlined),
-                ),
-              ),
-              TextFormField(
-                style: _text,
-                readOnly: readOnly,
-                controller: _foamStructure,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).beertasting_foamStructure,
-                ),
-              ),
-              Text(AppLocalizations.of(context).beertasting_foamStability),
-              Slider(
-                value: widget.tasting?.foamStability.toDouble() ??
-                    _foamStability.toDouble(),
-                // min: 0,
-                max: 3,
-                divisions: 3,
-                label: '$_foamStability',
-                onChanged: (double value) {
-                  if (!readOnly) {
-                    setState(() => _foamStability = value.round());
-                  }
-                },
-              ),
-              if (!readOnly)
-                DropdownButtonFormField(
-                  value: _colourEbc,
-                  items: _ebc.map<DropdownMenuItem<int>>(
-                    (int? val) {
-                      return DropdownMenuItem(
-                        value: val,
-                        child: Row(
-                          children: [
-                            Text('$val'),
-                            Icon(
-                              Icons.circle,
-                              color: EbcColor.toColor(val),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ).toList(),
-                  onChanged: (int? val) => setState(() => _colourEbc = val),
-                  decoration: InputDecoration(
-                    labelText: 'EBC',
-                    suffixIcon: (_colourEbc != null)
-                        ? Icon(
-                            Icons.circle,
-                            color: EbcColor.toColor(_colourEbc),
-                          )
-                        : null,
-                  ),
-                ),
-              if (readOnly)
-                TextFormField(
-                  style: _text,
-                  readOnly: true,
-                  initialValue: '${widget.tasting!.colourEbc}',
-                  decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context).beertasting_ebc,
-                    suffixIcon: Icon(
-                      Icons.circle,
-                      color: EbcColor.toColor(widget.tasting!.colourEbc),
-                    ),
-                  ),
-                ),
-              TextFormField(
-                readOnly: readOnly,
-                style: _text,
-                controller: _beerColour,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).beertasting_beerColour,
-                ),
-              ),
-              TextFormField(
-                style: _text,
-                readOnly: readOnly,
-                controller: _beerColourDesc,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).beertasting_colorDescription,
-                ),
-              ),
-              TextFormField(
-                style: _text,
-                readOnly: readOnly,
-                controller: _clarity,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).beertasting_clarity,
-                ),
-              ),
-            ],
-          ),
-          _TastingCard(
-            children: [
-              Text(
-                AppLocalizations.of(context).beertasting_taste,
-                style: _heading,
-              ),
-              TextFormField(
-                style: _text,
-                readOnly: readOnly,
-                controller: _mouthFeelDesc,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).beertasting_mmouthFeel,
-                ),
-              ),
-              Text(AppLocalizations.of(context).beertasting_bitterness),
-              Slider(
-                value: widget.tasting?.bitternessRating.toDouble() ??
-                    _bitternessRating.toDouble(),
-                // min: 0,
-                max: 3,
-                divisions: 3,
-                label: '$_bitternessRating',
-                onChanged: (double value) {
-                  if (!readOnly) {
-                    setState(() => _bitternessRating = value.round());
-                  }
-                },
-              ),
-              Text(AppLocalizations.of(context).beertasting_sweetness),
-              Slider(
-                value: widget.tasting?.sweetnessRating.toDouble() ??
-                    _sweetnessRating.toDouble(),
-                // min: 0,
-                max: 3,
-                divisions: 3,
-                label: '$_sweetnessRating',
-                onChanged: (double value) {
-                  if (!readOnly) {
-                    setState(() => _sweetnessRating = value.round());
-                  }
-                },
-              ),
-              Text(AppLocalizations.of(context).beertasting_acidity),
-              Slider(
-                value: widget.tasting?.acidityRating.toDouble() ??
-                    _acidityRating.toDouble(),
-                // min: 0,
-                max: 3,
-                divisions: 3,
-                label: '$_acidityRating',
-                onChanged: (double value) {
-                  if (!readOnly) {
-                    setState(() => _acidityRating = value.round());
-                  }
-                },
-              ),
-              Text(AppLocalizations.of(context).beertasting_bodyFullness),
-              Slider(
-                value: widget.tasting?.fullBodiedRating.toDouble() ??
-                    _fullBodiedRating.toDouble(),
-                // min: 0,
-                max: 3,
-                divisions: 3,
-                label: '$_fullBodiedRating',
-                onChanged: (double value) {
-                  if (!readOnly) {
-                    setState(() => _fullBodiedRating = value.round());
-                  }
-                },
-              ),
-              TextFormField(
-                style: _text,
-                readOnly: readOnly,
-                controller: _bodyDesc,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).beertasting_bodyDescription,
-                ),
-              ),
-              TextFormField(
-                style: _text,
-                readOnly: readOnly,
-                controller: _aftertasteDesc,
-                decoration: InputDecoration(
-                  labelText:
-                      AppLocalizations.of(context).beertasting_aftertaste,
-                ),
-              ),
-              Text(AppLocalizations.of(context).beertasting_aftertasteRating),
-              Slider(
-                value: widget.tasting?.aftertasteRating.toDouble() ??
-                    _aftertasteRating.toDouble(),
-                // min: 0,
-                max: 3,
-                divisions: 3,
-                label: '$_aftertasteRating',
-                onChanged: (double value) {
-                  if (!readOnly) {
-                    setState(() => _aftertasteRating = value.round());
-                  }
-                },
-              ),
-              TextFormField(
-                style: _text,
-                readOnly: readOnly,
-                controller: _foodRecommendation,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)
-                      .beertasting_foodRecomendation,
-                ),
-              ),
-            ],
-          ),
-          _TastingCard(
-            children: [
-              Text(
-                AppLocalizations.of(context).beertasting_conclusion,
-                style: _heading,
-              ),
-              TextFormField(
-                style: _text,
-                readOnly: readOnly,
-                controller: _totalImpressionDesc,
-                decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)
-                        .beertasting_totalImpression),
-              ),
-              Text(AppLocalizations.of(context).beertasting_totalRating),
-              Slider(
-                value: widget.tasting?.totalImpressionRating.toDouble() ??
-                    _totalImpressionRating.toDouble(),
-                min: 1,
-                max: 3,
-                divisions: 2,
-                label: '$_totalImpressionRating',
-                onChanged: (double value) {
-                  if (!readOnly) {
-                    setState(() => _totalImpressionRating = value.round());
-                  }
-                },
-              ),
-            ],
-          ),
-          if (!readOnly)
-            ElevatedButton(
-              onPressed: () => _submit(context),
-              child: Text(AppLocalizations.of(context).form_submit),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('beertasting'),
+        actions: [
+          if (readOnly)
+            IconButton(
+              tooltip: 'edit tasting',
+              onPressed: () => setState(() => readOnly = false),
+              icon: const Icon(Icons.edit_outlined),
             ),
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              _TastingCard(
+                children: [
+                  Text(
+                    AppLocalizations.of(context).beertasting_general,
+                    style: _heading,
+                  ),
+                  // InputDatePickerFormField(firstDate: DateTime(2015), lastDate: DateTime(2100)),
+                  if (!readOnly)
+                    TextFormField(
+                      style: _text,
+                      readOnly: true,
+                      controller: _dateController,
+                      onTap: () => _selectDate(context),
+                      decoration: InputDecoration(
+                        labelText:
+                            AppLocalizations.of(context).beertasting_date,
+                        suffixIcon: const Icon(Icons.calendar_today_outlined),
+                      ),
+                    ),
+                  if (readOnly)
+                    TextFormField(
+                      style: _text,
+                      readOnly: true,
+                      initialValue:
+                          DateFormat.yMMMMd().format(widget.tasting!.date),
+                      decoration: InputDecoration(
+                        labelText:
+                            AppLocalizations.of(context).beertasting_date,
+                        suffixIcon: const Icon(Icons.calendar_today_outlined),
+                      ),
+                    ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: readOnly,
+                    controller: _location,
+                    decoration: InputDecoration(
+                      labelText:
+                          AppLocalizations.of(context).beertasting_location,
+                      suffixIcon: const Icon(Icons.location_on_outlined),
+                    ),
+                  ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: true,
+                    controller: _beerName,
+                    onTap: () {
+                      if (!readOnly) _selectBeer(context);
+                    },
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).beerOne,
+                    ),
+                    validator: (value) {
+                      return (value == null || value.isEmpty)
+                          ? AppLocalizations.of(context).form_required
+                          : null;
+                    },
+                  ),
+                ],
+              ),
+              _TastingCard(
+                children: [
+                  Text(
+                    AppLocalizations.of(context).beertasting_opticalAppearence,
+                    style: _heading,
+                  ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: readOnly,
+                    controller: _foamColour,
+                    decoration: InputDecoration(
+                      labelText:
+                          AppLocalizations.of(context).beertasting_foamColour,
+                      suffixIcon: const Icon(Icons.color_lens_outlined),
+                    ),
+                  ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: readOnly,
+                    controller: _foamStructure,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)
+                          .beertasting_foamStructure,
+                    ),
+                  ),
+                  Text(AppLocalizations.of(context).beertasting_foamStability),
+                  Slider(
+                    value: foamStability.toDouble(),
+                    // min: 0,
+                    max: 3,
+                    divisions: 3,
+                    label: '$foamStability',
+                    onChanged: (double value) {
+                      if (!readOnly) {
+                        setState(() => foamStability = value.round());
+                      }
+                    },
+                  ),
+                  if (!readOnly)
+                    DropdownButtonFormField(
+                      value: colourEbc,
+                      items: _ebc.map<DropdownMenuItem<int>>(
+                        (int? val) {
+                          return DropdownMenuItem(
+                            value: val,
+                            child: Row(
+                              children: [
+                                Text('$val'),
+                                Icon(
+                                  Icons.circle,
+                                  color: EbcColor.toColor(val),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (int? val) => setState(() => colourEbc = val),
+                      decoration: InputDecoration(
+                        labelText: 'EBC',
+                        suffixIcon: (colourEbc != null)
+                            ? Icon(
+                                Icons.circle,
+                                color: EbcColor.toColor(colourEbc),
+                              )
+                            : null,
+                      ),
+                    ),
+                  if (readOnly)
+                    TextFormField(
+                      style: _text,
+                      readOnly: true,
+                      initialValue: '${widget.tasting!.colourEbc}',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).beertasting_ebc,
+                        suffixIcon: Icon(
+                          Icons.circle,
+                          color: EbcColor.toColor(widget.tasting!.colourEbc),
+                        ),
+                      ),
+                    ),
+                  TextFormField(
+                    readOnly: readOnly,
+                    style: _text,
+                    controller: _beerColour,
+                    decoration: InputDecoration(
+                      labelText:
+                          AppLocalizations.of(context).beertasting_beerColour,
+                    ),
+                  ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: readOnly,
+                    controller: _beerColourDesc,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)
+                          .beertasting_colorDescription,
+                    ),
+                  ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: readOnly,
+                    controller: _clarity,
+                    decoration: InputDecoration(
+                      labelText:
+                          AppLocalizations.of(context).beertasting_clarity,
+                    ),
+                  ),
+                ],
+              ),
+              _TastingCard(
+                children: [
+                  Text(
+                    AppLocalizations.of(context).beertasting_taste,
+                    style: _heading,
+                  ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: readOnly,
+                    controller: _mouthFeelDesc,
+                    decoration: InputDecoration(
+                      labelText:
+                          AppLocalizations.of(context).beertasting_mmouthFeel,
+                    ),
+                  ),
+                  Text(AppLocalizations.of(context).beertasting_bitterness),
+                  Slider(
+                    value: bitternessRating.toDouble(),
+                    // min: 0,
+                    max: 3,
+                    divisions: 3,
+                    label: '$bitternessRating',
+                    onChanged: (double value) {
+                      if (!readOnly) {
+                        setState(() => bitternessRating = value.round());
+                      }
+                    },
+                  ),
+                  Text(AppLocalizations.of(context).beertasting_sweetness),
+                  Slider(
+                    value: sweetnessRating.toDouble(),
+                    // min: 0,
+                    max: 3,
+                    divisions: 3,
+                    label: '$sweetnessRating',
+                    onChanged: (double value) {
+                      if (!readOnly) {
+                        setState(() => sweetnessRating = value.round());
+                      }
+                    },
+                  ),
+                  Text(AppLocalizations.of(context).beertasting_acidity),
+                  Slider(
+                    value: acidityRating.toDouble(),
+                    // min: 0,
+                    max: 3,
+                    divisions: 3,
+                    label: '$acidityRating',
+                    onChanged: (double value) {
+                      if (!readOnly) {
+                        setState(() => acidityRating = value.round());
+                      }
+                    },
+                  ),
+                  Text(AppLocalizations.of(context).beertasting_bodyFullness),
+                  Slider(
+                    value: fullBodiedRating.toDouble(),
+                    // min: 0,
+                    max: 3,
+                    divisions: 3,
+                    label: '$fullBodiedRating',
+                    onChanged: (double value) {
+                      if (!readOnly) {
+                        setState(() => fullBodiedRating = value.round());
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: readOnly,
+                    controller: _bodyDesc,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)
+                          .beertasting_bodyDescription,
+                    ),
+                  ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: readOnly,
+                    controller: _aftertasteDesc,
+                    decoration: InputDecoration(
+                      labelText:
+                          AppLocalizations.of(context).beertasting_aftertaste,
+                    ),
+                  ),
+                  Text(AppLocalizations.of(context)
+                      .beertasting_aftertasteRating),
+                  Slider(
+                    value: aftertasteRating.toDouble(),
+                    // min: 0,
+                    max: 3,
+                    divisions: 3,
+                    label: '$aftertasteRating',
+                    onChanged: (double value) {
+                      if (!readOnly) {
+                        setState(() => aftertasteRating = value.round());
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: readOnly,
+                    controller: _foodRecommendation,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)
+                          .beertasting_foodRecomendation,
+                    ),
+                  ),
+                ],
+              ),
+              _TastingCard(
+                children: [
+                  Text(
+                    AppLocalizations.of(context).beertasting_conclusion,
+                    style: _heading,
+                  ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: readOnly,
+                    controller: _totalImpressionDesc,
+                    decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context)
+                            .beertasting_totalImpression),
+                  ),
+                  Text(AppLocalizations.of(context).beertasting_totalRating),
+                  Slider(
+                    value: totalImpressionRating.toDouble(),
+                    min: 1,
+                    max: 3,
+                    divisions: 2,
+                    label: '$totalImpressionRating',
+                    onChanged: (double value) {
+                      if (!readOnly) {
+                        setState(() => totalImpressionRating = value.round());
+                      }
+                    },
+                  ),
+                ],
+              ),
+              if (!readOnly)
+                ElevatedButton(
+                  onPressed: () => _submit(context),
+                  child: Text(AppLocalizations.of(context).form_submit),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -480,27 +517,27 @@ class _TastingInfoListState extends State<TastingInfoList> {
       _formKey.currentState!.save();
 
       final Tasting _tasting = Tasting(
-        beer: _beer!,
+        beer: _beer,
         date: _selectedDate,
         location: _location.value.text,
         beerColour: _beerColour.value.text,
         beerColourDesc: _beerColourDesc.value.text,
-        colourEbc: _colourEbc,
+        colourEbc: colourEbc,
         clarity: _clarity.value.text,
         foamColour: _foamColour.value.text,
         foamStructure: _foamStructure.value.text,
-        foamStability: _foamStability,
-        bitternessRating: _bitternessRating,
-        sweetnessRating: _sweetnessRating,
-        acidityRating: _acidityRating,
+        foamStability: foamStability,
+        bitternessRating: bitternessRating,
+        sweetnessRating: sweetnessRating,
+        acidityRating: acidityRating,
         mouthFeelDesc: _mouthFeelDesc.value.text,
-        fullBodiedRating: _fullBodiedRating,
+        fullBodiedRating: fullBodiedRating,
         bodyDesc: _bodyDesc.value.text,
         aftertasteDesc: _aftertasteDesc.value.text,
-        aftertasteRating: _aftertasteRating,
+        aftertasteRating: aftertasteRating,
         foodRecommendation: _foodRecommendation.value.text,
         totalImpressionDesc: _totalImpressionDesc.value.text,
-        totalImpressionRating: _totalImpressionRating,
+        totalImpressionRating: totalImpressionRating,
       );
       await DatabaseService.saveTasting(_tasting);
 
@@ -510,10 +547,14 @@ class _TastingInfoListState extends State<TastingInfoList> {
 
   /// Calls [DispBeer] to select a [Beer]
   Future<void> _selectBeer(BuildContext context) async {
-    _beer = await Navigator.pushNamed<Beer?>(context, '/BeerList');
+    final Beer? _selectedBeer =
+        await Navigator.pushNamed<Beer?>(context, '/BeerList');
 
-    if (_beer != null) {
-      setState(() => _beerName.text = _beer!.beerName);
+    if (_selectedBeer != null) {
+      setState(() {
+        _beerName.text = _selectedBeer.beerName;
+        _beer = _selectedBeer;
+      });
     }
   }
 
@@ -544,9 +585,12 @@ class _TastingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(16.0),
-      child: Column(
-        children: children,
+      margin: const EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: children,
+        ),
       ),
     );
   }
