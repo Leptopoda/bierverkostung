@@ -127,32 +127,36 @@ class _BeerInfoListState extends State<BeerInfoList> {
               TastingBeerCard(
                 children: <Widget>[
                   TextFormField(
-                    readOnly: _readOnly,
                     style: _text,
+                    enabled: !_readOnly,
+                    readOnly: _readOnly,
                     controller: _beerName,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beer_name,
                     ),
                   ),
                   TextFormField(
-                    readOnly: _readOnly,
                     style: _text,
+                    enabled: !_readOnly,
+                    readOnly: _readOnly,
                     controller: _brewery,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beer_brewery,
                     ),
                   ),
                   TextFormField(
-                    readOnly: _readOnly,
                     style: _text,
+                    enabled: !_readOnly,
+                    readOnly: _readOnly,
                     controller: _style,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beer_style,
                     ),
                   ),
                   TextFormField(
-                    readOnly: _readOnly,
                     style: _text,
+                    enabled: !_readOnly,
+                    readOnly: _readOnly,
                     controller: _originalWort,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
@@ -163,8 +167,9 @@ class _BeerInfoListState extends State<BeerInfoList> {
                     ),
                   ),
                   TextFormField(
-                    readOnly: _readOnly,
                     style: _text,
+                    enabled: !_readOnly,
+                    readOnly: _readOnly,
                     controller: _alcohol,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
@@ -175,8 +180,9 @@ class _BeerInfoListState extends State<BeerInfoList> {
                     ),
                   ),
                   TextFormField(
-                    readOnly: _readOnly,
                     style: _text,
+                    enabled: !_readOnly,
+                    readOnly: _readOnly,
                     controller: _ibu,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
@@ -187,22 +193,25 @@ class _BeerInfoListState extends State<BeerInfoList> {
                     ),
                   ),
                   TextFormField(
-                    readOnly: _readOnly,
                     style: _text,
+                    enabled: !_readOnly,
+                    readOnly: _readOnly,
                     controller: _ingredients,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beer_ingredients,
                     ),
                   ),
                   TextFormField(
-                    readOnly: _readOnly,
                     style: _text,
+                    enabled: !_readOnly,
+                    readOnly: _readOnly,
                     controller: _specifics,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beer_specifics,
                     ),
                   ),
                   TextFormField(
+                    enabled: !_readOnly,
                     readOnly: _readOnly,
                     style: _text,
                     controller: _beerNotes,
