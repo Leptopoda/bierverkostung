@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:bierverkostung/models/beers.dart';
 
 import 'package:bierverkostung/shared/error_page.dart';
-import 'package:bierverkostung/screens/beer/beers.dart';
+import 'package:bierverkostung/screens/beer/beer_screen.dart';
 // import 'package:bierverkostung/screens/bierverkostung/disp_verkostung.dart';
 import 'package:bierverkostung/screens/home.dart';
-import 'package:bierverkostung/screens/beertasting/tasting.dart';
+import 'package:bierverkostung/screens/beertasting/tasting_data.dart';
 import 'package:bierverkostung/screens/beer/beer_data.dart';
 // import 'package:bierverkostung/screens/conference/conference.dart';
 import 'package:bierverkostung/screens/settings/settings.dart';

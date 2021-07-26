@@ -2,9 +2,6 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-// TODO: fix assertion controller OR initial value == null,
-// probably set the initial value via the controller
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,21 +16,7 @@ import 'package:bierverkostung/screens/beertasting/color_to_ebc.dart';
 /// Screen to add a new Beer
 ///
 /// It exposes the fields of a [Tasting] into a UI
-@Deprecated('we only use [TastingInfoList]')
-class NewTasting extends StatelessWidget {
-  const NewTasting({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).beertasting_newTasting),
-      ),
-      body: const SingleChildScrollView(child: TastingInfoList()),
-    );
-  }
-}
-
+/// set [tasting] in order to get a screen to display the given tasting
 class TastingInfoList extends StatefulWidget {
   final Tasting? tasting;
   const TastingInfoList({
@@ -46,7 +29,7 @@ class TastingInfoList extends StatefulWidget {
 }
 
 class _TastingInfoListState extends State<TastingInfoList> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static const List<int?> _ebc = [
     null,
@@ -65,11 +48,8 @@ class _TastingInfoListState extends State<TastingInfoList> {
     79,
   ];
 
-  static final List<DropdownMenuItem<int?>> ebcItems =
-      List.generate(_ebc.length, (index) => getEBCItem(_ebc[index]));
-
   late Beer _beer;
-  late bool readOnly;
+  late bool _readOnly;
   late DateTime _selectedDate;
 
   late TextEditingController _dateController;
@@ -86,14 +66,14 @@ class _TastingInfoListState extends State<TastingInfoList> {
   late TextEditingController _foodRecommendation;
   late TextEditingController _totalImpressionDesc;
 
-  int? colourEbc;
-  late int foamStability;
-  late int bitternessRating;
-  late int sweetnessRating;
-  late int acidityRating;
-  late int fullBodiedRating;
-  late int aftertasteRating;
-  late int totalImpressionRating;
+  int? _colourEbc;
+  late int _foamStability;
+  late int _bitternessRating;
+  late int _sweetnessRating;
+  late int _acidityRating;
+  late int _fullBodiedRating;
+  late int _aftertasteRating;
+  late int _totalImpressionRating;
 
   @override
   void initState() {
@@ -118,30 +98,30 @@ class _TastingInfoListState extends State<TastingInfoList> {
         TextEditingController(text: widget.tasting?.totalImpressionDesc);
 
     if (widget.tasting != null) {
-      colourEbc = widget.tasting!.colourEbc;
-      foamStability = widget.tasting!.foamStability;
-      bitternessRating = widget.tasting!.bitternessRating;
-      sweetnessRating = widget.tasting!.sweetnessRating;
-      acidityRating = widget.tasting!.acidityRating;
-      fullBodiedRating = widget.tasting!.fullBodiedRating;
-      aftertasteRating = widget.tasting!.aftertasteRating;
-      totalImpressionRating = widget.tasting!.totalImpressionRating;
+      _colourEbc = widget.tasting!.colourEbc;
+      _foamStability = widget.tasting!.foamStability;
+      _bitternessRating = widget.tasting!.bitternessRating;
+      _sweetnessRating = widget.tasting!.sweetnessRating;
+      _acidityRating = widget.tasting!.acidityRating;
+      _fullBodiedRating = widget.tasting!.fullBodiedRating;
+      _aftertasteRating = widget.tasting!.aftertasteRating;
+      _totalImpressionRating = widget.tasting!.totalImpressionRating;
 
       _beer = widget.tasting!.beer;
     } else {
-      foamStability = 1;
-      bitternessRating = 1;
-      sweetnessRating = 1;
-      acidityRating = 1;
-      fullBodiedRating = 1;
-      aftertasteRating = 1;
-      totalImpressionRating = 1;
+      _foamStability = 1;
+      _bitternessRating = 1;
+      _sweetnessRating = 1;
+      _acidityRating = 1;
+      _fullBodiedRating = 1;
+      _aftertasteRating = 1;
+      _totalImpressionRating = 1;
     }
 
     if (widget.tasting == null) {
-      setState(() => readOnly = false);
+      setState(() => _readOnly = false);
     } else {
-      setState(() => readOnly = true);
+      setState(() => _readOnly = true);
     }
 
     super.initState();
@@ -172,12 +152,12 @@ class _TastingInfoListState extends State<TastingInfoList> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('beertasting'),
+        title: Text(AppLocalizations.of(context).beertasting),
         actions: [
-          if (readOnly)
+          if (_readOnly)
             IconButton(
-              tooltip: 'edit tasting',
-              onPressed: () => setState(() => readOnly = false),
+              tooltip: AppLocalizations.of(context).beertasting_editTasting,
+              onPressed: () => setState(() => _readOnly = false),
               icon: const Icon(Icons.edit_outlined),
             ),
         ],
@@ -198,16 +178,15 @@ class _TastingInfoListState extends State<TastingInfoList> {
                     style: _text,
                     readOnly: true,
                     controller: _dateController,
-                    onTap: () => (!readOnly) ? _selectDate(context) : null,
+                    onTap: () => (!_readOnly) ? _selectDate() : null,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beertasting_date,
                       suffixIcon: const Icon(Icons.calendar_today_outlined),
                     ),
                   ),
-
                   TextFormField(
                     style: _text,
-                    readOnly: readOnly,
+                    readOnly: _readOnly,
                     controller: _location,
                     decoration: InputDecoration(
                       labelText:
@@ -220,7 +199,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
                     readOnly: true,
                     controller: _beerName,
                     onTap: () {
-                      if (!readOnly) _selectBeer(context);
+                      if (!_readOnly) _selectBeer();
                     },
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beerOne,
@@ -241,7 +220,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                   TextFormField(
                     style: _text,
-                    readOnly: readOnly,
+                    readOnly: _readOnly,
                     controller: _foamColour,
                     decoration: InputDecoration(
                       labelText:
@@ -251,7 +230,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                   TextFormField(
                     style: _text,
-                    readOnly: readOnly,
+                    readOnly: _readOnly,
                     controller: _foamStructure,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)
@@ -260,47 +239,25 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                   Text(AppLocalizations.of(context).beertasting_foamStability),
                   Slider(
-                    value: foamStability.toDouble(),
+                    value: _foamStability.toDouble(),
                     // min: 0,
                     max: 3,
                     divisions: 3,
-                    label: '$foamStability',
+                    label: _foamStability.toString(),
                     onChanged: (double value) {
-                      if (!readOnly) {
-                        setState(() => foamStability = value.round());
+                      if (!_readOnly) {
+                        setState(() => _foamStability = value.round());
                       }
                     },
                   ),
-                  if (!readOnly)
-                    DropdownButtonFormField<int?>(
-                      value: colourEbc,
-                      items: ebcItems,
-                      onChanged: (int? val) => setState(() => colourEbc = val),
-                      decoration: InputDecoration(
-                        labelText: 'EBC',
-                        suffixIcon: (colourEbc != null)
-                            ? Icon(
-                                Icons.circle,
-                                color: EbcColor.toColor(colourEbc),
-                              )
-                            : null,
-                      ),
-                    ),
-                  if (readOnly)
-                    TextFormField(
-                      style: _text,
-                      readOnly: true,
-                      initialValue: '${widget.tasting!.colourEbc}',
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).beertasting_ebc,
-                        suffixIcon: Icon(
-                          Icons.circle,
-                          color: EbcColor.toColor(widget.tasting!.colourEbc),
-                        ),
-                      ),
-                    ),
+                  _EBCFormField(
+                    ebc: _ebc,
+                    readOnly: _readOnly,
+                    value: _colourEbc,
+                    onChanged: (int? val) => setState(() => _colourEbc = val),
+                  ),
                   TextFormField(
-                    readOnly: readOnly,
+                    readOnly: _readOnly,
                     style: _text,
                     controller: _beerColour,
                     decoration: InputDecoration(
@@ -310,7 +267,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                   TextFormField(
                     style: _text,
-                    readOnly: readOnly,
+                    readOnly: _readOnly,
                     controller: _beerColourDesc,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)
@@ -319,7 +276,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                   TextFormField(
                     style: _text,
-                    readOnly: readOnly,
+                    readOnly: _readOnly,
                     controller: _clarity,
                     decoration: InputDecoration(
                       labelText:
@@ -336,7 +293,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                   TextFormField(
                     style: _text,
-                    readOnly: readOnly,
+                    readOnly: _readOnly,
                     controller: _mouthFeelDesc,
                     decoration: InputDecoration(
                       labelText:
@@ -345,59 +302,59 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                   Text(AppLocalizations.of(context).beertasting_bitterness),
                   Slider(
-                    value: bitternessRating.toDouble(),
+                    value: _bitternessRating.toDouble(),
                     // min: 0,
                     max: 3,
                     divisions: 3,
-                    label: '$bitternessRating',
+                    label: _bitternessRating.toString(),
                     onChanged: (double value) {
-                      if (!readOnly) {
-                        setState(() => bitternessRating = value.round());
+                      if (!_readOnly) {
+                        setState(() => _bitternessRating = value.round());
                       }
                     },
                   ),
                   Text(AppLocalizations.of(context).beertasting_sweetness),
                   Slider(
-                    value: sweetnessRating.toDouble(),
+                    value: _sweetnessRating.toDouble(),
                     // min: 0,
                     max: 3,
                     divisions: 3,
-                    label: '$sweetnessRating',
+                    label: _sweetnessRating.toString(),
                     onChanged: (double value) {
-                      if (!readOnly) {
-                        setState(() => sweetnessRating = value.round());
+                      if (!_readOnly) {
+                        setState(() => _sweetnessRating = value.round());
                       }
                     },
                   ),
                   Text(AppLocalizations.of(context).beertasting_acidity),
                   Slider(
-                    value: acidityRating.toDouble(),
+                    value: _acidityRating.toDouble(),
                     // min: 0,
                     max: 3,
                     divisions: 3,
-                    label: '$acidityRating',
+                    label: _acidityRating.toString(),
                     onChanged: (double value) {
-                      if (!readOnly) {
-                        setState(() => acidityRating = value.round());
+                      if (!_readOnly) {
+                        setState(() => _acidityRating = value.round());
                       }
                     },
                   ),
                   Text(AppLocalizations.of(context).beertasting_bodyFullness),
                   Slider(
-                    value: fullBodiedRating.toDouble(),
+                    value: _fullBodiedRating.toDouble(),
                     // min: 0,
                     max: 3,
                     divisions: 3,
-                    label: '$fullBodiedRating',
+                    label: _fullBodiedRating.toString(),
                     onChanged: (double value) {
-                      if (!readOnly) {
-                        setState(() => fullBodiedRating = value.round());
+                      if (!_readOnly) {
+                        setState(() => _fullBodiedRating = value.round());
                       }
                     },
                   ),
                   TextFormField(
                     style: _text,
-                    readOnly: readOnly,
+                    readOnly: _readOnly,
                     controller: _bodyDesc,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)
@@ -406,7 +363,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                   TextFormField(
                     style: _text,
-                    readOnly: readOnly,
+                    readOnly: _readOnly,
                     controller: _aftertasteDesc,
                     decoration: InputDecoration(
                       labelText:
@@ -416,20 +373,20 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   Text(AppLocalizations.of(context)
                       .beertasting_aftertasteRating),
                   Slider(
-                    value: aftertasteRating.toDouble(),
+                    value: _aftertasteRating.toDouble(),
                     // min: 0,
                     max: 3,
                     divisions: 3,
-                    label: '$aftertasteRating',
+                    label: _aftertasteRating.toString(),
                     onChanged: (double value) {
-                      if (!readOnly) {
-                        setState(() => aftertasteRating = value.round());
+                      if (!_readOnly) {
+                        setState(() => _aftertasteRating = value.round());
                       }
                     },
                   ),
                   TextFormField(
                     style: _text,
-                    readOnly: readOnly,
+                    readOnly: _readOnly,
                     controller: _foodRecommendation,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)
@@ -446,7 +403,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                   TextFormField(
                     style: _text,
-                    readOnly: readOnly,
+                    readOnly: _readOnly,
                     controller: _totalImpressionDesc,
                     decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)
@@ -454,22 +411,22 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                   Text(AppLocalizations.of(context).beertasting_totalRating),
                   Slider(
-                    value: totalImpressionRating.toDouble(),
+                    value: _totalImpressionRating.toDouble(),
                     min: 1,
                     max: 3,
                     divisions: 2,
-                    label: '$totalImpressionRating',
+                    label: _totalImpressionRating.toString(),
                     onChanged: (double value) {
-                      if (!readOnly) {
-                        setState(() => totalImpressionRating = value.round());
+                      if (!_readOnly) {
+                        setState(() => _totalImpressionRating = value.round());
                       }
                     },
                   ),
                 ],
               ),
-              if (!readOnly)
+              if (!_readOnly)
                 ElevatedButton(
-                  onPressed: () => _submit(context),
+                  onPressed: _submit,
                   child: Text(AppLocalizations.of(context).form_submit),
                 ),
             ],
@@ -480,7 +437,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
   }
 
   /// validates the inputs and submits them to FireStore
-  Future<void> _submit(BuildContext context) async {
+  Future<void> _submit() async {
     // Validate returns true if the form is valid, or false otherwise.
     if (_formKey.currentState!.validate()) {
       // If the form is valid, display a snackbar. In the real world,
@@ -498,22 +455,22 @@ class _TastingInfoListState extends State<TastingInfoList> {
         location: _location.value.text,
         beerColour: _beerColour.value.text,
         beerColourDesc: _beerColourDesc.value.text,
-        colourEbc: colourEbc,
+        colourEbc: _colourEbc,
         clarity: _clarity.value.text,
         foamColour: _foamColour.value.text,
         foamStructure: _foamStructure.value.text,
-        foamStability: foamStability,
-        bitternessRating: bitternessRating,
-        sweetnessRating: sweetnessRating,
-        acidityRating: acidityRating,
+        foamStability: _foamStability,
+        bitternessRating: _bitternessRating,
+        sweetnessRating: _sweetnessRating,
+        acidityRating: _acidityRating,
         mouthFeelDesc: _mouthFeelDesc.value.text,
-        fullBodiedRating: fullBodiedRating,
+        fullBodiedRating: _fullBodiedRating,
         bodyDesc: _bodyDesc.value.text,
         aftertasteDesc: _aftertasteDesc.value.text,
-        aftertasteRating: aftertasteRating,
+        aftertasteRating: _aftertasteRating,
         foodRecommendation: _foodRecommendation.value.text,
         totalImpressionDesc: _totalImpressionDesc.value.text,
-        totalImpressionRating: totalImpressionRating,
+        totalImpressionRating: _totalImpressionRating,
       );
       await DatabaseService.saveTasting(_tasting);
 
@@ -522,7 +479,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
   }
 
   /// Calls [DispBeer] to select a [Beer]
-  Future<void> _selectBeer(BuildContext context) async {
+  Future<void> _selectBeer() async {
     final Beer? _selectedBeer =
         await Navigator.pushNamed<Beer?>(context, '/BeerList');
 
@@ -535,7 +492,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
   }
 
   /// Selects a date from DatePicker
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate() async {
     final DateTime? _picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
@@ -549,47 +506,77 @@ class _TastingInfoListState extends State<TastingInfoList> {
       );
     }
   }
+}
 
-  static DropdownMenuItem<int?> getEBCItem(int? val) {
+/// widget to select or display the ebc
+///
+/// [value] is the currnent value or the value to be displayed
+class _EBCFormField extends StatelessWidget {
+  const _EBCFormField({
+    Key? key,
+    required this.ebc,
+    this.value,
+    this.readOnly = false,
+    this.onChanged,
+  }) : super(key: key);
+
+  final int? value;
+  final List<int?> ebc;
+  final bool readOnly;
+  final ValueChanged<int?>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final Icon? _suffixIcon = (value != null)
+        ? Icon(
+            Icons.circle,
+            color: EbcColor.toColor(value),
+          )
+        : null;
+    final InputDecoration _decoration = InputDecoration(
+      labelText: AppLocalizations.of(context).beertasting_ebc,
+      suffixIcon: _suffixIcon,
+    );
+
+    if (!readOnly) {
+      final List<DropdownMenuItem<int?>> _ebcItems = List.generate(
+        ebc.length,
+        (index) => _getEBCItem(ebc[index]),
+      );
+
+      return DropdownButtonFormField<int?>(
+        value: value,
+        items: _ebcItems,
+        onChanged: onChanged,
+        decoration: _decoration,
+      );
+    } else {
+      final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
+
+      return TextFormField(
+        style: _text,
+        readOnly: true,
+        initialValue: value?.toString(),
+        decoration: _decoration,
+      );
+    }
+  }
+
+  /// generates a DropdownMenuItem<int?> displaying the selected [ebc] as colour
+  static DropdownMenuItem<int?> _getEBCItem(int? ebc) {
     return DropdownMenuItem<int?>(
-      value: val,
-      child: (val != null)
+      value: ebc,
+      child: (ebc != null)
           ? Row(
               children: [
-                Text('$val'),
+                Text(ebc.toString()),
                 Icon(
                   Icons.circle,
-                  color: EbcColor.toColor(val),
+                  color: EbcColor.toColor(ebc),
                 ),
               ],
             )
           : Container(),
-    );
-  }
-}
-
-@Deprecated("doesn't work")
-// ignore: unused_element
-class _EbcItem extends StatelessWidget {
-  final int? val;
-  const _EbcItem({
-    required this.val,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  DropdownMenuItem<int?> build(BuildContext context) {
-    return DropdownMenuItem<int?>(
-      value: val,
-      child: Row(
-        children: [
-          Text('$val'),
-          Icon(
-            Icons.circle,
-            color: EbcColor.toColor(val),
-          ),
-        ],
-      ),
     );
   }
 }

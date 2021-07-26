@@ -66,9 +66,6 @@ class BeerList extends StatelessWidget {
                       'Bier: ${snapshot.data![index].beerName}',
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
-                    // onTap: () {
-                    //   Navigator.pop(context, snapshot.data![index]);
-                    // },
                   ),
                 );
               },
@@ -79,36 +76,6 @@ class BeerList extends StatelessWidget {
             );
         }
       },
-    );
-  }
-}
-
-/// Displays a selected [Beer] out of [BeerList]
-@Deprecated('use [BeerInfoList] instead')
-// ignore: unused_element
-class _BeerListDetail extends StatelessWidget {
-  const _BeerListDetail({
-    Key? key,
-    required this.items,
-    required this.row,
-    required this.tablet,
-  }) : super(key: key);
-
-  final List<Beer> items;
-  final int? row;
-  final bool tablet;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: !tablet,
-        title: Text(AppLocalizations.of(context).beer_newBeer),
-        // actions: tablet ? actionBarItems : null,
-      ),
-      body: Center(
-        child: Text(items[row!].beerName),
-      ),
     );
   }
 }

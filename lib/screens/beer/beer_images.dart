@@ -4,6 +4,32 @@
 
 part of 'package:bierverkostung/screens/beer/beer_data.dart';
 
+/// Widget to display Images of a beer
+///
+/// It'll return the images provided at [imagePaths]
+class _BeerImageView extends StatelessWidget {
+  final List<String> imagePaths;
+  const _BeerImageView({
+    Key? key,
+    required this.imagePaths,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemExtent: 100,
+      itemCount: imagePaths.length,
+      itemBuilder: (BuildContext context, int i) {
+        return Card(
+          color: Theme.of(context).accentColor,
+          child: Image.network(imagePaths[i]),
+        );
+      },
+    );
+  }
+}
+
 /// Widget to add new Images to a [Beer]
 class _BeerImage extends StatefulWidget {
   final ValueChanged<List<String>> onChanged;
@@ -28,7 +54,6 @@ class _BeerImageState extends State<_BeerImage>
     super.build(context);
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      // padding: const EdgeInsets.all(10),
       itemExtent: 100,
       itemCount: _imagePaths.length + 1,
       itemBuilder: (BuildContext context, int i) {
@@ -103,42 +128,6 @@ class _BeerImageState extends State<_BeerImage>
       _imagePaths.remove(path);
       setState(() {});
       widget.onChanged(_imagePaths);
-    }
-  }
-}
-
-/// Card used to display images
-@Deprecated('now integrated into [_BeerImage]')
-// ignore: unused_element
-class _BeerImageCard extends StatelessWidget {
-  final ValueChanged<String> onChanged;
-  const _BeerImageCard({required this.onChanged, Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Theme.of(context).accentColor,
-      child: IconButton(
-        tooltip: AppLocalizations.of(context).beer_newImage,
-        icon: const Icon(
-          Icons.add,
-          size: 50,
-        ),
-        onPressed: () => _getImage(context),
-      ),
-    );
-  }
-
-  /// Fetches the image and adds it to the stack
-  Future<void> _getImage(BuildContext context) async {
-    final String? _path = await showModalBottomSheet<String?>(
-      shape: PickImageModal.shape,
-      context: context,
-      builder: (BuildContext context) => const PickImageModal(),
-    );
-
-    if (_path != null) {
-      onChanged(_path);
     }
   }
 }
