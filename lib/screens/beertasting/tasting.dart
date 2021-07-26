@@ -9,11 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:bierverkostung/screens/beertasting/color_to_ebc.dart';
-
 import 'package:bierverkostung/services/firebase/database.dart';
+import 'package:bierverkostung/shared/tasting_beer_card.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
+
+import 'package:bierverkostung/screens/beertasting/color_to_ebc.dart';
 
 /// Screen to add a new Beer
 ///
@@ -63,6 +64,9 @@ class _TastingInfoListState extends State<TastingInfoList> {
     69,
     79,
   ];
+
+  static final List<DropdownMenuItem<int?>> ebcItems =
+      List.generate(_ebc.length, (index) => getEBCItem(_ebc[index]));
 
   late Beer _beer;
   late bool readOnly;
@@ -183,37 +187,24 @@ class _TastingInfoListState extends State<TastingInfoList> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              _TastingCard(
+              TastingBeerCard(
                 children: [
                   Text(
                     AppLocalizations.of(context).beertasting_general,
                     style: _heading,
                   ),
                   // InputDatePickerFormField(firstDate: DateTime(2015), lastDate: DateTime(2100)),
-                  if (!readOnly)
-                    TextFormField(
-                      style: _text,
-                      readOnly: true,
-                      controller: _dateController,
-                      onTap: () => _selectDate(context),
-                      decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).beertasting_date,
-                        suffixIcon: const Icon(Icons.calendar_today_outlined),
-                      ),
+                  TextFormField(
+                    style: _text,
+                    readOnly: true,
+                    controller: _dateController,
+                    onTap: () => (!readOnly) ? _selectDate(context) : null,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).beertasting_date,
+                      suffixIcon: const Icon(Icons.calendar_today_outlined),
                     ),
-                  if (readOnly)
-                    TextFormField(
-                      style: _text,
-                      readOnly: true,
-                      initialValue:
-                          DateFormat.yMMMMd().format(widget.tasting!.date),
-                      decoration: InputDecoration(
-                        labelText:
-                            AppLocalizations.of(context).beertasting_date,
-                        suffixIcon: const Icon(Icons.calendar_today_outlined),
-                      ),
-                    ),
+                  ),
+
                   TextFormField(
                     style: _text,
                     readOnly: readOnly,
@@ -242,7 +233,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                 ],
               ),
-              _TastingCard(
+              TastingBeerCard(
                 children: [
                   Text(
                     AppLocalizations.of(context).beertasting_opticalAppearence,
@@ -281,24 +272,9 @@ class _TastingInfoListState extends State<TastingInfoList> {
                     },
                   ),
                   if (!readOnly)
-                    DropdownButtonFormField(
+                    DropdownButtonFormField<int?>(
                       value: colourEbc,
-                      items: _ebc.map<DropdownMenuItem<int>>(
-                        (int? val) {
-                          return DropdownMenuItem(
-                            value: val,
-                            child: Row(
-                              children: [
-                                Text('$val'),
-                                Icon(
-                                  Icons.circle,
-                                  color: EbcColor.toColor(val),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ).toList(),
+                      items: ebcItems,
                       onChanged: (int? val) => setState(() => colourEbc = val),
                       decoration: InputDecoration(
                         labelText: 'EBC',
@@ -352,7 +328,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                 ],
               ),
-              _TastingCard(
+              TastingBeerCard(
                 children: [
                   Text(
                     AppLocalizations.of(context).beertasting_taste,
@@ -462,7 +438,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                 ],
               ),
-              _TastingCard(
+              TastingBeerCard(
                 children: [
                   Text(
                     AppLocalizations.of(context).beertasting_conclusion,
@@ -573,24 +549,46 @@ class _TastingInfoListState extends State<TastingInfoList> {
       );
     }
   }
+
+  static DropdownMenuItem<int?> getEBCItem(int? val) {
+    return DropdownMenuItem<int?>(
+      value: val,
+      child: (val != null)
+          ? Row(
+              children: [
+                Text('$val'),
+                Icon(
+                  Icons.circle,
+                  color: EbcColor.toColor(val),
+                ),
+              ],
+            )
+          : Container(),
+    );
+  }
 }
 
-class _TastingCard extends StatelessWidget {
-  final List<Widget> children;
-  const _TastingCard({
-    required this.children,
+@Deprecated("doesn't work")
+// ignore: unused_element
+class _EbcItem extends StatelessWidget {
+  final int? val;
+  const _EbcItem({
+    required this.val,
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: children,
-        ),
+  DropdownMenuItem<int?> build(BuildContext context) {
+    return DropdownMenuItem<int?>(
+      value: val,
+      child: Row(
+        children: [
+          Text('$val'),
+          Icon(
+            Icons.circle,
+            color: EbcColor.toColor(val),
+          ),
+        ],
       ),
     );
   }

@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/screens/beer/beer_data.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -46,10 +47,8 @@ class BeerList extends StatelessWidget {
               scaffoldKey: _scaffoldKey,
               detailBuilder: (BuildContext context, int? index, bool tablet) {
                 return DetailsScreen(
-                  body: _BeerListDetail(
-                    items: snapshot.data!,
-                    row: index,
-                    tablet: tablet,
+                  body: BeerInfoList(
+                    beer: snapshot.data![index!],
                   ),
                 );
               },
@@ -67,9 +66,9 @@ class BeerList extends StatelessWidget {
                       'Bier: ${snapshot.data![index].beerName}',
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
-                    onTap: () {
-                      Navigator.pop(context, snapshot.data![index]);
-                    },
+                    // onTap: () {
+                    //   Navigator.pop(context, snapshot.data![index]);
+                    // },
                   ),
                 );
               },
@@ -85,6 +84,8 @@ class BeerList extends StatelessWidget {
 }
 
 /// Displays a selected [Beer] out of [BeerList]
+@Deprecated('use [BeerInfoList] instead')
+// ignore: unused_element
 class _BeerListDetail extends StatelessWidget {
   const _BeerListDetail({
     Key? key,

@@ -34,7 +34,7 @@ class RouteGenerator {
         return _errorRoute(); */
 
       case '/NewBeer':
-        return MaterialPageRoute(builder: (_) => const NewBeer());
+        return MaterialPageRoute(builder: (_) => const BeerInfoList());
 
       case '/BeerList':
         return MaterialPageRoute<Beer?>(builder: (_) => const BeerList());

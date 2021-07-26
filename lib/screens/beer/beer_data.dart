@@ -17,12 +17,14 @@ import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/services/firebase/cloud_storage.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/image_provider_modal.dart';
+import 'package:bierverkostung/shared/tasting_beer_card.dart';
 
 part 'package:bierverkostung/screens/beer/beer_images.dart';
 
 /// Screen to add a new Beer
 ///
 /// It exposes the fields of a [Beer] into a UI
+@Deprecated('use [BeerInfoList] instead')
 class NewBeer extends StatelessWidget {
   const NewBeer({Key? key}) : super(key: key);
 
@@ -50,6 +52,8 @@ class BeerInfoList extends StatefulWidget {
 
 class _BeerInfoListState extends State<BeerInfoList> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  late Beer _beer;
 
   late TextEditingController _beerName;
   late TextEditingController _brewery;
@@ -79,7 +83,17 @@ class _BeerInfoListState extends State<BeerInfoList> {
     _ingredients = TextEditingController(text: widget.beer?.ingredients);
     _specifics = TextEditingController(text: widget.beer?.specifics);
     _beerNotes = TextEditingController(text: widget.beer?.beerNotes);
-    setState(() => readOnly = widget.beer != null);
+
+    if (widget.beer?.images != null && widget.beer!.images!.isNotEmpty) {
+      _images = widget.beer!.images!;
+    }
+
+    if (widget.beer == null) {
+      setState(() => readOnly = false);
+    } else {
+      _beer = widget.beer!;
+      setState(() => readOnly = true);
+    }
   }
 
   @override
@@ -100,134 +114,149 @@ class _BeerInfoListState extends State<BeerInfoList> {
   Widget build(BuildContext context) {
     final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
 
-    final List<Widget> _widgets = <Widget>[
-      TextFormField(
-        readOnly: readOnly,
-        style: _text,
-        controller: _beerName,
-        decoration: InputDecoration(
-          labelText: AppLocalizations.of(context).beer_name,
-        ),
-      ),
-      TextFormField(
-        readOnly: readOnly,
-        style: _text,
-        controller: _brewery,
-        decoration: InputDecoration(
-          labelText: AppLocalizations.of(context).beer_brewery,
-        ),
-      ),
-      TextFormField(
-        readOnly: readOnly,
-        style: _text,
-        controller: _style,
-        decoration: InputDecoration(
-          labelText: AppLocalizations.of(context).beer_style,
-        ),
-      ),
-      TextFormField(
-        readOnly: readOnly,
-        style: _text,
-        controller: _originalWort,
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          ThousandsFormatter(allowFraction: true),
-        ],
-        decoration: InputDecoration(
-          labelText: AppLocalizations.of(context).beer_originalWort,
-        ),
-      ),
-      TextFormField(
-        readOnly: readOnly,
-        style: _text,
-        controller: _alcohol,
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          ThousandsFormatter(allowFraction: true),
-        ],
-        decoration: InputDecoration(
-          labelText: AppLocalizations.of(context).beer_alcohol,
-        ),
-      ),
-      TextFormField(
-        readOnly: readOnly,
-        style: _text,
-        controller: _ibu,
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly,
-        ],
-        decoration: InputDecoration(
-          labelText: AppLocalizations.of(context).beer_ibu,
-        ),
-      ),
-      TextFormField(
-        readOnly: readOnly,
-        style: _text,
-        controller: _ingredients,
-        decoration: InputDecoration(
-          labelText: AppLocalizations.of(context).beer_ingredients,
-        ),
-      ),
-      TextFormField(
-        readOnly: readOnly,
-        style: _text,
-        controller: _specifics,
-        decoration: InputDecoration(
-          labelText: AppLocalizations.of(context).beer_specifics,
-        ),
-      ),
-      TextFormField(
-        readOnly: readOnly,
-        style: _text,
-        controller: _beerNotes,
-        decoration: InputDecoration(
-          labelText: AppLocalizations.of(context).beer_notes,
-        ),
-      ),
-      const SizedBox(
-        height: 10,
-      ),
-    ];
-
-    if (readOnly) {
-      if (widget.beer?.images != null) {
-        _widgets.addAll([
-          const SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            height: 150,
-            width: 500,
-            child: _BeerImageView(
-              imagePaths: widget.beer!.images!,
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: widget.beer == null,
+        title: const Text('Beer'),
+        actions: [
+          if (readOnly)
+            IconButton(
+              tooltip: 'edit beer',
+              onPressed: () => setState(() => readOnly = false),
+              icon: const Icon(Icons.edit_outlined),
             ),
+          if (widget.beer != null && readOnly)
+            IconButton(
+              tooltip: 'select beer',
+              onPressed: () => Navigator.pop(context, _beer),
+              icon: const Icon(Icons.check_outlined),
+            ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TastingBeerCard(
+                children: <Widget>[
+                  TextFormField(
+                    readOnly: readOnly,
+                    style: _text,
+                    controller: _beerName,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).beer_name,
+                    ),
+                  ),
+                  TextFormField(
+                    readOnly: readOnly,
+                    style: _text,
+                    controller: _brewery,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).beer_brewery,
+                    ),
+                  ),
+                  TextFormField(
+                    readOnly: readOnly,
+                    style: _text,
+                    controller: _style,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).beer_style,
+                    ),
+                  ),
+                  TextFormField(
+                    readOnly: readOnly,
+                    style: _text,
+                    controller: _originalWort,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      ThousandsFormatter(allowFraction: true),
+                    ],
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).beer_originalWort,
+                    ),
+                  ),
+                  TextFormField(
+                    readOnly: readOnly,
+                    style: _text,
+                    controller: _alcohol,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      ThousandsFormatter(allowFraction: true),
+                    ],
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).beer_alcohol,
+                    ),
+                  ),
+                  TextFormField(
+                    readOnly: readOnly,
+                    style: _text,
+                    controller: _ibu,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).beer_ibu,
+                    ),
+                  ),
+                  TextFormField(
+                    readOnly: readOnly,
+                    style: _text,
+                    controller: _ingredients,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).beer_ingredients,
+                    ),
+                  ),
+                  TextFormField(
+                    readOnly: readOnly,
+                    style: _text,
+                    controller: _specifics,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).beer_specifics,
+                    ),
+                  ),
+                  TextFormField(
+                    readOnly: readOnly,
+                    style: _text,
+                    controller: _beerNotes,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context).beer_notes,
+                    ),
+                  ),
+                ],
+              ),
+              if (!readOnly ||
+                  (widget.beer?.images != null &&
+                      widget.beer!.images!.isNotEmpty))
+                TastingBeerCard(
+                  children: [
+                    if (readOnly && _images.isNotEmpty)
+                      SizedBox(
+                        height: 150,
+                        width: 500,
+                        child: _BeerImageView(
+                          imagePaths: widget.beer!.images!,
+                        ),
+                      ),
+                    if (!readOnly)
+                      SizedBox(
+                        height: 150,
+                        width: 500,
+                        child: _BeerImage(
+                          onChanged: (images) => _images = images,
+                        ),
+                      ),
+                  ],
+                ),
+              if (!readOnly)
+                ElevatedButton(
+                  onPressed: () => _submit(),
+                  child: Text(AppLocalizations.of(context).form_submit),
+                ),
+            ],
           ),
-        ]);
-      }
-    } else {
-      _widgets.addAll([
-        SizedBox(
-          height: 150,
-          width: 500,
-          child: _BeerImage(
-            onChanged: (images) => _images = images,
-          ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        ElevatedButton(
-          onPressed: () => _submit(),
-          child: Text(AppLocalizations.of(context).form_submit),
-        ),
-      ]);
-    }
-
-    return Form(
-      key: _formKey,
-      child: _BeerCard(
-        children: _widgets,
       ),
     );
   }
@@ -255,7 +284,7 @@ class _BeerInfoListState extends State<BeerInfoList> {
         }
       }
 
-      final _bier = Beer(
+      _beer = Beer(
         beerName: _beerName.value.text,
         brewery: (_brewery.value.text != '')
             ? Brewery(breweryName: _brewery.value.text)
@@ -270,9 +299,9 @@ class _BeerInfoListState extends State<BeerInfoList> {
         images: _imageUrls,
       );
 
-      await DatabaseService.saveBeer(_bier);
+      await DatabaseService.saveBeer(_beer);
 
-      Navigator.pop(context);
+      Navigator.pop(context, _beer);
     }
   }
 }
@@ -302,6 +331,8 @@ class _BeerImageView extends StatelessWidget {
   }
 }
 
+@Deprecated('unused')
+// ignore: unused_element
 class _BeerCard extends StatelessWidget {
   final List<Widget> children;
   const _BeerCard({
@@ -314,9 +345,12 @@ class _BeerCard extends StatelessWidget {
     return GestureDetector(
       // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_)) => _EditBeerCard()),
       child: Card(
-        margin: const EdgeInsets.all(16.0),
-        child: Column(
-          children: children,
+        margin: const EdgeInsets.all(8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: children,
+          ),
         ),
       ),
     );
