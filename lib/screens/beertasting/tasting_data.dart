@@ -158,18 +158,9 @@ class _TastingInfoListState extends State<TastingInfoList> {
       appBar: !widget.tablet
           ? AppBar(
               title: Text(AppLocalizations.of(context).beertasting),
-              actions: [
-                if (_readOnly)
-                  IconButton(
-                    tooltip:
-                        AppLocalizations.of(context).beertasting_editTasting,
-                    onPressed: _onEdit,
-                    icon: const Icon(Icons.edit_outlined),
-                  ),
-              ],
             )
           : null,
-      floatingActionButton: (widget.tablet && _readOnly)
+      floatingActionButton: _readOnly
           ? FloatingActionButton(
               tooltip: AppLocalizations.of(context).beertasting_editTasting,
               onPressed: _onEdit,

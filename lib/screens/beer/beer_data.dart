@@ -109,18 +109,23 @@ class _BeerInfoListState extends State<BeerInfoList> {
         automaticallyImplyLeading: !widget.tablet,
         title:
             !widget.tablet ? Text(AppLocalizations.of(context).beerOne) : null,
-        actions: [
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
           if (_readOnly)
-            IconButton(
+            FloatingActionButton(
               tooltip: AppLocalizations.of(context).beer_editBeer,
               onPressed: () => setState(() => _readOnly = false),
-              icon: const Icon(Icons.edit_outlined),
+              child: const Icon(Icons.edit_outlined),
             ),
           if (widget.beer != null && _readOnly && widget.selectable)
-            IconButton(
+            const SizedBox(width: 10),
+          if (widget.beer != null && _readOnly && widget.selectable)
+            FloatingActionButton(
               tooltip: AppLocalizations.of(context).beer_selectBeer,
               onPressed: () => Navigator.pop(context, _beer),
-              icon: const Icon(Icons.check_outlined),
+              child: const Icon(Icons.check_outlined),
             ),
         ],
       ),
