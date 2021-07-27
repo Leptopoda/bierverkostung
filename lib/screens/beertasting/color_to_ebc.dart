@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart';
+part of 'package:bierverkostung/screens/beertasting/tasting_data.dart';
 
 /// This class converts EBC values to approximately resembling RGB colour values.
 ///
@@ -320,7 +320,7 @@ class EbcColor {
   ];
 
   /// converts the given [ebcValue] into an [Color], returns transparent when the input is null
-  static Color? toColor(final num? ebcValue) {
+  static Color toColor(final num? ebcValue) {
     if (ebcValue != null) {
       final double _srmValue = ebcValue / 1.97;
       int _index = (_srmValue * 10).round();

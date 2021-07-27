@@ -34,7 +34,9 @@ class RouteGenerator {
         return _errorRoute(); */
 
       case '/NewBeer':
-        return MaterialPageRoute(builder: (_) => const BeerInfoList());
+        assert(_args is Beer?);
+        return MaterialPageRoute(
+            builder: (_) => BeerInfoList(beer: _args as Beer?));
 
       case '/BeerList':
         return MaterialPageRoute<Beer?>(builder: (_) => const BeerList());
@@ -76,11 +78,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const MoneyCalculator());
 
       case '/error':
-        if (_args is String) {
-          return MaterialPageRoute(
-              builder: (_) => SomethingWentWrong(error: _args));
-        }
-        return _errorRoute();
+        assert(_args is String);
+        return MaterialPageRoute(
+            builder: (_) => SomethingWentWrong(error: _args! as String));
 
       case '/404':
         return MaterialPageRoute(

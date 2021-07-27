@@ -48,6 +48,8 @@ class BeerList extends StatelessWidget {
               detailBuilder: (BuildContext context, int? index, bool tablet) {
                 return DetailsScreen(
                   body: BeerInfoList(
+                    selectable: true,
+                    tablet: tablet,
                     beer: snapshot.data![index!],
                   ),
                 );

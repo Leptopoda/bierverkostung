@@ -2,7 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart';
+part of 'package:bierverkostung/screens/beertasting/tasting_data.dart';
 
 /// Signature for the [SliderField.buildCounter] callback.
 typedef InputCounterWidgetBuilder = Widget? Function(
@@ -17,8 +17,8 @@ typedef InputCounterWidgetBuilder = Widget? Function(
 /// Slider wrapped inside a [InputDecorator]
 ///
 /// this will allow sliders to be implemented in a [Form] together with [TextFormField]
-class SliderField extends StatefulWidget {
-  const SliderField({
+class _SliderField extends StatefulWidget {
+  const _SliderField({
     Key? key,
     this.decoration,
     this.enabled,
@@ -56,7 +56,7 @@ class SliderField extends StatefulWidget {
   _SliderFieldState createState() => _SliderFieldState();
 }
 
-class _SliderFieldState extends State<SliderField> {
+class _SliderFieldState extends State<_SliderField> {
   bool get _isEnabled => widget.enabled ?? widget.decoration?.enabled ?? true;
   FocusNode? _focusNode;
   FocusNode get _effectiveFocusNode =>

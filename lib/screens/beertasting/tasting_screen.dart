@@ -49,6 +49,7 @@ class BeerTasting extends StatelessWidget {
                 return DetailsScreen(
                   body: TastingInfoList(
                     tasting: snapshot.data![index!],
+                    tablet: tablet,
                   ),
                 );
               },

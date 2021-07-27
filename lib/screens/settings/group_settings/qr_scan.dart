@@ -74,7 +74,8 @@ class _QRScannerState extends State<_QRScanner> {
           cutOutSize: scanArea,
         ),
       ),
-      bottomSheet: kIsWeb ? null : _BottomBar(controller: controller),
+      // ignore: avoid_redundant_argument_values
+      bottomSheet: !kIsWeb ? _BottomBar(controller: controller) : null,
     );
   }
 

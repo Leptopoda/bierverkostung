@@ -28,9 +28,13 @@ part 'package:bierverkostung/screens/beer/beer_images.dart';
 class BeerInfoList extends StatefulWidget {
   /// initial value,
   final Beer? beer;
+  final bool selectable;
+  final bool tablet;
   const BeerInfoList({
-    this.beer,
     Key? key,
+    this.beer,
+    this.selectable = false,
+    this.tablet = false,
   }) : super(key: key);
 
   @override
@@ -102,8 +106,9 @@ class _BeerInfoListState extends State<BeerInfoList> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: widget.beer == null,
-        title: Text(AppLocalizations.of(context).beerOne),
+        automaticallyImplyLeading: !widget.tablet,
+        title:
+            !widget.tablet ? Text(AppLocalizations.of(context).beerOne) : null,
         actions: [
           if (_readOnly)
             IconButton(
@@ -111,7 +116,7 @@ class _BeerInfoListState extends State<BeerInfoList> {
               onPressed: () => setState(() => _readOnly = false),
               icon: const Icon(Icons.edit_outlined),
             ),
-          if (widget.beer != null && _readOnly)
+          if (widget.beer != null && _readOnly && widget.selectable)
             IconButton(
               tooltip: AppLocalizations.of(context).beer_selectBeer,
               onPressed: () => Navigator.pop(context, _beer),

@@ -2,7 +2,6 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:bierverkostung/screens/beertasting/custom_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,7 +11,8 @@ import 'package:bierverkostung/shared/tasting_beer_card.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/tastings.dart';
 
-import 'package:bierverkostung/screens/beertasting/color_to_ebc.dart';
+part 'package:bierverkostung/screens/beertasting/color_to_ebc.dart';
+part 'package:bierverkostung/screens/beertasting/custom_slider.dart';
 
 /// Screen to add a new Beer
 ///
@@ -20,8 +20,11 @@ import 'package:bierverkostung/screens/beertasting/color_to_ebc.dart';
 /// set [tasting] in order to get a screen to display the given tasting
 class TastingInfoList extends StatefulWidget {
   final Tasting? tasting;
+  final bool tablet;
+
   const TastingInfoList({
     this.tasting,
+    this.tablet = false,
     Key? key,
   }) : super(key: key);
 
@@ -152,17 +155,27 @@ class _TastingInfoListState extends State<TastingInfoList> {
     final TextStyle? _text = Theme.of(context).textTheme.bodyText2;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).beertasting),
-        actions: [
-          if (_readOnly)
-            IconButton(
+      appBar: !widget.tablet
+          ? AppBar(
+              title: Text(AppLocalizations.of(context).beertasting),
+              actions: [
+                if (_readOnly)
+                  IconButton(
+                    tooltip:
+                        AppLocalizations.of(context).beertasting_editTasting,
+                    onPressed: _onEdit,
+                    icon: const Icon(Icons.edit_outlined),
+                  ),
+              ],
+            )
+          : null,
+      floatingActionButton: (widget.tablet && _readOnly)
+          ? FloatingActionButton(
               tooltip: AppLocalizations.of(context).beertasting_editTasting,
-              onPressed: () => setState(() => _readOnly = false),
-              icon: const Icon(Icons.edit_outlined),
-            ),
-        ],
-      ),
+              onPressed: _onEdit,
+              child: const Icon(Icons.edit_outlined),
+            )
+          : null,
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -199,17 +212,16 @@ class _TastingInfoListState extends State<TastingInfoList> {
                   ),
                   TextFormField(
                     style: _text,
-                    enabled: !_readOnly,
                     readOnly: true,
                     controller: _beerName,
-                    onTap: _selectBeer,
+                    onTap: !_readOnly ? _selectBeer : _showBeer,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beerOne,
                     ),
                     validator: (value) {
-                      return (value == null || value.isEmpty)
-                          ? AppLocalizations.of(context).form_required
-                          : null;
+                      if (value == null || value.isEmpty) {
+                        return AppLocalizations.of(context).form_required;
+                      }
                     },
                   ),
                 ],
@@ -241,13 +253,14 @@ class _TastingInfoListState extends State<TastingInfoList> {
                           .beertasting_foamStructure,
                     ),
                   ),
-                  SliderField(
+                  _SliderField(
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)
                           .beertasting_foamStability,
                     ),
-                    value: _foamStability,
+                    enabled: !_readOnly,
                     readOnly: _readOnly,
+                    value: _foamStability,
                     onChanged: (int value) =>
                         setState(() => _foamStability = value),
                   ),
@@ -306,40 +319,44 @@ class _TastingInfoListState extends State<TastingInfoList> {
                           AppLocalizations.of(context).beertasting_mmouthFeel,
                     ),
                   ),
-                  SliderField(
+                  _SliderField(
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context).beertasting_bitterness,
                     ),
+                    enabled: !_readOnly,
                     readOnly: _readOnly,
                     value: _bitternessRating,
                     onChanged: (int value) =>
                         setState(() => _bitternessRating = value),
                   ),
-                  SliderField(
+                  _SliderField(
                       decoration: InputDecoration(
                         labelText:
                             AppLocalizations.of(context).beertasting_sweetness,
                       ),
+                      enabled: !_readOnly,
                       readOnly: _readOnly,
                       value: _sweetnessRating,
                       onChanged: (int value) =>
                           setState(() => _sweetnessRating = value)),
-                  SliderField(
+                  _SliderField(
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context).beertasting_acidity,
                     ),
+                    enabled: !_readOnly,
                     readOnly: _readOnly,
                     value: _acidityRating,
                     onChanged: (int value) =>
                         setState(() => _acidityRating = value),
                   ),
-                  SliderField(
+                  _SliderField(
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context).beertasting_bodyFullness,
                     ),
+                    enabled: !_readOnly,
                     readOnly: _readOnly,
                     value: _fullBodiedRating,
                     onChanged: (int value) =>
@@ -365,11 +382,12 @@ class _TastingInfoListState extends State<TastingInfoList> {
                           AppLocalizations.of(context).beertasting_aftertaste,
                     ),
                   ),
-                  SliderField(
+                  _SliderField(
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)
                           .beertasting_aftertasteRating,
                     ),
+                    enabled: !_readOnly,
                     readOnly: _readOnly,
                     value: _aftertasteRating,
                     onChanged: (int value) =>
@@ -402,11 +420,12 @@ class _TastingInfoListState extends State<TastingInfoList> {
                         labelText: AppLocalizations.of(context)
                             .beertasting_totalImpression),
                   ),
-                  SliderField(
+                  _SliderField(
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context).beertasting_totalRating,
                     ),
+                    enabled: !_readOnly,
                     readOnly: _readOnly,
                     value: _totalImpressionRating,
                     min: 1,
@@ -469,6 +488,9 @@ class _TastingInfoListState extends State<TastingInfoList> {
     }
   }
 
+  /// sets the [_readOnly] flag to false
+  void _onEdit() => setState(() => _readOnly = false);
+
   /// Calls [DispBeer] to select a [Beer]
   Future<void> _selectBeer() async {
     final Beer? _selectedBeer =
@@ -480,6 +502,11 @@ class _TastingInfoListState extends State<TastingInfoList> {
         _beer = _selectedBeer;
       });
     }
+  }
+
+  /// Calls [DispBeer] to show the [Beer] data
+  Future<void> _showBeer() async {
+    await Navigator.pushNamed(context, '/NewBeer', arguments: _beer);
   }
 
   /// Selects a date from DatePicker
