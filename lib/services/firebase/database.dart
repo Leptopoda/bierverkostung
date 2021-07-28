@@ -104,6 +104,14 @@ class DatabaseService {
         fromFirestore: (snapshot, _) => Beer.fromJson(snapshot.data()!),
         toFirestore: (Beer stat, _) => stat.toJson(),
       );
+
+  static void updatetasting({
+    required Tasting oldTasting,
+    required Tasting newTasting,
+  }) {
+    _tastingRef.where(oldTasting);
+  }
+
   // Beer
   /// save Beer
   static Future<void> saveBeer(Beer beer) async {
@@ -119,10 +127,8 @@ class DatabaseService {
   }
 
   /// get beers stream
-  static Stream<List<Beer>> get beers {
-    return _beerRef
-        .snapshots()
-        .map((list) => list.docs.map((doc) => doc.data()).toList());
+  static Stream<QuerySnapshot<Beer>> get beers {
+    return _beerRef.snapshots();
   }
 
   static final _moneyCalcRef = _firestore

@@ -87,7 +87,8 @@ class UserSettings extends StatelessWidget {
               width: 200,
               child: TextFormField(
                 style: Theme.of(context).textTheme.subtitle2,
-                initialValue: user.displayName ?? user.uid,
+                initialValue:
+                    (user.displayName == '') ? user.displayName : user.uid,
                 decoration: InputDecoration(
                   labelText: AppLocalizations.of(context)
                       .settings_userManagement_username,
@@ -104,7 +105,9 @@ class UserSettings extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  user.email ?? AppLocalizations.of(context).login_anonymous,
+                  (!user.isAnonymous)
+                      ? user.email!
+                      : AppLocalizations.of(context).login_anonymous,
                   style: Theme.of(context).textTheme.caption,
                 ),
                 const SizedBox(width: 8),

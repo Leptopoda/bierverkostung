@@ -74,9 +74,9 @@ class PickImageModal extends StatelessWidget {
 
   /// gets an image from the camera
   static Future<void> _getCameraImage(BuildContext context) async {
-    PickedFile? _pickedFile;
+    XFile? _pickedFile;
     try {
-      _pickedFile = await ImagePicker().getImage(
+      _pickedFile = await ImagePicker().pickImage(
         source: ImageSource.camera,
         imageQuality: 50,
       );
@@ -93,9 +93,9 @@ class PickImageModal extends StatelessWidget {
 
   /// gets an image from the gallery or file
   static Future<void> _getGalleryImage(BuildContext context) async {
-    PickedFile? _pickedFile;
+    XFile? _pickedFile;
     try {
-      _pickedFile = await ImagePicker().getImage(
+      _pickedFile = await ImagePicker().pickImage(
         source: ImageSource.gallery,
         imageQuality: 50,
       );

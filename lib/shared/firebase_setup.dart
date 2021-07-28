@@ -12,10 +12,9 @@ Future<void> _setupFirebase() async {
       const String _host = _EnvironmentConfig.localFirebaseIP;
 
       if (!kIsWeb) {
-        await FirebaseAuth.instance.useEmulator('http://$_host:9099');
+        await FirebaseAuth.instance.useAuthEmulator(_host, 9099);
       }
-      FirebaseFunctions.instance
-          .useFunctionsEmulator(origin: 'http://$_host:5001');
+      FirebaseFunctions.instance.useFunctionsEmulator(_host, 5001);
 
       FirebaseFirestore.instance.settings = const Settings(
         host: '$_host:8080',
@@ -23,7 +22,7 @@ Future<void> _setupFirebase() async {
         persistenceEnabled: false,
       );
 
-      await FirebaseStorage.instance.useEmulator(host: _host, port: 9199);
+      await FirebaseStorage.instance.useStorageEmulator(_host, 9199);
     } else {
       FirebaseFirestore.instance.settings =
           const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);

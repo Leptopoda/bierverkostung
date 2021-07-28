@@ -45,10 +45,10 @@ class BeerTasting extends StatelessWidget {
 
             return ResponsiveListScaffold.builder(
               scaffoldKey: BeerTasting._scaffoldKey,
-              detailBuilder: (BuildContext context, int? index, bool tablet) {
+              detailBuilder: (BuildContext context, int index, bool tablet) {
                 return DetailsScreen(
                   body: TastingInfoList(
-                    tasting: snapshot.data![index!],
+                    tasting: snapshot.data![index],
                     tablet: tablet,
                   ),
                 );

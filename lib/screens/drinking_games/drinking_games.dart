@@ -35,11 +35,10 @@ class Trinkspiele extends StatelessWidget {
     ];
     return ResponsiveListScaffold.builder(
       scaffoldKey: _scaffoldKey,
-      detailBuilder: (BuildContext context, int? index, bool tablet) {
+      detailBuilder: (BuildContext context, int index, bool tablet) {
         return DetailsScreen(
           body: _TrinkspieleDetail(
-            items: _spielePages,
-            row: index,
+            body: _spielePages[index],
             tablet: tablet,
           ),
         );
@@ -66,13 +65,11 @@ class Trinkspiele extends StatelessWidget {
 class _TrinkspieleDetail extends StatelessWidget {
   const _TrinkspieleDetail({
     Key? key,
-    required this.items,
-    required this.row,
+    required this.body,
     required this.tablet,
   }) : super(key: key);
 
-  final List<Widget> items;
-  final int? row;
+  final Widget body;
   final bool tablet;
 
   @override
@@ -84,7 +81,7 @@ class _TrinkspieleDetail extends StatelessWidget {
               title: Text(AppLocalizations.of(context).details),
             )
           : null,
-      body: (row != null) ? items[row!] : null,
+      body: body,
     );
   }
 }

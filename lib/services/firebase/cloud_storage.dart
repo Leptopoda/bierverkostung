@@ -10,7 +10,7 @@ import 'dart:typed_data' show Uint8List;
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:bierverkostung/services/firebase/auth.dart';
@@ -57,7 +57,7 @@ class CloudStorageService {
       final Reference _ref = _storage.ref('/groups/$_groupID/$beerName/$_uuid');
 
       if (kIsWeb) {
-        await _ref.putData(await PickedFile(path).readAsBytes());
+        await _ref.putData(await XFile(path).readAsBytes());
       } else {
         await _ref.putFile(File(path));
       }
