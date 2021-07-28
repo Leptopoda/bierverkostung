@@ -4,10 +4,11 @@
 
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show QueryDocumentSnapshot;
 import 'package:pattern_formatter/pattern_formatter.dart'
     show ThousandsFormatter;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -27,13 +28,16 @@ part 'package:bierverkostung/screens/beer/beer_images.dart';
 /// set [beer] in order to get a screen to display the given beer
 class BeerInfoList extends StatefulWidget {
   /// initial value,
+  final QueryDocumentSnapshot<Beer>? beerDocument;
   final Beer? beer;
-  final bool selectable;
+  final bool editable;
   final bool tablet;
+
   const BeerInfoList({
     Key? key,
     this.beer,
-    this.selectable = false,
+    this.beerDocument,
+    this.editable = true,
     this.tablet = false,
   }) : super(key: key);
 
@@ -44,7 +48,7 @@ class BeerInfoList extends StatefulWidget {
 class _BeerInfoListState extends State<BeerInfoList> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late Beer _beer;
+  Beer? _beer;
   late bool _readOnly;
 
   late TextEditingController _beerName;
@@ -63,25 +67,26 @@ class _BeerInfoListState extends State<BeerInfoList> {
   void initState() {
     super.initState();
 
-    _beerName = TextEditingController(text: widget.beer?.beerName);
-    _brewery = TextEditingController(text: widget.beer?.brewery?.breweryName);
-    _style = TextEditingController(text: widget.beer?.style);
-    _originalWort =
-        TextEditingController(text: widget.beer?.originalWort?.toString());
-    _alcohol = TextEditingController(text: widget.beer?.alcohol?.toString());
-    _ibu = TextEditingController(text: widget.beer?.ibu?.toString());
-    _ingredients = TextEditingController(text: widget.beer?.ingredients);
-    _specifics = TextEditingController(text: widget.beer?.specifics);
-    _beerNotes = TextEditingController(text: widget.beer?.beerNotes);
+    _beer = widget.beerDocument?.data() ?? widget.beer;
 
-    if (widget.beer?.images != null && widget.beer!.images!.isNotEmpty) {
-      _images = widget.beer!.images!;
+    _beerName = TextEditingController(text: _beer?.beerName);
+    _brewery = TextEditingController(text: _beer?.brewery?.breweryName);
+    _style = TextEditingController(text: _beer?.style);
+    _originalWort =
+        TextEditingController(text: _beer?.originalWort?.toString());
+    _alcohol = TextEditingController(text: _beer?.alcohol?.toString());
+    _ibu = TextEditingController(text: _beer?.ibu?.toString());
+    _ingredients = TextEditingController(text: _beer?.ingredients);
+    _specifics = TextEditingController(text: _beer?.specifics);
+    _beerNotes = TextEditingController(text: _beer?.beerNotes);
+
+    if (_beer?.images != null && _beer!.images!.isNotEmpty) {
+      _images = _beer!.images!;
     }
 
-    if (widget.beer == null) {
+    if ((widget.beerDocument ?? widget.beer) == null) {
       setState(() => _readOnly = false);
     } else {
-      _beer = widget.beer!;
       setState(() => _readOnly = true);
     }
   }
@@ -97,6 +102,8 @@ class _BeerInfoListState extends State<BeerInfoList> {
     _ingredients.dispose();
     _specifics.dispose();
     _beerNotes.dispose();
+
+    _formKey.currentState?.dispose();
     super.dispose();
   }
 
@@ -113,15 +120,14 @@ class _BeerInfoListState extends State<BeerInfoList> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (_readOnly)
+          if (_readOnly && widget.editable)
             FloatingActionButton(
               tooltip: AppLocalizations.of(context).beer_editBeer,
               onPressed: () => setState(() => _readOnly = false),
               child: const Icon(Icons.edit_outlined),
             ),
-          if (widget.beer != null && _readOnly && widget.selectable)
-            const SizedBox(width: 10),
-          if (widget.beer != null && _readOnly && widget.selectable)
+          if (_readOnly && widget.editable) const SizedBox(width: 10),
+          if (_readOnly && widget.editable)
             FloatingActionButton(
               tooltip: AppLocalizations.of(context).beer_selectBeer,
               onPressed: () => Navigator.pop(context, _beer),
@@ -232,8 +238,7 @@ class _BeerInfoListState extends State<BeerInfoList> {
                 ],
               ),
               if (!_readOnly ||
-                  (widget.beer?.images != null &&
-                      widget.beer!.images!.isNotEmpty))
+                  (_beer?.images != null && _beer!.images!.isNotEmpty))
                 TastingBeerCard(
                   children: [
                     if (_readOnly && _images.isNotEmpty)
@@ -241,7 +246,7 @@ class _BeerInfoListState extends State<BeerInfoList> {
                         height: 150,
                         width: 500,
                         child: _BeerImageView(
-                          imagePaths: widget.beer!.images!,
+                          imagePaths: _beer!.images!,
                         ),
                       ),
                     if (!_readOnly)
@@ -304,7 +309,14 @@ class _BeerInfoListState extends State<BeerInfoList> {
         images: _imageUrls,
       );
 
-      await DatabaseService.saveBeer(_beer);
+      if (widget.beerDocument == null) {
+        await DatabaseService.saveBeer(_beer!);
+      } else {
+        await DatabaseService.updateBeer(
+          widget.beerDocument!.reference,
+          _beer!,
+        );
+      }
 
       Navigator.pop(context, _beer);
     }

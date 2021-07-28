@@ -36,7 +36,11 @@ class RouteGenerator {
       case '/NewBeer':
         assert(_args is Beer?);
         return MaterialPageRoute(
-            builder: (_) => BeerInfoList(beer: _args as Beer?));
+          builder: (_) => BeerInfoList(
+            beer: _args as Beer?,
+            editable: false,
+          ),
+        );
 
       case '/BeerList':
         return MaterialPageRoute<Beer?>(builder: (_) => const BeerList());

@@ -90,10 +90,8 @@ class DatabaseService {
   }
 
   /// get tasting stream
-  static Stream<List<Tasting>> get tastings {
-    return _tastingRef
-        .snapshots()
-        .map((list) => list.docs.map((doc) => doc.data()).toList());
+  static Stream<QuerySnapshot<Tasting>> get tastings {
+    return _tastingRef.snapshots();
   }
 
   static final _beerRef = _firestore
@@ -105,11 +103,10 @@ class DatabaseService {
         toFirestore: (Beer stat, _) => stat.toJson(),
       );
 
-  static void updatetasting({
-    required Tasting oldTasting,
-    required Tasting newTasting,
-  }) {
-    _tastingRef.where(oldTasting);
+  /// update Tasting
+  static Future<void> updateTasting(
+      DocumentReference reference, Tasting tasting) async {
+    await reference.set(tasting);
   }
 
   // Beer
@@ -124,6 +121,11 @@ class DatabaseService {
         error: jsonEncode(error.toString()),
       );
     }
+  }
+
+  /// update Beer
+  static Future<void> updateBeer(DocumentReference reference, Beer beer) async {
+    await reference.set(beer);
   }
 
   /// get beers stream

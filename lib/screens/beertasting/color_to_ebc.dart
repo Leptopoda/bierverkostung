@@ -9,11 +9,12 @@ part of 'package:bierverkostung/screens/beertasting/tasting_data.dart';
 /// The values as well as the conversion algorithm are taken from the original project who took it from:
 /// <a href="https://github.com/Gremmel/kleiner-brauhelfer/blob/22c95099d6302f3319a1e9799f1e2199f3547895/source/src/berechnungen.cpp#L968">Kleiner Brauhelfer</a>.
 @immutable
-class EbcColor {
-  const EbcColor._();
+class _EbcColor {
+  const _EbcColor._();
 
   /// An EBC value above this threshold is such dark that it requires a bright text colour to gain enough contrast.
   @Deprecated('This is a currently unused parameter in the app')
+  // ignore: unused_field
   static const double darkEbcValueThreshold = 30.0;
 
   static const List<Color> _srmRgbColors = [

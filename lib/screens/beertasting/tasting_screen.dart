@@ -2,15 +2,18 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-import 'package:bierverkostung/screens/beertasting/tasting_data.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show QueryDocumentSnapshot, QuerySnapshot;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
-import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
+import 'package:bierverkostung/models/tastings.dart';
+
+import 'package:bierverkostung/screens/beertasting/tasting_data.dart';
 
 /// Bieertasting widget
 ///
@@ -22,9 +25,10 @@ class BeerTasting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Tasting>>(
+    return StreamBuilder<QuerySnapshot<Tasting>>(
       stream: DatabaseService.tastings,
-      builder: (BuildContext context, AsyncSnapshot<List<Tasting>> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Tasting>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
             error: '${snapshot.error}',
@@ -43,12 +47,16 @@ class BeerTasting extends StatelessWidget {
               );
             }
 
+            final List<QueryDocumentSnapshot<Tasting>> _data =
+                snapshot.data!.docs;
+
             return ResponsiveListScaffold.builder(
               scaffoldKey: BeerTasting._scaffoldKey,
               detailBuilder: (BuildContext context, int index, bool tablet) {
+                final QueryDocumentSnapshot<Tasting> _tasting = _data[index];
                 return DetailsScreen(
                   body: TastingInfoList(
-                    tasting: snapshot.data![index],
+                    tastingDocument: _tasting,
                     tablet: tablet,
                   ),
                 );
@@ -56,16 +64,17 @@ class BeerTasting extends StatelessWidget {
               nullItems: ResponsiveScaffoldNullItems(),
               emptyItems: ResponsiveScaffoldEmptyItems(),
               tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
-              itemCount: snapshot.data!.length,
+              itemCount: _data.length,
               itemBuilder: (BuildContext context, int index) {
+                final Tasting _tasting = _data[index].data();
                 return Card(
                   child: ListTile(
                     title: Text(
-                      'Bier: ${snapshot.data![index].beer.beerName}',
+                      'Bier: ${_tasting.beer.beerName}',
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     subtitle: Text(
-                      'Datum: ${snapshot.data![index].date}',
+                      'Datum: ${_tasting.date}',
                     ),
                   ),
                 );

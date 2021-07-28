@@ -5,6 +5,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show QueryDocumentSnapshot;
 
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/tasting_beer_card.dart';
@@ -20,10 +22,12 @@ part 'package:bierverkostung/screens/beertasting/custom_slider.dart';
 /// set [tasting] in order to get a screen to display the given tasting
 class TastingInfoList extends StatefulWidget {
   final Tasting? tasting;
+  final QueryDocumentSnapshot<Tasting>? tastingDocument;
   final bool tablet;
 
   const TastingInfoList({
     this.tasting,
+    this.tastingDocument,
     this.tablet = false,
     Key? key,
   }) : super(key: key);
@@ -52,6 +56,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
     79,
   ];
 
+  Tasting? _tasting;
   late Beer _beer;
   late bool _readOnly;
   late DateTime _selectedDate;
@@ -81,37 +86,37 @@ class _TastingInfoListState extends State<TastingInfoList> {
 
   @override
   void initState() {
-    _selectedDate = DateTime.now();
+    _tasting = widget.tastingDocument?.data() ?? widget.tasting;
+
+    _selectedDate = _tasting?.date ?? DateTime.now();
     _dateController =
         TextEditingController(text: DateFormat.yMMMMd().format(_selectedDate));
-    _location = TextEditingController(text: widget.tasting?.location);
-    _beerName = TextEditingController(text: widget.tasting?.beer.beerName);
-    _beerColour = TextEditingController(text: widget.tasting?.beerColour);
-    _beerColourDesc =
-        TextEditingController(text: widget.tasting?.beerColourDesc);
-    _clarity = TextEditingController(text: widget.tasting?.clarity);
-    _foamColour = TextEditingController(text: widget.tasting?.foamColour);
-    _foamStructure = TextEditingController(text: widget.tasting?.foamStructure);
-    _mouthFeelDesc = TextEditingController(text: widget.tasting?.mouthFeelDesc);
-    _bodyDesc = TextEditingController(text: widget.tasting?.bodyDesc);
-    _aftertasteDesc =
-        TextEditingController(text: widget.tasting?.aftertasteDesc);
+    _location = TextEditingController(text: _tasting?.location);
+    _beerName = TextEditingController(text: _tasting?.beer.beerName);
+    _beerColour = TextEditingController(text: _tasting?.beerColour);
+    _beerColourDesc = TextEditingController(text: _tasting?.beerColourDesc);
+    _clarity = TextEditingController(text: _tasting?.clarity);
+    _foamColour = TextEditingController(text: _tasting?.foamColour);
+    _foamStructure = TextEditingController(text: _tasting?.foamStructure);
+    _mouthFeelDesc = TextEditingController(text: _tasting?.mouthFeelDesc);
+    _bodyDesc = TextEditingController(text: _tasting?.bodyDesc);
+    _aftertasteDesc = TextEditingController(text: _tasting?.aftertasteDesc);
     _foodRecommendation =
-        TextEditingController(text: widget.tasting?.foodRecommendation);
+        TextEditingController(text: _tasting?.foodRecommendation);
     _totalImpressionDesc =
-        TextEditingController(text: widget.tasting?.totalImpressionDesc);
+        TextEditingController(text: _tasting?.totalImpressionDesc);
 
-    if (widget.tasting != null) {
-      _colourEbc = widget.tasting!.colourEbc;
-      _foamStability = widget.tasting!.foamStability;
-      _bitternessRating = widget.tasting!.bitternessRating;
-      _sweetnessRating = widget.tasting!.sweetnessRating;
-      _acidityRating = widget.tasting!.acidityRating;
-      _fullBodiedRating = widget.tasting!.fullBodiedRating;
-      _aftertasteRating = widget.tasting!.aftertasteRating;
-      _totalImpressionRating = widget.tasting!.totalImpressionRating;
+    if (_tasting != null) {
+      _colourEbc = _tasting!.colourEbc;
+      _foamStability = _tasting!.foamStability;
+      _bitternessRating = _tasting!.bitternessRating;
+      _sweetnessRating = _tasting!.sweetnessRating;
+      _acidityRating = _tasting!.acidityRating;
+      _fullBodiedRating = _tasting!.fullBodiedRating;
+      _aftertasteRating = _tasting!.aftertasteRating;
+      _totalImpressionRating = _tasting!.totalImpressionRating;
 
-      _beer = widget.tasting!.beer;
+      _beer = _tasting!.beer;
     } else {
       _foamStability = 1;
       _bitternessRating = 1;
@@ -122,7 +127,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
       _totalImpressionRating = 1;
     }
 
-    if (widget.tasting == null) {
+    if ((widget.tasting ?? widget.tastingDocument) == null) {
       setState(() => _readOnly = false);
     } else {
       setState(() => _readOnly = true);
@@ -146,6 +151,8 @@ class _TastingInfoListState extends State<TastingInfoList> {
     _aftertasteDesc.dispose();
     _foodRecommendation.dispose();
     _totalImpressionDesc.dispose();
+
+    _formKey.currentState?.dispose();
     super.dispose();
   }
 
@@ -450,7 +457,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
       );
       _formKey.currentState!.save();
 
-      final Tasting _tasting = Tasting(
+      _tasting = Tasting(
         beer: _beer,
         date: _selectedDate,
         location: _location.value.text,
@@ -473,9 +480,21 @@ class _TastingInfoListState extends State<TastingInfoList> {
         totalImpressionDesc: _totalImpressionDesc.value.text,
         totalImpressionRating: _totalImpressionRating,
       );
-      await DatabaseService.saveTasting(_tasting);
 
-      Navigator.pop(context);
+      if (widget.tastingDocument == null) {
+        await DatabaseService.saveTasting(_tasting!);
+        Navigator.pop(context);
+      } else {
+        await DatabaseService.updateTasting(
+          widget.tastingDocument!.reference,
+          _tasting!,
+        );
+        if (!widget.tablet) {
+          Navigator.pop(context);
+        } else {
+          setState(() => _readOnly = true);
+        }
+      }
     }
   }
 
@@ -541,7 +560,7 @@ class _EBCFormField extends StatelessWidget {
     final Icon? _suffixIcon = (value != null)
         ? Icon(
             Icons.circle,
-            color: EbcColor.toColor(value),
+            color: _EbcColor.toColor(value),
           )
         : null;
     final InputDecoration _decoration = InputDecoration(
@@ -584,7 +603,7 @@ class _EBCFormField extends StatelessWidget {
                 Text(ebc.toString()),
                 Icon(
                   Icons.circle,
-                  color: EbcColor.toColor(ebc),
+                  color: _EbcColor.toColor(ebc),
                 ),
               ],
             )
