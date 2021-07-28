@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:bierverkostung/shared/custom_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
@@ -30,16 +31,21 @@ class BeerInfoList extends StatefulWidget {
   /// initial value,
   final QueryDocumentSnapshot<Beer>? beerDocument;
   final Beer? beer;
+  final List<Beer>? autocomplete;
   final bool editable;
   final bool tablet;
+
+  static const List<Beer> _defaultAutocomplete = [];
 
   const BeerInfoList({
     Key? key,
     this.beer,
+    this.autocomplete = _defaultAutocomplete,
     this.beerDocument,
     this.editable = true,
     this.tablet = false,
-  }) : super(key: key);
+  })  : assert(beer == null || beerDocument == null),
+        super(key: key);
 
   @override
   _BeerInfoListState createState() => _BeerInfoListState();
@@ -117,28 +123,28 @@ class _BeerInfoListState extends State<BeerInfoList> {
         title:
             !widget.tablet ? Text(AppLocalizations.of(context).beerOne) : null,
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          if (_readOnly && widget.editable)
-            FloatingActionButton(
-              heroTag: const ValueKey<String>('editBeerFabTag'),
-              key: const ValueKey<String>('editBeerFab'),
-              tooltip: AppLocalizations.of(context).beer_editBeer,
-              onPressed: () => setState(() => _readOnly = false),
-              child: const Icon(Icons.edit_outlined),
-            ),
-          if (_readOnly && widget.editable) const SizedBox(width: 10),
-          if (_readOnly && widget.editable)
-            FloatingActionButton(
-              heroTag: const ValueKey<String>('selectBeerFabTag'),
-              key: const ValueKey<String>('selectBeerFab'),
-              tooltip: AppLocalizations.of(context).beer_selectBeer,
-              onPressed: () => Navigator.pop(context, _beer),
-              child: const Icon(Icons.check_outlined),
-            ),
-        ],
-      ),
+      floatingActionButton: (_readOnly && widget.editable)
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  heroTag: const ValueKey<String>('editBeerFabTag'),
+                  key: const ValueKey<String>('editBeerFab'),
+                  tooltip: AppLocalizations.of(context).beer_editBeer,
+                  onPressed: () => setState(() => _readOnly = false),
+                  child: const Icon(Icons.edit_outlined),
+                ),
+                const SizedBox(width: 10),
+                FloatingActionButton(
+                  heroTag: const ValueKey<String>('selectBeerFabTag'),
+                  key: const ValueKey<String>('selectBeerFab'),
+                  tooltip: AppLocalizations.of(context).beer_selectBeer,
+                  onPressed: () => Navigator.pop(context, _beer),
+                  child: const Icon(Icons.check_outlined),
+                ),
+              ],
+            )
+          : null,
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -147,37 +153,43 @@ class _BeerInfoListState extends State<BeerInfoList> {
               TastingBeerCard(
                 children: <Widget>[
                   TextFormField(
+                    controller: _beerName,
                     style: _text,
                     enabled: !_readOnly,
                     readOnly: _readOnly,
-                    controller: _beerName,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beer_name,
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return AppLocalizations.of(context).form_required;
+                      }
+                    },
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Beer>(
                     controller: _brewery,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Beer option) =>
+                        option.brewery?.breweryName,
+                    readOnly: _readOnly,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beer_brewery,
                     ),
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Beer>(
                     controller: _style,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Beer option) => option.style,
+                    readOnly: _readOnly,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beer_style,
                     ),
                   ),
                   TextFormField(
+                    controller: _originalWort,
                     style: _text,
                     enabled: !_readOnly,
                     readOnly: _readOnly,
-                    controller: _originalWort,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
                       ThousandsFormatter(allowFraction: true),
@@ -187,10 +199,10 @@ class _BeerInfoListState extends State<BeerInfoList> {
                     ),
                   ),
                   TextFormField(
+                    controller: _alcohol,
                     style: _text,
                     enabled: !_readOnly,
                     readOnly: _readOnly,
-                    controller: _alcohol,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
                       ThousandsFormatter(allowFraction: true),
@@ -200,10 +212,10 @@ class _BeerInfoListState extends State<BeerInfoList> {
                     ),
                   ),
                   TextFormField(
+                    controller: _ibu,
                     style: _text,
                     enabled: !_readOnly,
                     readOnly: _readOnly,
-                    controller: _ibu,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly,
@@ -212,29 +224,29 @@ class _BeerInfoListState extends State<BeerInfoList> {
                       labelText: AppLocalizations.of(context).beer_ibu,
                     ),
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Beer>(
                     controller: _ingredients,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Beer option) => option.ingredients,
+                    readOnly: _readOnly,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beer_ingredients,
                     ),
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Beer>(
                     controller: _specifics,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Beer option) => option.specifics,
+                    readOnly: _readOnly,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beer_specifics,
                     ),
                   ),
-                  TextFormField(
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
-                    style: _text,
+                  CustomAutoComplete<Beer>(
                     controller: _beerNotes,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Beer option) => option.beerNotes,
+                    readOnly: _readOnly,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).beer_notes,
                     ),

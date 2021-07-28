@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/shared/custom_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,14 +24,19 @@ part 'package:bierverkostung/screens/beertasting/custom_slider.dart';
 class TastingInfoList extends StatefulWidget {
   final Tasting? tasting;
   final QueryDocumentSnapshot<Tasting>? tastingDocument;
+  final List<Tasting>? autocomplete;
   final bool tablet;
+
+  static const List<Tasting> _defaultAutocomplete = [];
 
   const TastingInfoList({
     this.tasting,
     this.tastingDocument,
+    this.autocomplete = _defaultAutocomplete,
     this.tablet = false,
     Key? key,
-  }) : super(key: key);
+  })  : assert(tasting == null || tastingDocument == null),
+        super(key: key);
 
   @override
   _TastingInfoListState createState() => _TastingInfoListState();
@@ -56,7 +62,7 @@ class _TastingInfoListState extends State<TastingInfoList> {
     79,
   ];
 
-  Tasting? _tasting;
+  late Tasting? _tasting;
   late Beer _beer;
   late bool _readOnly;
   late DateTime _selectedDate;
@@ -199,11 +205,11 @@ class _TastingInfoListState extends State<TastingInfoList> {
                       suffixIcon: const Icon(Icons.calendar_today_outlined),
                     ),
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Tasting>(
                     controller: _location,
+                    readOnly: _readOnly,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Tasting option) => option.location,
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context).beertasting_location,
@@ -232,22 +238,24 @@ class _TastingInfoListState extends State<TastingInfoList> {
                     AppLocalizations.of(context).beertasting_opticalAppearence,
                     style: _heading,
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Tasting>(
                     controller: _foamColour,
+                    readOnly: _readOnly,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Tasting option) =>
+                        option.foamColour,
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context).beertasting_foamColour,
                       suffixIcon: const Icon(Icons.color_lens_outlined),
                     ),
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Tasting>(
                     controller: _foamStructure,
+                    readOnly: _readOnly,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Tasting option) =>
+                        option.foamStructure,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)
                           .beertasting_foamStructure,
@@ -271,31 +279,33 @@ class _TastingInfoListState extends State<TastingInfoList> {
                     value: _colourEbc,
                     onChanged: (int? val) => setState(() => _colourEbc = val),
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Tasting>(
                     controller: _beerColour,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Tasting option) =>
+                        option.beerColourDesc,
+                    readOnly: _readOnly,
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context).beertasting_beerColour,
                     ),
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Tasting>(
                     controller: _beerColourDesc,
+                    readOnly: _readOnly,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Tasting option) =>
+                        option.beerColourDesc,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)
                           .beertasting_colorDescription,
                     ),
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Tasting>(
                     controller: _clarity,
+                    readOnly: _readOnly,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Tasting option) => option.clarity,
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context).beertasting_clarity,
@@ -309,11 +319,12 @@ class _TastingInfoListState extends State<TastingInfoList> {
                     AppLocalizations.of(context).beertasting_taste,
                     style: _heading,
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Tasting>(
                     controller: _mouthFeelDesc,
+                    readOnly: _readOnly,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Tasting option) =>
+                        option.mouthFeelDesc,
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context).beertasting_mmouthFeel,
@@ -362,21 +373,22 @@ class _TastingInfoListState extends State<TastingInfoList> {
                     onChanged: (int value) =>
                         setState(() => _fullBodiedRating = value),
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Tasting>(
                     controller: _bodyDesc,
+                    readOnly: _readOnly,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Tasting option) => option.bodyDesc,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)
                           .beertasting_bodyDescription,
                     ),
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Tasting>(
                     controller: _aftertasteDesc,
+                    readOnly: _readOnly,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Tasting option) =>
+                        option.aftertasteDesc,
                     decoration: InputDecoration(
                       labelText:
                           AppLocalizations.of(context).beertasting_aftertaste,
@@ -393,11 +405,12 @@ class _TastingInfoListState extends State<TastingInfoList> {
                     onChanged: (int value) =>
                         setState(() => _aftertasteRating = value),
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Tasting>(
                     controller: _foodRecommendation,
+                    readOnly: _readOnly,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Tasting option) =>
+                        option.foodRecommendation,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)
                           .beertasting_foodRecomendation,
@@ -411,11 +424,12 @@ class _TastingInfoListState extends State<TastingInfoList> {
                     AppLocalizations.of(context).beertasting_conclusion,
                     style: _heading,
                   ),
-                  TextFormField(
-                    style: _text,
-                    enabled: !_readOnly,
-                    readOnly: _readOnly,
+                  CustomAutoComplete<Tasting>(
                     controller: _totalImpressionDesc,
+                    readOnly: _readOnly,
+                    options: widget.autocomplete,
+                    displayStringForOption: (Tasting option) =>
+                        option.totalImpressionDesc,
                     decoration: InputDecoration(
                         labelText: AppLocalizations.of(context)
                             .beertasting_totalImpression),

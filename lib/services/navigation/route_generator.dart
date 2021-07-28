@@ -9,7 +9,7 @@ class RouteGenerator {
   const RouteGenerator._();
 
   /// generates the routes used for navigating the app
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic>? generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
     final _args = settings.arguments;
 
@@ -21,11 +21,15 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const MyHome());
 
       case '/NewTasting':
-        return MaterialPageRoute(
-          builder: (_) => const TastingInfoList(
-            key: ValueKey<String>('newTasting'),
-          ),
-        );
+        if (_args is List<Tasting>) {
+          return MaterialPageRoute(
+            builder: (_) => TastingInfoList(
+              key: const ValueKey<String>('newTasting'),
+              autocomplete: _args,
+            ),
+          );
+        }
+        break;
 
       /* case '/DispTasting':
         if (_args is Tasting) {
@@ -38,14 +42,25 @@ class RouteGenerator {
         return _errorRoute(); */
 
       case '/NewBeer':
-        assert(_args is Beer?);
-        return MaterialPageRoute(
-          builder: (_) => BeerInfoList(
-            key: const ValueKey<String>('newBeer'),
-            beer: _args as Beer?,
-            editable: false,
-          ),
-        );
+        if (_args is Beer?) {
+          return MaterialPageRoute(
+            builder: (_) => BeerInfoList(
+              key: const ValueKey<String>('newBeer'),
+              beer: _args,
+              editable: false,
+            ),
+          );
+        }
+        if (_args is List<Beer>) {
+          return MaterialPageRoute(
+            builder: (_) => BeerInfoList(
+              key: const ValueKey<String>('newBeer'),
+              autocomplete: _args,
+              editable: false,
+            ),
+          );
+        }
+        break;
 
       case '/BeerList':
         return MaterialPageRoute<Beer?>(builder: (_) => const BeerList());
