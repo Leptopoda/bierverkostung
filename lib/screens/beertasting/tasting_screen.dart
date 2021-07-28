@@ -56,6 +56,7 @@ class BeerTasting extends StatelessWidget {
                 final QueryDocumentSnapshot<Tasting> _tasting = _data[index];
                 return DetailsScreen(
                   body: TastingInfoList(
+                    key: ValueKey<int>(index),
                     tastingDocument: _tasting,
                     tablet: tablet,
                   ),
@@ -80,6 +81,8 @@ class BeerTasting extends StatelessWidget {
                 );
               },
               floatingActionButton: FloatingActionButton(
+                heroTag: const ValueKey<String>('newTastingFabTag'),
+                key: const ValueKey<String>('newTastingFab'),
                 onPressed: () => Navigator.pushNamed(context, '/NewTasting'),
                 child: const Icon(Icons.add),
               ),

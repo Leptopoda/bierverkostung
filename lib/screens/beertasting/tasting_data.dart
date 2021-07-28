@@ -169,6 +169,8 @@ class _TastingInfoListState extends State<TastingInfoList> {
           : null,
       floatingActionButton: _readOnly
           ? FloatingActionButton(
+              heroTag: const ValueKey<String>('editTastingFabTag'),
+              key: const ValueKey<String>('editTastingFab'),
               tooltip: AppLocalizations.of(context).beertasting_editTasting,
               onPressed: _onEdit,
               child: const Icon(Icons.edit_outlined),

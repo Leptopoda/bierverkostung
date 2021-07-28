@@ -2,9 +2,6 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
-// TODO: fix assertion controller OR initial value == null,
-// probably set the initial value via the controller
-
 import 'package:flutter/material.dart';
 
 class TastingBeerCard extends StatelessWidget {

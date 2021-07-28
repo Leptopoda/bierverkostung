@@ -21,7 +21,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const MyHome());
 
       case '/NewTasting':
-        return MaterialPageRoute(builder: (_) => const TastingInfoList());
+        return MaterialPageRoute(
+          builder: (_) => const TastingInfoList(
+            key: ValueKey<String>('newTasting'),
+          ),
+        );
 
       /* case '/DispTasting':
         if (_args is Tasting) {
@@ -37,6 +41,7 @@ class RouteGenerator {
         assert(_args is Beer?);
         return MaterialPageRoute(
           builder: (_) => BeerInfoList(
+            key: const ValueKey<String>('newBeer'),
             beer: _args as Beer?,
             editable: false,
           ),

@@ -56,6 +56,7 @@ class BeerList extends StatelessWidget {
                 return DetailsScreen(
                   body: BeerInfoList(
                     // selectable: true,
+                    key: ValueKey<int>(index),
                     tablet: tablet,
                     beerDocument: _beer,
                   ),
@@ -80,6 +81,8 @@ class BeerList extends StatelessWidget {
                 );
               },
               floatingActionButton: FloatingActionButton(
+                heroTag: const ValueKey<String>('newBeerFabTag'),
+                key: const ValueKey<String>('newBeerFab'),
                 onPressed: () => Navigator.pushNamed(context, '/NewBeer'),
                 child: const Icon(Icons.add),
               ),

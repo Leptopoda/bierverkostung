@@ -122,6 +122,8 @@ class _BeerInfoListState extends State<BeerInfoList> {
         children: [
           if (_readOnly && widget.editable)
             FloatingActionButton(
+              heroTag: const ValueKey<String>('editBeerFabTag'),
+              key: const ValueKey<String>('editBeerFab'),
               tooltip: AppLocalizations.of(context).beer_editBeer,
               onPressed: () => setState(() => _readOnly = false),
               child: const Icon(Icons.edit_outlined),
@@ -129,6 +131,8 @@ class _BeerInfoListState extends State<BeerInfoList> {
           if (_readOnly && widget.editable) const SizedBox(width: 10),
           if (_readOnly && widget.editable)
             FloatingActionButton(
+              heroTag: const ValueKey<String>('selectBeerFabTag'),
+              key: const ValueKey<String>('selectBeerFab'),
               tooltip: AppLocalizations.of(context).beer_selectBeer,
               onPressed: () => Navigator.pop(context, _beer),
               child: const Icon(Icons.check_outlined),
