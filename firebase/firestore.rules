@@ -13,6 +13,10 @@ service cloud.firestore {
       allow read, write : if isMember(groupID) || isOwner(groupID);
     }
 
+    match /users/{uid}/user_data/{document=**} {
+      allow read : if isLogedIn();
+    }
+
     // Functions //
 
     function isOwner(userID) {
@@ -22,5 +26,10 @@ service cloud.firestore {
     function isMember(groupID) {
       return  request.auth.token.group_id == groupID;
     }
+
+    function isLogedIn() {
+      return  request.auth != null;
+    }
+
   }
 }
