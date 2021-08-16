@@ -189,14 +189,13 @@ class CustomAutoComplete<T extends Object> extends StatelessWidget {
   final InputDecoration? decoration;
 
   Iterable<T> _defaultOptionsBuilder(TextEditingValue textEditingValue) {
-    final Iterable<T> hi = options!.where((T option) {
+    return options!.where((T option) {
       final String? _firstString =
           displayStringForOption(option)?.toLowerCase();
       if (_firstString!.isEmpty) return false;
 
       return _firstString.contains(textEditingValue.text.toLowerCase());
     }).toList();
-    return hi;
   }
 
   @override
