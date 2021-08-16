@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/material.dart' show immutable;
 import 'package:json_annotation/json_annotation.dart';
 
 part 'money_calc.g.dart';
@@ -10,13 +11,14 @@ part 'money_calc.g.dart';
 ///
 /// holds the data used for a money calculation
 @JsonSerializable()
+@immutable
 class MoneyCalc {
   final String buyer;
   final double amount;
   final DateTime timestamp;
   // final List<String> participants;
 
-  MoneyCalc({
+  const MoneyCalc({
     required this.buyer,
     required this.amount,
     required this.timestamp,

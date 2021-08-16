@@ -27,13 +27,15 @@ class AuthService {
   /// updates the profile picture url
   static Future<void> photoURL(String? url) async {
     await _auth.currentUser!.updatePhotoURL(url);
-    await DatabaseService.saveUserData({"photoURL": url});
+    final UserData _userData = await DatabaseService.userData(getUser!.uid);
+    await DatabaseService.saveUserData(_userData.copyWith(photoURL: url));
   }
 
   /// updates the display name
   static Future<void> displayName(String? name) async {
     await _auth.currentUser!.updateDisplayName(name);
-    await DatabaseService.saveUserData({"displayName": name});
+    final UserData _userData = await DatabaseService.userData(getUser!.uid);
+    await DatabaseService.saveUserData(_userData.copyWith(displayName: name));
   }
 
   /// gets the current [User] object
@@ -77,7 +79,7 @@ class AuthService {
         UserData(
           uid: getUser!.uid,
           isAnon: true,
-        ).toJson(),
+        ),
       );
       return true;
     } catch (error) {
@@ -118,7 +120,7 @@ class AuthService {
           uid: getUser!.uid,
           email: email,
           isAnon: false,
-        ).toJson(),
+        ),
       );
       await AuthService.validateMail;
       return true;

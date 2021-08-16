@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/material.dart' show immutable;
 import 'package:json_annotation/json_annotation.dart';
 
 part 'breweries.g.dart';
@@ -10,6 +11,7 @@ part 'breweries.g.dart';
 ///
 /// Holds the data describing a brewery
 @JsonSerializable()
+@immutable
 class Brewery {
   // final String id;
   // final int revision;
@@ -17,7 +19,7 @@ class Brewery {
   final String? breweryLocation;
   final String? country;
 
-  Brewery({
+  const Brewery({
     required this.breweryName,
     this.breweryLocation,
     this.country,

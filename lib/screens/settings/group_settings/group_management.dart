@@ -76,10 +76,10 @@ class GroupScreen extends StatelessWidget {
                           suffixIcon: const Icon(Icons.edit_outlined),
                           border: InputBorder.none,
                         ),
-                        onFieldSubmitted: (String? value) {
-                          _groupData.name = value;
-                          DatabaseService.saveGroup(_groupData);
-                        },
+                        onFieldSubmitted: (String? value) =>
+                            DatabaseService.saveGroup(
+                          _groupData.copyWith(name: value),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 5),
