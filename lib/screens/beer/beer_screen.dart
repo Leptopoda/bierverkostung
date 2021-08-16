@@ -48,6 +48,8 @@ class BeerList extends StatelessWidget {
             }
 
             final List<QueryDocumentSnapshot<Beer>> _data = snapshot.data!.docs;
+            final List<Beer> _allBeers =
+                _data.map((list) => list.data()).toList();
 
             return ResponsiveListScaffold.builder(
               scaffoldKey: _scaffoldKey,
@@ -58,6 +60,7 @@ class BeerList extends StatelessWidget {
                     // selectable: true,
                     key: ValueKey<int>(index),
                     tablet: tablet,
+                    autocomplete: _allBeers,
                     beerDocument: _beer,
                   ),
                 );
@@ -83,7 +86,11 @@ class BeerList extends StatelessWidget {
               floatingActionButton: FloatingActionButton(
                 heroTag: const ValueKey<String>('newBeerFabTag'),
                 key: const ValueKey<String>('newBeerFab'),
-                onPressed: () => Navigator.pushNamed(context, '/NewBeer'),
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  '/NewBeer',
+                  arguments: _allBeers,
+                ),
                 child: const Icon(Icons.add),
               ),
             );

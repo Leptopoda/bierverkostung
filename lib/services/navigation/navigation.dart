@@ -2,6 +2,7 @@
 // Use of this source code is governed by an APACHE-style license that can be
 // found in the LICENSE file.
 
+import 'package:bierverkostung/models/tastings.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:bierverkostung/models/tastings.dart';
