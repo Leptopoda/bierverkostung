@@ -7,7 +7,7 @@ import 'dart:convert' show jsonEncode;
 import 'dart:developer' as developer show log;
 
 import 'package:bierverkostung/models/group.dart';
-import 'package:cloud_firestore/cloud_firestore.dart' show FirebaseFirestore;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' show User;
 
 import 'package:bierverkostung/services/firebase/auth.dart';
@@ -16,6 +16,7 @@ import 'package:bierverkostung/models/stats.dart';
 import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/models/money_calc.dart';
+import 'package:bierverkostung/models/user.dart';
 
 /// Helpers to save data to cloud firestore.
 class DatabaseService {
@@ -89,10 +90,8 @@ class DatabaseService {
   }
 
   /// get tasting stream
-  static Stream<List<Tasting>> get tastings {
-    return _tastingRef
-        .snapshots()
-        .map((list) => list.docs.map((doc) => doc.data()).toList());
+  static Stream<QuerySnapshot<Tasting>> get tastings {
+    return _tastingRef.snapshots();
   }
 
   static final _beerRef = _firestore
@@ -103,6 +102,13 @@ class DatabaseService {
         fromFirestore: (snapshot, _) => Beer.fromJson(snapshot.data()!),
         toFirestore: (Beer stat, _) => stat.toJson(),
       );
+
+  /// update Tasting
+  static Future<void> updateTasting(
+      DocumentReference reference, Tasting tasting) async {
+    await reference.set(tasting);
+  }
+
   // Beer
   /// save Beer
   static Future<void> saveBeer(Beer beer) async {
@@ -117,11 +123,14 @@ class DatabaseService {
     }
   }
 
+  /// update Beer
+  static Future<void> updateBeer(DocumentReference reference, Beer beer) async {
+    await reference.set(beer);
+  }
+
   /// get beers stream
-  static Stream<List<Beer>> get beers {
-    return _beerRef
-        .snapshots()
-        .map((list) => list.docs.map((doc) => doc.data()).toList());
+  static Stream<QuerySnapshot<Beer>> get beers {
+    return _beerRef.snapshots();
   }
 
   static final _moneyCalcRef = _firestore
@@ -175,7 +184,7 @@ class DatabaseService {
           .add(token);
     } catch (error) {
       developer.log(
-        'error saving notification Tokenob',
+        'error saving notification Tokeno',
         name: 'leptopoda.bierverkostung.DatabaseService',
         error: jsonEncode(error.toString()),
       );
@@ -200,10 +209,10 @@ class DatabaseService {
   /// save Group
   static Future<void> saveGroup(Group group) async {
     try {
-      await _groupRef.set(group);
+      await _groupRef.set(group, SetOptions(merge: true));
     } catch (error) {
       developer.log(
-        'error saving beer',
+        'error saving Group Data',
         name: 'leptopoda.bierverkostung.DatabaseService',
         error: jsonEncode(error.toString()),
       );
@@ -213,5 +222,36 @@ class DatabaseService {
   /// get group data stream
   static Future<Group> get group {
     return _groupRef.get().then((value) => value.data()!);
+  }
+
+  static DocumentReference<UserData> _userDataRef(String uid) => _firestore
+      .collection('users')
+      .doc(uid)
+      .collection('user_data')
+      .doc(uid)
+      .withConverter(
+        fromFirestore: (snapshot, _) => UserData.fromJson(snapshot.data()!),
+        toFirestore: (UserData group, _) => group.toJson(),
+      );
+
+  // UserData
+  /// saves UserData
+  static Future<void> saveUserData(UserData userData) async {
+    try {
+      await _userDataRef(_user.uid).set(userData, SetOptions(merge: true));
+    } catch (error) {
+      developer.log(
+        'error saving UserData',
+        name: 'leptopoda.bierverkostung.DatabaseService',
+        error: jsonEncode(error.toString()),
+      );
+    }
+  }
+
+  /// get UserData
+  static Future<UserData> userData(String userID) {
+    return _userDataRef(userID).get().then(
+          (value) => value.data()!,
+        );
   }
 }

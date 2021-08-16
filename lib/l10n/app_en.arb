@@ -126,6 +126,7 @@
   "drinkingGames_burningRingOfFire_materials_2": "A few cans of beer. Expect to need between 3 or 5",
   "@drinkingGames_burningRingOfFire_materials_2": {},
   "beertasting": "Beertasting",
+  "beertasting_editTasting": "Edit Tasting",
   "@beertasting": {},
   "beertasting_noTasting": "no tasting availabe",
   "@beertasting_noTasting": {},
@@ -184,6 +185,8 @@
   "beerOther": "Beers",
   "@beerOther": {},
   "beer_newBeer": "New Beer",
+  "beer_editBeer": "Edit Beer",
+  "beer_selectBeer": "Select Beer",
   "@beer_newBeer": {},
   "beer_noBeers": "no beers available",
   "@beer_noBeers": {},
@@ -328,7 +331,7 @@
   "@settings_notification_enable": {},
   "settings_qrScan_scan": "Scan a code",
   "@settings_qrScan_scan": {},
-  "settings_qrScan_alert": "Soll der gescante Nutzer {userID} der Gruppe hinzugefügt werden?",
+  "settings_qrScan_alert": "Should the scanned user {userID} be added to your group?",
   "@settings_qrScan_alert": {
     "placeholders": {
       "userID": {
@@ -341,7 +344,7 @@
   "@moneyCalculator": {},
   "moneyCalculator_noData": "No etries available",
   "@moneyCalculator_noData": {},
-  "moneyCalculator_amount": "amount",
+  "moneyCalculator_amount": "Amount",
   "@moneyCalculator_amount": {},
 
   "settings_userManagement": "Profile",
@@ -377,6 +380,19 @@
   },
   "validate_email_resend": "Resend Email",
   "validate_email_refresh": "Check validation",
-  "validate_email_notValidated": "The email is still not validated!"
+  "validate_email_notValidated": "The email is still not validated!",
+  "moneyCalculator_notANumber": "Not a valid Number",
+  "moneyCalculator_newCalculation": "New money Calculation",
+  "moneyCalculator_buyer": "Buyer: ",
+  "@moneyCalculator_buyer": {},
+  "moneyCalculator_date": "Date: {Date}",
+  "@moneyCalculator_date": {
+    "placeholders": {
+      "Date": {
+        "description": "the date of the displayed calculation",
+        "example": "2020-04-09"
+      }
+    }
+  }
 
 }

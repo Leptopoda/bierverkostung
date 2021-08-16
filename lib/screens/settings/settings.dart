@@ -88,13 +88,12 @@ class Settings extends StatelessWidget {
 
     return ResponsiveListScaffold.builder(
       scaffoldKey: _scaffoldKey,
-      detailBuilder: (BuildContext context, int? index, bool tablet) {
+      detailBuilder: (BuildContext context, int index, bool tablet) {
         return DetailsScreen(
           body: _SettingsDetail(
-            items: _actions,
-            row: index,
+            body: _actions[index],
             tablet: tablet,
-            title: _names,
+            title: _names[index],
           ),
         );
       },
@@ -116,26 +115,24 @@ class Settings extends StatelessWidget {
 class _SettingsDetail extends StatelessWidget {
   const _SettingsDetail({
     Key? key,
-    required this.items,
-    required this.row,
+    required this.body,
     required this.tablet,
     required this.title,
   }) : super(key: key);
 
-  final List<Widget> items;
-  final int? row;
+  final Widget body;
   final bool tablet;
-  final List<String> title;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: !tablet,
-        title: Text(title[row!]),
+        title: Text(title),
         // actions: tablet ? actionBarItems : null,
       ),
-      body: (row != null) ? items[row!] : null,
+      body: body,
     );
   }
 }

@@ -10,7 +10,16 @@ All notable changes to this project will be documented in this file.
 ### Fixed:
 ---
 
-## [0.14.0] - 2021-07-22
+## [0.15.0] - 2021-08-16
+### Added:
+- Edit tasting
+- tasting auto compleate (partial)
+- get other user data
+### Fixed:
+- don't show email validated hint in for anonymous users
+---
+
+## [0.14.1] - 2021-07-22
 ### Fixed:
 - Calls not working in firefox
 - scroll animation on home screen (usability)

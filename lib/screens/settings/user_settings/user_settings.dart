@@ -87,7 +87,8 @@ class UserSettings extends StatelessWidget {
               width: 200,
               child: TextFormField(
                 style: Theme.of(context).textTheme.subtitle2,
-                initialValue: user.displayName ?? user.uid,
+                initialValue:
+                    (user.displayName == '') ? user.displayName : user.uid,
                 decoration: InputDecoration(
                   labelText: AppLocalizations.of(context)
                       .settings_userManagement_username,
@@ -95,7 +96,7 @@ class UserSettings extends StatelessWidget {
                   border: InputBorder.none,
                 ),
                 onFieldSubmitted: (String? value) {
-                  user.updateDisplayName(value);
+                  AuthService.displayName(value);
                 },
               ),
             ),
@@ -104,11 +105,13 @@ class UserSettings extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  user.email ?? AppLocalizations.of(context).login_anonymous,
+                  (!user.isAnonymous)
+                      ? user.email!
+                      : AppLocalizations.of(context).login_anonymous,
                   style: Theme.of(context).textTheme.caption,
                 ),
                 const SizedBox(width: 8),
-                if (AuthService.hasValidatedEmail)
+                if (user.email!= null && AuthService.hasValidatedEmail)
                   Icon(
                     Icons.check_circle,
                     color: Colors.green,
@@ -116,7 +119,7 @@ class UserSettings extends StatelessWidget {
                     semanticLabel: AppLocalizations.of(context)
                         .settings_userManagement_emailValid,
                   ),
-                if (!AuthService.hasValidatedEmail)
+                if (user.email!= null && !AuthService.hasValidatedEmail)
                   Icon(
                     Icons.unpublished_rounded,
                     color: Colors.red,
@@ -175,7 +178,7 @@ class UserSettings extends StatelessWidget {
       if (_cropped != null) {
         final String? _url = await CloudStorageService.uploadProfile(_cropped);
         if (_url != null) {
-          user.updatePhotoURL(_url);
+          AuthService.photoURL(_url);
         }
       }
     }
@@ -224,7 +227,7 @@ class UserSettings extends StatelessWidget {
 
   /// resets the profile picture to the standard one
   static Future<void> _deleteAvatar(BuildContext context) async {
-    await user.updatePhotoURL(null);
+    await AuthService.photoURL(null);
     Navigator.pop(context);
   }
 }

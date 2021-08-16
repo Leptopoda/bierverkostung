@@ -12,7 +12,7 @@ import 'package:bierverkostung/services/firebase/notifications.dart';
 import 'package:bierverkostung/services/conference_service.dart';
 import 'package:bierverkostung/services/firebase/auth.dart';
 
-import 'package:bierverkostung/screens/beertasting/beertasting.dart';
+import 'package:bierverkostung/screens/beertasting/tasting_screen.dart';
 import 'package:bierverkostung/screens/drinking_games/drinking_games.dart';
 import 'package:bierverkostung/screens/statistics/disp_statistics.dart';
 

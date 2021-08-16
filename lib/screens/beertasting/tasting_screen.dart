@@ -4,14 +4,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show QueryDocumentSnapshot, QuerySnapshot;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
-import 'package:bierverkostung/models/tastings.dart';
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
+import 'package:bierverkostung/models/tastings.dart';
 
-import 'package:bierverkostung/screens/beertasting/disp_tasting.dart';
+import 'package:bierverkostung/screens/beertasting/tasting_data.dart';
 
 /// Bieertasting widget
 ///
@@ -23,9 +25,10 @@ class BeerTasting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Tasting>>(
+    return StreamBuilder<QuerySnapshot<Tasting>>(
       stream: DatabaseService.tastings,
-      builder: (BuildContext context, AsyncSnapshot<List<Tasting>> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Tasting>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
             error: '${snapshot.error}',
@@ -44,13 +47,19 @@ class BeerTasting extends StatelessWidget {
               );
             }
 
+            final List<QueryDocumentSnapshot<Tasting>> _data =
+                snapshot.data!.docs;
+            final List<Tasting> _allTastings =
+                _data.map((list) => list.data()).toList();
+
             return ResponsiveListScaffold.builder(
-              scaffoldKey: _scaffoldKey,
-              detailBuilder: (BuildContext context, int? index, bool tablet) {
+              scaffoldKey: BeerTasting._scaffoldKey,
+              detailBuilder: (BuildContext context, int index, bool tablet) {
+                final QueryDocumentSnapshot<Tasting> _tasting = _data[index];
                 return DetailsScreen(
-                  body: _BeerTastingDetail(
-                    items: snapshot.data!,
-                    row: index,
+                  body: TastingInfoList(
+                    key: ValueKey<int>(index),
+                    tastingDocument: _tasting,
                     tablet: tablet,
                   ),
                 );
@@ -58,44 +67,34 @@ class BeerTasting extends StatelessWidget {
               nullItems: ResponsiveScaffoldNullItems(),
               emptyItems: ResponsiveScaffoldEmptyItems(),
               tabletItemNotSelected: ResponsiveScaffoldNoItemSelected(),
-              itemCount: snapshot.data!.length,
+              itemCount: _data.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(
-                    'Bier: ${snapshot.data![index].beer.beerName} Datum: ${snapshot.data![index].date}',
-                    style: Theme.of(context).textTheme.bodyText2,
+                final Tasting _tasting = _data[index].data();
+                return Card(
+                  child: ListTile(
+                    title: Text(
+                      'Bier: ${_tasting.beer.beerName}',
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    subtitle: Text(
+                      'Datum: ${_tasting.date}',
+                    ),
                   ),
                 );
               },
               floatingActionButton: FloatingActionButton(
-                onPressed: () => Navigator.pushNamed(context, '/NewTasting'),
+                heroTag: const ValueKey<String>('newTastingFabTag'),
+                key: const ValueKey<String>('newTastingFab'),
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  '/NewTasting',
+                  arguments: _allTastings,
+                ),
                 child: const Icon(Icons.add),
               ),
             );
         }
       },
-    );
-  }
-}
-
-/// Detail screen of [Beertasting]
-class _BeerTastingDetail extends StatelessWidget {
-  const _BeerTastingDetail({
-    Key? key,
-    required this.items,
-    required this.row,
-    required this.tablet,
-  }) : super(key: key);
-
-  final List<Tasting> items;
-  final int? row;
-  final bool tablet;
-
-  @override
-  Widget build(BuildContext context) {
-    return DispTasting(
-      tasting: items[row!],
-      tablet: tablet,
     );
   }
 }

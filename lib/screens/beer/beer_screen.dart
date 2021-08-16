@@ -5,11 +5,15 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_scaffold/responsive_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show QueryDocumentSnapshot, QuerySnapshot;
 
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
 import 'package:bierverkostung/models/beers.dart';
 import 'package:bierverkostung/shared/responsive_scaffold_helper.dart';
+
+import 'package:bierverkostung/screens/beer/beer_data.dart';
 
 /// Beer list Widget
 ///
@@ -21,9 +25,10 @@ class BeerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Beer>>(
+    return StreamBuilder<QuerySnapshot<Beer>>(
       stream: DatabaseService.beers,
-      builder: (BuildContext context, AsyncSnapshot<List<Beer>> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<QuerySnapshot<Beer>> snapshot) {
         if (snapshot.hasError) {
           return SomethingWentWrong(
             error: snapshot.error.toString(),
@@ -42,14 +47,21 @@ class BeerList extends StatelessWidget {
               );
             }
 
+            final List<QueryDocumentSnapshot<Beer>> _data = snapshot.data!.docs;
+            final List<Beer> _allBeers =
+                _data.map((list) => list.data()).toList();
+
             return ResponsiveListScaffold.builder(
               scaffoldKey: _scaffoldKey,
-              detailBuilder: (BuildContext context, int? index, bool tablet) {
+              detailBuilder: (BuildContext context, int index, bool tablet) {
+                final QueryDocumentSnapshot<Beer> _beer = _data[index];
                 return DetailsScreen(
-                  body: _BeerListDetail(
-                    items: snapshot.data!,
-                    row: index,
+                  body: BeerInfoList(
+                    // selectable: true,
+                    key: ValueKey<int>(index),
                     tablet: tablet,
+                    autocomplete: _allBeers,
+                    beerDocument: _beer,
                   ),
                 );
               },
@@ -59,53 +71,31 @@ class BeerList extends StatelessWidget {
               appBar: AppBar(
                 title: Text(AppLocalizations.of(context).beerOther),
               ),
-              itemCount: snapshot.data!.length,
+              itemCount: _data.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(
-                    'Bier: ${snapshot.data![index].beerName}',
-                    style: Theme.of(context).textTheme.bodyText2,
+                final Beer _beer = _data[index].data();
+                return Card(
+                  child: ListTile(
+                    title: Text(
+                      'Bier: ${_beer.beerName}',
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
                   ),
-                  onTap: () {
-                    Navigator.pop(context, snapshot.data![index]);
-                  },
                 );
               },
               floatingActionButton: FloatingActionButton(
-                onPressed: () => Navigator.pushNamed(context, '/NewBeer'),
+                heroTag: const ValueKey<String>('newBeerFabTag'),
+                key: const ValueKey<String>('newBeerFab'),
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  '/NewBeer',
+                  arguments: _allBeers,
+                ),
                 child: const Icon(Icons.add),
               ),
             );
         }
       },
-    );
-  }
-}
-
-/// Displays a selected [Beer] out of [BeerList]
-class _BeerListDetail extends StatelessWidget {
-  const _BeerListDetail({
-    Key? key,
-    required this.items,
-    required this.row,
-    required this.tablet,
-  }) : super(key: key);
-
-  final List<Beer> items;
-  final int? row;
-  final bool tablet;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: !tablet,
-        title: Text(AppLocalizations.of(context).beer_newBeer),
-        // actions: tablet ? actionBarItems : null,
-      ),
-      body: Center(
-        child: Text(items[row!].beerName),
-      ),
     );
   }
 }

@@ -24,7 +24,7 @@ class _CropProfileWeb extends StatelessWidget {
         ),
       ),
       body: FutureBuilder<Uint8List>(
-        future: PickedFile(imagePath).readAsBytes(),
+        future: XFile(imagePath).readAsBytes(),
         builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
           if (snapshot.hasData) {
             return Crop(

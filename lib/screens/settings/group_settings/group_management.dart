@@ -5,25 +5,28 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:io' show Platform;
-import 'package:bierverkostung/gen/colors.gen.dart';
-import 'package:bierverkostung/models/group.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cloud_functions/cloud_functions.dart' show HttpsCallableResult;
 import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:qr_flutter/qr_flutter.dart' show QrImage;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:bierverkostung/gen/colors.gen.dart';
 
 import 'package:bierverkostung/services/firebase/auth.dart';
 import 'package:bierverkostung/services/firebase/cloud_functions.dart';
 import 'package:bierverkostung/services/firebase/database.dart';
 import 'package:bierverkostung/shared/error_page.dart';
+import 'package:bierverkostung/models/group.dart';
+import 'package:bierverkostung/models/user.dart';
 
 part 'package:bierverkostung/screens/settings/group_settings/add_user.dart';
 part 'package:bierverkostung/screens/settings/group_settings/group_members.dart';
 part 'package:bierverkostung/screens/settings/group_settings/qr_scan.dart';
+part 'package:bierverkostung/screens/settings/group_settings/user_list_tile.dart';
 
 /// Settings screen for managing the current User
 ///
@@ -73,10 +76,10 @@ class GroupScreen extends StatelessWidget {
                           suffixIcon: const Icon(Icons.edit_outlined),
                           border: InputBorder.none,
                         ),
-                        onFieldSubmitted: (String? value) {
-                          _groupData.name = value;
-                          DatabaseService.saveGroup(_groupData);
-                        },
+                        onFieldSubmitted: (String? value) =>
+                            DatabaseService.saveGroup(
+                          _groupData.copyWith(name: value),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 5),
